@@ -134,7 +134,7 @@ module Robin {
         expr = this.ruleFor(target, text).expr;
       }
       if (expr.tag !== "ident") {
-        throw new Error("expected ${text} to be an identifier");
+        throw new Error(`expected ${text} to be an identifier`);
       }
       return expr.value;
     }
