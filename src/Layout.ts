@@ -12,11 +12,11 @@ module Absolution {
 
   export class Layout {
 
-    env = new Environment();
+    env    = new Environment();
     system = new System();
-    digestID = 0;
-    changedRects: ManagedRect[] = [];
 
+    private digestID = 0;
+    private changedRects: ManagedRect[] = [];
     private updateIsRequested = false;
 
     attachTo(root: HTMLElement, options: LayoutOptions = defaultLayoutOptions) {
