@@ -248,11 +248,11 @@ class ElementManager {
   }
 
   private createErrorMessage(propertyName: string, expression: string, error: any): string {
-      let reason = error instanceof Error ? error.message : error.toString();
-      let description = `${this.id}.${propertyName}="${expression}"`;
-      let expressions = Object.keys(this.expressions).map(propertyName => {
-        return `\t${this.id}.${propertyName} = ${this.expressions[propertyName]}`
-      }).join("\n");
-      return `cannot set ${description} because ${reason}\n\nConstraints:\n\n${expressions}`;
+    let reason = error instanceof Error ? error.message : error.toString();
+    let description = `${this.id}.${propertyName}="${expression}"`;
+    let expressions = Object.keys(this.expressions).map(propertyName => {
+      return `\t${this.id}.${propertyName} = ${this.expressions[propertyName]}`
+    }).join("\n");
+    return `cannot set ${description} because ${reason}\n\nConstraints:\n\n${expressions}`;
   }
 }
