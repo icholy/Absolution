@@ -128,7 +128,7 @@ module Robin {
       return info;
     }
 
-    private makeRuleFor(target: string, expression: string): Rule {
+    private ruleFor(target: string, expression: string): Rule {
       return {
         target: target,
         text:   expression,
@@ -147,33 +147,33 @@ module Robin {
           info.container = text;
           break;
         case "center-in":
-          info.rules.push(this.makeRuleFor("center-x", `${text}.center-x`));
-          info.rules.push(this.makeRuleFor("center-y", `${text}.center-y`));
+          info.rules.push(this.ruleFor("center-x", `${text}.center-x`));
+          info.rules.push(this.ruleFor("center-y", `${text}.center-y`));
           break;
         case "align-x":
-          info.rules.push(this.makeRuleFor("left", `${text}.left`));
-          info.rules.push(this.makeRuleFor("right", `${text}.right`));
+          info.rules.push(this.ruleFor("left", `${text}.left`));
+          info.rules.push(this.ruleFor("right", `${text}.right`));
           break;
         case "align-y":
-          info.rules.push(this.makeRuleFor("top", `${text}.top`));
-          info.rules.push(this.makeRuleFor("bottom", `${text}.bottom`));
+          info.rules.push(this.ruleFor("top", `${text}.top`));
+          info.rules.push(this.ruleFor("bottom", `${text}.bottom`));
           break;
         case "size":
-          info.rules.push(this.makeRuleFor("width", `${text}.width`));
-          info.rules.push(this.makeRuleFor("height", `${text}.height`));
+          info.rules.push(this.ruleFor("width", `${text}.width`));
+          info.rules.push(this.ruleFor("height", `${text}.height`));
           break;
         case "fill":
-          info.rules.push(this.makeRuleFor("top", `${text}.top`));
-          info.rules.push(this.makeRuleFor("bottom", `${text}.bottom`));
-          info.rules.push(this.makeRuleFor("left", `${text}.left`));
-          info.rules.push(this.makeRuleFor("right", `${text}.right`));
+          info.rules.push(this.ruleFor("top", `${text}.top`));
+          info.rules.push(this.ruleFor("bottom", `${text}.bottom`));
+          info.rules.push(this.ruleFor("left", `${text}.left`));
+          info.rules.push(this.ruleFor("right", `${text}.right`));
           break;
         case "style":
           let rules = Parser.parse(text, { startRule: "inline_rules" });
           info.rules = info.rules.concat(rules);
           break;
         default:
-          info.rules.push(this.makeRuleFor(target, text));
+          info.rules.push(this.ruleFor(target, text));
       }
     }
 
