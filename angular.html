@@ -35,18 +35,25 @@
 
   <script type="text/absolution">
 
-    #add-rect {
-      bottom: viewport.bottom - 50px;
-      right:  viewport.right - 100px;
-      width: 100px;
+    $btn-rect-margin: 50px;
+
+    ~btn-rect {
+      bottom: viewport.bottom - btn-rect-margin;
+      right:  viewport.right - btn-rect-margin;
       height: 50px;
+      width:  200px;
+    }
+
+    #add-rect {
+      align-y: btn-rect;
+      width:   btn-rect.width / 2;
+      left:    btn-rect.left;
     }
 
     #rm-rect {
-      right: add-rect.left - 10px;
-      width: 100px;
-      height: 50px;
-      bottom: viewport.bottom - 50px;
+      align-y: btn-rect;
+      left:    add-rect.right;
+      right:   btn-rect.right;
     }
 
     #origin {
