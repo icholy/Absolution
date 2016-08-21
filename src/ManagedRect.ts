@@ -32,7 +32,7 @@ module Robin {
       super(layout, options.id, options.container);
 
       for (let rule of options.rules) {
-        this.constrain(rule.target, rule.text, rule.expr);
+        this.constrain(rule.target, rule.expr.text, rule.expr);
       }
 
       if (options.watcher) {
