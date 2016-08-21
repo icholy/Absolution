@@ -170,7 +170,7 @@ manager.unregister(element);
 
 > This is still a work in progress.
 
-A cache of of all source to compiled rules is kept during runtime. If you export this
+A cache of all source to compiled rules is kept during runtime. If you export this
 data, and initialize Absolution with it, the parser doesn't need to be sent
 to the client.
 
