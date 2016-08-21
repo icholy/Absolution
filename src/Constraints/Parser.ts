@@ -63,28 +63,33 @@ module Constraints {
       }
 
       for (let c of input) {
-        if (isWhiteSpace(c)) {
-          maybeAddToken();
-        } else if (c === "(") {
-          maybeAddToken();
-          lexems.push({
-            type:  Type.LEFT_PAREN,
-            value: c
-          });
-        } else if (c === ")") {
+        switch (true) {
+          case isWhiteSpace(c):
+            maybeAddToken();
+            break;
+          case (c === "("):
+            maybeAddToken();
+            lexems.push({
+              type:  Type.LEFT_PAREN,
+              value: c
+            });
+            break;
+          case (c === ")"):
             maybeAddToken();
             lexems.push({
               type:  Type.RIGHT_PAREN,
               value: c
             });
-        } else if (isOperator(c)) {
+            break;
+          case isOperator(c):
             maybeAddToken();
             lexems.push({
               type:  Type.OPERATOR,
               value: c
             });
-        } else {
-          token += c;
+            break;
+          default:
+            token += c;
         }
       }
 
