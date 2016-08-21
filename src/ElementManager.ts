@@ -20,14 +20,28 @@ const nameToProperty = {
   "vcenter": Property.VCENTER
 };
 
+enum XDependency {
+  LEFT_AND_WIDTH,
+  LEFT,
+  WIDTH,
+  NONE
+}
+
+enum YDependency {
+  TOP_AND_HEIGHT,
+  TOP,
+  HEIGHT,
+  NONE
+}
+
 class ElementManager {
 
   private id: string;
   private expressions: { [property: number]: string; } = {};
   private constrained = [] as Property[];
 
-  private xAxisConstraints = 0;
-  private yAxisConstraints = 0;
+  private xAxisDependencies = XDependency.LEFT_AND_WIDTH;
+  private yAxisDependencies = YDependency.TOP_AND_HEIGHT;
 
   private left:   Constraints.Variable;
   private width:  Constraints.Variable;
@@ -60,34 +74,20 @@ class ElementManager {
   }
 
   constrain(propertyName: string, expression: string): void {
+    if (!nameToProperty.hasOwnProperty(propertyName)) {
+      throw new Error(
+        `${this.id}.${propertyName} is not a supported property`);
+    }
     let property = nameToProperty[propertyName];
     if (this.isConstrained(property)) {
       throw new Error(
         `${this.id}.${propertyName} is already set to ${this.expressions[property]}`);
     }
-    switch (property) {
-      case Property.WIDTH:
-      case Property.LEFT:
-      case Property.RIGHT:
-      case Property.HCENTER:
-        if (this.xAxisConstraints >= 2) {
-          throw new Error(
-            `cannot set ${this.id}.${propertyName} because the x axis already has 2 constraints`);
-        }
-        this.xAxisConstraints++;
-        break;
-      case Property.HEIGHT:
-      case Property.TOP:
-      case Property.BOTTOM:
-      case Property.VCENTER:
-        if (this.yAxisConstraints >= 2) {
-          throw new Error(
-            `cannot set ${this.id}.${propertyName} because the y axis already has 2 constraints`);
-        }
-        this.yAxisConstraints++;
-        break;
-      default:
-        throw new Error(`${this.id}.${propertyName} is not a supported property`);
+    if (this.isXAxisProperty(property)) {
+      this.updateXDependencies(property);
+    }
+    else {
+      this.updateYDependencies(property);
     }
     this.expressions[property] = expression;
     this.constrained.push(property);
@@ -120,40 +120,75 @@ class ElementManager {
   
   updateSystem(): void {
     let rect = this.getBoundingRect();
-    this.updateXAxisWith(rect);
-    this.updateYAxisWith(rect);
-  }
 
-  private updateXAxisWith(rect: ClientRect): void {
-    switch (this.xAxisConstraints) {
-      case 0:
+    // x axis
+    switch (this.xAxisDependencies) {
+      case XDependency.LEFT_AND_WIDTH:
         this.left.assignValue(rect.left);
         this.width.assignValue(rect.width);
         break;
-      case 1:
-        if (this.isConstrained(Property.WIDTH)) {
-          this.left.assignValue(rect.left);
-        } else {
-          this.width.assignValue(rect.width);
-        }
+      case XDependency.LEFT:
+        this.left.assignValue(rect.left);
+        break;
+      case XDependency.WIDTH:
+        this.width.assignValue(rect.width);
+        break;
+    }
+
+    // y axis
+    switch (this.yAxisDependencies) {
+      case YDependency.TOP_AND_HEIGHT:
+        this.top.assignValue(rect.top);
+        this.height.assignValue(rect.height);
+        break;
+      case YDependency.TOP:
+        this.top.assignValue(rect.top);
+        break;
+      case YDependency.HEIGHT:
+        this.height.assignValue(rect.height);
         break;
     }
   }
 
-  private updateYAxisWith(rect: ClientRect): void {
-    switch (this.yAxisConstraints) {
-      case 0:
-        this.top.assignValue(rect.top);
-        this.height.assignValue(rect.height);
+  private updateXDependencies(property: Property): void {
+    switch (this.xAxisDependencies) {
+      case XDependency.LEFT_AND_WIDTH:
+        this.xAxisDependencies = property === Property.WIDTH
+          ? XDependency.LEFT
+          : XDependency.WIDTH;
         break;
-      case 1:
-        if (this.isConstrained(Property.HEIGHT)) {
-          this.top.assignValue(rect.top);
-        } else {
-          this.height.assignValue(rect.height);
-        }
+      case XDependency.LEFT:
+      case XDependency.WIDTH:
+        this.xAxisDependencies = XDependency.NONE;
         break;
+      default:
+          throw new Error(
+            `cannot set ${Property[property]} of ${this.id} because the x axis already has 2 constraints`);
     }
+  }
+
+  private updateYDependencies(property: Property): void {
+    switch (this.yAxisDependencies) {
+      case YDependency.TOP_AND_HEIGHT:
+        this.yAxisDependencies = property === Property.HEIGHT
+          ? YDependency.TOP
+          : YDependency.HEIGHT;
+        break;
+      case YDependency.TOP:
+      case YDependency.HEIGHT:
+        this.yAxisDependencies = YDependency.NONE;
+        break;
+      default:
+          throw new Error(
+            `cannot set ${Property[property]} of ${this.id} because the y axis already has 2 constraints`);
+    }
+  }
+
+  private isXAxisProperty(property: Property): boolean {
+    return property === Property.LEFT
+        || property === Property.WIDTH
+        || property === Property.RIGHT
+        || property === Property.HCENTER;
   }
 
   private getBoundingRect(): ClientRect {
