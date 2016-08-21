@@ -24,6 +24,10 @@
       background-color: red;
     }
 
+    #origin {
+      background-color: black;
+    }
+
   </style>
 
   <script type="text/robin">
@@ -31,6 +35,13 @@
     #A {
       height: 200px;
       width: 200px * x;
+    }
+
+    #origin {
+      center-x: viewport.center-x;
+      center-y: viewport.center-y;
+      width: 100px;
+      height: 100px;
     }
 
   </script>
@@ -69,10 +80,11 @@
 
       window.layout = layout;
 
-      layout.func("min", Math.min.bind(Math));
-      layout.func("max", Math.max.bind(Math));
-      layout.func("sin", Math.sin.bind(Math));
-      layout.func("cos", Math.cos.bind(Math));
+      $scope.min = Math.min.bind(Math);
+      $scope.max = Math.max.bind(Math);
+      $scope.sin = Math.sin.bind(Math);
+      $scope.cos = Math.cos.bind(Math);
+      $scope.rand = Math.random.bind(Math);
 
       let oscillator = makeOscillator();
       let counter = 0;
@@ -81,14 +93,14 @@
       $scope.y = counter;
 
       setInterval(function () {
-        counter += 0.1;
+        counter += 0.01;
         $scope.x = oscillator();
         $scope.y = counter;
         $scope.$digest();
       }, 10);
 
       $scope.rects = [];
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 100; i++) {
         let color = getRandomColor();
         $scope.rects.push(color);
       }
@@ -99,9 +111,13 @@
 
 </head>
 <body ng-app="App" ng-controller="MainController">
+  <div rect id="origin"></div>
   <div rect
     ng-repeat="r in rects"
-    r-style="left: x * $index * 100px; top: x * 100px * $index"
-    ng-style="{ 'background-color': r }">A</div>
+    r-center-x="origin.center-x + sin(y * ($index + 1)) * 20px * x * ($index + 1)"
+    r-center-y="origin.center-y + cos(y * ($index + 1)) * 20px * x * ($index + 1)"
+    r-width="max(20px, 50px * x)"
+    r-height="max(20px, 50px * x)"
+    ng-style="{ 'background-color': r }">{{$index}}</div>
 </body>
 </html>
