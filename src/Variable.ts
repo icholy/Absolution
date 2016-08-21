@@ -2,6 +2,7 @@ module Robin {
 
   export class Variable {
 
+    private listeners:     Function[]     = [];
     private relationships: Relationship[] = [];
     private flexibility = 0.001;
     private digestID    = -1;
@@ -115,9 +116,29 @@ module Robin {
       return `${this.name}(${this.getValue()})`;
     }
 
+    /**
+     * Add a listener to invoke when the variable changes value.
+     */
+    addListener(listener: Function): void {
+      this.listeners.push(listener);
+    }
+
+    /**
+     * Remove a listener.
+     */
+    removeListener(listener: Function): void {
+      let index = this.listeners.indexOf(listener);
+      if (index !== -1) {
+        this.listeners.splice(index, 1);
+      }
+    }
+
     private notify(digestID: number): void {
       for (let relationship of this.relationships) {
         relationship.solve(digestID);
+      }
+      for (let listener of this.listeners) {
+        listener();
       }
     }
 

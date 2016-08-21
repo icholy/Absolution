@@ -59,6 +59,12 @@ module Robin {
         characterData: true,
         childList:     true
       });
+
+      let listener = () => this.updateRect();
+      this.width.addListener(listener);
+      this.left.addListener(listener);
+      this.top.addListener(listener);
+      this.height.addListener(listener);
     }
 
     /**

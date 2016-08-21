@@ -147,9 +147,6 @@ module Robin {
 
     private updateNow(): void {
       this.system.solve(this.digestID++);
-      for (let r of this.rects) {
-        r.updateRect();
-      }
     }
 
     /**
