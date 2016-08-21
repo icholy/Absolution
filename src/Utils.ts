@@ -10,8 +10,6 @@ class Utils {
 
   /**
    * Generate GUID
-   *
-   * http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
    */
   static guid(): string {
     function s4() {
@@ -49,8 +47,6 @@ class Utils {
 
   /**
    * Get an Element's absolute position
-   *
-   * http://javascript.info/tutorial/coordinates#the-right-way-elem-getboundingclientrect
    */
   static getRectPosition(element: HTMLElement): RectPosition {
     let viewport = Utils.getViewportRectPosition();
