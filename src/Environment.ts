@@ -32,7 +32,7 @@ module Absolution {
       let result = this.parserCache[input];
       if (!result) {
         result = Parser.parse<T>(input, options);
-        this.parseRulesets[input] = result;
+        this.parserCache[input] = result;
       }
       return result;
     }
