@@ -30,22 +30,27 @@ abstract class Connector {
 
 class Variable extends Connector {
 
-  constructor(name: string) {
-    super(name, null);
+  private isVolatile: boolean = true;
+  private flexibility = 0.1;
+
+  constructor(name: string, value: number = null) {
+    super(name, value);
   }
 
-  changeValue(v: number): void {
+  changeValue(v: number, isVolatile: boolean = true): void {
     this.value = v;
+    this.isVolatile = isVolatile;
   }
 
-  setValue(v: number): void {
-    if (v === this.value) {
-      return;
-    }
+  setValue(v: number, isVolatile: boolean = true): void {
     if (this.hasValue()) {
-      throw new Error(`Contradiction: ${this} is already set`);
+      if (this.closeEnough(this.value, v)) {
+        return;
+      }
+      throw new Error(`Contradiction: ${this} is already set (attempting to set ${v})`);
     }
     this.value = v;
+    this.isVolatile = isVolatile;
     this.notify();
   }
 
@@ -57,35 +62,14 @@ class Variable extends Connector {
     return this.value !== null;
   }
 
-  clearValue(): void {
-    this.value = null;
-  }
-
-}
-
-class Constant extends Connector {
-
-  constructor(value: number) {
-    super("Const", value);
-  }
-
-  getValue(): number {
-    return this.value;
-  }
-
-  hasValue(): boolean {
-    return true;
-  }
-
-  setValue(v: number): void {
-    if (v !== this.value) {
-      throw new Error(
-        `Contradiction: attempting to set ${this} to ${v}`);
+  clearValue(force: boolean = false): void {
+    if (force || this.isVolatile) {
+      this.value = null;
     }
   }
 
-  clearValue(): void {
-    // do nothing
+  private closeEnough(a: number, b: number): boolean {
+    return Math.abs(b - a) <= this.flexibility;
   }
-  
+
 }

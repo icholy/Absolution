@@ -8,7 +8,6 @@ class System {
   public $: Proxy;
 
   private relationships: Relationship[];
-  private intermediates: Variable[];
   private variables:     { [name: string]: Variable; };
   private idsequence:    number;
 
@@ -35,7 +34,7 @@ class System {
    * Change a variable's value
    */
   change(name: string, v: number): void {
-    this.getVariable(name).changeValue(v);
+    this.getVariable(name).changeValue(v, false);
   }
 
   /**
@@ -55,12 +54,19 @@ class System {
   }
 
   /**
+   * Clear intermediate variables
+   */
+  clearVolatile(): void {
+    Object.keys(this.variables).forEach(name => {
+      this.variables[name].clearValue();
+    });
+  }
+
+  /**
    * Reset all intermediate variables
    */
   solve(): void {
-    for (let _var of this.intermediates) {
-      _var.clearValue();
-    }
+    this.clearVolatile();
     for (let relationship of this.relationships) {
       relationship.connectorValueChanged();
     }
@@ -84,7 +90,6 @@ class System {
     this.idsequence = 0;
     this.variables = Object.create(null);
     this.relationships = [];
-    this.intermediates = [];
   }
 
   /**
@@ -162,7 +167,7 @@ class System {
           values.push(this.getVariable(token.value));
           break;
         case Type.NUMBER:
-          values.push(new Constant(token.value));
+          values.push(new Variable("Const", token.value));
           break;
         case Type.OPERATOR:
           if (values.length < 2) {
@@ -212,7 +217,6 @@ class System {
   private createIntermediate(): Variable {
     let id = this.idsequence++;
     let con = this.getVariable(`$${id}`);
-    this.intermediates.push(con);
     return con;
   }
 
@@ -221,7 +225,7 @@ class System {
       return this.getVariable(v);
     } 
     else if (typeof v === "number") {
-      return new Constant(v);
+      return new Variable("Const", v);
     }
     else {
       return v;

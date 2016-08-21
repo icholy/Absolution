@@ -31,26 +31,6 @@ describe("Connector", function () {
 
   });
 
-  describe("Constant", function () {
-
-    it("should not throw an error if it's being set to a different value", function () {
-      var v = new Constant(123);
-      var spy = jasmine.createSpy('notified');
-      expect(function () {
-        v.setValue(123);
-      }).not.toThrow();
-    });
-
-    it("should throw an error if it's being set to a different value", function () {
-      var v = new Constant(123);
-      var spy = jasmine.createSpy('notified');
-      expect(function () {
-        v.setValue(321);
-      }).toThrow();
-    });
-
-  });
-
 });
 
 describe("System", function () {

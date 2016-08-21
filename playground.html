@@ -39,13 +39,13 @@
   <div id="container">
     <div class="box" id="A" 
       data-anchor-in="container"
-      data-anchor-height="A.width / 2">A</div>
+      data-anchor-height="(A.width * x) + 50">A</div>
     <div class="box" id="B"
       data-anchor-in="container"
       data-anchor-width="A.width / 2"
       data-anchor-height="A.height / 2"
       data-anchor-vcenter="A.vcenter"
-      data-anchor-hcenter="A.hcenter">B</div>
+      data-anchor-left="A.left + (B.width * x)">B</div>
   </div>
 
 
@@ -78,7 +78,37 @@
       });
     }
 
+    layout.updateSystem();
     layout.updateLayout();
+
+    function makeOscillator() {
+
+      let step = 0.003;
+      let current = 0;
+
+      return function () {
+        current += step;
+        if (current >= 1 || current <= 0) {
+          step = step * -1;
+        }
+        return current;
+      };
+    }
+
+    let oscillator = makeOscillator();
+
+    let x = oscillator();
+
+    setInterval(function () {
+      system.change("x", oscillator());
+    }, 10);
+
+    function render() {
+      layout.updateLayout();
+      window.requestAnimationFrame(render);
+    };
+    window.requestAnimationFrame(render);
+
 
   </script>
 

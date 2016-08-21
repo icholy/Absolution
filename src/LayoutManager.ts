@@ -11,10 +11,13 @@ class LayoutManager {
     this.managers.push(m);
   }
 
-  updateLayout(): void {
+  updateSystem(): void {
     for (let manager of this.managers) {
       manager.updateSystem();
     }
+  }
+
+  updateLayout(): void {
     this.system.solve();
     for (let manager of this.managers) {
       manager.updateElement();
