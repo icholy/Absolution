@@ -6,7 +6,7 @@ export abstract class Relationship {
 
   protected listenTo(...connectors: Connector[]): void {
     for (let c of connectors) {
-      c.onNotify(() => this.connectorValueChanged());
+      c.onChange(() => this.connectorValueChanged());
     }
     this.connectorValueChanged();
   }

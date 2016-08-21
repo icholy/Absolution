@@ -9,7 +9,7 @@ export abstract class Connector {
     }
   }
 
-  onNotify(listener: Function): void {
+  onChange(listener: Function): void {
     this.listeners.push(listener);
   }
 
