@@ -36,6 +36,9 @@ module Robin {
       return Utils.getRectPosition(this.element);
     }
 
+    /**
+     * Apply a position update to the element
+     */
     applyPositionUpdate(update: RectPositionUpdate): void {
       let style = this.element.style;
 
