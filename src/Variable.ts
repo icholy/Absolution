@@ -1,4 +1,4 @@
-module Constraints {
+module Robin {
 
   export class Variable {
 

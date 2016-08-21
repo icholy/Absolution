@@ -1,4 +1,4 @@
-module Constraints {
+module Robin {
 
   declare var Proxy;
   type Proxy = any;

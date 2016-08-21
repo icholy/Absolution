@@ -1,20 +1,24 @@
 
-class DocumentRect extends Rect {
+module Robin {
 
-  constructor(layout: Layout) {
-    super(layout, "document");
-    window.addEventListener("resize", () => layout.update());
-  }
+  export class DocumentRect extends Rect {
 
-  updateRect(): void {}
+    constructor(layout: Layout) {
+      super(layout, "document");
+      window.addEventListener("resize", () => layout.update());
+    }
 
-  updateSystem(): void {
-    let element = document.documentElement;
-    let position = Utils.getRectPosition(element);
-    this.left.assignValue(position.left);
-    this.top.assignValue(position.top);
-    this.width.assignValue(position.width);
-    this.height.assignValue(position.height);
+    updateRect(): void {}
+
+    updateSystem(): void {
+      let element = document.documentElement;
+      let position = Utils.getRectPosition(element);
+      this.left.assignValue(position.left);
+      this.top.assignValue(position.top);
+      this.width.assignValue(position.width);
+      this.height.assignValue(position.height);
+    }
+
   }
 
 }

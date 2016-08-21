@@ -1,9 +1,9 @@
-describe("Constraints", function () {
+describe("Robin", function () {
 
   describe("Variable", function () {
 
     it("should throw an error if it's already set to a different value", function () {
-      var v = new Constraints.Variable("name");
+      var v = new Robin.Variable("name");
       var spy = jasmine.createSpy('notified');
       v.setValue(123);
       expect(function () {
@@ -15,7 +15,7 @@ describe("Constraints", function () {
 
   describe("System", function () {
 
-    var system = new Constraints.System();
+    var system = new Robin.System();
 
     beforeEach(function () {
       system.reset();
@@ -101,7 +101,7 @@ describe("Constraints", function () {
 
   describe("Parser", function () {
 
-    var parser = new Constraints.Parser();
+    var parser = new Robin.Parser();
 
     function tokensToString(tokens) {
       return tokens.map(function (token) {

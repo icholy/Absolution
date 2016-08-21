@@ -1,5 +1,5 @@
 
-module Constraints {
+module Robin {
 
   export enum Type {
     LEFT_PAREN,
