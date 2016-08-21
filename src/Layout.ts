@@ -146,7 +146,7 @@ module Robin {
           break;
         case "style":
           let rules = Parser.parse(text, { startRule: "inline_rules" });
-          options.rules = options.rules.concat(rules);
+          options.rules.push(...rules);
           break;
         default:
           options.rules.push(this.ruleFor(target, text));
@@ -157,7 +157,7 @@ module Robin {
       let rulesets = Parser.parse(input, { startRule: "rulesets" }) as RuleSet[];
       for (let set of rulesets) {
         if (this.hasRuleSet(set.id)) {
-          this.rulesets[set.id] = this.rulesets[set.id].concat(set.rules);
+          this.rulesets[set.id].push(...set.rules);
         } else {
           this.rulesets[set.id] = set.rules;
         }
