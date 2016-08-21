@@ -99,12 +99,13 @@ module Robin {
       switch (name) {
         case "style":
           value.split(";").forEach(attr => {
-            if (attr.trim() === "") {
+            attr = attr.trim();
+            if (attr === "") {
               return;
             }
             let parts = attr.split(":");
             if (parts.length !== 2) {
-              throw new Error(`the style is not valid: ${attr}`);
+              throw new Error(`${rect.getId()}.r-style syntax error: "${attr}"`);
             }
             let [name, value] = parts;
             this.applyProperty(rect, name.trim(), value.trim());
