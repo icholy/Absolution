@@ -162,6 +162,9 @@ abstract class Rect {
     }
   }
 
+  /**
+   * Destroy the Rect and all its variables.
+   */
   destroy(): void {
     let system = this.system;
     system.destroyVariable(this.top);
