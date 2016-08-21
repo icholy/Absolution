@@ -43,6 +43,7 @@
 
     #Y {
       background-color: purple;
+      border-radius: 50px;
     }
 
   </style>
@@ -71,9 +72,9 @@
 
     #U {
       left:   Y.right;
-      bottom: Y.top;
+      bottom: max(Y.top, X.bottom);
       right:  X.left;
-      top:    X.bottom;
+      top:    min(X.bottom, Y.top);
     }
 
   </script>
@@ -88,6 +89,7 @@
   <div id="C"
     style="background-color: blue"
     r-style="left: B.right; top: B.bottom; height: B.height * 3; width: 200px">
+    C
   </div>
 
   <div id="W" style="background-color: orange"
@@ -95,17 +97,19 @@
     r-right="C.center-x"
     r-width="C.height / 2"
     r-top="C.top + 200 * x">
+    W
   </div>
 
   <div id="X" 
     r-center-in="viewport"
     r-style="width: 100 * x"
     r-height="max(100 - 100 * x, 50)">
+    X
   </div>
 
-  <div id="U" style="background-color: yellow"></div>
+  <div id="U" style="background-color: yellow">U</div>
 
-  <div id="Y"></div>
+  <div id="Y">Y</div>
 
   <button id="pause">Pause</button>
 
@@ -115,6 +119,10 @@
 
     layout.system.func("max", function (a, b) {
       return Math.max(a, b);
+    });
+
+    layout.system.func("min", function (a, b) {
+      return Math.min(a, b);
     });
 
     layout.system.func("sin", function (x) {
