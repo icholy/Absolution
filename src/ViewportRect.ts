@@ -4,6 +4,10 @@ module Robin {
 
     constructor(layout: Layout) {
       super(layout, "viewport");
+      window.addEventListener("resize", () => {
+        this.updateSystem();
+        this.layout.update();
+      });
       window.addEventListener("scroll", () => {
         this.updateSystem();
         this.layout.update();
