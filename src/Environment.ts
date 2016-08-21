@@ -1,6 +1,6 @@
 module Absolution {
 
-  export interface ExportData {
+  export interface EnvData {
     cache:      { [input: string]: any; };
     stylesheet?: StyleSheet;
   }
@@ -14,7 +14,7 @@ module Absolution {
     private parserCache    = {} as { [input: string]: any; };
     private stylesheet: StyleSheet;
 
-    constructor(data?: ExportData) {
+    constructor(data?: EnvData) {
       if (data) {
         if (data.stylesheet) {
           this.loadStyleSheet(data.stylesheet);
@@ -37,7 +37,7 @@ module Absolution {
       return result;
     }
 
-    getExportData(): ExportData {
+    getExportData(): EnvData {
       return {
         cache:      this.parserCache,
         stylesheet: this.stylesheet
