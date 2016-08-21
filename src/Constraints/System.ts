@@ -70,7 +70,7 @@ module Constraints {
     solve(): void {
       this.clearVolatile();
       for (let relationship of this.relationships) {
-        relationship.variableValueChanged();
+        relationship.recompute();
       }
     }
 

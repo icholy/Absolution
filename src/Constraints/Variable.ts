@@ -59,7 +59,7 @@ module Constraints {
 
     private notify(): void {
       for (let relationship of this.listeners) {
-        relationship.variableValueChanged();
+        relationship.recompute();
       }
     }
 

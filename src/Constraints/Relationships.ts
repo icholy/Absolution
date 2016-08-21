@@ -2,20 +2,20 @@ module Constraints {
 
   export abstract class Relationship {
 
-    abstract variableValueChanged(): void;
+    abstract recompute(): void;
     abstract destroy(): void;
-
-    protected detachFrom(...variables: Variable[]): void {
-      for (let v of Variable) {
-        v.detach(this);
-      }
-    }
 
     protected attachTo(...variables: Variable[]): void {
       for (let v of variables) {
         v.attach(this);
       }
-      this.variableValueChanged();
+      this.recompute();
+    }
+
+    protected detachFrom(...variables: Variable[]): void {
+      for (let v of variables) {
+        v.detach(this);
+      }
     }
 
     protected haveValues(...variables: Variable[]): boolean {
@@ -34,7 +34,7 @@ module Constraints {
       this.attachTo(left, right);
     }
 
-    variableValueChanged(): void {
+    recompute(): void {
       switch (true) {
         case this.left.hasValue():
           this.right.setValue(this.left.getValue());
@@ -66,7 +66,7 @@ module Constraints {
       this.attachTo(addend1, addend2, sum);
     }
 
-    variableValueChanged(): void {
+    recompute(): void {
       switch (true) {
         case this.haveValues(this.addend1, this.addend2):
           this.sum.setValue(
@@ -104,7 +104,7 @@ module Constraints {
       this.attachTo(mult1, mult2, product);
     }
 
-    variableValueChanged() {
+    recompute() {
       switch (true) {
         case this.haveValues(this.mult1, this.mult2):
           this.product.setValue(
@@ -142,7 +142,7 @@ module Constraints {
       this.attachTo(minuend, subtrahend, difference);
     }
 
-    variableValueChanged() {
+    recompute() {
       switch (true) {
         case this.haveValues(this.minuend, this.subtrahend):
           this.difference.setValue(
@@ -180,7 +180,7 @@ module Constraints {
       this.attachTo(dividend, divisor, quotient);
     }
 
-    variableValueChanged(): void {
+    recompute(): void {
       switch (true) {
         case this.haveValues(this.dividend, this.divisor):
           this.quotient.setValue(
