@@ -6,7 +6,7 @@
 ### Center in another element.
 
 ``` html
-<div id="A" a-register>A</div>
+<div id="A" a-rect>A</div>
 <div a-center-in="A">B</div>
 ```
 
@@ -73,7 +73,7 @@ layout.system.func("min", (a, b) => Math.min(a, b));
 # Special Attributes
 
 * `a-id`
-* `a-register`
+* `a-rect`
 
 # Special Rects
 

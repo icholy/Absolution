@@ -10,7 +10,7 @@ module Absolution {
     "a-height":      "height",
     "a-center-x":    "center-x",
     "a-center-y":    "center-y",
-    "a-register":    "register",
+    "a-rect":        "rect",
     "a-relative-to": "relative-to",
     "a-center-in":   "center-in",
     "a-align-x":     "align-x",
@@ -162,8 +162,8 @@ module Absolution {
       try {
         let ident: string;
         switch (rule.target) {
-          case "register":
           case "id":
+          case "rect":
           case "watch":
           case "class":
             break;
