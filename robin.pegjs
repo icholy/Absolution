@@ -68,12 +68,18 @@ integer
   	  if (unit === "em") {
       	throw new Error("'em' unit is not currently supported");
       }
-      return parseInt(value, 10);
+      return {
+        tag:   "number",
+        value: parseInt(value, 10);
+      };
     }
 
 ident
   = [a-zA-Z$_-] [a-zA-Z0-9.$_-]* {
-      return text();
+      return {
+        tag:   "ident",
+        value: text()
+      };
     }
 
 _ "whitespace"
