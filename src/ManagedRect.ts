@@ -202,7 +202,7 @@ module Robin {
       let expressions = Object.keys(this.expressions).map(propertyName => {
         return `\t${this.id}.${propertyName} = ${this.expressions[propertyName]}`;
       }).join("\n");
-      return `cannot set ${description} because ${reason}\n\nConstraints:\n\n${expressions}`;
+      return `cannot set ${description} because ${reason}\n\nConstraints:\n\n${expressions}\n\n${error.stack}`;
     }
 
   }
