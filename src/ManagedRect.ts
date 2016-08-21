@@ -8,7 +8,7 @@ module Robin {
     context?:  Context;
   }
 
-  export abstract class ManagedRect extends Rect {
+  export class ManagedRect extends Rect {
 
     // used to check if a property has already been constrained.
     // also for generating useful error messages.
