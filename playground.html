@@ -64,8 +64,15 @@
     #Y {
       width:    100px;
       height:   100px;
-      center-y: X.center-y + (sin((x * 4) - 2) * 100);
-      center-x: X.center-x + (cos((x * 4) - 2) * 100);
+      center-y: W.bottom + sin(y) * 100px;
+      center-x: W.left + cos(y) * 100px;
+    }
+
+    #U {
+      left:   Y.right;
+      bottom: Y.top;
+      right:  X.left;
+      top:    X.bottom;
     }
 
   </script>
@@ -74,12 +81,15 @@
 <body>
 
   <div id="A">A</div>
+
   <div class="green" id="B">B</div>
+
   <div id="C"
     style="background-color: blue"
     r-style="left: B.right; top: B.bottom; height: B.height * 3; width: 200px">
   </div>
-  <div style="background-color: orange"
+
+  <div id="W" style="background-color: orange"
     r-center-y="C.center-y"
     r-right="C.center-x"
     r-width="C.height / 2"
@@ -89,7 +99,10 @@
   <div id="X" 
     r-center-in="viewport"
     r-style="width: 100 * x"
-    r-height="max(100 - 100 * x, 50)"></div>
+    r-height="max(100 - 100 * x, 50)">
+  </div>
+
+  <div id="U" style="background-color: yellow"></div>
 
   <div id="Y"></div>
 
@@ -133,8 +146,10 @@
     }
 
     let oscillator = makeOscillator();
+    let counter = 0;
 
     layout.assign("x", oscillator());
+    layout.assign("y", counter);
 
     let paused = false;
 
@@ -142,7 +157,9 @@
       if (paused) {
         return;
       }
+      counter += 0.1;
       layout.assign("x", oscillator());
+      layout.assign("y", counter);
     }, 10);
 
     document.getElementById("pause").addEventListener("click", function () {
