@@ -76,9 +76,6 @@ module Robin {
             break;
         }
 
-        if (!node) {
-          node = Parser.parse(expression, { startRule: "expression" });
-        }
         this.system.setNode(`${this.id}.${propertyName}`, node);
         this.expressions[propertyName] = expression;
 
