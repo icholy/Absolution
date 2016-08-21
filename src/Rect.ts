@@ -14,12 +14,12 @@ module Absolution {
     public leftOffset: Variable;
 
     constructor(
-      protected layout:    Layout,
+      protected manager:   Manager,
       protected id:        string,
       protected container: string = null
     ) {
 
-      let system = this.system = layout.system;
+      let system = this.system = manager.system;
 
       // x axis
       system.subtract(`${id}.width`, `${id}.right`, `${id}.left`);

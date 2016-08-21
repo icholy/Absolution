@@ -1,17 +1,17 @@
 module Absolution {
 
-  export interface LayoutOptions {
+  export interface ManagerOptions {
     findStyleSheets?: boolean;
     findElements?:    boolean;
     styleSheet?:      StyleSheet;
   }
 
-  const defaultOptions: LayoutOptions = {
+  const defaultOptions: ManagerOptions = {
     findStyleSheets: true,
     findElements:    true
   };
 
-  export class Layout {
+  export class Manager {
 
     private digestID = 0;
     private changedRects: ManagedRect[] = [];
@@ -22,7 +22,7 @@ module Absolution {
       public system = new System()
     ) {}
 
-    attachTo(root: HTMLElement, options: LayoutOptions = defaultOptions) {
+    attachTo(root: HTMLElement, options: ManagerOptions = defaultOptions) {
 
       // add the special rects
       new ViewportRect(this);

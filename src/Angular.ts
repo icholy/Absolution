@@ -7,7 +7,7 @@ module Absolution.Angular {
     private functions: { [name: string]: FuncEntry; };
 
     constructor(
-      private layout:     Layout,
+      private manager:    Manager,
       private $scope:     ng.IScope,
       private parentCtrl: Controller
     ) {
@@ -21,7 +21,7 @@ module Absolution.Angular {
       this.$scope.$watch<number>(name, (newVal, oldVal) => {
         if (newVal !== oldVal) {
           v.assignValue(newVal);
-          this.layout.update();
+          this.manager.update();
         }
       });
       return v;
@@ -97,7 +97,7 @@ module Absolution.Angular {
     }
   }
 
-  function Directive(layout: Layout): ng.IDirective {
+  function Directive(manager: Manager): ng.IDirective {
     return {
       restrict: "A",
       require: [ "aRect", "?^^aRect" ],
@@ -112,7 +112,7 @@ module Absolution.Angular {
         ): void {
           let [ctrl, parentCtrl] = controllers;
           let el = element[0];
-          let options = layout.env.getRectOptions(el, true);
+          let options = manager.env.getRectOptions(el, true);
 
           // automatically set the container
           if (!options.container && parentCtrl) {
@@ -128,23 +128,23 @@ module Absolution.Angular {
           controllers: Controller[]
         ): void {
           let [ctrl, parentCtrl] = controllers;
-          let context = new AngularContext(layout, scope, parentCtrl);
+          let context = new AngularContext(manager, scope, parentCtrl);
           let options = ctrl.getOptionsWithContext(context)
           let el = element[0];
-          let rect = new ElementRect(el, layout, options);
+          let rect = new ElementRect(el, manager, options);
           element.on("$destroy", () => rect.destroy());
         }
       }
     }
   }
 
-  function LayoutFactory(): Layout {
-    let layout = new Layout();
-    layout.attachTo(document.body, { findStyleSheets: true });
-    return layout;
+  function ManagerFactory(): Manager {
+    let manager = new Manager();
+    manager.attachTo(document.body, { findStyleSheets: true });
+    return manager;
   }
 
   angular.module("absolution", []);
-  angular.module("absolution").factory("layout", LayoutFactory);
-  angular.module("absolution").directive("aRect", ["layout", Directive]);
+  angular.module("absolution").factory("absolution", ManagerFactory);
+  angular.module("absolution").directive("aRect", ["absolution", Directive]);
 }

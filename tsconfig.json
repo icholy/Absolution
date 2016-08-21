@@ -16,7 +16,7 @@
     "src/SpecialRects.ts",
     "src/ManagedRect.ts",
     "src/ElementRect.ts",
-    "src/Layout.ts",
+    "src/Manager.ts",
     "src/Watcher.ts",
     "src/Angular.ts",
     "typings/index.d.ts"
