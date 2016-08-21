@@ -6,15 +6,13 @@ module Robin {
     constructor(layout: Layout) {
       super(layout, "document");
       window.addEventListener("resize", () => {
-        this.updateSystem();
+        this.updateSystemPosition();
         layout.update();
       });
-      this.updateSystem();
+      this.updateSystemPosition();
     }
 
-    updateRect(): void {}
-
-    updateSystem(): void {
+    updateSystemPosition(): void {
       let element = document.documentElement;
       let position = Utils.getRectPosition(element);
       this.left.assignValue(position.left);

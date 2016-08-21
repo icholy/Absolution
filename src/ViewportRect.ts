@@ -5,19 +5,17 @@ module Robin {
     constructor(layout: Layout) {
       super(layout, "viewport");
       window.addEventListener("resize", () => {
-        this.updateSystem();
+        this.updateSystemPosition();
         this.layout.update();
       });
       window.addEventListener("scroll", () => {
-        this.updateSystem();
+        this.updateSystemPosition();
         this.layout.update();
       });
-      this.updateSystem();
+      this.updateSystemPosition();
     }
 
-    updateRect(): void {}
-
-    updateSystem(): void {
+    updateSystemPosition(): void {
       let position = Utils.getViewportRectPosition();
       this.left.assignValue(position.left);
       this.top.assignValue(position.top);

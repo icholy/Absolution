@@ -52,7 +52,7 @@ module Robin {
       super(layout, id, container);
       this.element = element;
       this.observer = new MutationObserver(mutations => {
-        this.updateSystem();
+        this.updateSystemPosition();
       });
       this.observer.observe(element, {
         attributes:    true,
@@ -60,7 +60,7 @@ module Robin {
         childList:     true
       });
 
-      let listener = () => this.updateRect();
+      let listener = () => this.updateRectPosition();
       this.width.addListener(listener);
       this.left.addListener(listener);
       this.top.addListener(listener);
@@ -135,7 +135,7 @@ module Robin {
     /**
      * Update the rect using the values in the constraint system
      */
-    updateRect(): void {
+    private updateRectPosition(): void {
       let position = {
         left:   this.leftOffset.getValue(),
         top:    this.topOffset.getValue(),
@@ -275,7 +275,7 @@ module Robin {
       }
     }
 
-    updateSystem(): void {
+    updateSystemPosition(): void {
       let position = Utils.getRectPosition(this.element);
       if (this.isIndependentPositionDifferent(position)) {
         this.position = position;

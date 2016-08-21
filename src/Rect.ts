@@ -51,8 +51,6 @@ module Robin {
       this.leftOffset = system.getVariable(`${id}.left-offset`);
     }
 
-    abstract updateRect(): void;
-
     getId(): string {
       return this.id;
     }
