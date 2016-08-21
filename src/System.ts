@@ -31,10 +31,17 @@ class System {
   }
 
   /**
-   * Change a variable's value
+   * Assign a variable's value
    */
-  change(name: string, v: number): void {
-    this.getVariable(name).changeValue(v, false);
+  assign(name: string, v: number): void {
+    this.getVariable(name).assignValue(v);
+  }
+
+  /**
+   * Add a listener to get invoked when a variable's value changes
+   */
+  listenTo(name: string, listener: Function): void {
+    this.getVariable(name).onChange(listener);
   }
 
   /**

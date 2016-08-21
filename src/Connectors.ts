@@ -30,19 +30,19 @@ abstract class Connector {
 
 class Variable extends Connector {
 
-  private isVolatile: boolean = true;
-  private flexibility = 0.1;
+  private shouldPreserve: boolean = true;
+  private flexibility = 0.001;
 
   constructor(name: string, value: number = null) {
     super(name, value);
   }
 
-  changeValue(v: number, isVolatile: boolean = true): void {
+  assignValue(v: number): void {
     this.value = v;
-    this.isVolatile = isVolatile;
+    this.shouldPreserve = true;
   }
 
-  setValue(v: number, isVolatile: boolean = true): void {
+  setValue(v: number): void {
     if (this.hasValue()) {
       if (this.closeEnough(this.value, v)) {
         return;
@@ -50,7 +50,7 @@ class Variable extends Connector {
       throw new Error(`Contradiction: ${this} is already set (attempting to set ${v})`);
     }
     this.value = v;
-    this.isVolatile = isVolatile;
+    this.shouldPreserve = false;
     this.notify();
   }
 
@@ -63,7 +63,7 @@ class Variable extends Connector {
   }
 
   clearValue(force: boolean = false): void {
-    if (force || this.isVolatile) {
+    if (force || !this.shouldPreserve) {
       this.value = null;
     }
   }

@@ -15,6 +15,10 @@
       position: absolute;
     }
 
+    #container {
+      position: relative;
+    }
+
     #A {
       background-color: red;
       top: 200px;
@@ -26,28 +30,19 @@
       background-color: green;
     }
 
-    #container {
-      position: relative;
-      left: 100px;
-      top: 100px;
-    }
-
   </style>
 </head>
 <body>
 
-  <div id="container">
-    <div class="box" id="A" 
-      data-anchor-in="container"
-      data-anchor-height="(A.width * x) + 50">A</div>
-    <div class="box" id="B"
-      data-anchor-in="container"
-      data-anchor-width="A.width / 2"
-      data-anchor-height="A.height / 2"
-      data-anchor-vcenter="A.vcenter"
-      data-anchor-left="A.left + (B.width * x)">B</div>
-  </div>
+  <div class="box" id="A"
+    data-anchor-height="A.width">A</div>
+  <div class="box" id="B"
+    data-anchor-width="A.width / 2"
+    data-anchor-height="A.height / 2"
+    data-anchor-left="A.left + (10 * x)"
+    data-anchor-vcenter="A.vcenter + (10 * x)">B</div>
 
+  <button id="pause">Pause</button>
 
   <script>
     window.system = new System();
@@ -63,7 +58,7 @@
       Object.keys(el.dataset).forEach(function (key) {
         if (key.indexOf("anchor") === 0) {
           if (!isInitialized) {
-            let container = document.body;
+            let container = null;
             if (el.dataset["anchorIn"]) {
               container = document.getElementById(el.dataset["anchorIn"]);
             }
@@ -78,17 +73,20 @@
       });
     }
 
-    layout.updateSystem();
-    layout.updateLayout();
 
     function makeOscillator() {
 
-      let step = 0.003;
+      let step = 0.01;
       let current = 0;
 
       return function () {
         current += step;
-        if (current >= 1 || current <= 0) {
+        if (current >= 1) {
+          current = 1;
+          step = step * -1;
+        }
+        else if (current <= 0) {
+          current = 0;
           step = step * -1;
         }
         return current;
@@ -97,18 +95,23 @@
 
     let oscillator = makeOscillator();
 
-    let x = oscillator();
+    system.assign("x", oscillator());
+    layout.updateSystem();
+    layout.updateLayout();
+
+    let paused = false;
 
     setInterval(function () {
-      system.change("x", oscillator());
+      if (paused) {
+        return;
+      }
+      system.assign("x", oscillator());
+      layout.updateLayout();
     }, 10);
 
-    function render() {
-      layout.updateLayout();
-      window.requestAnimationFrame(render);
-    };
-    window.requestAnimationFrame(render);
-
+    document.getElementById("pause").addEventListener("click", function () {
+      paused = !paused;
+    });
 
   </script>
 

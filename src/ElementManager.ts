@@ -58,25 +58,25 @@ class ElementManager {
     let id = this.id;
     let rect = this.getBoundingRect();
     if (this.xAxisConstraints === 0) {
-      this.system.change(`${id}.left`, rect.left);
-      this.system.change(`${id}.width`, rect.width);
+      this.system.assign(`${id}.left`, rect.left);
+      this.system.assign(`${id}.width`, rect.width);
     }
     else if (this.xAxisConstraints === 1) {
       if (this.isConstrained("width")) {
-        this.system.change(`${id}.left`, rect.left);
+        this.system.assign(`${id}.left`, rect.left);
       } else {
-        this.system.change(`${id}.width`, rect.width);
+        this.system.assign(`${id}.width`, rect.width);
       }
     }
     if (this.yAxisConstraints === 0) {
-      this.system.change(`${id}.top`, rect.top);
-      this.system.change(`${id}.height`, rect.height);
+      this.system.assign(`${id}.top`, rect.top);
+      this.system.assign(`${id}.height`, rect.height);
     }
     else if (this.yAxisConstraints === 1) {
       if (this.isConstrained("height")) {
-        this.system.change(`${id}.top`, rect.top);
+        this.system.assign(`${id}.top`, rect.top);
       } else {
-        this.system.change(`${id}.height`, rect.height);
+        this.system.assign(`${id}.height`, rect.height);
       }
     }
   }
@@ -100,6 +100,9 @@ class ElementManager {
   
   private getBoundingRect(): ClientRect {
     let inner = this.element.getBoundingClientRect();
+    if (!this.container) {
+      return inner;
+    }
     let outer = this.container.getBoundingClientRect();
     return {
       left:   inner.left - outer.left,
