@@ -4,6 +4,8 @@ class Layout {
   system = new Constraints.System();
   rects = [] as Rect[];
 
+  private updateIsRequested = false;
+
   constructor(root: HTMLElement) {
 
     this.rects.push(new DocumentRect(this));
@@ -96,9 +98,21 @@ class Layout {
   }
 
   /**
-   * Update the system from the element's actual values
+   * Request an update to occur the on the next
+   * animation frame.
    */
   update(): void {
+    if (this.updateIsRequested) {
+      return;
+    }
+    this.updateIsRequested = true;
+    window.requestAnimationFrame(() => {
+      this.updateIsRequested = false;
+      this.updateNow();
+    });
+  }
+
+  private updateNow(): void {
     for (let r of this.rects) {
       r.updateSystem();
     }
