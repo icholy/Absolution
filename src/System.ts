@@ -228,9 +228,7 @@ module Robin {
         case "ident":
           return this.getVariable(node.value);
         case "number":
-          let v = new Variable("Const");
-          v.assignValue(node.value);
-          return v;
+          return new Constant(node.value);
         case "op":
           return this.handleOperation(node.op,
               this.evaluate(node.left),

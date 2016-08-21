@@ -142,4 +142,13 @@ module Robin {
 
   }
 
+  export class Constant extends Variable {
+
+    constructor(v: number) {
+      super("Const");
+      this.assignValue(v);
+    }
+
+  }
+
 }
