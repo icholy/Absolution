@@ -13,10 +13,11 @@ module Constraints {
      * Attach this relationship to the supplied variables
      */
     protected attachTo(...variables: Variable[]): void {
+      this.variables = [];
       for (let v of variables) {
         v.attach(this);
+        this.variables.push(v);
       }
-      this.variables = variables;
       this.solve();
     }
 
