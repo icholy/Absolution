@@ -116,4 +116,16 @@ class Layout {
     this.update();
   }
 
+  /**
+   * Get a rect by id
+   */
+  getRect(id: string): Rect {
+    for (let rect of this.rects) {
+      if (rect.getId() === id) {
+        return rect;
+      }
+    }
+    return null;
+  }
+
 }

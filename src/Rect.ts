@@ -48,4 +48,8 @@ abstract class Rect {
 
   abstract updateSystem(): void;
   abstract updateRect(): void;
+
+  getId(): string {
+    return this.id;
+  }
 }
