@@ -59,6 +59,17 @@ module Absolution {
       return `Line: ${loc.line} ${message}\n\n${line}\n${arrow}\n`;
     }
 
+    /**
+     * Iterate over all elements starting from the supplied root.
+     */
+    static forEachElement(root: HTMLElement, callback: (el: HTMLElement) => void): void {
+      let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
+      let el: HTMLElement;
+      while (el = iterator.nextNode() as any) {
+        callback(el);
+      }
+    }
+
   }
 
 }

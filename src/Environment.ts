@@ -46,17 +46,6 @@ module Absolution {
       }
     }
 
-    findRectElements(root: HTMLElement, callback: (el: HTMLElement, options: RectOptions) => void): void {
-      let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
-      let el: HTMLElement;
-      while (el = iterator.nextNode() as any) {
-        let options = this.getRectOptions(el);
-        if (options) {
-          callback(el, options);
-        }
-      }
-    }
-
     private parseRulesets(rulesets: RuleSet[]): void {
       for (let { selector, rules } of rulesets) {
         switch (selector.type) {

@@ -51,8 +51,11 @@ module Absolution {
 
       // walk the dom and find elements with a-attributes
       if (options.findElements) {
-        this.env.findRectElements(root, (el: HTMLElement, options: RectOptions) => {
-          new ElementRect(el, this, options);
+        Utils.forEachElement(root, el => {
+          let options = this.env.getRectOptions(el);
+          if (options) {
+            new ElementRect(el, this, options);
+          }
         });
       }
 
