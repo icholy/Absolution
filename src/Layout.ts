@@ -116,7 +116,7 @@ module Robin {
       }
 
       if (isRegistered) {
-        rect.updateSystemPosition();
+        rect.initialize();
       }
     }
 

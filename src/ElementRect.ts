@@ -44,6 +44,13 @@ module Robin {
     }
 
     /**
+     * Initialize the rect after setting all the constraints.
+     */
+    initialize(): void {
+      this.updateSystemPosition();
+    }
+
+    /**
      * Constrain a property name to equal the expression.
      * There can only be two constraints per axis.
      */
@@ -111,7 +118,7 @@ module Robin {
      * If the element's independent (unconstrained) properties
      * have changed, use them to update the system.
      */
-    updateSystemPosition(): void {
+    private updateSystemPosition(): void {
       let position = Utils.getRectPosition(this.element);
       if (this.isIndependentPositionDifferent(position)) {
         this.position = position;
