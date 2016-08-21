@@ -8,12 +8,11 @@ stylesheet
     }
 
 ruleset
-  = _ selector:selector _ "{" _ items:(rule_with_trailing_semi / macro)* _ "}" _ {
+  = _ selector:selector _ "{" _ items:rule_with_trailing_semi* _ "}" _ {
       return {
         tag:      "ruleset",
         selector: selector,
-        rules:    items.filter(function (item) { return item.tag === "rule"; }),
-        macros:   items.filter(function (item) { return item.tag === "macro"; })
+        rules:    items.filter(function (item) { return item.tag === "rule"; })
       };
     }
 
@@ -179,16 +178,6 @@ vfl_space
       return {
         tag: "space"
       };
-    }
-
-
-macro
-  = "@" name:ident _ ":" _ content:[^;]* _ ";" {
-      return {
-        tag:  "macro",
-        name: name.value,
-        text: content.join("")
-      }
     }
 
 ident

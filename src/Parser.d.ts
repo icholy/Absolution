@@ -72,12 +72,6 @@ declare module Absolution {
     value: number;
   }
 
-  export interface Macro {
-    tag:  "macro";
-    name: string;
-    text: string;
-  }
-
   export interface Rule {
     tag?:   "rule";
     target: string;
@@ -88,18 +82,6 @@ declare module Absolution {
   export interface RuleSet {
     selector: SelectorNode;
     rules:    Rule[];
-    macros:   Macro[];
   }
 
-  export interface RectVFL {
-    tag:  "rect";
-    name: string;
-  }
-
-  export interface SpaceVFL {
-    tag:   "space";
-    expr?: Expression;
-  }
-
-  export type ExpressionVFL = (RectVFL|SpaceVFL)[];
 }
