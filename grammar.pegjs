@@ -17,7 +17,7 @@ ruleset
     }
 
 selector
-  = type:("#" / ".") id:ident {
+  = type:("#" / "." / "~") id:ident {
       return {
         type: type,
         name: id.value
