@@ -69,6 +69,10 @@ module Robin {
       }
     }
 
+    /**
+     * Tell the element about a watcher so it can be
+     * property destroyed with the element.
+     */
     addWatcher(watcher: Watcher): void {
       this.watchers.push(watcher);
     }
