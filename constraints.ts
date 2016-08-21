@@ -284,6 +284,7 @@ module Constraints {
      * Set a variable's value
      */
     set(name: string, v: number): void {
+      this.clear(name);
       this.getVariable(name).setValue(v);
     }
 
