@@ -15,9 +15,9 @@ module Robin {
     };
 
     constructor(
-      element:   HTMLElement,
-      layout:    Layout,
-      options:   RectOptions
+      element: HTMLElement,
+      layout:  Layout,
+      options: RectOptions
     ) {
       super(layout, options);
       this.element = element;
