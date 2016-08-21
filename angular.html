@@ -116,12 +116,12 @@
 
 </head>
 <body ng-app="App" ng-controller="MainController">
-  <div rect id="origin"></div>
-  <div rect
+  <div a-rect id="origin"></div>
+  <div a-rect
     ng-repeat="r in rects"
-    r-class="block"
-    r-style="width: max(20px, 50px * x)"
-    r-height="max(20px, 50px * x)"
+    a-class="block"
+    a-style="width: max(20px, 50px * x)"
+    a-height="max(20px, 50px * x)"
     ng-style="{ 'background-color': r }">{{$index}}</div>
 </body>
 </html>
