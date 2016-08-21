@@ -67,7 +67,7 @@ func_call
     }
 
 func_params
-  = first:expression? rest:rest_func_params* {
+  = first:expression? rest:func_params_rest* {
       var params = [];
       if (first) {
         params.push(first);
@@ -75,7 +75,7 @@ func_params
       return params.concat(rest);
     }
 
-rest_func_params
+func_params_rest
   = "," _ expr:expression {
       return expr;
     }
