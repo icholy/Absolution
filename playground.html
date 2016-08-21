@@ -31,23 +31,40 @@
 </head>
 <body>
 
-  <div class="box" id="A">A</div>
-  <div class="box" id="B">B</div>
+  <div class="box" id="A" data-anchor-register>A</div>
+  <div class="box" id="B" 
+    data-anchor-width="A.width / 2"
+    data-anchor-height="A.height / 2"
+    data-anchor-vcenter="A.vcenter"
+    data-anchor-hcenter="A.hcenter">B</div>
 
   <script>
     window.system = new System();
 
     window.layout = new LayoutManager(system);
 
-    window.A = new ElementManager(system, document.getElementById("A"), layout);
-    window.B = new ElementManager(system, document.getElementById("B"), layout);
+    let elements = document.getElementsByTagName("*");
 
-    B.constrain("width", "A.width / 2");
-    B.constrain("height", "A.height / 2");
-    B.constrain("vcenter", "A.vcenter");
-    B.constrain("hcenter", "A.hcenter");
+    for (let i = 0; i < elements.length; i++) {
+      let el = elements[i];
+      let isInitialized = false;
+      let manager = null;
+      Object.keys(el.dataset).forEach(function (key) {
+        if (key.indexOf("anchor") === 0) {
+          if (!isInitialized) {
+            manager = new ElementManager(system, el, layout);
+            isInitialized = true;
+          }
+          let property = key.substr(6).toLowerCase();
+          if (property !== "register") {
+            manager.constrain(property, el.dataset[key]);
+          }
+        }
+      });
+    }
 
     layout.updateLayout();
+    console.log(system.toString());
 
   </script>
 
