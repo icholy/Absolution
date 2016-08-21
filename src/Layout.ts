@@ -202,6 +202,13 @@ module Robin {
     }
 
     /**
+     * Register a custom function.
+     */
+    func(name: string, func: Function, arity?: number): void {
+      this.system.func(name, func, arity);
+    }
+
+    /**
      * Get a rect by id
      */
     getRect(id: string): Rect {
