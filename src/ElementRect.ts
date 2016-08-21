@@ -24,6 +24,9 @@ module Robin {
     // the element that's being managed
     public element: HTMLElement;
 
+    private isAbsoluteSet = false;
+
+
     // list of watchers to be cleaned up
     // when the rect is destroyed
     private watchers: Watcher[] = [];
@@ -121,6 +124,43 @@ module Robin {
       return !this.position
           || this.xAxis.independentAreDifferent(this.position, position)
           || this.yAxis.independentAreDifferent(this.position, position);
+    }
+
+    private setAbsolute(): void {
+      if (!this.isAbsoluteSet) {
+        this.element.style.position = "absolute";
+        this.isAbsoluteSet = true;
+      }
+    }
+
+    /**
+     * Set the element's left offset
+     */
+    setLeft(value: number): void {
+      this.setAbsolute();
+      this.element.style.left = `${value}px`;
+    }
+
+    /**
+     * Set the element's top offset
+     */
+    setTop(value: number): void {
+      this.setAbsolute();
+      this.element.style.top = `${value}px`;
+    }
+
+    /**
+     * Set the element's width
+     */
+    setWidth(value: number): void {
+      this.element.style.width = `${value}px`;
+    }
+
+    /**
+     * Set the element's height
+     */
+    setHeight(value: number): void {
+      this.element.style.height = `${value}px`;
     }
 
     /**

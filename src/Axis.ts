@@ -80,9 +80,8 @@ module Robin {
 
     updateRect(rect: ElementRect, position: RectPosition): void {
       let style = rect.element.style;
-      style.left = `${position.left}px`;
-      style.width = `${position.width}px`;
-      style.position = "absolute";
+      rect.setLeft(position.left);
+      rect.setWidth(position.width);
     }
   };
 
@@ -105,9 +104,7 @@ module Robin {
     },
 
     updateRect(rect: ElementRect, position: RectPosition): void {
-      let style = rect.element.style;
-      style.left = `${position.left}px`;
-      style.position = "absolute";
+      rect.setLeft(position.left);
     }
   };
 
@@ -130,8 +127,7 @@ module Robin {
     },
 
     updateRect(rect: ElementRect, position: RectPosition): void {
-      let style = rect.element.style;
-      style.width = `${position.width}px`;
+      rect.setWidth(position.width);
     }
   };
 
@@ -178,10 +174,8 @@ module Robin {
     updateSystem(rect: ElementRect, position: RectPosition): void {},
 
     updateRect(rect: ElementRect, position: RectPosition): void {
-      let style = rect.element.style;
-      style.top = `${position.top}px`;
-      style.height = `${position.height}px`;
-      style.position = "absolute";
+      rect.setHeight(position.height);
+      rect.setTop(position.top);
     }
   };
 
@@ -204,9 +198,7 @@ module Robin {
     },
 
     updateRect(rect: ElementRect, position: RectPosition): void {
-      let style = rect.element.style;
-      style.top = `${position.top}px`;
-      style.position = "absolute";
+      rect.setTop(position.top);
     }
   };
 
@@ -229,8 +221,7 @@ module Robin {
     },
 
     updateRect(rect: ElementRect, position: RectPosition): void {
-      let style = rect.element.style;
-      style.height = `${position.height}px`;
+      rect.setHeight(position.height);
     }
   };
 
