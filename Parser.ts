@@ -18,7 +18,7 @@ class Parser {
     "-": 1,
     "*": 2,
     "/": 2
-  }
+  };
 
   tokenize(input: string): Lexeme[] {
 
@@ -59,16 +59,19 @@ class Parser {
       if (isWhiteSpace(c)) {
         maybeAddToken();
       } else if (c === "(") {
+		maybeAddToken();
         lexems.push({
           type:  Type.LEFT_PAREN,
           value: c
         });
-      else if (c === ")") {
+	  } else if (c === ")") {
+		maybeAddToken();
         lexems.push({
           type:  Type.RIGHT_PAREN,
           value: c
         });
-      else if (isOperator(c)) {
+	  } else if (isOperator(c)) {
+		maybeAddToken();
         lexems.push({
           type:  Type.OPERATOR,
           value: c
@@ -83,7 +86,7 @@ class Parser {
     return lexems;
   }
 
-  private parse(tokens: Lexeme[]): Lexeme[] {
+  infixToRPN(tokens: Lexeme[]): Lexeme[] {
 
     let operators = [] as Lexeme[];
     let output    = [] as Lexeme[];
@@ -92,11 +95,12 @@ class Parser {
       return operators[operators.length - 1];
     }
 
-    let precedence(token: Lexeme): number {
+    let precedence = (token: Lexeme) => {
       return this.precedence[token.value];
     };
-
+	
     for (let token of tokens) {
+
       switch (token.type) {
         case Type.NUMBER:
           output.push(token);
@@ -106,6 +110,7 @@ class Parser {
             output.push(operators.pop());
           }
           operators.push(token);
+		  break;
         case Type.LEFT_PAREN:
           operators.push(token);
           break;
@@ -115,44 +120,15 @@ class Parser {
             output.push(op);
             op = operators.pop();
           }
+		  break;
       }
     }
 
-    while (operator.length > 0) {
+    while (operators.length > 0) {
       output.push(operators.pop());
     }
 
     return output;
   }
-
-  private evalute(ast: any): Connector {
-    if (Array.isArray(ast)) {
-      if (ast.length !== 3) {
-        throw new Error(`Syntax Error: ${ast}`);
-      }
-      let operator = ast[1];
-      let left = this.evalute(ast[0]);
-      let right = this.evalute(ast[2]);
-      let result = this.createIntermediate();
-      switch (operator) {
-        case "+":
-          this.add(result, left, right);
-          break;
-        case "-":
-          this.subtract(result, left, right);
-          break;
-        case "*":
-          this.multiply(result, left, right);
-          break;
-        case "/":
-          this.divide(result, left, right);
-          break;
-        default:
-          throw new Error(`Syntax Error: invalid operator ${operator}`);
-      }
-      return result;
-    } else {
-      return this.connectorFor(ast);
-    }
-  }
 }
+
