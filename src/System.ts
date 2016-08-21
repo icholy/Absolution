@@ -78,6 +78,13 @@ module Robin {
     }
 
     /**
+     * Set a variables value to the evaluated node
+     */
+    setNode(name: string, node: any): void {
+      this.equals(name, this.evaluate(node));
+    }
+
+    /**
      * Destroy a variable
      */
     destroy(name: string): void {
