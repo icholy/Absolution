@@ -34,24 +34,23 @@
 </head>
 <body>
 
-  <div class="box" id="A"
-    data-r-height="A.width * x">A</div>
+  <div class="box" id="A" r-height="A.width * x">A</div>
   <div class="box green" id="B"
-    data-r-width="A.width / 2"
-    data-r-height="A.height / 2"
-    data-r-left="A.left + (B.width * x)"
-    data-r-center-y="A.center-y + (10 * x)">B</div>
+    r-width="A.width / 2"
+    r-height="A.height / 2"
+    r-left="A.left + (B.width * x)"
+    r-center-y="A.center-y + (10 * x)">B</div>
   <div class="box" id="C" style="background-color: blue"
-    data-r-left="B.right"
-    data-r-top="B.bottom"
-    data-r-height="B.height * 3"
-    data-r-width="200">
+    r-left="B.right"
+    r-top="B.bottom"
+    r-height="B.height * 3"
+    r-width="200">
   </div>
   <div class="box" style="background-color: orange"
-    data-r-center-y="C.center-y"
-    data-r-right="C.center-x"
-    data-r-width="C.height / 2"
-    data-r-top="C.top + 200 * x">
+    r-center-y="C.center-y"
+    r-right="C.center-x"
+    r-width="C.height / 2"
+    r-top="C.top + 200 * x">
   </div>
 
   <button id="pause">Pause</button>

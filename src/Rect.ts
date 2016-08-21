@@ -39,7 +39,7 @@ abstract class Rect {
   private yAxisDependencies = YDependency.TOP_AND_HEIGHT;
 
   protected constrained = [] as Property[];
-  protected isDebugEnabled = true;
+  protected isDebugEnabled = false;
 
   // these variables represent the element's propeties
   // inside the constaint system
