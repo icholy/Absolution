@@ -2,7 +2,7 @@ module Absolution {
 
   export interface EnvData {
     cache:      { [input: string]: any; };
-    stylesheet?: StyleSheet;
+    stylesheets: StyleSheet[];
   }
 
   export class Environment {
@@ -12,16 +12,14 @@ module Absolution {
     private rulesByVirtual = {} as { [id: string]: Rule[]; };
     private userVariables  = [] as VariableNode[];
     private parserCache    = {} as { [input: string]: any; };
-    private stylesheet: StyleSheet;
+    private stylesheets    = [] as StyleSheet[];
 
     constructor(data?: EnvData) {
       if (data) {
-        if (data.stylesheet) {
-          this.loadStyleSheet(data.stylesheet);
+        for (let stylesheet of data.stylesheets) {
+          this.loadStyleSheet(stylesheet);
         }
-        if (data.cache) {
-          this.parserCache = data.cache;
-        }
+        this.parserCache = data.cache;
       }
     }
 
@@ -42,8 +40,8 @@ module Absolution {
 
     getExportData(): EnvData {
       return {
-        cache:      this.parserCache,
-        stylesheet: this.stylesheet
+        cache:       this.parserCache,
+        stylesheets: this.stylesheets
       };
     }
 
@@ -92,7 +90,7 @@ module Absolution {
     }
 
     loadStyleSheet(stylesheet: StyleSheet): void {
-      this.stylesheet = stylesheet;
+      this.stylesheets.push(stylesheet);
       this.parseRulesets(stylesheet.rulesets);
       this.userVariables.push(...stylesheet.variables);
     }
