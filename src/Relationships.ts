@@ -207,15 +207,65 @@ module Robin {
       private output: Variable
     ) {
       super();
+
+      switch (input.length) {
+        case 1:
+          this.solver = this.solve1.bind(this);
+          break;
+        case 2:
+          this.solver = this.solve2.bind(this);
+          break;
+        case 3:
+          this.solver = this.solve3.bind(this);
+          break;
+        default:
+          this.solver = this.solveN.bind(this);
+      }
+
       this.attachTo(...input);
     }
 
     solve(id: number): void {
-      if (this.input.every(v => v.hasValue(id))) {
-        let params = this.input.map(v => v.getValue());
-        let result = this.func(...params);
-        this.output.setValue(result, id);
+      this.solver(id);
+    }
+
+    solveN(id: number): void {
+      let params = [];
+      for (let v of this.input) {
+        if (!v.hasValue(id)) {
+          return;
+        }
+        params.push(v.getValue());
       }
+      let result = this.func(...params);
+      this.output.setValue(result, id);
+    }
+
+    solve1(id: number): void {
+      let v = this.input[0];
+      if (!v.hasValue(id)) {
+        return;
+      }
+      let result = this.func(v.getValue());
+      this.output.setValue(result, id);
+    }
+
+    solve2(id: number): void {
+      let [v1, v2] = this.input;
+      if (!v1.hasValue(id) || !v2.hasValue(id)) {
+        return;
+      }
+      let result = this.func(v1.getValue(), v2.getValue());
+      this.output.setValue(result, id);
+    }
+
+    solve3(id: number): void {
+      let [v1, v2, v3] = this.input;
+      if (!v1.hasValue(id) || !v2.hasValue(id) || !v3.hasValue(id)) {
+        return;
+      }
+      let result = this.func(v1.getValue(), v2.getValue(), v3.getValue());
+      this.output.setValue(result, id);
     }
 
     toString(): string {
