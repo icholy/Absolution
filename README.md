@@ -36,6 +36,7 @@ layout.assign("x", 100);
 
 # Attributes
 
+* `r-id`
 * `r-register`
 * `r-left`
 * `r-right`
@@ -43,8 +44,6 @@ layout.assign("x", 100);
 * `r-bottom`
 * `r-width`
 * `r-height`
-* `r-center-in`
 * `r-center-x`
 * `r-center-y`
-* `r-size`
-* `r-relative-to`
+* `r-container`
