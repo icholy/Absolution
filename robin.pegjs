@@ -54,14 +54,31 @@ primary
     / "(" expr:expression ")" {
         return expr;
       }
-    / name:ident "(" params:expression* ")" {
+    / func_call
+    / ident
+
+func_call
+  = name:ident "(" params:func_params ")" {
       return {
         tag:    "func_call",
         name:   name.value,
         params: params
       };
     }
-    / ident
+
+func_params
+  = first:expression? rest:rest_func_params* {
+      var params = [];
+      if (first) {
+        params.push(first);
+      }
+      return params.concat(rest);
+    }
+
+rest_func_params
+  = "," _ expr:expression {
+      return expr;
+    }
 
 numeric
   = sign:("-" / "+")? value:[0-9]+ decimal:("." [0-9]*)? unit:("px" / "em")? {

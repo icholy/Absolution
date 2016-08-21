@@ -60,6 +60,14 @@ describe("Robin", function () {
         expect(node.name).toEqual("foo");
       });
 
+      it("should parse function call with multiple parameters", function () {
+        var node = parse("foo(1, 2)");
+        expect(node.tag).toEqual("func_call");
+        expect(node.params.length).toEqual(2);
+        expect(node.params[0].value).toEqual(1);
+        expect(node.params[1].value).toEqual(2);
+      });
+
     });
 
   });
