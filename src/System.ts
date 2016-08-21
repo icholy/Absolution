@@ -247,7 +247,7 @@ module Absolution {
     }
 
     private parse(expr: string, ctx: Context = emptyContext): Variable {
-      let root = Parser.parse(expr, { startRule: "expression" });
+      let root = Parser.parse<Expression>(expr, { startRule: "expression" });
       return this.evaluate(root, ctx);
     }
 

@@ -27,7 +27,7 @@ declare module Absolution {
     parse<T>(input: string, options?: ParseOptions): T;
   };
 
-  export type Expression = any;
+  export type Expression = OperationNode|FuncCallNode|VariableNode|IdentNode|NumberNode;
 
   export interface StyleSheet {
     rulesets:  RuleSet[],
@@ -39,12 +39,14 @@ declare module Absolution {
     op:    string;
     left:  Expression;
     right: Expression;
+    text?: string;
   }
 
   export interface FuncCallNode {
     tag:    "func_call";
     name:   string;
     params: Expression[];
+    text?:  string;
   }
 
   export interface SelectorNode {
@@ -54,10 +56,10 @@ declare module Absolution {
   }
 
   export interface VariableNode {
-    tag:  "variable",
-    name: string;
-    expr: Expression;
-    text: string;
+    tag:   "variable",
+    name:  string;
+    expr:  Expression;
+    text?: string;
   }
 
   export interface IdentNode {
@@ -65,11 +67,13 @@ declare module Absolution {
     value:   string;
     object?: string;
     key?:    string;
+    text?:   string;
   }
 
   export interface NumberNode {
     tag:   "number";
     value: number;
+    text?: string;
   }
 
   export interface Rule {

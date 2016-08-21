@@ -158,7 +158,7 @@ module Absolution {
 
     private ruleFor(target: string, text: string, expr?: Expression): Rule {
       if (!expr) {
-        expr = Parser.parse(text, { startRule: "expression" });
+        expr = Parser.parse<Expression>(text, { startRule: "expression" });
       }
       return { target, text, expr };
     }
