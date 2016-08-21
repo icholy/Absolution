@@ -78,7 +78,7 @@ abstract class AbstractRect implements Rect {
     system.add(`${id}.center-y`, `${id}.top`, `${id}_tmp2`);
     system.add(`${id}.absolute.top`, `${id}.top`, `${container}.absolute.top`);
     system.add(`${id}.absolute.bottom`, `${id}.bottom`, `${container}.absolute.top`);
-    system.add(`${id}.absolute.center-y`, `${id}.center-y`, `${container}.absolute.center-y`);
+    system.add(`${id}.absolute.center-y`, `${id}.center-y`, `${container}.absolute.top`);
 
     this.absoluteTop = system.getVariable(`${id}.absolute.top`);
     this.top    = system.getVariable(`${id}.top`);
