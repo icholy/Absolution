@@ -131,8 +131,8 @@ module Absolution.Angular {
           let context = new AngularContext(manager, scope, parentCtrl);
           let options = ctrl.getOptionsWithContext(context)
           let el = element[0];
-          let rect = new ElementRect(el, manager, options);
-          element.on("$destroy", () => rect.destroy());
+          manager.register(el, options);
+          element.on("$destroy", () => manager.unregister(el));
         }
       }
     }
