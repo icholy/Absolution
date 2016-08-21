@@ -63,7 +63,7 @@ module Robin {
      */
     set(name: string, v: number|string): void {
       if (v === "") {
-        throw new Error(`it's not a value value ${v}`)
+        throw new Error(`it's not a value value ${v}`);
       }
       this.clear(name);
       if (typeof v === "number") {
@@ -72,9 +72,9 @@ module Robin {
       }
       if (typeof v === "string") {
         this.equals(name, this.parse(v));
-        return
+        return;
       }
-      throw new Error(`it's not a value value ${v}`)
+      throw new Error(`it's not a value value ${v}`);
     }
 
     /**
@@ -109,7 +109,7 @@ module Robin {
       if (name) {
         this.getVariable(name).clearValue();
       } else {
-        Object.keys(this.variables).forEach(name => this.clear(name))
+        Object.keys(this.variables).forEach(name => this.clear(name));
       }
     }
 
@@ -189,7 +189,7 @@ module Robin {
 
         params.map(p => this.variableFor(p)),
         this.variableFor(out)
-      ))
+      ));
     }
 
     /**
@@ -232,7 +232,7 @@ module Robin {
           v.assignValue(node.value);
           return v;
         case "op":
-          return this.handleOperation(node.op, 
+          return this.handleOperation(node.op,
               this.evaluate(node.left),
               this.evaluate(node.right));
         case "func_call":
@@ -298,7 +298,7 @@ module Robin {
     private variableFor(v: Value): Variable {
       if (typeof v === "string") {
         return this.getVariable(v);
-      } 
+      }
       else if (typeof v === "number") {
         return new Variable("Const", v);
       }
@@ -329,7 +329,7 @@ module Robin {
         },
         deleteProperty(target: System, property: string): boolean {
           target.destroy(property);
-          return true
+          return true;
         },
         ownKeys(target: System): string[] {
           return Object.keys(target.variables);

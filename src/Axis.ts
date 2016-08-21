@@ -262,6 +262,6 @@ module Robin {
     },
 
     updateRect(rect: ElementRect, position: RectPosition): void {}
-  }
+  };
 
 }

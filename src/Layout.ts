@@ -183,7 +183,7 @@ module Robin {
       }
       let rect = new ElementRect(info.id, el, info.container, this);
       for (let rule of info.rules) {
-        rect.constrain(rule.target, rule.text, rule.expr)
+        rect.constrain(rule.target, rule.text, rule.expr);
       }
 
       // add a watcher if one is specified
@@ -192,7 +192,7 @@ module Robin {
           throw new Error(
             `${rect.getId()}.r-watch value error: "${info.watcher}" is not a supported watcher`);
         }
-        let watcher = new MutationObserverWatcher(rect)
+        let watcher = new MutationObserverWatcher(rect);
         rect.addWatcher(watcher);
       }
 
