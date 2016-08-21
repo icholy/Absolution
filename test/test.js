@@ -117,6 +117,18 @@ describe("Robin", function () {
         expect(system.$.A).toEqual(5);
       });
 
+      it("should do min", function () {
+        system.min("A", "B", 2);
+        system.$.B = 3;
+        expect(system.$.A).toEqual(2);
+      });
+
+      it("should do max", function () {
+        system.max("A", "B", 2);
+        system.$.B = 3;
+        expect(system.$.A).toEqual(3);
+      });
+
     });
 
     describe("Expressions", function () {

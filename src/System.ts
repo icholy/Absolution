@@ -152,6 +152,28 @@ module Robin {
     }
 
     /**
+     * min = min(a, b)
+     */
+    min(min: Value, a: Value, b: Value): void {
+      this.relationships.push(new Min(
+        this.variableFor(a),
+        this.variableFor(b),
+        this.variableFor(min)
+      ));
+    }
+
+    /**
+     * max = max(a, b)
+     */
+    max(max: Value, a: Value, b: Value): void {
+      this.relationships.push(new Max(
+        this.variableFor(a),
+        this.variableFor(b),
+        this.variableFor(max)
+      ));
+    }
+
+    /**
      * Dump all the relationships as strings
      */
     toString(filter: string = null): string {
