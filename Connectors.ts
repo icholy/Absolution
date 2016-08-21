@@ -23,37 +23,34 @@ export class Variable extends Connector {
 
   private name: string;
   private value: number;
-  private isSet: boolean;
 
   constructor(name: string) {
     super();
     this.name = name;
-    this.isSet = false;
+    this.value = null;
   }
 
   setValue(v: number): void {
-    if (this.isSet) {
-      if (v !== this.value) {
-        throw new Error(`Contradiction: ${this} is already set`);
-      } else {
-        return;
-      }
+    if (v === this.value) {
+      return;
     }
-    this.isSet = true;
+    if (this.hasValue()) {
+      throw new Error(`Contradiction: ${this} is already set`);
+    }
     this.value = v;
     this.notify();
   }
 
   getValue(): number {
-    return this.isSet ? this.value : null;
+    return this.value;
   }
 
   hasValue(): boolean {
-    return this.isSet;
+    return this.value !== null;
   }
 
   clearValue(): void {
-    this.isSet = false;
+    this.value = null;
   }
 
   toString(): string {
