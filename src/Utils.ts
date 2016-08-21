@@ -18,7 +18,24 @@ class Utils {
   }
 
   static getRectPosition(element: HTMLElement): RectPosition {
-    return element.getBoundingClientRect();
+
+    let bounds = element.getBoundingClientRect();
+
+    let body = document.body;
+    let docElem = document.documentElement;
+
+    let scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop;
+    let scrollLeft = window.pageXOffset || docElem.scrollLeft || body.scrollLeft;
+
+    let clientTop = docElem.clientTop || body.clientTop || 0;
+    let clientLeft = docElem.clientLeft || body.clientLeft || 0;
+
+    return {
+      top:    bounds.top +  scrollTop - clientTop,
+      left:   bounds.left + scrollLeft - clientLeft,
+      width:  bounds.width,
+      height: bounds.height
+    };
   }
 
 }
