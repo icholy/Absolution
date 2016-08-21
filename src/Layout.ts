@@ -126,7 +126,6 @@ module Robin {
     }
 
     private handleAttribute(options: RectOptions, target: string, text: string, expr?: Expression): void {
-
       switch (target) {
         case "register":
         case "id":
