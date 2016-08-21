@@ -29,13 +29,13 @@ class ElementManager {
   private xAxisConstraints = 0;
   private yAxisConstraints = 0;
 
-  private left:   Variable;
-  private width:  Variable;
-  private top:    Variable;
-  private height: Variable;
+  private left:   Constraints.Variable;
+  private width:  Constraints.Variable;
+  private top:    Constraints.Variable;
+  private height: Constraints.Variable;
 
   constructor(
-    private system:    System,
+    private system:    Constraints.System,
     private element:   HTMLElement,
     private container: HTMLElement
   ) {
