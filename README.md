@@ -34,3 +34,15 @@
 layout.assign("x", 100);
 ```
 
+# Attributes
+
+* `r-register`
+* `r-left`
+* `r-right`
+* `r-top`
+* `r-bottom`
+* `r-width`
+* `r-height`
+* `r-center-in`
+* `r-center-x`
+* `r-center-y`
