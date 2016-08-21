@@ -21,7 +21,6 @@
 
     #A {
       background-color: red;
-      top: 200px;
       left: 100px;
       width: 600px;
     }
@@ -35,12 +34,24 @@
 <body>
 
   <div class="box" id="A"
-    data-anchor-height="A.width">A</div>
-  <div class="box green"
+    data-anchor-height="A.width * x">A</div>
+  <div class="box green" id="B"
     data-anchor-width="A.width / 2"
     data-anchor-height="A.height / 2"
-    data-anchor-left="A.left + (10 * x)"
+    data-anchor-left="A.left + (B.width * x)"
     data-anchor-vcenter="A.vcenter + (10 * x)">B</div>
+  <div class="box" id="C" style="background-color: blue"
+    data-anchor-left="B.right"
+    data-anchor-top="B.bottom"
+    data-anchor-height="B.height * 3"
+    data-anchor-width="200">
+  </div>
+  <div class="box" style="background-color: orange"
+    data-anchor-top="C.vcenter"
+    data-anchor-right="C.hcenter"
+    data-anchor-width="C.height / 2"
+    data-anchor-height="100">
+  </div>
 
   <button id="pause">Pause</button>
 
