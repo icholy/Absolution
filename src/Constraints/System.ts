@@ -287,14 +287,16 @@ module Constraints {
           }
           return undefined;
         },
-        set(target: System, property: string, value: any, receiver: Proxy): void {
+        set(target: System, property: string, value: any, receiver: Proxy): boolean {
           target.set(property, value);
+          return true;
         },
         has(target: System, property: string): boolean {
           return target.has(property);
         },
-        deleteProperty(target: System, property: string): void {
+        deleteProperty(target: System, property: string): boolean {
           target.destroy(property);
+          return true
         },
         ownKeys(target: System): string[] {
           return Object.keys(target.variables);
