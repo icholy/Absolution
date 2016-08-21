@@ -48,6 +48,9 @@ module Absolution {
       };
     }
 
+    /**
+     * Format an error message from PEG.js
+     */
     static formatParserError(e: SyntaxError, input: string): string {
       let loc = e.location.start;
       let message = e.message;
