@@ -10,6 +10,7 @@ module Robin {
     constrainedAreDifferent(a: RectPosition, b: RectPosition): boolean;
     independentAreDifferent(a: RectPosition, b: RectPosition): boolean;
     updateSystem(rect: ElementRect, position: RectPosition): void;
+    updateRect(rect: ElementRect, position: RectPosition): void;
   }
 
   export interface YAxis {
@@ -18,6 +19,7 @@ module Robin {
     constrainedAreDifferent(a: RectPosition, b: RectPosition): boolean;
     independentAreDifferent(a: RectPosition, b: RectPosition): boolean;
     updateSystem(rect: ElementRect, position: RectPosition): void;
+    updateRect(rect: ElementRect, position: RectPosition): void;
   }
 
   export let XAxisBoth: XAxis = {
@@ -36,7 +38,13 @@ module Robin {
       return false;
     },
 
-    updateSystem(rect: ElementRect, position: RectPosition): void {}
+    updateSystem(rect: ElementRect, position: RectPosition): void {},
+
+    updateRect(rect: ElementRect, position: RectPosition): void {
+      let style = rect.element.style;
+      style.left = `${position.left}px`;
+      style.width = `${position.width}px`;
+    }
   };
 
   export let XAxisLeft: XAxis = {
@@ -57,6 +65,11 @@ module Robin {
 
     updateSystem(rect: ElementRect, position: RectPosition): void {
       rect.width.assignValue(position.width);
+    },
+
+    updateRect(rect: ElementRect, position: RectPosition): void {
+      let style = rect.element.style;
+      style.left = `${position.left}px`;
     }
   };
 
@@ -78,6 +91,11 @@ module Robin {
 
     updateSystem(rect: ElementRect, position: RectPosition): void {
       rect.left.assignValue(position.left);
+    },
+
+    updateRect(rect: ElementRect, position: RectPosition): void {
+      let style = rect.element.style;
+      style.width = `${position.width}px`;
     }
   };
 
@@ -101,10 +119,12 @@ module Robin {
       return a.width !== b.width || a.left !== b.left;
     },
 
-    updateSystem(rect: ElementRect, position): void {
+    updateSystem(rect: ElementRect, position: RectPosition): void {
       rect.left.assignValue(position.left);
       rect.width.assignValue(position.width);
-    }
+    },
+
+    updateRect(rect: ElementRect, position: RectPosition): void {}
   };
 
   export let YAxisBoth: YAxis = {
@@ -123,7 +143,13 @@ module Robin {
       return false;
     },
 
-    updateSystem(rect: ElementRect, position: RectPosition): void {}
+    updateSystem(rect: ElementRect, position: RectPosition): void {},
+
+    updateRect(rect: ElementRect, position: RectPosition): void {
+      let style = rect.element.style;
+      style.top = `${position.top}px`;
+      style.height = `${position.height}px`;
+    }
   };
 
   export let YAxisTop: YAxis = {
@@ -144,6 +170,11 @@ module Robin {
 
     updateSystem(rect: ElementRect, position: RectPosition): void {
       rect.height.assignValue(position.height);
+    },
+
+    updateRect(rect: ElementRect, position: RectPosition): void {
+      let style = rect.element.style;
+      style.top = `${position.top}px`;
     }
   };
 
@@ -165,6 +196,11 @@ module Robin {
 
     updateSystem(rect: ElementRect, position: RectPosition): void {
       rect.top.assignValue(position.top);
+    },
+
+    updateRect(rect: ElementRect, position: RectPosition): void {
+      let style = rect.element.style;
+      style.height = `${position.height}px`;
     }
   };
 
@@ -191,8 +227,9 @@ module Robin {
     updateSystem(rect: ElementRect, position: RectPosition): void {
       rect.top.assignValue(position.top);
       rect.height.assignValue(position.height);
-    }
+    },
 
+    updateRect(rect: ElementRect, position: RectPosition): void {}
   }
 
 }

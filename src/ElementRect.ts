@@ -37,7 +37,7 @@ module Robin {
     private position: RectPosition;
 
     // the element that's being managed
-    private element: HTMLElement;
+    public element: HTMLElement;
 
     private observer: MutationObserver;
 
@@ -111,47 +111,9 @@ module Robin {
     /**
      * Set the Rect's current position.
      */
-    private setRectPosition(rect: RectPosition): void {
-      let style = this.element.style;
-      let positionChanged = false;
-      let left  = 0;
-      let top = 0;
-
-      switch (this.xAxis.constraint) {
-        case XConstraint.LEFT:
-          positionChanged = true;
-          left = rect.left;
-          break;
-        case XConstraint.WIDTH:
-          style.width = `${rect.width}px`;
-          break;
-        case XConstraint.LEFT_AND_WIDTH:
-          positionChanged = true;
-          left = rect.left;
-          style.width = `${rect.width}px`;
-          break;
-      }
-
-      switch (this.yAxis.constraint) {
-        case YConstraint.TOP:
-          positionChanged = true;
-          top = rect.top;
-          break;
-        case YConstraint.HEIGHT:
-          style.height = `${rect.height}px`;
-          break;
-        case YConstraint.TOP_AND_HEIGHT:
-          positionChanged = true;
-          top = rect.top;
-          style.height = `${rect.height}px`;
-          break;
-      }
-
-      if (positionChanged) {
-        style.transform = `translate(${left}px, ${top}px)`;
-        style.left = "0px";
-        style.top = "0px";
-      }
+    private setRectPosition(position: RectPosition): void {
+      this.xAxis.updateRect(this, position);
+      this.yAxis.updateRect(this, position);
     }
 
     private isConstrainedPositionDifferent(position: RectPosition): boolean {
