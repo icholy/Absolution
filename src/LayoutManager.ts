@@ -9,6 +9,31 @@ class LayoutManager {
   system = new Constraints.System();
   managers = [] as ElementManager[];
 
+  constructor(root: HTMLElement) {
+    let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
+    let el: HTMLElement;
+    while (el = iterator.nextNode() as any) {
+      let isRegistered = false;
+      let manager = null;
+      Object.keys(el.dataset).forEach(key => {
+        if (key.indexOf("anchor") === 0) {
+          if (!isRegistered) {
+            let container = null;
+            if (el.dataset["anchorIn"]) {
+              container = document.getElementById(el.dataset["anchorIn"]);
+            }
+            manager = this.register(el, container);
+            isRegistered = true;
+          }
+          let property = key.substr(6).toLowerCase();
+          if (property !== "" && property !== "in") {
+            manager.constrain(property, el.dataset[key]);
+          }
+        }
+      });
+    }
+  }
+
   /**
    * Register an element with the layout
    */

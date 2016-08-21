@@ -57,32 +57,7 @@
 
   <script>
 
-    window.layout = new LayoutManager();
-
-    let elements = document.getElementsByTagName("*");
-
-    for (let i = 0; i < elements.length; i++) {
-      let el = elements[i];
-      let isRegistered = false;
-      let manager = null;
-      Object.keys(el.dataset).forEach(function (key) {
-        if (key.indexOf("anchor") === 0) {
-          if (!isRegistered) {
-            let container = null;
-            if (el.dataset["anchorIn"]) {
-              container = document.getElementById(el.dataset["anchorIn"]);
-            }
-            manager = layout.register(el, container);
-            isRegistered = true;
-          }
-          let property = key.substr(6).toLowerCase();
-          if (property !== "" && property !== "in") {
-            manager.constrain(property, el.dataset[key]);
-          }
-        }
-      });
-    }
-
+    window.layout = new LayoutManager(document.body);
 
     function makeOscillator() {
 
