@@ -124,7 +124,7 @@ let manager = new Absolution.Manager();
 manager.initialize(/* options */);
 ```
 
-By default, the manager will walk the entire DOM and `Manager#register` Elements which have an 
+By default, the manager will walk the entire DOM and register Elements which have an 
 `a-rect` or `a-style` attribute.  This behaviour is configured via an options object passed 
 into the `Manager#initialize` method.
 
@@ -156,7 +156,7 @@ Default Manager Options:
 
 ## Manually managing Element life-cycle
 
-Element life-cycles can be manually managed using the `register` and `unregister` methods on the `Manager`.
+Element life-cycles can be manually managed using the `Manager#register` and `Manager@unregister` methods.
 
 ``` ts
 // start managing the element.
