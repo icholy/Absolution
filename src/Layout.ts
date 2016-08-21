@@ -5,7 +5,7 @@ module Absolution {
     findElements?:    boolean;
   }
 
-  const defaultLayoutOptions: LayoutOptions = {
+  const defaultOptions: LayoutOptions = {
     findStyleSheets: true,
     findElements:    true
   };
@@ -19,7 +19,7 @@ module Absolution {
     private changedRects: ManagedRect[] = [];
     private updateIsRequested = false;
 
-    attachTo(root: HTMLElement, options: LayoutOptions = defaultLayoutOptions) {
+    attachTo(root: HTMLElement, options: LayoutOptions = defaultOptions) {
 
       // add the special rects
       new ViewportRect(this);
