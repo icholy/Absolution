@@ -86,6 +86,16 @@ describe("Constraints", function () {
       });
 
     });
+
+    describe("Variables", function () {
+
+      it("should delete a variable", function () {
+        system.$.A = 100;
+        system.destroy("A");
+        expect(system.has("A")).toBe(false);
+      });
+
+    });
     
   });
 

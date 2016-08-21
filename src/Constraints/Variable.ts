@@ -3,7 +3,7 @@ module Constraints {
   export class Variable {
 
     private relationships: Relationship[] = [];
-    private shouldPreserve: boolean = true;
+    private shouldPreserve = false;
     private flexibility = 0.001;
 
     constructor(
