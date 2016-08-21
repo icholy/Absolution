@@ -38,6 +38,10 @@ module Absolution {
       return result;
     }
 
+    /**
+     * Export the environments data. This is used to pre-compile rules
+     * for faster startup time and faster page load (no parser needed).
+     */
     getExportData(): EnvData {
       return {
         cache:       this.parserCache,
@@ -59,6 +63,9 @@ module Absolution {
       return selectors;
     }
 
+    /**
+     * Parse and save rulesets.
+     */
     private parseRulesets(rulesets: RuleSet[]): void {
       for (let { selector, rules } of rulesets) {
         switch (selector.type) {
@@ -89,12 +96,18 @@ module Absolution {
       }
     }
 
+    /**
+     * Load and save a stylesheet.
+     */
     loadStyleSheet(stylesheet: StyleSheet): void {
       this.stylesheets.push(stylesheet);
       this.parseRulesets(stylesheet.rulesets);
       this.userVariables.push(...stylesheet.variables);
     }
 
+    /**
+     * Parse a stylesheet as a string and load it.
+     */
     parseStyleSheet(input: string): void {
       try {
         let stylesheet = this.parse<StyleSheet>(input, { startRule: "stylesheet" });
@@ -108,6 +121,9 @@ module Absolution {
       }
     }
 
+    /**
+     * Get an array of class names from an Element.
+     */
     private getClassNames(el: HTMLElement): string[] {
       let classNames = el.className.split(" ");
       return classNames.map(name => name.trim());
@@ -165,6 +181,9 @@ module Absolution {
       return options;
     }
 
+    /**
+     * Create a rule from its components. Parse if need be.
+     */
     private ruleFor(target: string, text: string, expr?: Expression): Rule {
       if (!expr) {
         expr = this.parse<Expression>(text, { startRule: "expression" });
@@ -172,6 +191,10 @@ module Absolution {
       return { target, text, expr };
     }
 
+    /**
+     * Get a string identifier from a Rule. This will throw an error 
+     * if the underlying expression is not an IdentNode.
+     */
     private identFrom({ target, text, expr }: Rule): string {
       if (!expr) {
         expr = this.ruleFor(target, text).expr;
@@ -182,6 +205,9 @@ module Absolution {
       return expr.value;
     }
 
+    /**
+     * Add the rule to the rect options.
+     */
     private handleRule(options: RectOptions, rule: Rule): void {
       try {
         let ident: string;
@@ -222,22 +248,38 @@ module Absolution {
       }
     }
 
+    /**
+     * Check if there are any rules for the specified rect id.
+     */
     hasRulesForId(id: string): boolean {
       return this.rulesById.hasOwnProperty(id);
     }
 
+    /**
+     * Check if there are any rules for the specified rect class.
+     */
     hasRulesForClass(id: string): boolean {
       return this.rulesByClass.hasOwnProperty(id);
     }
 
+    /**
+     * Check if there are any rules for the specified virtual rect id.
+     */
     hasRulesForVirtual(id: string): boolean {
       return this.rulesByVirtual.hasOwnProperty(id);
     }
 
+    /**
+     * Get an array of variables declared in the stylesheet.
+     */
     getUserVariables(): VariableNode[] {
       return this.userVariables;
     }
 
+    /**
+     * Get an array of rect options for all the virtual rects
+     * in the stylesheet.
+     */
     getVirtuals(): RectOptions[] {
       return Object.keys(this.rulesByVirtual).map(id => {
         let options: RectOptions = {

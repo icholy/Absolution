@@ -1,5 +1,8 @@
 module Absolution {
 
+  /**
+   * Rect configuration options.
+   */
   export interface RectOptions {
     id:        string;
     container: string;
@@ -8,6 +11,9 @@ module Absolution {
     context?:  Context;
   }
 
+  /**
+   * A managed rect is a rect who's properties can be constrained.
+   */
   export class ManagedRect extends Rect {
 
     // used to check if a property has already been constrained.
@@ -192,12 +198,18 @@ module Absolution {
       }
     }
 
+    /**
+     * Throws an exception if the specified property has already been constrained.
+     */
     private assertIsNotConstrained(propertyName: string): void {
       if (this.expressions.hasOwnProperty(propertyName)) {
         throw new Error(`it's already set to (${this.expressions[propertyName]})`);
       }
     }
 
+    /**
+     * Convert a property name to it's enumerated value.
+     */
     private getPropertyByName(name: string): Property {
       if (!nameToProperty.hasOwnProperty(name)) {
         throw new Error(`"${name}" is not a supported property`);
@@ -205,6 +217,9 @@ module Absolution {
       return nameToProperty[name];
     }
 
+    /**
+     * Format an Error caused by an invalid constraint.
+     */ 
     private constraintError(propertyName: string, expression: string, error: any): Error {
       let reason = error instanceof Error ? error.message : error.toString();
       let description = `${this.id}.${propertyName}="${expression}"`;
