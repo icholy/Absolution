@@ -24,6 +24,9 @@ module Absolution {
     private isUpdatePending = false;
     private rects           = {} as { [id: string]: Rect; };
 
+    /**
+     * Initializes the environment and finds rects in the dom.
+     */
     initialize(options: ManagerOptions = defaultOptions) {
 
       // add the special rects
