@@ -13,8 +13,8 @@ class ElementManager {
     private element:   HTMLElement,
     private container: HTMLElement
   ) {
-    this.id = element.id;
-    let id = element.id;
+    this.id = element.id ? element.id : this.guid();
+    let id = this.id;
 
     // x axis
     system.subtract(`${id}.width`, `${id}.right`, `${id}.left`);
@@ -113,6 +113,16 @@ class ElementManager {
 
   private isConstrained(property: string): boolean {
     return this.expressions.hasOwnProperty(property);
+  }
+
+  private guid(): string {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+      s4() + '-' + s4() + s4() + s4();
   }
 
 }
