@@ -139,13 +139,6 @@ class ElementRect implements Rect {
   }
 
   /**
-   * Get the Rect's current position.
-   */
-  getPosition(): RectPosition {
-    return this.element.getBoundingClientRect();
-  }
-
-  /**
    * Update the rect using the values in the constraint system
    */
   updateRect(): void {
@@ -173,7 +166,7 @@ class ElementRect implements Rect {
       return;
     }
 
-    let position = this.getPosition();
+    let position = this.element.getBoundingClientRect();
 
     // x axis
     switch (this.xAxisDependencies) {
