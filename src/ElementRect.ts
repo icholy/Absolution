@@ -22,7 +22,7 @@ const enum Axis { X, Y, NONE }
 const enum XDependency { LEFT_AND_WIDTH, LEFT, WIDTH, NONE }
 const enum YDependency { TOP_AND_HEIGHT, TOP, HEIGHT, NONE }
 
-class ElementRect implements Rect {
+class ElementRect extends Rect {
 
   private expressions: { [propertyName: string]: string; } = {};
 
@@ -34,47 +34,20 @@ class ElementRect implements Rect {
   private constrained = [] as Property[];
   private isDebugEnabled = false;
 
-  // these variables represent the element's propeties
-  // inside the constaint system
-  private left:   Constraints.Variable;
-  private width:  Constraints.Variable;
-  private top:    Constraints.Variable;
-  private height: Constraints.Variable;
-
-  // these are the actual left & top values assigned
-  // to the element
-  private leftOffset: Constraints.Variable;
-  private topOffset:  Constraints.Variable;
-
   // current Rect position
   private currentPosition: RectPosition;
 
+  // the element that's being managed
+  private element: HTMLElement;
+
   constructor(
-    private id:        string,
-    private element:   HTMLElement,
-    private container: string,
-    private system:    Constraints.System
+    id:        string,
+    element:   HTMLElement,
+    container: string,
+    system:    Constraints.System
   ) {
-
-    // x axis
-    system.subtract(`${id}.width`, `${id}.right`, `${id}.left`);
-    system.divide(`${id}_tmp1`, `${id}.width`, 2);
-    system.add(`${id}.center-x`, `${id}.left`, `${id}_tmp1`);
-    system.subtract(`${id}.left-offset`, `${id}.left`, `${container}.left`);
-
-    this.left       = system.getVariable(`${id}.left`);
-    this.leftOffset = system.getVariable(`${id}.left-offset`);
-    this.width      = system.getVariable(`${id}.width`);
-
-    // y axis
-    system.subtract(`${id}.height`, `${id}.bottom`, `${id}.top`);
-    system.divide(`${id}_tmp2`, `${id}.height`, 2);
-    system.add(`${id}.center-y`, `${id}.top`, `${id}_tmp2`);
-    system.subtract(`${id}.top-offset`, `${id}.top`, `${container}.top`);
-
-    this.top       = system.getVariable(`${id}.top`);
-    this.topOffset = system.getVariable(`${id}.top-offset`);
-    this.height    = system.getVariable(`${id}.height`);
+    super(system, id, container);
+    this.element = element;
   }
 
   /**
