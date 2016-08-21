@@ -4,6 +4,8 @@ module Absolution {
   /**
    * A watcher is responsible for triggering an update
    * when an element's properties change.
+   *
+   * Note: this interface is still under development.
    */
   export interface Watcher {
     destroy(): void;
