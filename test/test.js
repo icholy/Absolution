@@ -2,23 +2,6 @@ describe("Constraints", function () {
 
   describe("Variable", function () {
 
-    it("should notify listeners when value changes", function () {
-      var v = new Constraints.Variable("name");
-      var spy = jasmine.createSpy('notified');
-      v.onChange(spy);
-      v.setValue(123);
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it("should not notify listeners when value isn't changed", function () {
-      var v = new Constraints.Variable("name");
-      var spy = jasmine.createSpy('notified');
-      v.setValue(123);
-      v.onChange(spy);
-      v.setValue(123);
-      expect(spy).not.toHaveBeenCalled();
-    });
-
     it("should throw an error if it's already set to a different value", function () {
       var v = new Constraints.Variable("name");
       var spy = jasmine.createSpy('notified');

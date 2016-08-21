@@ -2,7 +2,7 @@ module Constraints {
 
   export class Variable {
 
-    private listeners: Function[] = [];
+    private listeners: Relationship[] = [];
     private shouldPreserve: boolean = true;
     private flexibility = 0.001;
 
@@ -42,8 +42,15 @@ module Constraints {
       }
     }
 
-    onChange(listener: Function): void {
-      this.listeners.push(listener);
+    attach(relationship: Relationship): void {
+      this.listeners.push(relationship);
+    }
+
+    detach(relationship: Relationship): void {
+      let index = this.listeners.indexOf(relationship);
+      if (index !== -1) {
+        this.listeners.splice(index, 1);
+      }
     }
 
     toString(): string {
@@ -51,8 +58,8 @@ module Constraints {
     }
 
     private notify(): void {
-      for (let listener of this.listeners) {
-        listener();
+      for (let relationship of this.listeners) {
+        relationship.variableValueChanged();
       }
     }
 

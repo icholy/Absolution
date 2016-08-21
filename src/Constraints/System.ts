@@ -40,13 +40,6 @@ module Constraints {
     }
 
     /**
-     * Add a listener to get invoked when a variable's value changes
-     */
-    listenTo(name: string, listener: Function): void {
-      this.getVariable(name).onChange(listener);
-    }
-
-    /**
      * Set a variable's value
      */
     set(name: string, v: number|string): void {

@@ -4,9 +4,9 @@ module Constraints {
 
     abstract variableValueChanged(): void;
 
-    protected listenTo(...variables: Variable[]): void {
+    protected attachTo(...variables: Variable[]): void {
       for (let v of variables) {
-        v.onChange(() => this.variableValueChanged());
+        v.attach(this);
       }
       this.variableValueChanged();
     }
@@ -24,7 +24,7 @@ module Constraints {
       private right: Variable
     ) {
       super();
-      this.listenTo(left, right);
+      this.attachTo(left, right);
     }
 
     variableValueChanged(): void {
@@ -52,7 +52,7 @@ module Constraints {
       private sum:     Variable
     ) {
       super();
-      this.listenTo(addend1, addend2, sum);
+      this.attachTo(addend1, addend2, sum);
     }
 
     variableValueChanged(): void {
@@ -86,7 +86,7 @@ module Constraints {
       private product: Variable
     ) {
       super();
-      this.listenTo(mult1, mult2, product);
+      this.attachTo(mult1, mult2, product);
     }
 
     variableValueChanged() {
@@ -120,7 +120,7 @@ module Constraints {
       private difference: Variable
     ) {
       super();
-      this.listenTo(minuend, subtrahend, difference);
+      this.attachTo(minuend, subtrahend, difference);
     }
 
     variableValueChanged() {
@@ -154,7 +154,7 @@ module Constraints {
       private quotient: Variable
     ) {
       super();
-      this.listenTo(dividend, divisor, quotient);
+      this.attachTo(dividend, divisor, quotient);
     }
 
     variableValueChanged(): void {
