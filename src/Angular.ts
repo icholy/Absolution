@@ -60,6 +60,7 @@ module Robin.Angular {
 
   function Directive(layout: Layout): ng.IDirective {
     return {
+      restrict: "A",
       scope: false,
       link: (scope: ng.IScope, element: ng.IAugmentedJQuery, attr: ng.IAttributes) => {
         let el = element[0];
