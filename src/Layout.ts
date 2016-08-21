@@ -46,10 +46,12 @@ module Robin {
 
     constructor(root: HTMLElement) {
 
+      // add the special rects
       this.rects.push(new ViewportRect(this));
       this.rects.push(new DocumentRect(this));
       this.rects.push(new BodyRect(this));
 
+      // walk the dom and find elements with robin attributes
       let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
       let el: HTMLElement;
       while (el = iterator.nextNode() as any) {
