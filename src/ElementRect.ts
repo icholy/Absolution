@@ -36,7 +36,7 @@ module Robin {
     private yAxisConstraints = YConstraint.NONE;
 
     // current Rect position
-    private currentPosition: RectPosition;
+    private position: RectPosition;
 
     // the element that's being managed
     private element: HTMLElement;
@@ -129,7 +129,7 @@ module Robin {
     /**
      * Set the Rect's current position.
      */
-    setPosition(rect: RectPosition): void {
+    setRectPosition(rect: RectPosition): void {
       let style = this.element.style;
       let positionChanged = false;
       let left  = 0;
@@ -182,20 +182,20 @@ module Robin {
         width:  this.width.getValue(),
         height: this.height.getValue()
       };
-      if (this.isPositionDifferent(position)) {
-        this.setPosition(position);
-        this.currentPosition = position;
+      if (this.isConstrainedPositionDifferent(position)) {
+        this.setRectPosition(position);
+        this.position = position;
       }
     }
 
-    private isPositionDifferent(position: RectPosition): boolean {
-      return !this.currentPosition
-          || this.isXPositionDifferent(position)
-          || this.isYPositionDifferent(position);
+    private isConstrainedPositionDifferent(position: RectPosition): boolean {
+      return !this.position
+          || this.isConstrainedXPositionDifferent(position)
+          || this.isConstrainedYPositionDifferent(position);
     }
 
-    private isXPositionDifferent(position: RectPosition): boolean {
-      let current = this.currentPosition;
+    private isConstrainedXPositionDifferent(position: RectPosition): boolean {
+      let current = this.position;
       switch (this.xAxisConstraints) {
         case XConstraint.LEFT_AND_WIDTH:
           return current.left !== position.left
@@ -209,8 +209,8 @@ module Robin {
       }
     }
 
-    private isYPositionDifferent(position: RectPosition): boolean {
-      let current = this.currentPosition;
+    private isConstrainedYPositionDifferent(position: RectPosition): boolean {
+      let current = this.position;
       switch (this.yAxisConstraints) {
         case YConstraint.TOP_AND_HEIGHT:
           return current.top !== position.top
@@ -224,20 +224,62 @@ module Robin {
       }
     }
 
-    /**
-     * Update the constaint system using the elements properties.
-     */
-    updateSystem(): void {
+    private isIndependentPositionDifferent(position: RectPosition): boolean {
 
       // if both axis are completely constrained, we don't need the element's position
       if (
         this.xAxisConstraints === XConstraint.LEFT_AND_WIDTH &&
         this.yAxisConstraints === YConstraint.TOP_AND_HEIGHT
       ) {
-        return;
+        return false;
       }
 
+      return !this.position
+          || this.isConstrainedXPositionDifferent(position)
+          || this.isConstrainedYPositionDifferent(position);
+    }
+
+    private isIndependentXPositionDifferent(position: RectPosition): boolean {
+      let current = this.position;
+      switch (this.xAxisConstraints) {
+        case XConstraint.NONE:
+          return current.left !== position.left
+              || current.width !== position.width;
+        case XConstraint.WIDTH:
+          return current.left !== position.left;
+        case XConstraint.LEFT:
+          return current.width !== position.width;
+        default:
+          return false;
+      }
+    }
+
+    private isIndependentYPositionDifferent(position: RectPosition): boolean {
+      let current = this.position;
+      switch (this.yAxisConstraints) {
+        case YConstraint.NONE:
+          return current.top !== position.top
+              || current.left !== position.left;
+        case YConstraint.HEIGHT:
+          return current.top !== position.top;
+        case YConstraint.TOP:
+          return current.height !== position.height;
+        default:
+          return false;
+      }
+    }
+
+    updateSystem(): void {
       let position = Utils.getRectPosition(this.element);
+      if (this.isIndependentPositionDifferent(position)) {
+        this.setSystemPosition(position);
+      }
+    }
+
+    /**
+     * Update the constaint system using the elements properties.
+     */
+    setSystemPosition(position: RectPosition): void {
 
       // x axis
       switch (this.xAxisConstraints) {
