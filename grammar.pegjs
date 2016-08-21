@@ -83,6 +83,7 @@ primary
         return expr;
       }
     / func_call
+    / property
     / ident
 
 func_call
@@ -127,8 +128,18 @@ numeric
       };
     }
 
+property
+  = parent:ident "." name:ident {
+    return {
+      tag:    "property",
+      parent: parent,
+      name:   name,
+      value:  text()
+    };
+  }
+
 ident
-  = [a-zA-Z$_-] [a-zA-Z0-9.$_-]* {
+  = [a-zA-Z$_-] [a-zA-Z0-9$_-]* {
       return {
         tag:   "ident",
         value: text()

@@ -34,6 +34,13 @@ declare module Absolution {
     value: string;
   }
 
+  export interface PropertyNode {
+    tag:    string;
+    parent: string;
+    name:   string;
+    value:  string;
+  }
+
   export interface NumberIdent {
     tag:   string;
     value: number;

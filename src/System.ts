@@ -250,6 +250,7 @@ module Absolution {
     private evaluate(node: Expression, ctx: Context): Variable {
       switch (node.tag) {
         case "ident":
+        case "property":
           return this.getVariable(node.value, ctx);
         case "number":
           return new Constant(node.value);
