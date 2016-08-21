@@ -152,7 +152,7 @@ module Constraints {
      * Dump all the relationships as strings
      */
     toString(): string {
-      return this.relationships.map(rel => rel.toString()).join("\n");
+      return this.relationships.map(r => r.toString()).join("\n");
     }
 
     private destroyVariable(v: Variable): void {
