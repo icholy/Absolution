@@ -5,7 +5,25 @@ declare module Absolution {
     startRule?: string;
   }
 
+  export interface SyntaxError {
+    location: {
+      start: {
+        line:   number;
+        column: number;
+        offset: number;
+      };
+      end: {
+        line:   number;
+        column: number;
+        offset: number;
+      };
+    },
+    message: string;
+    stack:   any;
+  }
+
   export var Parser: {
+    SyntaxError: any;
     parse<T>(input: string, options?: ParseOptions): T;
   };
 

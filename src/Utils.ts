@@ -48,6 +48,14 @@ module Absolution {
       };
     }
 
+    static formatParserError(e: SyntaxError, input: string): string {
+      let loc = e.location.start;
+      let message = e.message;
+      let line = input.split(/\r\n|\r|\n/)[loc.line-1];
+      let arrow = Array(loc.column).join("-") + "^";
+      return `Line: ${loc.line} ${message}\n\n${line}\n${arrow}\n`;
+    }
+
   }
 
 }
