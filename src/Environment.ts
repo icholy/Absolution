@@ -82,6 +82,7 @@ module Absolution {
     parseStyleSheet(input: string): void {
       let stylesheet = Parser.parse<StyleSheet>(input, { startRule: "stylesheet" });
       this.parseRulesets(stylesheet.rulesets);
+      this.userVariables.push(...stylesheet.variables);
     }
 
     private getClassNames(el: HTMLElement): string[] {

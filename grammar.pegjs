@@ -143,12 +143,12 @@ property
   }
 
 variable
-  = name:ident _ ":" _ expr:expression_with_text _ {
+  = _ "$" name:ident _ ":" _ expr:expression_with_text _ ";" _ {
     return {
       tag:  "variable",
-      name: ident.value,
-      expt: expr,
-      text: text
+      name: name.value,
+      expr: expr,
+      text: expr.text
     }
   }
 

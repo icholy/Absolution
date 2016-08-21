@@ -19,11 +19,7 @@ module Absolution {
     constructor(
       public env    = new Environment(),
       public system = new System()
-    ) {
-      for (let userVar of env.getUserVariables()) {
-        system.setNode(userVar.name, userVar.expr);
-      }
-    }
+    ) {}
 
     attachTo(root: HTMLElement, options: LayoutOptions = defaultOptions) {
 
@@ -35,6 +31,11 @@ module Absolution {
       // find rulesets from script tags
       if (options.findStyleSheets) {
         this.env.findStyleSheets();
+      }
+
+      // add variables from stylesheet
+      for (let userVar of this.env.getUserVariables()) {
+        this.system.setNode(userVar.name, userVar.expr);
       }
 
       // walk the dom and find elements with a-attributes
