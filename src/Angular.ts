@@ -1,7 +1,7 @@
 
 module Absolution.Angular {
 
-  class ScopeContext implements Context {
+  class AngularContext implements Context {
 
     private variables: { [name: string]: Variable; };
     private functions: { [name: string]: FuncEntry; };
@@ -78,7 +78,7 @@ module Absolution.Angular {
       this.options = options;
     }
 
-    getOptionsWithContext(context: ScopeContext): RectOptions {
+    getOptionsWithContext(context: AngularContext): RectOptions {
       let container = context.identToName({
         tag:   "ident",
         value: this.options.container
@@ -128,7 +128,7 @@ module Absolution.Angular {
           controllers: Controller[]
         ): void {
           let [ctrl, parentCtrl] = controllers;
-          let context = new ScopeContext(layout, scope, parentCtrl);
+          let context = new AngularContext(layout, scope, parentCtrl);
           let options = ctrl.getOptionsWithContext(context)
           let el = element[0];
           let rect = new ElementRect(el, layout, options);
