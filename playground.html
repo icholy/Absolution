@@ -77,6 +77,13 @@
       top:    min(X.bottom, Y.top);
     }
 
+    #W {
+      center-y: C.center-y;
+      right:    C.center-x;
+      width:    C.height / 2;
+      top:      C.top + 200 * x;
+    }
+
   </script>
 
 </head>
@@ -92,13 +99,7 @@
     C
   </div>
 
-  <div id="W" style="background-color: orange"
-    r-center-y="C.center-y"
-    r-right="C.center-x"
-    r-width="C.height / 2"
-    r-top="C.top + 200 * x">
-    W
-  </div>
+  <div id="W" style="background-color: orange">W</div>
 
   <div id="X" 
     r-center-in="viewport"
