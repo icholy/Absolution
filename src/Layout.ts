@@ -143,7 +143,7 @@ module Absolution {
         expr = this.ruleFor(target, text).expr;
       }
       if (expr.tag !== "ident") {
-        throw new Error(`"${text}" is not an identifier`);
+        throw new Error(`"${text}" is a ${expr.tag} not an identifier`);
       }
       return expr.value;
     }
