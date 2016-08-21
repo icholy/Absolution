@@ -31,7 +31,10 @@
     window.B = new ElementManager(system, document.getElementById("B"), layout);
     window.C = new ElementManager(system, document.getElementById("C"), layout);
 
-    A.constrain("width", 10000);
+    A.constrain("width", 100);
+    B.constrain("top", "A.bottom");
+    B.constrain("left", "A.right + 100");
+    C.constrain("top", "B.bottom");
 
     layout.updateLayout();
 
