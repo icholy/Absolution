@@ -96,12 +96,12 @@ class ElementRect extends Rect {
           positionChanged = true;
           top = rect.top;
           break;
-        case Property.HEIGHT:
-          style.height = `${rect.height}px`;
-          break;
         case Property.LEFT:
           positionChanged = true;
           left = rect.left;
+          break;
+        case Property.HEIGHT:
+          style.height = `${rect.height}px`;
           break;
         case Property.WIDTH:
           style.width = `${rect.width}px`;
