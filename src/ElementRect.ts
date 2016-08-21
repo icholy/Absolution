@@ -1,5 +1,5 @@
 
-class ElementManager extends RectManager {
+class ElementRect extends Rect {
 
   constructor(
     system: Constraints.System,

@@ -4,10 +4,10 @@ interface ElementOptions {
   container?: HTMLElement
 }
 
-class LayoutManager {
+class Layout {
 
   system = new Constraints.System();
-  managers = [] as RectManager[];
+  rects = [] as Rect[];
 
   constructor(root: HTMLElement) {
 
@@ -24,19 +24,20 @@ class LayoutManager {
 
     let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
     let el: HTMLElement;
+
     while (el = iterator.nextNode() as any) {
       let isRegistered = false;
-      let manager = null;
+      let rect = null;
       Object.keys(el.dataset).forEach(key => {
         if (!attributeMap[key]) {
           return;
         }
         if (!isRegistered) {
-          manager = this.register(el, null);
+          rect = this.register(el, null);
           isRegistered = true;
         }
         let property = attributeMap[key];
-        manager.constrain(property, el.dataset[key]);
+        rect.constrain(property, el.dataset[key]);
       });
     }
   }
@@ -44,18 +45,18 @@ class LayoutManager {
   /**
    * Register an element with the layout
    */
-  register(element: HTMLElement, container?: HTMLElement): ElementManager {
-    let m = new ElementManager(this.system, element, container);
-    this.managers.push(m);
-    return m;
+  register(element: HTMLElement, container?: HTMLElement): Rect {
+    let r = new ElementRect(this.system, element, container);
+    this.rects.push(r);
+    return r;
   }
 
   /**
    * Update the system from the element's actual values
    */
   updateSystem(): void {
-    for (let manager of this.managers) {
-      manager.updateSystem();
+    for (let r of this.rects) {
+      r.updateSystem();
     }
   }
 
@@ -64,8 +65,8 @@ class LayoutManager {
    */
   updateLayout(): void {
     this.system.solve();
-    for (let manager of this.managers) {
-      manager.updateRect();
+    for (let r of this.rects) {
+      r.updateRect();
     }
   }
 

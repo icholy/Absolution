@@ -29,7 +29,7 @@ interface RectPosition {
   height: number;
 }
 
-abstract class RectManager {
+abstract class Rect {
 
   private expressions: { [propertyName: string]: string; } = {};
 
