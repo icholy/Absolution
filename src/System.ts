@@ -232,16 +232,20 @@ module Robin {
         case "op":
           return this.handleOperation(node);
         case "func_call":
-          let result = this.createIntermediate();
-          let params = node.params.map(p => this.evaluate(p));
-          this.call(node.name, result, params);
-          return result;
+          return this.handleFuncCall(node);
         default:
           throw new Error("invalid expression");
       }
     }
 
-    private handleOperation(node: Expression): Variable {
+    private handleFuncCall(node: any): Variable {
+      let result = this.createIntermediate();
+      let params = node.params.map(p => this.evaluate(p));
+      this.call(node.name, result, params);
+      return result;
+    }
+
+    private handleOperation(node: any): Variable {
       let left = this.evaluate(node.left);
       let right = this.evaluate(node.right);
       let result = this.createIntermediate();
