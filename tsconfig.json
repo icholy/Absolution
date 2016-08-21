@@ -12,8 +12,7 @@
     "src/Utils.ts",
     "src/Axis.ts",
     "src/Rect.ts",
-    "src/DocumentRect.ts",
-    "src/ViewportRect.ts",
+    "src/SpecialRects.ts",
     "src/ElementRect.ts",
     "src/Layout.ts"
   ]
