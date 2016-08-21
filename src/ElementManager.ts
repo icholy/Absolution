@@ -58,25 +58,25 @@ class ElementManager {
     let id = this.id;
     let rect = this.getBoundingRect();
     if (this.xAxisConstraints === 0) {
-      this.system.set(`${id}.left`, rect.left);
-      this.system.set(`${id}.width`, rect.width);
+      this.system.change(`${id}.left`, rect.left);
+      this.system.change(`${id}.width`, rect.width);
     }
     else if (this.xAxisConstraints === 1) {
       if (this.isConstrained("width")) {
-        this.system.set(`${id}.left`, rect.left);
+        this.system.change(`${id}.left`, rect.left);
       } else {
-        this.system.set(`${id}.width`, rect.width);
+        this.system.change(`${id}.width`, rect.width);
       }
     }
     if (this.yAxisConstraints === 0) {
-      this.system.set(`${id}.top`, rect.top);
-      this.system.set(`${id}.height`, rect.height);
+      this.system.change(`${id}.top`, rect.top);
+      this.system.change(`${id}.height`, rect.height);
     }
     else if (this.yAxisConstraints === 1) {
       if (this.isConstrained("height")) {
-        this.system.set(`${id}.top`, rect.top);
+        this.system.change(`${id}.top`, rect.top);
       } else {
-        this.system.set(`${id}.height`, rect.height);
+        this.system.change(`${id}.height`, rect.height);
       }
     }
   }
