@@ -17,7 +17,7 @@ module Robin {
     // the element that's being managed
     public element: HTMLElement;
 
-    private watcher: Watcher;
+    private watchers: Watcher[] = [];
 
     constructor(
       id:        string,
@@ -27,8 +27,6 @@ module Robin {
     ) {
       super(layout, id, container);
       this.element = element;
-
-      this.watcher = new MutationObserverWatcher(this);
 
       let updateRect = this.updateRectPosition.bind(this);
       this.width.onChange(updateRect);
@@ -69,6 +67,10 @@ module Robin {
       } catch (e) {
         throw new Error(this.createErrorMessage(propertyName, expression, e));
       }
+    }
+
+    addWatcher(watcher: Watcher): void {
+      this.watchers.push(watcher);
     }
 
     /**
@@ -133,7 +135,9 @@ module Robin {
       system.destroyVariable(this.left);
       system.destroyVariable(this.leftOffset);
       system.destroyVariable(this.width);
-      this.watcher.destroy();
+      for (let watcher of this.watchers) {
+        watcher.destroy();
+      }
     }
 
     private assertIsNotConstrained(propertyName: string): void {

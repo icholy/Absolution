@@ -18,6 +18,7 @@ module Robin {
     "r-size":      "size",
     "r-fill":      "fill",
     "r-style":     "style",
+    "r-watch":     "watch",
 
     "data-r-id":        "id",
     "data-r-left":      "left",
@@ -35,7 +36,8 @@ module Robin {
     "data-r-align-y":   "align-y",
     "data-r-size":      "size",
     "data-r-fill":      "fill",
-    "data-r-style":     "style"
+    "data-r-style":     "style",
+    "data-r-watch":     "watch"
   };
 
   export class Layout {
@@ -97,6 +99,13 @@ module Robin {
 
     private applyProperty(rect: ElementRect, name: string, value: string): void {
       switch (name) {
+        case "watch":
+          if (value !== "mutation") {
+            throw new Error(
+              `${rect.getId()}.r-watch value error: "${value}" is not a supported watcher`);
+          }
+          rect.addWatcher(new MutationObserverWatcher(rect));
+          break;
         case "style":
           value.split(";").forEach(attr => {
             attr = attr.trim();
