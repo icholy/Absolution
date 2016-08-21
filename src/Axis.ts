@@ -4,12 +4,8 @@ module Robin {
   export const enum Axis { X, Y }
 
   export const enum Property {
-
-    // X Axis
-    LEFT, RIGHT, WIDTH, CENTER_X,
-
-    // Y Axis
-    TOP, BOTTOM, HEIGHT, CENTER_Y
+    LEFT, RIGHT, WIDTH, CENTER_X, // X Axis
+    TOP, BOTTOM, HEIGHT, CENTER_Y // Y Axis
   }
 
   export const nameToProperty = {
