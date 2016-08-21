@@ -26,6 +26,12 @@
 
     #origin {
       background-color: black;
+      border-radius: 30px;
+    }
+
+    .sub_block {
+      background-color: red;
+      border-radius: 5px;
     }
 
   </style>
@@ -45,8 +51,16 @@
     }
 
     .block {
-      center-x: origin.center-x + sin(y * ($index + 1)) * 20px * x * ($index + 1);
-      center-y: origin.center-y + cos(y * ($index + 1)) * 20px * x * ($index + 1);
+      center-x: origin.center-x + sin(y * ($index + 1)) * 70px * x * ($index + 1);
+      center-y: origin.center-y + cos(y * ($index + 1)) * 70px * x * ($index + 1);
+    }
+
+    .sub_block {
+      width:       10px;
+      height:      10px;
+      relative-to: parent;
+      center-x:    parent.center-x + sin(y * ($index + 1)) * 70px * x * ($index + 1);
+      center-y:    parent.center-y + cos(y * ($index + 1)) * 70px * x * ($index + 1);
     }
 
   </script>
@@ -105,7 +119,7 @@
       }, 10);
 
       $scope.rects = [];
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 20; i++) {
         let color = getRandomColor();
         $scope.rects.push(color);
       }
@@ -122,6 +136,14 @@
     a-class="block"
     a-style="width: max(20px, 50px * x)"
     a-height="max(20px, 50px * x)"
-    ng-style="{ 'background-color': r }">{{$index}}</div>
+    ng-style="{ 'background-color': r }">
+
+    <div a-rect 
+      ng-repeat="r in rects" 
+      a-class="sub_block"
+      ng-style="{ 'background-color': r }">
+    </div>
+
+  </div>
 </body>
 </html>
