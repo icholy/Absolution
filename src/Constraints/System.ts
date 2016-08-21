@@ -285,7 +285,7 @@ module Constraints {
           if (target.has(property)) {
             return target.get(property);
           }
-          return target[property];
+          return undefined;
         },
         set(target: System, property: string, value: any, receiver: Proxy): void {
           target.set(property, value);
