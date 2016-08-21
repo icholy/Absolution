@@ -74,13 +74,19 @@ module Robin {
 
     public rules: Rule[] = [];
 
-    protected constrain(rule: Rule, ctx: Context): void {
-      super.constrain(rule, ctx);
-      let target = rule.target;
-      this.rules.push({
-        target: target,
-        text:   `${this.id}.${target}`,
-        expr:   { tag: "ident", value: target }
+    constructor(
+      layout: Layout,
+      options: RectOptions
+    ) {
+      super(layout, options);
+      this.rules = options.rules.map(rule => {
+        let target = rule.target;
+        let text = `${this.id}.${target}`;
+        return {
+          target: target,
+          text:   text
+          expr:   { tag: "ident", value: text }
+        };
       });
     }
 

@@ -201,7 +201,16 @@ module Robin {
       for (let { selector, rules } of rulesets) {
         switch (selector.type) {
           case "class":
-            console.log("classes are not supported yet");
+            let options: RectOptions = {
+              id:        selector.name,
+              container: null,
+              watcher:   null,
+              rules:     []
+            };
+            for (let rule of rules) {
+              this.handleRule(options, rule);
+            }
+            this.classes[selector.name] = new ClassRect(this, options);
             break;
           case "id":
             if (this.hasRuleSet(selector.name)) {
