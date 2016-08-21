@@ -122,7 +122,7 @@ class ElementManager {
     }
   }
 
-  private setStyle(name: string, variable: number): void {
+  private setStyle(name: string, variable: Constraints.Variable): void {
     let pixels = `${variable.getValue()}px`;
     if (this.isDebug) {
       console.debug(`(${this.id}) setting ${name} = ${pixels}`);
@@ -178,15 +178,19 @@ class ElementManager {
     switch (this.xAxisDependencies) {
       case XDependency.LEFT_AND_WIDTH:
         this.xAxisDependencies = isWidth ? XDependency.LEFT : XDependency.WIDTH;
+        this.constrained.push(isWidth ? Property.WIDTH : Property.LEFT);
         break;
       case XDependency.LEFT:
+        this.xAxisDependencies = XDependency.NONE;
+        this.constrained.push(Property.LEFT);
+        break;
       case XDependency.WIDTH:
         this.xAxisDependencies = XDependency.NONE;
+        this.constrained.push(Property.WIDTH);
         break;
       default:
           throw new Error(`the x axis already has 2 constraints`);
     }
-    this.constrained.push(isWidth ? Property.WIDTH : Property.LEFT);
   }
 
   private contrainYProperty(property: Property): void {
@@ -194,15 +198,19 @@ class ElementManager {
     switch (this.yAxisDependencies) {
       case YDependency.TOP_AND_HEIGHT:
         this.yAxisDependencies = isHeight ? YDependency.TOP : YDependency.HEIGHT;
+        this.constrained.push(isHeight ? Property.HEIGHT : Property.TOP);
         break;
       case YDependency.TOP:
+        this.constrained.push(Property.TOP);
+        this.yAxisDependencies = YDependency.NONE;
+        break;
       case YDependency.HEIGHT:
+        this.constrained.push(Property.HEIGHT);
         this.yAxisDependencies = YDependency.NONE;
         break;
       default:
           throw new Error(`the y axis already has 2 constraints`);
     }
-    this.constrained.push(isHeight ? Property.HEIGHT : Property.TOP);
   }
 
   private getPropertyAxis(property: Property): Axis {
