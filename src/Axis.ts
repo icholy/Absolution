@@ -16,6 +16,26 @@ module Robin {
   propertyToAxis[Property.BOTTOM]   = Axis.Y;
   propertyToAxis[Property.CENTER_Y] = Axis.Y;
 
+  export const enum Property {
+
+    // X Axis
+    LEFT, RIGHT, WIDTH, CENTER_X,
+
+    // Y Axis
+    TOP, BOTTOM, HEIGHT, CENTER_Y
+  }
+
+  export const nameToProperty = {
+    "left":     Property.LEFT,
+    "right":    Property.RIGHT,
+    "width":    Property.WIDTH,
+    "center-x": Property.CENTER_X,
+    "top":      Property.TOP,
+    "bottom":   Property.BOTTOM,
+    "height":   Property.HEIGHT,
+    "center-y": Property.CENTER_Y
+  };
+
   export interface XAxis {
     constraint: XConstraint;
     constrain(property: Property): XAxis;

@@ -1,25 +1,5 @@
 module Robin {
 
-  export const enum Property {
-
-    // X Axis
-    LEFT, RIGHT, WIDTH, CENTER_X,
-
-    // Y Axis
-    TOP, BOTTOM, HEIGHT, CENTER_Y
-  }
-
-  const nameToProperty = {
-    "left":     Property.LEFT,
-    "right":    Property.RIGHT,
-    "width":    Property.WIDTH,
-    "center-x": Property.CENTER_X,
-    "top":      Property.TOP,
-    "bottom":   Property.BOTTOM,
-    "height":   Property.HEIGHT,
-    "center-y": Property.CENTER_Y
-  };
-
   export class ElementRect extends Rect {
 
     // used to check if a property has already been constrained.
