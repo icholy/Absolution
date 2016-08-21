@@ -24,7 +24,7 @@
 }
 ```
 
-### Use expressions
+### Basic expressions can be used.
 
 ``` css
 #B {
@@ -32,7 +32,7 @@
 }
 ```
 
-### Use JavaScript variables inside expressions
+### Named variables can be set and queried from JavaScript.
 
 ``` css
 #B {
@@ -44,16 +44,32 @@
 manager.assign("x", 100);
 ```
 
-### Use JavaScript functions inside expressions
+### User defined functions can be added.
 
 ``` js
+manager.func("fooBar", () => 200);
 manager.funcs(Math, "Math");
 ```
 
 ``` css
 #foo {
   left:  B.right + Math.sin(x) * 100px;
-  width: C.height - Math.min(A.height, 200px);
+  width: C.height - Math.min(A.height, fooBar());
+}
+```
+
+### Rules can be declared inline.
+
+``` html
+<div a-rect id="A"></div>
+<div a-style="width: A.height * 3"></div>
+```
+
+### Classes are supported
+
+``` css
+.bar {
+  width: B.width / A.height;
 }
 ```
 
@@ -85,22 +101,34 @@ manager.funcs(Math, "Math");
 * `body`
 * `document`
 
+These can be used like any other rect in the system.
+
+``` css
+#item {
+  center-x: viewport.center-x;
+  top: 10px;
+}
+```
+
+Note: user's can create custom rects by extending the `Rect` `class`.
+
 # Setup
 
-The `Absolution.Manager` is how the user interacts with the system.
+The `Manager` `class` is how the user interacts with the system.
 
-``` typescript
+``` ts
 let manager = new Absolution.Manager();
 
 // assign variables and attach functions
 
-manager.initialize();
+manager.initialize(/* options */);
 ```
 
-By default, the manager will walk the entire DOM and `register` Elements which have an `a-rect` or `a-style` attribute.
-This behaviour is configured via an options object passed into the `initialize` method.
+By default, the manager will walk the entire DOM and `Manager#register` Elements which have an 
+`a-rect` or `a-style` attribute.  This behaviour is configured via an options object passed 
+into the `Manager#initialize` method.
 
-``` typescript
+``` ts
 interface ManagerOptions {
 
   // Find and parser script tags with where type="text/absolution"
@@ -119,7 +147,7 @@ interface ManagerOptions {
 
 Default Manager Options:
 
-``` json
+``` ts
 {
   findStyleSheets: true,
   findElements:    true
@@ -128,9 +156,57 @@ Default Manager Options:
 
 ## Manually managing Element life-cycle
 
-Element life-cycle can be manually managed using the `register` and `unregister` methods on the `Manager`.
+Element life-cycles can be manually managed using the `register` and `unregister` methods on the `Manager`.
 
-``` js
+``` ts
+// start managing the element.
 manager.register(element);
+
+// stop managing the element.
 manager.unregister(element);
 ```
+
+## Pre-Compiling
+
+> This is still a work in progress.
+
+A cache of of all source to compiled rules is kept during runtime. If you export this
+data, and initialize Absolution with it, the parser doesn't need to be sent
+to the client.
+
+**Export:**
+``` ts
+let envData = manager.getEnv().getExportData();
+```
+
+**Import:**
+``` ts
+let manager = new Absolution.Manager({ envData });
+```
+
+
+# Angular Integration
+
+Angular integration lets you use functions and variables from the `$scope` in your rules.
+
+```
+<div a-rect
+     a-style="width: 100px * $index"
+     ng-repeat="foo in foos">
+</div>
+```
+
+# Debugging:
+
+The simplest way to debug is to use the `System` `class`.
+
+``` ts
+window.system = manager.getSystem();
+```
+
+The `System#toString()` method will show all relationships. `toString` takes an
+optional string parameters which is used to filter the resulting lines.
+
+
+There is also a `System#$` property which uses a `Proxy` to provide access to
+the underlying variables with support for tab completion.
