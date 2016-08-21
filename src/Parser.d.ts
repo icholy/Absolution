@@ -12,37 +12,37 @@ declare module Absolution {
   export type Expression = any;
 
   export interface OperationNode {
-    tag:   string;
+    tag:   "op";
     op:    string;
     left:  Expression;
     right: Expression;
   }
 
   export interface FuncCallNode {
-    tag:    string;
+    tag:    "func_call";
     name:   string;
     params: Expression[];
   }
 
   export interface SelectorNode {
-    type: string;
+    type: "selector";
     name: string;
   }
 
   export interface IdentNode {
-    tag:   string;
+    tag:   "ident";
     value: string;
   }
 
   export interface PropertyNode {
-    tag:    string;
+    tag:    "property";
     parent: string;
     name:   string;
     value:  string;
   }
 
   export interface NumberIdent {
-    tag:   string;
+    tag:   "number";
     value: number;
   }
 
