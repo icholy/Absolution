@@ -232,7 +232,7 @@ module Robin {
           v.assignValue(node.value);
           return v;
         case "op":
-          return this.createRelationship(node.op, 
+          return this.handleOperation(node.op, 
               this.evaluate(node.left),
               this.evaluate(node.right));
         case "func_call":
@@ -245,13 +245,7 @@ module Robin {
       }
     }
 
-    private createCustomRelationship(funcName: string, left: Variable, right: Variable): Variable {
-      let result = this.createIntermediate();
-      this.call(funcName, result, [left, right]);
-      return result;
-    }
-
-    private createRelationship(operator: string, left: Variable, right: Variable): Variable {
+    private handleOperation(operator: string, left: Variable, right: Variable): Variable {
       let result = this.createIntermediate();
       switch (operator) {
         case "+":
