@@ -26,6 +26,8 @@ module Absolution {
     // when the rect is destroyed
     private watchers: Watcher[] = [];
 
+    private isEnqueued = false;
+
     constructor(
       layout:  Layout,
       options: RectOptions
@@ -41,11 +43,17 @@ module Absolution {
         this.watchers.push(watcher);
       }
 
-      let updateRect = this.updateRectPosition.bind(this);
-      this.width.onChange(updateRect);
-      this.left.onChange(updateRect);
-      this.top.onChange(updateRect);
-      this.height.onChange(updateRect);
+      let enqueue = () => {
+        if (!this.isEnqueued) {
+          this.isEnqueued = true;
+          layout.enqueueRect(this);
+        }
+      };
+
+      this.width.onChange(enqueue);
+      this.left.onChange(enqueue);
+      this.top.onChange(enqueue);
+      this.height.onChange(enqueue);
     }
 
     /**
@@ -114,7 +122,10 @@ module Absolution {
     /**
      * Update the rect using the values in the constraint system
      */
-    private updateRectPosition(): void {
+    updateRectPosition(): void {
+
+      this.isEnqueued = false;
+
       let update: RectPositionUpdate = {
 
         // these flags are set by the axis if the rect

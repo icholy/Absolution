@@ -38,6 +38,7 @@ module Absolution {
     digestID = 0;
     rulesById = {} as { [id: string]: Rule[]; };
     rulesByClass = {} as { [className: string]: Rule[]; };
+    changedRects: ManagedRect[] = [];
 
     private updateIsRequested = false;
 
@@ -81,6 +82,10 @@ module Absolution {
         classNames.push(...classAttr.split(" "));
       }
       return classNames.map(name => name.trim());
+    }
+
+    enqueueRect(rect: ManagedRect): void {
+      this.changedRects.push(rect);
     }
 
     getRectOptions(el: HTMLElement, isRect: boolean = false): RectOptions {
@@ -240,6 +245,10 @@ module Absolution {
       window.requestAnimationFrame(() => {
         this.updateIsRequested = false;
         this.system.solve(this.digestID++);
+        for (let rect of this.changedRects) {
+          rect.updateRectPosition();
+        }
+        this.changedRects = [];
       });
     }
 
