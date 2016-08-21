@@ -8,7 +8,8 @@ module Absolution.Angular {
 
     constructor(
       private layout: Layout,
-      private $scope: ng.IScope
+      private $scope: ng.IScope,
+      private ctrl:   Controller
     ) {
       this.variables = Object.create(null);
       this.functions = Object.create(null);
@@ -27,11 +28,23 @@ module Absolution.Angular {
     }
 
     hasVariable(name: string, node: IdentNode): boolean {
+      if (
+        node.tag === "property" &&
+        node.object === "parent" &&
+        this.ctrl
+      ) {
+        return true;
+      }
       return name in this.variables
           || typeof this.$scope[name] === "number";
     }
 
     getVariable(name: string, node: IdentNode): Variable {
+      if (node.tag === "property" && node.object === "parent") {
+        let actualName = `${this.ctrl.getRectId()}.${node.key}`;
+        console.log(`Mapping ${name} => ${actualName}`);
+        return this.layout.system.getVariable(actualName)
+      }
       if (!(name in this.variables)) {
         this.variables[name] = this.makeVariable(name);
       }
@@ -74,23 +87,28 @@ module Absolution.Angular {
         context:   context
       };
     }
+
+    getRectId(): string {
+      return this.options.id;
+    }
   }
 
   function Directive(layout: Layout): ng.IDirective {
     return {
       restrict: "A",
-      scope: false,
+      require: [ "aRect", "?^^aRect" ],
       controller: Controller,
+      scope: true,
       link: {
-        pre(scope: ng.IScope, element: ng.IAugmentedJQuery, attr: ng.IAttributes, ctrl: Controller): void {
+        pre(scope: ng.IScope, element: ng.IAugmentedJQuery, attr: ng.IAttributes, [ctrl, pCtrl]: Controller[]): void {
           let el = element[0];
           let options = layout.getRectOptions(el, true);
           ctrl.setOptions(options);
         },
-        post(scope: ng.IScope, element: ng.IAugmentedJQuery, attr: ng.IAttributes, ctrl: Controller): void {
-          let el = element[0];
-          let context = new ScopeContext(layout, scope);
+        post(scope: ng.IScope, element: ng.IAugmentedJQuery, attr: ng.IAttributes, [ctrl, pCtrl]: Controller[]): void {
+          let context = new ScopeContext(layout, scope, pCtrl);
           let options = ctrl.getOptionsWithContext(context)
+          let el = element[0];
           let rect = new ElementRect(el, layout, options);
           element.on("$destroy", () => rect.destroy());
         }
