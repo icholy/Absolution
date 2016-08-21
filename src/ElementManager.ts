@@ -40,9 +40,13 @@ class ElementManager {
   private expressions: { [property: number]: string; } = {};
   private constrained = [] as Property[];
 
+  // the dependencies are the element properties that are
+  // reported to the constaint system when requested
   private xAxisDependencies = XDependency.LEFT_AND_WIDTH;
   private yAxisDependencies = YDependency.TOP_AND_HEIGHT;
 
+  // these variables represent the element's propeties
+  // inside the constaint system
   private left:   Constraints.Variable;
   private width:  Constraints.Variable;
   private top:    Constraints.Variable;
@@ -94,6 +98,9 @@ class ElementManager {
     this.system.set(`${this.id}.${propertyName}`, expression.toString());
   }
 
+  /**
+   * Update the elements using the values in the constraint system
+   */
   updateElement(): void {
     let style = this.element.style;
     for (let property of this.constrained) {
@@ -118,6 +125,9 @@ class ElementManager {
     }
   }
   
+  /**
+   * Update the constaint system using the elements properties.
+   */
   updateSystem(): void {
 
     if (
