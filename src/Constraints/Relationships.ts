@@ -3,6 +3,13 @@ module Constraints {
   export abstract class Relationship {
 
     abstract variableValueChanged(): void;
+    abstract destroy(): void;
+
+    protected detachFrom(...variables: Variable[]): void {
+      for (let v of Variable) {
+        v.detach(this);
+      }
+    }
 
     protected attachTo(...variables: Variable[]): void {
       for (let v of variables) {
@@ -36,6 +43,10 @@ module Constraints {
           this.left.setValue(this.right.getValue());
           break;
       }
+    }
+
+    destroy(): void {
+      this.detachFrom(this.left, this.right);
     }
 
     toString(): string {
@@ -72,6 +83,10 @@ module Constraints {
       }
     }
 
+    destroy(): void {
+      this.detachFrom(this.addend1, this.addend2, this.sum);
+    }
+
     toString(): string {
       return `${this.sum} = ${this.addend1} + ${this.addend2}`;
     }
@@ -104,6 +119,10 @@ module Constraints {
               this.product.getValue() / this.mult2.getValue());
           break;
       }
+    }
+
+    destroy(): void {
+      this.detachFrom(this.mult1, this.mult2, this.product);
     }
 
     toString(): string {
@@ -140,6 +159,10 @@ module Constraints {
       }
     }
 
+    destroy(): void {
+      this.detachFrom(this.minuend, this.subtrahend, this.difference);
+    }
+
     toString(): string {
       return `${this.difference} = ${this.minuend} - ${this.subtrahend}`;
     }
@@ -171,6 +194,10 @@ module Constraints {
           this.dividend.setValue(
               this.divisor.getValue() * this.quotient.getValue());
       }
+    }
+
+    destroy(): void {
+      this.detachFrom(this.dividend, this.divisor, this.quotient);
     }
 
     toString(): string {
