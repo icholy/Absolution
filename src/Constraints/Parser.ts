@@ -37,6 +37,10 @@ module Constraints {
       }
 
       function isOperator(c: string): boolean {
+        // allow dashes in names
+        if (token.length > 0 && c === "-") {
+          return false;
+        }
         return "+-/*".indexOf(c) !== -1;
       }
 
