@@ -49,7 +49,7 @@ class Layout {
           if (el.hasAttribute("r-container")) {
             container = el.getAttribute("r-container")
           }
-          rect = new ElementRect(id, container, this.system, el);
+          rect = new ElementRect(id, el, container, this.system);
           this.rects.push(rect);
           isRegistered = true;
         }
