@@ -11,6 +11,11 @@ declare module Absolution {
 
   export type Expression = any;
 
+  export interface StyleSheet {
+    rulesets:  RuleSet[],
+    variables: VariableNode[];
+  }
+
   export interface OperationNode {
     tag:   "op";
     op:    string;
@@ -27,6 +32,13 @@ declare module Absolution {
   export interface SelectorNode {
     type: "selector";
     name: string;
+  }
+
+  export interface VariableNode {
+    tag:  "variable",
+    name: string;
+    expr: Expression;
+    text: string;
   }
 
   export interface IdentNode {

@@ -1,12 +1,16 @@
 
-rulesets
-  = _ sets:ruleset* {
-      return sets;
+stylesheet
+  = _ items:(ruleset / variable)* {
+      return {
+        rulesets:  items.filter(function (item) { return item.tag === "ruleset"; }),
+        variables: items.filter(function (item) { return item.tag === "variable"; })
+      };
     }
 
 ruleset
   = _ selector:selector _ "{" _ rules:rule_with_trailing_semi* _ "}" _ {
       return {
+        tag:      "ruleset",
         selector: selector,
         rules:    rules
       };
@@ -136,6 +140,16 @@ property
       key:    key.value,
       value:  text()
     };
+  }
+
+variable
+  = name:ident _ ":" _ expr:expression_with_text _ {
+    return {
+      tag:  "variable",
+      name: ident.value,
+      expt: expr,
+      text: text
+    }
   }
 
 ident

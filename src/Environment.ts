@@ -76,8 +76,8 @@ module Absolution {
     }
 
     parseStyleSheet(input: string): void {
-      let rulesets = Parser.parse<RuleSet[]>(input, { startRule: "rulesets" });
-      this.parseRulesets(rulesets);
+      let stylesheet = Parser.parse<StyleSheet>(input, { startRule: "stylesheet" });
+      this.parseRulesets(stylesheet.rulesets);
     }
 
     private getClassNames(el: HTMLElement): string[] {
