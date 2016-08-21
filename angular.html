@@ -70,18 +70,15 @@
 
       let step = 0.01;
       let current = 0;
+      let sign = 1;
 
-      return function () {
-        current += step;
-        if (current >= 1) {
-          current = 1;
-          step = step * -1;
+      return function next() {
+        let result = current + step * sign;
+        if (result < 0 || 1 < result) {
+          sign *= -1;
+          return next();
         }
-        else if (current <= 0) {
-          current = 0;
-          step = step * -1;
-        }
-        return current;
+        return current = result;
       };
     }
 
