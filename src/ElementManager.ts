@@ -32,7 +32,7 @@ class ElementManager {
   constrain(property: string, expression: string): void {
     if (this.isConstrained(property)) {
       throw new Error(
-        `${property} is already set to ${this.constrained[property]}`);
+        `${property} is already set to ${this.expressions[property]}`);
     }
     switch (property) {
       case "width":
@@ -50,26 +50,32 @@ class ElementManager {
     }
     this.expressions[property] = expression;
     this.constrained.push(property);
-    this.system.set(`${this.id}.${property}`, expression);
+    this.system.set(`${this.id}.${property}`, expression.toString());
   }
 
   updateSystem(): void {
     let id = this.id;
     let rect = this.element.getBoundingClientRect();
-    if (this.xAxisConstraints < 3) {
-      if (!this.isConstrained("left")) {
+    if (this.xAxisConstraints === 0) {
+      this.system.set(`${id}.left`, rect.left);
+      this.system.set(`${id}.right`, rect.right);
+    }
+    else if (this.xAxisConstraints === 1) {
+      if (this.isConstrained("left")) {
+        this.system.set(`${id}.right`, rect.right);
+      } else {
         this.system.set(`${id}.left`, rect.left);
       }
-      if (!this.isConstrained("right")) {
-        this.system.set(`${id}.right`, rect.right);
-      }
     }
-    if (this.yAxisConstraints < 3) {
-      if (!this.isConstrained("top")) {
-        this.system.set(`${id}.top`, rect.top);
-      }
-      if (!this.isConstrained("bottom")) {
+    if (this.yAxisConstraints === 0) {
+      this.system.set(`${id}.top`, rect.top);
+      this.system.set(`${id}.bottom`, rect.bottom);
+    }
+    else if (this.yAxisConstraints === 1) {
+      if (this.isConstrained("top")) {
         this.system.set(`${id}.bottom`, rect.bottom);
+      } else {
+        this.system.set(`${id}.top`, rect.top);
       }
     }
   }
@@ -77,8 +83,7 @@ class ElementManager {
   updateElement(): void {
     for (let property of this.constrained) {
       let value = this.system.get(`${this.id}.${property}`);
-      this.element.style[property] = value;
-      console.log(`${this.id}.${property} = ${value}`);
+      this.element.style[property] = `${value}px`;
     }
   }
 
