@@ -8,6 +8,12 @@ module Robin {
     // true if postition: "absolute" has been set
     private isAbsoluteSet = false;
 
+    private offsetIsSet = false;
+    private offset: {
+      left: number;
+      top:  number;
+    };
+
     constructor(
       element:   HTMLElement,
       layout:    Layout,
@@ -15,6 +21,7 @@ module Robin {
     ) {
       super(layout, options);
       this.element = element;
+      this.offset = { left: 0, top: 0 };
       this.initialize();
     }
 
@@ -36,7 +43,10 @@ module Robin {
 
     private setAbsolute(): void {
       if (!this.isAbsoluteSet) {
-        this.element.style.position = "absolute";
+        let style = this.element.style;
+        style.position = "absolute";
+        style.left = "0";
+        style.top = "0";
         this.isAbsoluteSet = true;
       }
     }
@@ -46,15 +56,16 @@ module Robin {
      */
     setLeft(value: number): void {
       this.setAbsolute();
-      this.element.style.left = `${value}px`;
+      this.offset.left = value;
+      this.offsetIsSet = true;
     }
 
     /**
      * Set the element's top offset
      */
     setTop(value: number): void {
-      this.setAbsolute();
-      this.element.style.top = `${value}px`;
+      this.offset.top = value;
+      this.offsetIsSet = true;
     }
 
     /**
@@ -69,6 +80,15 @@ module Robin {
      */
     setHeight(value: number): void {
       this.element.style.height = `${value}px`;
+    }
+
+    afterUpdateRect(): void {
+      if (this.offsetIsSet) {
+        this.setAbsolute();
+        this.element.style.transform = `translate(${this.offset.left}px, ${this.offset.top}px)`
+        this.offset = { left: 0, top: 0 };
+        this.offsetIsSet = false;
+      }
     }
 
   }

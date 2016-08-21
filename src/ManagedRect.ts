@@ -95,6 +95,7 @@ module Robin {
         this.xAxis.updateRect(this, position);
         this.yAxis.updateRect(this, position);
         this.position = position;
+        this.afterUpdateRect();
       }
     }
 
@@ -142,6 +143,11 @@ module Robin {
      * Set the rect's height
      */
     abstract setHeight(value: number): void;
+
+    /**
+     * Called after rect properties have been updated.
+     */
+    abstract afterUpdateRect(): void;
 
     /**
      * Get the rect's position.
