@@ -202,7 +202,7 @@ module Absolution {
      * Throws an exception if the specified property has already been constrained.
      */
     private assertIsNotConstrained(propertyName: string): void {
-      if (this.expressions.hasOwnProperty(propertyName)) {
+      if (propertyName in this.expressions) {
         throw new Error(`it's already set to (${this.expressions[propertyName]})`);
       }
     }
@@ -211,10 +211,10 @@ module Absolution {
      * Convert a property name to it's enumerated value.
      */
     private getPropertyByName(name: string): Property {
-      if (!nameToProperty.hasOwnProperty(name)) {
-        throw new Error(`"${name}" is not a supported property`);
+      if (name in nameToProperty) {
+        return nameToProperty[name];
       }
-      return nameToProperty[name];
+      throw new Error(`"${name}" is not a supported property`);
     }
 
     /**

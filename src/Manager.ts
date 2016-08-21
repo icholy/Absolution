@@ -72,8 +72,7 @@ module Absolution {
      * Returns true if the element is a registered rect.
      */
     private isRegistered(el: HTMLElement): boolean {
-      let id = Utils.getRectId(el);
-      return this.rects.hasOwnProperty(id);
+      return Utils.getRectId(el) in this.rects;
     }
 
     /**
@@ -83,7 +82,9 @@ module Absolution {
       if (this.isRegistered(el)) {
         return;
       }
-      options = options || this.env.getRectOptions(el);
+      if (!options) {
+        options = this.env.getRectOptions(el);
+      }
       if (options) {
         let rect = new ElementRect(el, this, options);
         let { id } = options;

@@ -252,21 +252,21 @@ module Absolution {
      * Check if there are any rules for the specified rect id.
      */
     hasRulesForId(id: string): boolean {
-      return this.rulesById.hasOwnProperty(id);
+      return id in this.rulesById;
     }
 
     /**
      * Check if there are any rules for the specified rect class.
      */
-    hasRulesForClass(id: string): boolean {
-      return this.rulesByClass.hasOwnProperty(id);
+    hasRulesForClass(className: string): boolean {
+      return className in this.rulesByClass;
     }
 
     /**
      * Check if there are any rules for the specified virtual rect id.
      */
     hasRulesForVirtual(id: string): boolean {
-      return this.rulesByVirtual.hasOwnProperty(id);
+      return id in this.rulesByVirtual;
     }
 
     /**
