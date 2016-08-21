@@ -193,12 +193,17 @@ module Robin {
 
   }
 
-  export class Min extends Relationship {
+  export type CustomFunc = (a: number, b: number) => number;
+
+  export class CustomRelationship extends Relationship {
 
     constructor(
+      private name: string,
+      private func: CustomFunc,
+
       private a:   Variable,
       private b:   Variable,
-      private min: Variable
+      private out: Variable
     ) {
       super();
       this.attachTo(a, b);
@@ -206,37 +211,13 @@ module Robin {
 
     solve(id: number): void {
       if (this.a.hasValue(id) && this.b.hasValue(id)) {
-        this.min.setValue(
-          Math.min(this.a.getValue(), this.b.getValue()), id);
+        this.out.setValue(
+          this.func(this.a.getValue(), this.b.getValue()), id)
       }
     }
 
     toString(): string {
-      return `${this.min} = min(${this.a}, ${this.b})`;
-    }
-
-  }
-
-  export class Max extends Relationship {
-
-    constructor(
-      private a:   Variable,
-      private b:   Variable,
-      private max: Variable
-    ) {
-      super();
-      this.attachTo(a, b);
-    }
-
-    solve(id: number): void {
-      if (this.a.hasValue(id) && this.b.hasValue(id)) {
-        this.max.setValue(
-          Math.max(this.a.getValue(), this.b.getValue()), id)
-      }
-    }
-
-    toString(): string {
-      return `${this.max} = max(${this.a}, ${this.b})`;
+      return `${this.out} = ${this.name}(${this.a}, ${this.b})`;
     }
 
   }

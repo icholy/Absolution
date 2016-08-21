@@ -12,11 +12,29 @@ module Robin {
 
     private relationships: Relationship[];
     private variables:     { [name: string]: Variable; };
+    private funcs:         { [name: string]: CustomFunc; };
     private idsequence:    number;
 
     constructor() {
       this.reset();
       this.$ = this.proxy();
+    }
+
+    /**
+     * Check if a function has been registered
+     */
+    hasFunc(name: string): boolean {
+      return name in this.funcs;
+    }
+
+    /**
+     * Register a function
+     */
+    func(name: string, func: CustomFunc): void {
+      if (this.hasFunc(name)) {
+        throw new Error(`${name} function already registered`);
+      }
+      this.funcs[name] = func;
     }
 
     /**
@@ -94,6 +112,7 @@ module Robin {
     reset(): void {
       this.idsequence = 0;
       this.variables = Object.create(null);
+      this.funcs = Object.create(null);
       this.relationships = [];
     }
 
@@ -152,25 +171,19 @@ module Robin {
     }
 
     /**
-     * min = min(a, b)
-     */
-    min(min: Value, a: Value, b: Value): void {
-      this.relationships.push(new Min(
-        this.variableFor(a),
-        this.variableFor(b),
-        this.variableFor(min)
-      ));
-    }
-
-    /**
      * max = max(a, b)
      */
-    max(max: Value, a: Value, b: Value): void {
-      this.relationships.push(new Max(
+    call(funcName: string, out: Value, a: Value, b: Value): void {
+      if (!this.hasFunc(funcName)) {
+        throw new Error(`${funcName} is not a function`);
+      }
+      this.relationships.push(new CustomRelationship(
+        name, this.funcs[funcName],
+
         this.variableFor(a),
         this.variableFor(b),
-        this.variableFor(max)
-      ));
+        this.variableFor(out)
+      ))
     }
 
     /**
@@ -227,10 +240,16 @@ module Robin {
         }
         let left = this.evaluate(node.params[0]);
         let right = this.evaluate(node.params[1]);
-        return this.createRelationship(node.name, left, right);
+        return this.createCustomRelationship(node.name, left, right);
       }
 
       throw new Error("invalid expression");
+    }
+
+    private createCustomRelationship(funcName: string, left: Variable, right: Variable): Variable {
+      let result = this.createIntermediate();
+      this.call(funcName, result, left, right);
+      return result;
     }
 
     private createRelationship(operator: string, left: Variable, right: Variable): Variable {
@@ -247,12 +266,6 @@ module Robin {
           break;
         case "/":
           this.divide(result, left, right);
-          break;
-        case "min":
-          this.min(result, left, right);
-          break;
-        case "max":
-          this.max(result, left, right);
           break;
         default:
           throw new Error(`Syntax Error: invalid operator ${operator}`);

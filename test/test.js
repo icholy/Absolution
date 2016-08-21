@@ -79,6 +79,14 @@ describe("Robin", function () {
 
     beforeEach(function () {
       system.reset();
+
+      system.func("min", function (a, b) {
+        return Math.min(a, b);
+      });
+
+      system.func("max", function (a, b) {
+        return Math.max(a, b);
+      });
     });
 
     describe("Relationships", function () {
@@ -115,18 +123,6 @@ describe("Robin", function () {
         system.$.B = 10;
         system.$.C = 2;
         expect(system.$.A).toEqual(5);
-      });
-
-      it("should do min", function () {
-        system.min("A", "B", 2);
-        system.$.B = 3;
-        expect(system.$.A).toEqual(2);
-      });
-
-      it("should do max", function () {
-        system.max("A", "B", 2);
-        system.$.B = 3;
-        expect(system.$.A).toEqual(3);
       });
 
     });
