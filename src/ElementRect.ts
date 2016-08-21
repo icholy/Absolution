@@ -1,6 +1,6 @@
 module Robin {
 
-  const enum Property {
+  export const enum Property {
 
     // X Axis
     LEFT, RIGHT, WIDTH, CENTER_X,
@@ -21,8 +21,6 @@ module Robin {
   };
 
   const enum Axis { X, Y, NONE }
-  const enum XConstraint { LEFT_AND_WIDTH, LEFT, WIDTH, NONE }
-  const enum YConstraint { TOP_AND_HEIGHT, TOP, HEIGHT, NONE }
 
   export class ElementRect extends Rect {
 
