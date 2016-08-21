@@ -104,45 +104,14 @@ module Robin {
         }
         isRect = true;
 
+
         let target = attributeMap[attr.name];
         let text   = attr.textContent;
 
-        switch (target) {
-          case "register":
-          case "id":
-          case "watch":
-            break;
-          case "container":
-            info.container = text;
-            break;
-          case "center-in":
-            info.rules.push(this.makeRuleFor("center-x", `${text}.center-x`));
-            info.rules.push(this.makeRuleFor("center-y", `${text}.center-y`));
-            break;
-          case "align-x":
-            info.rules.push(this.makeRuleFor("left", `${text}.left`));
-            info.rules.push(this.makeRuleFor("right", `${text}.right`));
-            break;
-          case "align-y":
-            info.rules.push(this.makeRuleFor("top", `${text}.top`));
-            info.rules.push(this.makeRuleFor("bottom", `${text}.bottom`));
-            break;
-          case "size":
-            info.rules.push(this.makeRuleFor("width", `${text}.width`));
-            info.rules.push(this.makeRuleFor("height", `${text}.height`));
-            break;
-          case "fill":
-            info.rules.push(this.makeRuleFor("top", `${text}.top`));
-            info.rules.push(this.makeRuleFor("bottom", `${text}.bottom`));
-            info.rules.push(this.makeRuleFor("left", `${text}.left`));
-            info.rules.push(this.makeRuleFor("right", `${text}.right`));
-            break;
-          case "style":
-            let rules = Parser.parse(text, { startRule: "inline_rules" });
-            info.rules = info.rules.concat(rules);
-            break;
-          default:
-            info.rules.push(this.makeRuleFor(target, text));
+        try {
+          this.handleAttribute(info, target, text);
+        } catch (e) {
+          throw new Error(`${target}="${text}" ${e}`);
         }
       }
 
@@ -164,6 +133,47 @@ module Robin {
         text:   expression,
         expr:   Parser.parse(expression, { startRule: "expression" })
       };
+    }
+
+    private handleAttribute(info: RectInfo, target: string, text: string): void {
+
+      switch (target) {
+        case "register":
+        case "id":
+        case "watch":
+          break;
+        case "container":
+          info.container = text;
+          break;
+        case "center-in":
+          info.rules.push(this.makeRuleFor("center-x", `${text}.center-x`));
+          info.rules.push(this.makeRuleFor("center-y", `${text}.center-y`));
+          break;
+        case "align-x":
+          info.rules.push(this.makeRuleFor("left", `${text}.left`));
+          info.rules.push(this.makeRuleFor("right", `${text}.right`));
+          break;
+        case "align-y":
+          info.rules.push(this.makeRuleFor("top", `${text}.top`));
+          info.rules.push(this.makeRuleFor("bottom", `${text}.bottom`));
+          break;
+        case "size":
+          info.rules.push(this.makeRuleFor("width", `${text}.width`));
+          info.rules.push(this.makeRuleFor("height", `${text}.height`));
+          break;
+        case "fill":
+          info.rules.push(this.makeRuleFor("top", `${text}.top`));
+          info.rules.push(this.makeRuleFor("bottom", `${text}.bottom`));
+          info.rules.push(this.makeRuleFor("left", `${text}.left`));
+          info.rules.push(this.makeRuleFor("right", `${text}.right`));
+          break;
+        case "style":
+          let rules = Parser.parse(text, { startRule: "inline_rules" });
+          info.rules = info.rules.concat(rules);
+          break;
+        default:
+          info.rules.push(this.makeRuleFor(target, text));
+      }
     }
 
     maybeAddElement(el: HTMLElement): void {
