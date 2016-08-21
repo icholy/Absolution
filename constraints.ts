@@ -1,7 +1,7 @@
 
 module Constraints {
 
-  export class Notifier {
+  export abstract class Connector {
 
     private listeners: Function[] = [];
 
@@ -14,9 +14,7 @@ module Constraints {
     onNotify(listener: Function): void {
       this.listeners.push(listener);
     }
-  }
 
-  export abstract class Connector extends Notifier {
     abstract setValue(v: number, id?: number): void;
     abstract getValue(): number;
     abstract hasValue(): boolean;
