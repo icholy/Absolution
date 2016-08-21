@@ -71,42 +71,6 @@ describe("Absolution", function () {
 
     });
 
-    describe("VFL", function () {
-
-      function parse(input) {
-        return Absolution.Parser.parse(input, { startRule: "vfl_expression" });
-      }
-
-      it("should parse an empty expression", function () {
-        var node = parse("||");
-        expect(node.length).toEqual(0);
-      });
-
-      it("should parse a single rect", function () {
-        var node = parse("|[a]|");
-        expect(node.length).toEqual(1);
-        expect(node[0].tag).toEqual("rect");
-        expect(node[0].name).toEqual("a");
-      });
-
-      it("should parse spaces", function () {
-        var node = parse("|-[a]-|");
-        expect(node.length).toEqual(3);
-        expect(node[0].tag).toEqual("space");
-        expect(node[1].tag).toEqual("rect");
-        expect(node[2].tag).toEqual("space");
-      });
-
-      it("should parse a space with an expression", function () {
-        var node = parse("|-(10px)-|");
-        expect(node.length).toEqual(1);
-        expect(node[0].tag).toEqual("space");
-        expect(node[0].expr.tag).toEqual("number");
-        expect(node[0].expr.value).toEqual(10);
-      });
-
-    });
-
   });
 
   describe("System", function () {
