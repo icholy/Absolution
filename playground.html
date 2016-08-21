@@ -65,13 +65,19 @@
     r-top="C.top + 200 * x">
   </div>
 
-  <div id="X" r-center-in="viewport" r-width="100 * x" r-height="100 - 100 * x"></div>
+  <div id="X" r-center-in="viewport" r-width="100 * x" r-height="max(100 - 100 * x, 50)"></div>
 
   <button id="pause">Pause</button>
 
   <script>
 
-    window.layout = new Robin.Layout(document.body);
+    window.layout = new Robin.Layout();
+
+    layout.system.func("max", function (a, b) {
+      return Math.max(a, b);
+    });
+
+    layout.attachTo(document.body);
 
     function makeOscillator() {
 

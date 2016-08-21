@@ -48,7 +48,7 @@ module Robin {
 
     private updateIsRequested = false;
 
-    constructor(root: HTMLElement) {
+    attachTo(root: HTMLElement) {
 
       // add the special rects
       this.rects.push(new ViewportRect(this));
