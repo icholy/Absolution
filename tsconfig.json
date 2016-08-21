@@ -10,6 +10,8 @@
     "src/Constraints/Relationships.ts",
     "src/Constraints/System.ts",
     "src/Rect.ts",
+    "src/AbstractRect.ts",
+    "src/DocumentRect.ts",
     "src/ElementRect.ts",
     "src/Layout.ts"
   ]

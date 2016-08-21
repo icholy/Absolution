@@ -28,6 +28,8 @@ class Layout {
     let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
     let el: HTMLElement;
 
+    this.rects.push(new DocumentRect(this.system));
+
     while (el = iterator.nextNode() as any) {
 
       let isRegistered = false;
@@ -47,7 +49,8 @@ class Layout {
           }
 
           let id = el.id ? el.id : this.guid();
-          rect = this.register(id, el, container);
+          rect = new ElementRect(id, this.system, el, container);
+          this.rects.push(rect);
           isRegistered = true;
         }
         let property = attributeMap[attr.name];
@@ -65,15 +68,6 @@ class Layout {
         }
       }
     }
-  }
-
-  /**
-   * Register an element with the layout
-   */
-  register(id: string, element: HTMLElement, container?: HTMLElement): Rect {
-    let r = new ElementRect(id, this.system, element, container);
-    this.rects.push(r);
-    return r;
   }
 
   /**

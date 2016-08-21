@@ -1,5 +1,5 @@
 
-class ElementRect extends Rect {
+class ElementRect extends AbstractRect {
 
   constructor(
     id:     string,
