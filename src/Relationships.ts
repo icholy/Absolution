@@ -7,7 +7,7 @@ module Robin {
     /**
      * Try to solve the constraint.
      */
-    abstract solve(digestID: number): void;
+    abstract solve(id: number): void;
 
     /**
      * Attach this relationship to the supplied variables
@@ -39,13 +39,13 @@ module Robin {
       this.attachTo(left, right);
     }
 
-    solve(digestID: number): void {
+    solve(id: number): void {
       switch (true) {
-        case this.left.hasValue(digestID):
-          this.right.setValue(this.left.getValue(), digestID);
+        case this.left.hasValue(id):
+          this.right.setValue(this.left.getValue(), id);
           break;
-        case this.right.hasValue(digestID):
-          this.left.setValue(this.right.getValue(), digestID);
+        case this.right.hasValue(id):
+          this.left.setValue(this.right.getValue(), id);
           break;
       }
     }
@@ -67,19 +67,19 @@ module Robin {
       this.attachTo(addend1, addend2, sum);
     }
 
-    solve(digestID: number): void {
+    solve(id: number): void {
       switch (true) {
-        case this.addend1.hasValue(digestID) && this.addend2.hasValue(digestID):
+        case this.addend1.hasValue(id) && this.addend2.hasValue(id):
           this.sum.setValue(
-              this.addend1.getValue() + this.addend2.getValue(), digestID);
+              this.addend1.getValue() + this.addend2.getValue(), id);
           break;
-        case (this.addend1.hasValue(digestID) && this.sum.hasValue(digestID)):
+        case (this.addend1.hasValue(id) && this.sum.hasValue(id)):
           this.addend2.setValue(
-              this.sum.getValue() - this.addend1.getValue(), digestID);
+              this.sum.getValue() - this.addend1.getValue(), id);
           break;
-        case (this.addend2.hasValue(digestID) && this.sum.hasValue(digestID)):
+        case (this.addend2.hasValue(id) && this.sum.hasValue(id)):
           this.addend1.setValue(
-              this.sum.getValue() - this.addend2.getValue(), digestID);
+              this.sum.getValue() - this.addend2.getValue(), id);
           break;
       }
     }
@@ -101,19 +101,19 @@ module Robin {
       this.attachTo(mult1, mult2, product);
     }
 
-    solve(digestID: number) {
+    solve(id: number) {
       switch (true) {
-        case (this.mult1.hasValue(digestID) && this.mult2.hasValue(digestID)):
+        case (this.mult1.hasValue(id) && this.mult2.hasValue(id)):
           this.product.setValue(
-              this.mult1.getValue() * this.mult2.getValue(), digestID);
+              this.mult1.getValue() * this.mult2.getValue(), id);
           break;
-        case (this.product.hasValue(digestID) && this.mult1.hasValue(digestID)):
+        case (this.product.hasValue(id) && this.mult1.hasValue(id)):
           this.mult2.setValue(
-              this.product.getValue() / this.mult1.getValue(), digestID);
+              this.product.getValue() / this.mult1.getValue(), id);
           break;
-        case (this.product.hasValue(digestID) && this.mult2.hasValue(digestID)):
+        case (this.product.hasValue(id) && this.mult2.hasValue(id)):
           this.mult1.setValue(
-              this.product.getValue() / this.mult2.getValue(), digestID);
+              this.product.getValue() / this.mult2.getValue(), id);
           break;
       }
     }
@@ -135,19 +135,19 @@ module Robin {
       this.attachTo(minuend, subtrahend, difference);
     }
 
-    solve(digestID: number) {
+    solve(id: number) {
       switch (true) {
-        case (this.minuend.hasValue(digestID) && this.subtrahend.hasValue(digestID)):
+        case (this.minuend.hasValue(id) && this.subtrahend.hasValue(id)):
           this.difference.setValue(
-              this.minuend.getValue() - this.subtrahend.getValue(), digestID);
+              this.minuend.getValue() - this.subtrahend.getValue(), id);
           break;
-        case (this.minuend.hasValue(digestID) && this.difference.hasValue(digestID)):
+        case (this.minuend.hasValue(id) && this.difference.hasValue(id)):
           this.subtrahend.setValue(
-              this.minuend.getValue() - this.difference.getValue(), digestID);
+              this.minuend.getValue() - this.difference.getValue(), id);
           break;
-        case (this.subtrahend.hasValue(digestID) && this.difference.hasValue(digestID)):
+        case (this.subtrahend.hasValue(id) && this.difference.hasValue(id)):
           this.minuend.setValue(
-              this.subtrahend.getValue() + this.difference.getValue(), digestID);
+              this.subtrahend.getValue() + this.difference.getValue(), id);
           break;
       }
     }
@@ -169,19 +169,19 @@ module Robin {
       this.attachTo(dividend, divisor, quotient);
     }
 
-    solve(digestID: number): void {
+    solve(id: number): void {
       switch (true) {
-        case (this.dividend.hasValue(digestID) && this.divisor.hasValue(digestID)):
+        case (this.dividend.hasValue(id) && this.divisor.hasValue(id)):
           this.quotient.setValue(
-              this.dividend.getValue() / this.divisor.getValue(), digestID);
+              this.dividend.getValue() / this.divisor.getValue(), id);
           break;
-        case (this.dividend.hasValue(digestID) && this.quotient.hasValue(digestID)):
+        case (this.dividend.hasValue(id) && this.quotient.hasValue(id)):
           this.divisor.setValue(
-              this.dividend.getValue() / this.quotient.getValue(), digestID);
+              this.dividend.getValue() / this.quotient.getValue(), id);
           break;
-        case (this.divisor.hasValue(digestID) && this.quotient.hasValue(digestID)):
+        case (this.divisor.hasValue(id) && this.quotient.hasValue(id)):
           this.dividend.setValue(
-              this.divisor.getValue() * this.quotient.getValue(), digestID);
+              this.divisor.getValue() * this.quotient.getValue(), id);
       }
     }
 
