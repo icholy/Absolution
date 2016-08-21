@@ -24,7 +24,7 @@ module Absolution {
     makeWatcher(name: string): Watcher {
       if (name !== "mutation") {
         throw new Error(
-          `${this.getId()}.r-watch value error: "${name}" is not a supported watcher`);
+          `${this.getId()}.a-watch value error: "${name}" is not a supported watcher`);
       }
       return new MutationObserverWatcher(this);
     }
