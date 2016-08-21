@@ -6,6 +6,18 @@ class Layout {
 
   constructor(root: HTMLElement) {
 
+    let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
+
+    this.rects.push(new DocumentRect(this.system));
+
+    let el: HTMLElement;
+    while (el = iterator.nextNode() as any) {
+      this.handleNewElement(el);
+    }
+  }
+
+  private handleNewElement(el: HTMLElement): void {
+
     const attributeMap = {
       "r-id":        "id",
       "r-left":      "left",
@@ -33,13 +45,6 @@ class Layout {
       "data-r-container": "container",
       "data-r-center-in": "center-in"
     };
-
-    let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
-    let el: HTMLElement;
-
-    this.rects.push(new DocumentRect(this.system));
-
-    while (el = iterator.nextNode() as any) {
 
       let isRegistered = false;
       let rect: ElementRect = null;
@@ -77,7 +82,6 @@ class Layout {
             rect.constrain(property, attr.textContent);
         }
       }
-    }
   }
 
   private getAttribute(element: HTMLElement, name: string): string {
