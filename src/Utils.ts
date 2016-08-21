@@ -17,6 +17,9 @@ class Utils {
     return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
   }
 
+  /**
+   * http://javascript.info/tutorial/coordinates#the-right-way-elem-getboundingclientrect
+   */
   static getRectPosition(element: HTMLElement): RectPosition {
 
     let bounds = element.getBoundingClientRect();
