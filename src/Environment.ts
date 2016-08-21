@@ -24,10 +24,8 @@ module Absolution {
 
   export class Environment {
 
-    rulesById = {} as { [id: string]: Rule[]; };
-    rulesByClass = {} as { [className: string]: Rule[]; };
-
-    private updateIsRequested = false;
+    private rulesById = {} as { [id: string]: Rule[]; };
+    private rulesByClass = {} as { [className: string]: Rule[]; };
 
     constructor(rulesets: RuleSet[] = []) {
       this.parseRulesets(rulesets);
