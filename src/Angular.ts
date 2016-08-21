@@ -105,17 +105,23 @@ module Absolution.Angular {
       scope: false,
       link: {
         pre(
-          scope: ng.IScope, element: ng.IAugmentedJQuery, attr: ng.IAttributes,
-          [ctrl, parentController]: Controller[]
+          scope:       ng.IScope,
+          element:     ng.IAugmentedJQuery,
+          attr:        ng.IAttributes,
+          controllers: Controller[]
         ): void {
+          let [ctrl, parentController] = controllers;
           let el = element[0];
           let options = layout.getRectOptions(el, true);
           ctrl.setOptions(options);
         },
         post(
-          scope: ng.IScope, element: ng.IAugmentedJQuery, attr: ng.IAttributes,
-          [ctrl, parentController]: Controller[]
+          scope:       ng.IScope,
+          element:     ng.IAugmentedJQuery,
+          attr:        ng.IAttributes,
+          controllers: Controller[]
         ): void {
+          let [ctrl, parentController] = controllers;
           let context = new ScopeContext(layout, scope, parentController);
           let options = ctrl.getOptionsWithContext(context)
           let el = element[0];
