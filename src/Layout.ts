@@ -7,17 +7,17 @@ class Layout {
   constructor(root: HTMLElement) {
 
     const attributeMap = {
-      "r-left":        "left",
-      "r-right":       "right",
-      "r-top":         "top",
-      "r-bottom":      "bottom",
-      "r-width":       "width",
-      "r-height":      "height",
-      "r-center-x":    "center-x",
-      "r-center-y":    "center-y",
-      "r-center-in":   "center-in",
-      "r-register":    "register",
-      "r-relative-to": "relative-to"
+      "r-left":      "left",
+      "r-right":     "right",
+      "r-top":       "top",
+      "r-bottom":    "bottom",
+      "r-width":     "width",
+      "r-height":    "height",
+      "r-center-x":  "center-x",
+      "r-center-y":  "center-y",
+      "r-center-in": "center-in",
+      "r-register":  "register",
+      "r-container": "container"
     };
 
     let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
@@ -37,14 +37,12 @@ class Layout {
         }
         if (!isRegistered) {
 
-          let container = null;
-          if (el.hasAttribute("r-relative-to")) {
-            let relativeTo = el.getAttribute("r-relative-to")
-            container = document.getElementById(relativeTo);
-          }
-
           let id = el.id ? el.id : this.guid();
-          rect = new ElementRect(id, "document", this.system, el);
+          let container = "document";
+          if (el.hasAttribute("r-container")) {
+            container = el.getAttribute("r-container")
+          }
+          rect = new ElementRect(id, container, this.system, el);
           this.rects.push(rect);
           isRegistered = true;
         }
