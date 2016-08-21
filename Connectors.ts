@@ -13,7 +13,7 @@ export abstract class Connector {
     this.listeners.push(listener);
   }
 
-  abstract setValue(v: number, id?: number): void;
+  abstract setValue(v: number): void;
   abstract getValue(): number;
   abstract hasValue(): boolean;
   abstract clearValue(): void;
