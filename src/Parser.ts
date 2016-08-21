@@ -23,7 +23,7 @@ class Parser {
   tokenize(input: string): Lexeme[] {
 
     let lexems = [];
-    var token = "";
+    let token = "";
 
     function isWhiteSpace(c: string): boolean {
       return " \t\n\r\v".indexOf(c) !== -1;
@@ -118,7 +118,7 @@ class Parser {
           operators.push(token);
           break;
         case Type.RIGHT_PAREN:
-          var op = operators.pop();
+          let op = operators.pop();
           while (op.type !== Type.LEFT_PAREN) {
             output.push(op);
             op = operators.pop();
