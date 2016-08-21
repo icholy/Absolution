@@ -1,6 +1,9 @@
 
 module Constraints {
 
+  declare var Proxy;
+  type Proxy = any;
+
   export abstract class Connector {
 
     private listeners: Function[] = [];
@@ -278,17 +281,25 @@ module Constraints {
 
   export class System {
 
+    public $: any;
+
     private operations: Operation[] = [];
-    private variables:  { [name: string]: Variable; } = {};
+    private variables:  { [name: string]: Variable; } = Object.create(null);
     private variableId = 0;
 
+    constructor() {
+      this.$ = this.proxy();
+    }
+
+    private hasVariable(name: string): boolean {
+      return name in this.variables;
+    }
+
     private getVariable(name: string): Variable {
-      let variable = this.variables[name];
-      if (!variable) {
-        variable = new Variable(name);
-        this.variables[name] = variable;
+      if (!this.hasVariable(name)) {
+        this.variables[name] = new Variable(name);
       }
-      return variable;
+      return this.variables[name];
     }
 
     private createIntermediate(): Variable {
@@ -318,9 +329,20 @@ module Constraints {
     /**
      * Set a variable's value
      */
-    set(name: string, v: number): void {
+    set(name: string, v: number|string|any[]): void {
       this.clear(name);
-      this.getVariable(name).setValue(v);
+      if (typeof v === "number") {
+        this.getVariable(name).setValue(v);
+        return;
+      }
+      if (typeof v === "string") {
+        this.equals(name, v);
+        return
+      }
+      if (Array.isArray(v)) {
+        this.equals(name, this.evalute(v));
+        return;
+      }
     }
 
     /**
@@ -339,7 +361,7 @@ module Constraints {
      */
     reset(): void {
       this.variableId = 0;
-      this.variables = {};
+      this.variables = Object.create(null);
       this.operations = [];
     }
 
@@ -428,13 +450,25 @@ module Constraints {
       }
     }
 
-    assign(name: string, ast: any): void {
-      let result = this.evalute(ast);
-      this.equals(name, result);
-    }
-
     toString(): string {
       return this.operations.map(op => op.toString()).join("\n");
+    }
+
+    private proxy(): Proxy {
+      return new Proxy(this, {
+        get(target: System, property: string, receiver: Proxy): number {
+          if (target.hasVariable(property)) {
+            return target.get(property);
+          }
+          return target[property];
+        },
+        set(target: System, property: string, value: any, receiver: Proxy): void {
+          target.set(property, value);
+        },
+        ownKeys(target: System): string[] {
+          return Object.keys(target.variables);
+        }
+      });
     }
 
   }
