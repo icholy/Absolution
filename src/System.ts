@@ -180,15 +180,14 @@ module Robin {
     /**
      * max = max(a, b)
      */
-    call(funcName: string, out: Value, a: Value, b: Value): void {
+    call(funcName: string, out: Value, params: Value[]): void {
       if (!this.hasFunc(funcName)) {
         throw new Error(`${funcName} is not a function`);
       }
       this.relationships.push(new CustomRelationship(
         name, this.funcs[funcName],
 
-        this.variableFor(a),
-        this.variableFor(b),
+        params.map(p => this.variableFor(p)),
         this.variableFor(out)
       ))
     }
@@ -240,9 +239,11 @@ module Robin {
           if (node.params.length !== 2) {
             throw new Error("functions can only take 2 parameters");
           }
-          return this.createCustomRelationship(node.name,
-              this.evaluate(node.params[0]),
-              this.evaluate(node.params[1]));
+          let result = this.createIntermediate();
+          let params = node.params.map(p => this.evaluate(p));
+          console.log(params);
+          this.call(node.name, result, params);
+          return result;
         default:
           throw new Error("invalid expression");
       }
@@ -250,7 +251,7 @@ module Robin {
 
     private createCustomRelationship(funcName: string, left: Variable, right: Variable): Variable {
       let result = this.createIntermediate();
-      this.call(funcName, result, left, right);
+      this.call(funcName, result, [left, right]);
       return result;
     }
 

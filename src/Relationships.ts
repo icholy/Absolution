@@ -193,31 +193,64 @@ module Robin {
 
   }
 
-  export type CustomFunc = (a: number, b: number) => number;
+  export type CustomFunc = Function;
 
   export class CustomRelationship extends Relationship {
+
+    private solver: (id: number) => void;
 
     constructor(
       private name: string,
       private func: CustomFunc,
 
-      private a:   Variable,
-      private b:   Variable,
-      private out: Variable
+      private input:  Variable[],
+      private output: Variable
     ) {
       super();
-      this.attachTo(a, b);
+
+      switch (func.length) {
+        case 1:
+          this.solver = this.solve1.bind(this);
+          break;
+        case 2:
+          this.solver = this.solve2.bind(this);
+          break;
+        default:
+          this.solver = this.solveHigher.bind(this);
+      }
+      this.attachTo(...input);
     }
 
     solve(id: number): void {
-      if (this.a.hasValue(id) && this.b.hasValue(id)) {
-        this.out.setValue(
-          this.func(this.a.getValue(), this.b.getValue()), id)
+      this.solve2(id);
+    }
+
+    private solve1(id: number): void {
+      let [a] = this.input;
+      if (a.hasValue(id)) {
+        this.output.setValue(
+          this.func(a.getValue()), id);
+      }
+    }
+
+    private solve2(id: number): void {
+      let [a, b] = this.input;
+      if (a.hasValue(id) && b.hasValue(id)) {
+        this.output.setValue(
+          this.func(a.getValue(), b.getValue()), id);
+      }
+    }
+
+    private solveHigher(id: number): void {
+      if (this.input.every(v => v.hasValue(id))) {
+        let result = this.func.apply(null, this.input.map(v => v.getValue()));
+        this.output.setValue(result, id);
       }
     }
 
     toString(): string {
-      return `${this.out} = ${this.name}(${this.a}, ${this.b})`;
+      let params = this.input.map(v => v.toString()).join(",");
+      return `${this.output} = ${this.name}(${params})`;
     }
 
   }
