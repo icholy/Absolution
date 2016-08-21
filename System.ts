@@ -127,6 +127,13 @@ export default class System {
     ));
   }
 
+  /**
+   * Dump all the relationships as strings
+   */
+  toString(): string {
+    return this.relationships.map(rel => rel.toString()).join("\n");
+  }
+
   private evalute(ast: any): Connector {
     if (Array.isArray(ast)) {
       if (ast.length !== 3) {
@@ -156,13 +163,6 @@ export default class System {
     } else {
       return this.connectorFor(ast);
     }
-  }
-
-  /**
-   * Dump all the relationships as strings
-   */
-  toString(): string {
-    return this.relationships.map(rel => rel.toString()).join("\n");
   }
 
   private getVariable(name: string): Variable {
