@@ -208,8 +208,8 @@ module Robin {
     /**
      * max = max(a, b)
      */
-    call(funcName: string, out: Value, params: Value[]): void {
-      let entry = this.getFunction(funcName, emptyContext);
+    call(funcName: string, out: Value, params: Value[], ctx: Context = emptyContext): void {
+      let entry = this.getFunction(funcName, ctx);
       this.relationships.push(new CustomRelationship(
         entry.name,
         entry.func,
@@ -280,15 +280,7 @@ module Robin {
     private handleFuncCall(node: FuncCallNode, ctx: Context): Variable {
       let result = this.createIntermediate();
       let params = node.params.map(p => this.evaluate(p, ctx));
-
-      let entry = this.getFunction(node.name, ctx);
-      this.relationships.push(new CustomRelationship(
-        entry.name,
-        entry.func,
-        entry.arity,
-        params.map(p => this.variableFor(p)),
-        this.variableFor(result)
-      ));
+      this.call(node.name, result, params, ctx);
       return result;
     }
 
