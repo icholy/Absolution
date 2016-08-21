@@ -1,7 +1,7 @@
 
 module Robin {
 
-  export const enum Axis { X, Y, NONE }
+  export const enum Axis { X, Y }
 
   export const enum Property {
 
