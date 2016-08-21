@@ -53,6 +53,10 @@ module Constraints {
       }
     }
 
+    getRelationships(): Relationship[] {
+      return this.relationships;
+    }
+
     toString(): string {
       return `${this.name}(${this.getValue()})`;
     }

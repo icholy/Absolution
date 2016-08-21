@@ -3,7 +3,7 @@ module Constraints {
   export abstract class Relationship {
 
     abstract recompute(): void;
-    abstract destroy(): void;
+    abstract getVariables(): Variable[];
 
     protected attachTo(...variables: Variable[]): void {
       for (let v of variables) {
@@ -45,8 +45,8 @@ module Constraints {
       }
     }
 
-    destroy(): void {
-      this.detachFrom(this.left, this.right);
+    getVariables(): Variable[] {
+      return [this.left, this.right];
     }
 
     toString(): string {
@@ -83,8 +83,8 @@ module Constraints {
       }
     }
 
-    destroy(): void {
-      this.detachFrom(this.addend1, this.addend2, this.sum);
+    getVariables(): Variable[] {
+      return [this.addend1, this.addend2, this.sum];
     }
 
     toString(): string {
@@ -121,8 +121,8 @@ module Constraints {
       }
     }
 
-    destroy(): void {
-      this.detachFrom(this.mult1, this.mult2, this.product);
+    getVariables(): Variable[] {
+      return [this.mult1, this.mult2, this.product];
     }
 
     toString(): string {
@@ -159,8 +159,8 @@ module Constraints {
       }
     }
 
-    destroy(): void {
-      this.detachFrom(this.minuend, this.subtrahend, this.difference);
+    getVariables(): Variable[] {
+      return [this.minuend, this.subtrahend, this.difference];
     }
 
     toString(): string {
@@ -196,8 +196,8 @@ module Constraints {
       }
     }
 
-    destroy(): void {
-      this.detachFrom(this.dividend, this.divisor, this.quotient);
+    getVariables(): Variable[] {
+      return [this.dividend, this.divisor, this.quotient];
     }
 
     toString(): string {
