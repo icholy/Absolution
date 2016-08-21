@@ -18,7 +18,7 @@ module Absolution {
     private parse<T>(input: string, options?: ParseOptions): T {
       let result = this.parserCache[input];
       if (!result) {
-        result = this.parse<T>(input, options);
+        result = Parser.parse<T>(input, options);
         this.parseRulesets[input] = result;
       }
       return result;
