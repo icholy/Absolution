@@ -55,6 +55,9 @@ class System {
     } else {
       Object.keys(this.variables).forEach(name => this.clear(name))
     }
+    for (let relationship of this.relationships) {
+      relationship.connectorValueChanged();
+    }
   }
 
   /**
