@@ -88,6 +88,55 @@ module Robin {
       }
     }
 
+    private getPropertyAxis(property: Property): Axis {
+      switch (property) {
+        case Property.LEFT:
+        case Property.WIDTH:
+        case Property.RIGHT:
+        case Property.CENTER_X:
+          return Axis.X;
+        case Property.TOP:
+        case Property.HEIGHT:
+        case Property.BOTTOM:
+        case Property.CENTER_Y:
+          return Axis.Y;
+        default:
+          return Axis.NONE;
+      }
+    }
+
+    private constrainX(property: Property): void {
+      switch (this.xAxisConstraints) {
+        case XConstraint.NONE:
+          let isWidth = property === Property.WIDTH;
+          this.xAxisConstraints = isWidth ? XConstraint.WIDTH : XConstraint.LEFT;
+          break;
+        case XConstraint.LEFT:
+        case XConstraint.WIDTH:
+          this.xAxisConstraints = XConstraint.LEFT_AND_WIDTH;
+          break;
+        default:
+            throw new Error(`the x axis already has 2 constraints`);
+      }
+    }
+
+    private constrainY(property: Property): void {
+      switch (this.yAxisConstraints) {
+        case YConstraint.NONE:
+          let isHeight = property === Property.HEIGHT;
+          this.yAxisConstraints = isHeight ? YConstraint.HEIGHT : YConstraint.TOP;
+          break;
+        case YConstraint.TOP:
+          this.yAxisConstraints = YConstraint.TOP_AND_HEIGHT;
+          break;
+        case YConstraint.HEIGHT:
+          this.yAxisConstraints = YConstraint.TOP_AND_HEIGHT;
+          break;
+        default:
+            throw new Error(`the y axis already has 2 constraints`);
+      }
+    }
+
     /**
      * Set the Rect's current position.
      */
@@ -150,6 +199,42 @@ module Robin {
       }
     }
 
+    private isPositionDifferent(position: RectPosition): boolean {
+      return !this.currentPosition
+          || this.isXPositionDifferent(position)
+          || this.isYPositionDifferent(position);
+    }
+
+    private isXPositionDifferent(position: RectPosition): boolean {
+      let current = this.currentPosition;
+      switch (this.xAxisConstraints) {
+        case XConstraint.LEFT_AND_WIDTH:
+          return current.left !== position.left
+              || current.width !== position.width;
+        case XConstraint.LEFT:
+          return current.left !== position.left;
+        case XConstraint.WIDTH:
+          return current.width !== position.width;
+        default:
+          return false;
+      }
+    }
+
+    private isYPositionDifferent(position: RectPosition): boolean {
+      let current = this.currentPosition;
+      switch (this.yAxisConstraints) {
+        case YConstraint.TOP_AND_HEIGHT:
+          return current.top !== position.top
+              || current.left !== position.left;
+        case YConstraint.TOP:
+          return current.top !== position.top;
+        case YConstraint.HEIGHT:
+          return current.height !== position.height;
+        default:
+          return false;
+      }
+    }
+
     /**
      * Update the constaint system using the elements properties.
      */
@@ -206,91 +291,6 @@ module Robin {
       system.destroyVariable(this.leftOffset);
       system.destroyVariable(this.width);
       this.observer.disconnect();
-    }
-
-    private isPositionDifferent(position: RectPosition): boolean {
-      return !this.currentPosition
-          || this.isXPositionDifferent(position)
-          || this.isYPositionDifferent(position);
-    }
-
-    private isXPositionDifferent(position: RectPosition): boolean {
-      let current = this.currentPosition;
-      switch (this.xAxisConstraints) {
-        case XConstraint.LEFT_AND_WIDTH:
-          return current.left !== position.left
-              || current.width !== position.width;
-        case XConstraint.LEFT:
-          return current.left !== position.left;
-        case XConstraint.WIDTH:
-          return current.width !== position.width;
-        default:
-          return false;
-      }
-    }
-
-    private isYPositionDifferent(position: RectPosition): boolean {
-      let current = this.currentPosition;
-      switch (this.yAxisConstraints) {
-        case YConstraint.TOP_AND_HEIGHT:
-          return current.top !== position.top
-              || current.left !== position.left;
-        case YConstraint.TOP:
-          return current.top !== position.top;
-        case YConstraint.HEIGHT:
-          return current.height !== position.height;
-        default:
-          return false;
-      }
-    }
-
-    private constrainX(property: Property): void {
-      switch (this.xAxisConstraints) {
-        case XConstraint.NONE:
-          let isWidth = property === Property.WIDTH;
-          this.xAxisConstraints = isWidth ? XConstraint.WIDTH : XConstraint.LEFT;
-          break;
-        case XConstraint.LEFT:
-        case XConstraint.WIDTH:
-          this.xAxisConstraints = XConstraint.LEFT_AND_WIDTH;
-          break;
-        default:
-            throw new Error(`the x axis already has 2 constraints`);
-      }
-    }
-
-    private constrainY(property: Property): void {
-      switch (this.yAxisConstraints) {
-        case YConstraint.NONE:
-          let isHeight = property === Property.HEIGHT;
-          this.yAxisConstraints = isHeight ? YConstraint.HEIGHT : YConstraint.TOP;
-          break;
-        case YConstraint.TOP:
-          this.yAxisConstraints = YConstraint.TOP_AND_HEIGHT;
-          break;
-        case YConstraint.HEIGHT:
-          this.yAxisConstraints = YConstraint.TOP_AND_HEIGHT;
-          break;
-        default:
-            throw new Error(`the y axis already has 2 constraints`);
-      }
-    }
-
-    private getPropertyAxis(property: Property): Axis {
-      switch (property) {
-        case Property.LEFT:
-        case Property.WIDTH:
-        case Property.RIGHT:
-        case Property.CENTER_X:
-          return Axis.X;
-        case Property.TOP:
-        case Property.HEIGHT:
-        case Property.BOTTOM:
-        case Property.CENTER_Y:
-          return Axis.Y;
-        default:
-          return Axis.NONE;
-      }
     }
 
     private assertIsNotConstrained(propertyName: string): void {
