@@ -31,13 +31,25 @@
       background-color: green;
     }
 
+    #X {
+      width: 200px;
+      height: 200px;
+      background-color: black;
+    }
+    #Z {
+      width: 200px;
+      height: 200px;
+      background-color: black;
+    }
+
   </style>
 </head>
 <body>
 
   <div class="box" id="A" 
     r-height="A.width * x"
-    r-left="document.left + 100">A</div>
+    r-right="X.left"
+    r-bottom="X.top">A</div>
   <div class="box green" id="B"
     r-width="A.width / 2"
     r-height="A.height / 2"
@@ -55,6 +67,8 @@
     r-width="C.height / 2"
     r-top="C.top + 200 * x">
   </div>
+
+  <div id="X" class="box" r-center-in="viewport" r-width="100 * x" r-height="100 - 100 * x"></div>
 
   <button id="pause">Pause</button>
 
