@@ -27,9 +27,9 @@ module Robin {
     ) {
       super(layout, id, container);
       this.element = element;
-      this.observer = new MutationObserver(mutations => {
-        this.updateSystemPosition();
-      });
+
+      let updateSystem = this.updateSystemPosition.bind(this);
+      this.observer = new MutationObserver(updateSystem);
       this.observer.observe(element, {
         attributes:    true,
         characterData: true,
@@ -81,46 +81,44 @@ module Robin {
         height: this.height.getValue()
       };
       if (this.isConstrainedPositionDifferent(position)) {
-        this.setRectPosition(position);
+        this.xAxis.updateRect(this, position);
+        this.yAxis.updateRect(this, position);
         this.position = position;
       }
     }
 
     /**
-     * Set the Rect's current position.
+     * Compare the position with the element's current position. Check if
+     * any of the constrained properties are different.
      */
-    private setRectPosition(position: RectPosition): void {
-      this.xAxis.updateRect(this, position);
-      this.yAxis.updateRect(this, position);
-    }
-
     private isConstrainedPositionDifferent(position: RectPosition): boolean {
       return !this.position
           || this.xAxis.constrainedAreDifferent(this.position, position)
           || this.yAxis.constrainedAreDifferent(this.position, position);
     }
 
+    /**
+     * Compare the position with the element's current position. Check if
+     * any of the independent (unconstrained) properties are different.
+     */
     private isIndependentPositionDifferent(position: RectPosition): boolean {
       return !this.position
           || this.xAxis.independentAreDifferent(this.position, position)
           || this.yAxis.independentAreDifferent(this.position, position);
     }
 
+    /**
+     * If the element's independent (unconstrained) properties
+     * have changed, use them to update the system.
+     */
     updateSystemPosition(): void {
       let position = Utils.getRectPosition(this.element);
       if (this.isIndependentPositionDifferent(position)) {
         this.position = position;
-        this.setSystemPosition(position);
+        this.xAxis.updateSystem(this, position);
+        this.yAxis.updateSystem(this, position);
         this.layout.update();
       }
-    }
-
-    /**
-     * Update the constaint system using the element position.
-     */
-    setSystemPosition(position: RectPosition): void {
-      this.yAxis.updateSystem(this, position);
-      this.xAxis.updateSystem(this, position);
     }
 
     /**
