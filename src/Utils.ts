@@ -22,6 +22,9 @@ class Utils {
     return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
   }
 
+  /**
+   * Get the current viewports absolute position.
+   */
   static getViewportRectPosition(): RectPosition {
 
     let body = document.body;
