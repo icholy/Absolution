@@ -214,7 +214,7 @@ class System {
     return result;
   }
 
-  private getVariable(name: string): Variable {
+  getVariable(name: string): Variable {
     if (!this.has(name)) {
       this.variables[name] = new Variable(name);
     }
