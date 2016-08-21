@@ -18,8 +18,8 @@ class LayoutManager {
       "rBottom":  "bottom",
       "rWidth":   "width",
       "rHeight":  "height",
-      "rHcenter": "hcenter",
-      "rVcenter": "vcenter"
+      "rCenterX": "center-x",
+      "rCenterY": "center-y"
     };
 
     let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);

@@ -1,21 +1,21 @@
 const enum Property {
 
   // X Axis
-  LEFT, RIGHT, WIDTH, HCENTER,
+  LEFT, RIGHT, WIDTH, CENTER_X,
 
   // Y Axis
-  TOP, BOTTOM, HEIGHT, VCENTER
+  TOP, BOTTOM, HEIGHT, CENTER_Y
 }
 
 const nameToProperty = {
-  "left":    Property.LEFT,
-  "right":   Property.RIGHT,
-  "width":   Property.WIDTH,
-  "hcenter": Property.HCENTER,
-  "top":     Property.TOP,
-  "bottom":  Property.BOTTOM,
-  "height":  Property.HEIGHT,
-  "vcenter": Property.VCENTER
+  "left":     Property.LEFT,
+  "right":    Property.RIGHT,
+  "width":    Property.WIDTH,
+  "center-x": Property.CENTER_X,
+  "top":      Property.TOP,
+  "bottom":   Property.BOTTOM,
+  "height":   Property.HEIGHT,
+  "center-y": Property.CENTER_Y
 };
 
 const enum Axis { X, Y, NONE }
@@ -60,7 +60,7 @@ abstract class RectManager {
     // x axis
     system.subtract(`${id}.width`, `${id}.right`, `${id}.left`);
     system.divide(`${id}_tmp1`, `${id}.width`, 2);
-    system.add(`${id}.hcenter`, `${id}.left`, `${id}_tmp1`);
+    system.add(`${id}.center-x`, `${id}.left`, `${id}_tmp1`);
 
     this.left  = system.getVariable(`${id}.left`);
     this.width = system.getVariable(`${id}.width`);
@@ -68,7 +68,7 @@ abstract class RectManager {
     // y axis
     system.subtract(`${id}.height`, `${id}.bottom`, `${id}.top`);
     system.divide(`${id}_tmp2`, `${id}.height`, 2);
-    system.add(`${id}.vcenter`, `${id}.top`, `${id}_tmp2`);
+    system.add(`${id}.center-y`, `${id}.top`, `${id}_tmp2`);
 
     this.top    = system.getVariable(`${id}.top`);
     this.height = system.getVariable(`${id}.height`);
@@ -215,12 +215,12 @@ abstract class RectManager {
       case Property.LEFT:
       case Property.WIDTH:
       case Property.RIGHT:
-      case Property.HCENTER:
+      case Property.CENTER_X:
         return Axis.X;
       case Property.TOP:
       case Property.HEIGHT:
       case Property.BOTTOM:
-      case Property.VCENTER:
+      case Property.CENTER_Y:
         return Axis.Y;
       default:
         return Axis.NONE;
