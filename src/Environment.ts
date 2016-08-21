@@ -24,9 +24,10 @@ module Absolution {
 
   export class Environment {
 
-    private rulesById = {} as { [id: string]: Rule[]; };
-    private rulesByClass = {} as { [className: string]: Rule[]; };
-    private userVariables = [] as VariableNode[];
+    private rulesById      = {} as { [id: string]: Rule[]; };
+    private rulesByClass   = {} as { [className: string]: Rule[]; };
+    private rulesByVirtual = {} as { [id: string]: Rule[]; };
+    private userVariables  = [] as VariableNode[];
 
     constructor(stylesheet?: StyleSheet) {
       if (stylesheet) {
@@ -71,6 +72,13 @@ module Absolution {
               this.rulesById[selector.name].push(...rules);
             } else {
               this.rulesById[selector.name] = rules;
+            }
+            break;
+          case "~":
+            if (this.hasRulesForVirtual(selector.name)) {
+              this.rulesByVirtual[selector.name].push(...rules);
+            } else {
+              this.rulesByVirtual[selector.name] = rules;
             }
             break;
           default:
@@ -227,9 +235,29 @@ module Absolution {
       return this.rulesByClass.hasOwnProperty(id);
     }
 
+    hasRulesForVirtual(id: string): boolean {
+      return this.rulesByVirtual.hasOwnProperty(id);
+    }
+
     getUserVariables(): VariableNode[] {
       return this.userVariables;
     }
 
+    getVirtuals(): RectOptions[] {
+      return Object.keys(this.rulesByVirtual).map(id => {
+        let options: RectOptions = {
+          id:        id,
+          container: null,
+          watcher:   null,
+          rules:     []
+        };
+        for (let rule of this.rulesByVirtual[id]) {
+          this.handleRule(options, rule);
+        }
+        return options;
+      });
+    }
+
   }
+
 }
