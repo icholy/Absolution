@@ -20,6 +20,9 @@ module Constraints {
       this.solve();
     }
 
+    /**
+     * Get all the used variables.
+     */
     getVariables(): Variable[] {
       return this.variables;
     }
