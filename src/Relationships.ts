@@ -218,7 +218,8 @@ module Robin {
 
     solve(id: number): void {
       if (this.input.every(v => v.hasValue(id))) {
-        let result = this.func.apply(null, this.input.map(v => v.getValue()));
+        let params = this.input.map(v => v.getValue());
+        let result = this.func(...params);
         this.output.setValue(result, id);
       }
     }
