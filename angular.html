@@ -116,7 +116,7 @@
     ng-repeat="r in rects"
     r-center-x="origin.center-x + sin(y * ($index + 1)) * 20px * x * ($index + 1)"
     r-center-y="origin.center-y + cos(y * ($index + 1)) * 20px * x * ($index + 1)"
-    r-width="max(20px, 50px * x)"
+    r-style="width: max(20px, 50px * x)"
     r-height="max(20px, 50px * x)"
     ng-style="{ 'background-color': r }">{{$index}}</div>
 </body>
