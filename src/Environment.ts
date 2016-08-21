@@ -24,16 +24,23 @@ module Absolution {
     }
 
     private parse<T>(input: string, options?: ParseOptions, useCache: boolean = false): T {
-      if (!useCache) {
-        return Parser.parse<T>(input, options);
-      }
       let result = this.parserCache[input];
-      if (!result) {
-        if (!Absolution.Parser) {
+      if (!result || !useCache) {
+        if (!Parser) {
           throw new Error("Absolution.Parser is not loaded!");
         }
-        result = Parser.parse<T>(input, options);
-        this.parserCache[input] = result;
+        try {
+          result = Parser.parse<T>(input, options);
+        } catch (e) {
+          if (e instanceof Parser.SyntaxError) {
+            throw new Error(Utils.formatParserError(e, input));
+          } else {
+            throw e;
+          }
+        }
+        if (useCache) {
+          this.parserCache[input] = result;
+        }
       }
       return result;
     }
@@ -109,16 +116,8 @@ module Absolution {
      * Parse a stylesheet as a string and load it.
      */
     parseStyleSheet(input: string): void {
-      try {
-        let stylesheet = this.parse<StyleSheet>(input, { startRule: "stylesheet" });
-        this.loadStyleSheet(stylesheet);
-      } catch (e) {
-        if (e instanceof Parser.SyntaxError) {
-          throw new Error(Utils.formatParserError(e, input));
-        } else {
-          throw e;
-        }
-      }
+      let stylesheet = this.parse<StyleSheet>(input, { startRule: "stylesheet" });
+      this.loadStyleSheet(stylesheet);
     }
 
     /**
