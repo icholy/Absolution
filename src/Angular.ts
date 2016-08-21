@@ -4,12 +4,14 @@ module Robin.Angular {
   class ScopeContext implements Context {
 
     private variables: { [name: string]: Variable; };
+    private functions: { [name: string]: FuncEntry; };
 
     constructor(
       private layout: Layout,
       private $scope: ng.IScope
     ) {
       this.variables = Object.create(null);
+      this.functions = Object.create(null);
     }
 
     private makeVariable(name: string): Variable {
@@ -36,12 +38,24 @@ module Robin.Angular {
       return this.variables[name];
     }
 
+    private makeFunction(name: string): FuncEntry {
+      return {
+        name:  name,
+        func:  this.$scope[name],
+        arity: this.$scope[name].length
+      };
+    }
+
     hasFunction(name: string): boolean {
-      return false;
+      return name in this.functions
+          || typeof this.$scope[name] === "function";
     }
 
     getFunction(name: string): FuncEntry {
-      throw new Error(`ScopeContext doesn't support functions yet`);
+      if (!(name in this.functions)) {
+        this.functions[name] = this.makeFunction(name);
+      }
+      return this.functions[name];
     }
   }
 
