@@ -1,6 +1,8 @@
 
 rulesets
-  = ruleset*
+  = _ sets:ruleset* {
+    return sets;
+  }
 
 ruleset
   = _ id:selector _ "{" _ rules:rule* _ "}" _ {
