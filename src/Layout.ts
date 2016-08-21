@@ -78,6 +78,14 @@ class Layout {
     }
   }
 
+  /**
+   * Assign a value and update the system.
+   */
+  assign(name: string, value: number): void {
+    this.system.assign(name, value);
+    this.update();
+  }
+
   private guid(): string {
     function s4() {
       return Math.floor((1 + Math.random()) * 0x10000)
