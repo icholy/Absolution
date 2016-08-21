@@ -7,7 +7,7 @@ interface ElementOptions {
 class LayoutManager {
 
   system = new Constraints.System();
-  managers = [] as ElementManager[];
+  managers = [] as RectManager[];
 
   constructor(root: HTMLElement) {
     let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
@@ -58,7 +58,7 @@ class LayoutManager {
   updateLayout(): void {
     this.system.solve();
     for (let manager of this.managers) {
-      manager.updateElement();
+      manager.updateRect();
     }
   }
 
