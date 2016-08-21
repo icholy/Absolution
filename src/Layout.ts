@@ -22,8 +22,8 @@ module Robin {
   };
 
   export interface LayoutOptions {
-    findStyleSheets: boolean;
-    findElements:    boolean;
+    findStyleSheets?: boolean;
+    findElements?:    boolean;
   }
 
   const defaultLayoutOptions: LayoutOptions = {
