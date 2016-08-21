@@ -1,26 +1,5 @@
 module Absolution {
 
-  const attributeMap = {
-    "a-left":        "left",
-    "a-right":       "right",
-    "a-top":         "top",
-    "a-bottom":      "bottom",
-    "a-width":       "width",
-    "a-height":      "height",
-    "a-center-x":    "center-x",
-    "a-center-y":    "center-y",
-    "a-rect":        "rect",
-    "a-relative-to": "relative-to",
-    "a-center-in":   "center-in",
-    "a-align-x":     "align-x",
-    "a-align-y":     "align-y",
-    "a-size":        "size",
-    "a-fill":        "fill",
-    "a-watch":       "watch",
-    "a-style":       "style",
-    "a-class":       "class"
-  };
-
   export class Environment {
 
     private rulesById      = {} as { [id: string]: Rule[]; };
@@ -99,10 +78,6 @@ module Absolution {
 
     private getClassNames(el: HTMLElement): string[] {
       let classNames = el.className.split(" ");
-      let classAttr = el.getAttribute("a-class");
-      if (classAttr) {
-        classNames.push(...classAttr.split(" "));
-      }
       return classNames.map(name => name.trim());
     }
 
@@ -133,17 +108,17 @@ module Absolution {
         }
       }
 
-      for (let i = 0; i < el.attributes.length; i++) {
-        let attr = el.attributes.item(i);
-        if (!attributeMap.hasOwnProperty(attr.name)) {
-          continue;
+      if (el.hasAttribute("a-rect")) {
+        isRect = true;
+      }
+
+      if (el.hasAttribute("a-style")) {
+        let style = el.getAttribute("a-style");
+        let rules = Parser.parse<Rule[]>(style, { startRule: "inline_rules" });
+        for (let rule of rules) {
+          this.handleRule(options, rule);
         }
         isRect = true;
-        this.handleRule(options, {
-          target: attributeMap[attr.name],
-          text:   attr.textContent,
-          expr:   null
-        });
       }
 
       if (!isRect && options.rules.length === 0) {
@@ -179,10 +154,7 @@ module Absolution {
       try {
         let ident: string;
         switch (rule.target) {
-          case "id":
-          case "rect":
           case "watch":
-          case "class":
             break;
           case "relative-to":
             options.container = this.identFrom(rule);
@@ -213,12 +185,6 @@ module Absolution {
             this.handleRule(options, this.ruleFor("bottom", `${ident}.bottom`));
             this.handleRule(options, this.ruleFor("left", `${ident}.left`));
             this.handleRule(options, this.ruleFor("right", `${ident}.right`));
-            break;
-          case "style":
-            let rules = Parser.parse<Rule[]>(rule.text, { startRule: "inline_rules" });
-            for (let rule of rules) {
-              this.handleRule(options, rule);
-            }
             break;
           default:
             options.rules.push(
