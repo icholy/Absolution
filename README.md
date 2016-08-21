@@ -87,7 +87,7 @@ manager.funcs(Math, "Math");
 }
 ```
 
-## Attributes 
+# Rule Attributes
 
 * `left`
 * `right`
