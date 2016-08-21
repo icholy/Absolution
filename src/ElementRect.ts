@@ -87,21 +87,32 @@ class ElementRect extends Rect {
    */
   setPosition(rect: RectPosition): void {
     let style = this.element.style;
+
+    let positionChanged = false;
+    let left  = 0;
+    let top = 0;
+
     for (let property of this.constrained) {
       switch (property) {
         case Property.TOP:
-          style.top = `${rect.top}px`;
+          positionChanged = true;
+          top = rect.top;
           break;
         case Property.HEIGHT:
           style.height = `${rect.height}px`;
           break;
         case Property.LEFT:
-          style.left = `${rect.left}px`;
+          positionChanged = true;
+          left = rect.left;
           break;
         case Property.WIDTH:
           style.width = `${rect.width}px`;
           break;
       }
+    }
+
+    if (positionChanged) {
+      style.transform = `translate(${left}px, ${top}px)`;
     }
   }
 
