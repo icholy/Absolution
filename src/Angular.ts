@@ -9,7 +9,7 @@ module Absolution.Angular {
     constructor(
       private layout: Layout,
       private $scope: ng.IScope,
-      private ctrl:   Controller
+      private parentCtrl:   Controller
     ) {
       this.variables = Object.create(null);
       this.functions = Object.create(null);
@@ -59,12 +59,12 @@ module Absolution.Angular {
     }
 
     identToName(node: IdentNode): string {
-      if (this.ctrl) {
+      if (this.parentCtrl) {
         if (node.tag === "property" && node.object === "parent") {
-          return `${this.ctrl.getRectId()}.${node.key}`;
+          return `${this.parentCtrl.getRectId()}.${node.key}`;
         }
         if (node.tag === "ident" && node.value === "parent") {
-          return this.ctrl.getRectId();
+          return this.parentCtrl.getRectId();
         }
       }
       return node.value;
@@ -104,13 +104,19 @@ module Absolution.Angular {
       controller: Controller,
       scope: false,
       link: {
-        pre(scope: ng.IScope, element: ng.IAugmentedJQuery, attr: ng.IAttributes, [ctrl, pCtrl]: Controller[]): void {
+        pre(
+          scope: ng.IScope, element: ng.IAugmentedJQuery, attr: ng.IAttributes,
+          [ctrl, parentController]: Controller[]
+        ): void {
           let el = element[0];
           let options = layout.getRectOptions(el, true);
           ctrl.setOptions(options);
         },
-        post(scope: ng.IScope, element: ng.IAugmentedJQuery, attr: ng.IAttributes, [ctrl, pCtrl]: Controller[]): void {
-          let context = new ScopeContext(layout, scope, pCtrl);
+        post(
+          scope: ng.IScope, element: ng.IAugmentedJQuery, attr: ng.IAttributes,
+          [ctrl, parentController]: Controller[]
+        ): void {
+          let context = new ScopeContext(layout, scope, parentController);
           let options = ctrl.getOptionsWithContext(context)
           let el = element[0];
           let rect = new ElementRect(el, layout, options);
