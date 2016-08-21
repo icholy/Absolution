@@ -56,6 +56,8 @@ class ElementManager {
       case "vcenter":
         this.yAxisConstraints++;
         break;
+      default:
+        throw new Error(`${property} is not a supported property`);
     }
     this.expressions[property] = expression;
     this.constrained.push(property);
