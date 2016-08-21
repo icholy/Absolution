@@ -6,12 +6,22 @@ module Absolution {
     private rulesByClass   = {} as { [className: string]: Rule[]; };
     private rulesByVirtual = {} as { [id: string]: Rule[]; };
     private userVariables  = [] as VariableNode[];
+    private parserCache    = {} as { [input: string]: any; };
 
     constructor(stylesheet?: StyleSheet) {
       if (stylesheet) {
         this.parseRulesets(stylesheet.rulesets);
         this.userVariables.push(...stylesheet.variables);
       }
+    }
+
+    private parse<T>(input: string, options?: ParseOptions): T {
+      let result = this.parserCache[input];
+      if (!result) {
+        result = this.parse<T>(input, options);
+        this.parseRulesets[input] = result;
+      }
+      return result;
     }
 
     /**
@@ -65,7 +75,7 @@ module Absolution {
 
     parseStyleSheet(input: string): void {
       try {
-        let stylesheet = Parser.parse<StyleSheet>(input, { startRule: "stylesheet" });
+        let stylesheet = this.parse<StyleSheet>(input, { startRule: "stylesheet" });
         this.loadStyleSheet(stylesheet);
       } catch (e) {
         if (e instanceof Parser.SyntaxError) {
@@ -114,7 +124,7 @@ module Absolution {
 
       if (el.hasAttribute("a-style")) {
         let style = el.getAttribute("a-style");
-        let rules = Parser.parse<Rule[]>(style, { startRule: "inline_rules" });
+        let rules = this.parse<Rule[]>(style, { startRule: "inline_rules" });
         for (let rule of rules) {
           this.handleRule(options, rule);
         }
@@ -135,7 +145,7 @@ module Absolution {
 
     private ruleFor(target: string, text: string, expr?: Expression): Rule {
       if (!expr) {
-        expr = Parser.parse<Expression>(text, { startRule: "expression" });
+        expr = this.parse<Expression>(text, { startRule: "expression" });
       }
       return { target, text, expr };
     }
