@@ -56,11 +56,10 @@
     }
 
     .sub_block {
-      width:       10px;
-      height:      10px;
-      relative-to: parent;
-      center-x:    parent.center-x + sin(y * ($index + 1)) * 70px * x * ($index + 1);
-      center-y:    parent.center-y + cos(y * ($index + 1)) * 70px * x * ($index + 1);
+      width:    10px;
+      height:   10px;
+      center-x: parent.center-x + sin(y * ($index + 1)) * 70px * x * ($index + 1);
+      center-y: parent.center-y + cos(y * ($index + 1)) * 70px * x * ($index + 1);
     }
 
   </script>
