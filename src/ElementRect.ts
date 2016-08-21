@@ -45,8 +45,8 @@ module Robin {
       if (!this.isAbsoluteSet) {
         let style = this.element.style;
         style.position = "absolute";
-        style.left = "0";
-        style.top = "0";
+        style.left = "0px";
+        style.top = "0px";
         this.isAbsoluteSet = true;
       }
     }
