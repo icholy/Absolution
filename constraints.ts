@@ -150,7 +150,7 @@ module Constraints {
     }
 
     toString(): string {
-      return `${this.addend1} + ${this.addend2} = ${this.sum}`;
+      return `${this.sum} = ${this.addend1} + ${this.addend2}`;
     }
 
   }
@@ -184,7 +184,7 @@ module Constraints {
     }
 
     toString(): string {
-      return `${this.mult1} * ${this.mult2} = ${this.product}`;
+      return `${this.product} = ${this.mult1} * ${this.mult2}`;
     }
 
   }
@@ -218,7 +218,7 @@ module Constraints {
     }
 
     toString(): string {
-      return `${this.minuend} - ${this.subtrahend} = ${this.difference}`;
+      return `${this.difference} = ${this.minuend} - ${this.subtrahend}`;
     }
 
   }
@@ -251,7 +251,7 @@ module Constraints {
     }
 
     toString(): string {
-      return `${this.dividend} / ${this.divisor} = ${this.quotient}`;
+      return `${this.quotient} = ${this.dividend} / ${this.divisor}`;
     }
 
   }
