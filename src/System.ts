@@ -15,6 +15,7 @@ module Absolution {
     getVariable(name: string, node: IdentNode): Variable;
     hasFunction(name: string): boolean;
     getFunction(name: string): FuncEntry;
+    remapIdent(name: string, node: IdentNode): string;
   }
 
   let emptyContext: Context = {
@@ -29,6 +30,9 @@ module Absolution {
     },
     getFunction(name: string): FuncEntry {
       throw new Error(`context does not have ${name} function`);
+    },
+    remapIdent(name: string): string {
+      return name;
     }
   };
 
