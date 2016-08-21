@@ -150,6 +150,7 @@ module Absolution {
 
     private handleRule(options: RectOptions, rule: Rule): void {
       try {
+        let ident: string;
         switch (rule.target) {
           case "register":
           case "id":
@@ -160,31 +161,31 @@ module Absolution {
             options.container = this.identFrom(rule);
             break;
           case "center-in":
-            let centerInIdent = this.identFrom(rule);
-            this.handleRule(options, this.ruleFor("center-x", `${centerInIdent}.center-x`));
-            this.handleRule(options, this.ruleFor("center-y", `${centerInIdent}.center-y`));
+            ident = this.identFrom(rule);
+            this.handleRule(options, this.ruleFor("center-x", `${ident}.center-x`));
+            this.handleRule(options, this.ruleFor("center-y", `${ident}.center-y`));
             break;
           case "align-x":
-            let alignXIdent = this.identFrom(rule);
-            this.handleRule(options, this.ruleFor("left", `${alignXIdent}.left`));
-            this.handleRule(options, this.ruleFor("right", `${alignXIdent}.right`));
+            ident = this.identFrom(rule);
+            this.handleRule(options, this.ruleFor("left", `${ident}.left`));
+            this.handleRule(options, this.ruleFor("right", `${ident}.right`));
             break;
           case "align-y":
-            let alignYIdent = this.identFrom(rule);
-            this.handleRule(options, this.ruleFor("top", `${alignYIdent}.top`));
-            this.handleRule(options, this.ruleFor("bottom", `${alignYIdent}.bottom`));
+            ident = this.identFrom(rule);
+            this.handleRule(options, this.ruleFor("top", `${ident}.top`));
+            this.handleRule(options, this.ruleFor("bottom", `${ident}.bottom`));
             break;
           case "size":
-            let sizeIdent = this.identFrom(rule);
-            this.handleRule(options, this.ruleFor("width", `${sizeIdent}.width`));
-            this.handleRule(options, this.ruleFor("height", `${sizeIdent}.height`));
+            ident = this.identFrom(rule);
+            this.handleRule(options, this.ruleFor("width", `${ident}.width`));
+            this.handleRule(options, this.ruleFor("height", `${ident}.height`));
             break;
           case "fill":
-            let fillIdent = this.identFrom(rule);
-            this.handleRule(options, this.ruleFor("top", `${fillIdent}.top`));
-            this.handleRule(options, this.ruleFor("bottom", `${fillIdent}.bottom`));
-            this.handleRule(options, this.ruleFor("left", `${fillIdent}.left`));
-            this.handleRule(options, this.ruleFor("right", `${fillIdent}.right`));
+            ident = this.identFrom(rule);
+            this.handleRule(options, this.ruleFor("top", `${ident}.top`));
+            this.handleRule(options, this.ruleFor("bottom", `${ident}.bottom`));
+            this.handleRule(options, this.ruleFor("left", `${ident}.left`));
+            this.handleRule(options, this.ruleFor("right", `${ident}.right`));
             break;
           case "style":
             let rules = Parser.parse<Rule[]>(rule.text, { startRule: "inline_rules" });
