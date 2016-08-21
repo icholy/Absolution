@@ -19,14 +19,19 @@ selector
   }
 
 rule
-  = _ target:ident _ ":" _ expr:expression _ ";" _ {
+  = _ target:ident _ ":" _ expr:expression_with_text _ ";" _ {
       return {
         tag:    "rule",
         target: target.value,
-        expr:   expr,
-        text:   text()
+        expr:   expr
       };
     }
+
+expression_with_text =
+  expr:expression {
+    expr.text = text();
+    return expr;
+  }
 
 expression
   = _ expr:add_or_subtract _ {

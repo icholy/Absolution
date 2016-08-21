@@ -54,6 +54,14 @@ module Robin {
       this.rects.push(new DocumentRect(this));
       this.rects.push(new BodyRect(this));
 
+      let styleTags = document.getElementsByTagName("style");
+      for (let i = 0; i < styleTags.length; i++) {
+        let styleTag = styleTags.item(i);
+        if (styleTag.getAttribute("type") === "text/robin") {
+          this.parseStyleSheet(styleTag.textContent);
+        }
+      }
+
       // walk the dom and find elements with robin attributes
       let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
       let el: HTMLElement;
@@ -90,14 +98,15 @@ module Robin {
           if (this.hasRuleSet(id)) {
             let rules = this.rulesets[id].rules;
             for (let rule of rules) {
-              rect.constrain(rule.target, rule.text, rule.expr);
+              this.applyProperty(rect, rule.target, rule.expr.text, rule.expr);
             }
           }
 
           isRegistered = true;
         }
 
-        this.applyProperty(rect, attributeMap[attr.name], attr.textContent);
+        let node = Parser.parse(attr.textContent, { startRule: "expression" });
+        this.applyProperty(rect, attributeMap[attr.name], attr.textContent, node);
       }
 
       if (isRegistered) {
@@ -109,14 +118,14 @@ module Robin {
       return this.rulesets.hasOwnProperty(id);
     }
 
-    parseStyle(input: string): void {
+    parseStyleSheet(input: string): void {
       let rulesets = Parser.parse(input, { startRule: "rulesets" }) as RuleSet[];
       for (let set of rulesets) {
         this.rulesets[set.id] = set;
       }
     }
 
-    private applyProperty(rect: ElementRect, name: string, value: string): void {
+    private applyProperty(rect: ElementRect, name: string, value: string, node: Expression): void {
       switch (name) {
         case "watch":
           if (value !== "mutation") {
@@ -152,7 +161,7 @@ module Robin {
         case "id":
           break;
         default:
-          rect.constrain(name, value);
+          rect.constrain(name, value, node);
       }
     }
 
