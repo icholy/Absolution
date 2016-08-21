@@ -1,4 +1,9 @@
 
+interface ElementOptions {
+  element:    HTMLElement,
+  container?: HTMLElement
+}
+
 class LayoutManager {
 
   private managers = [] as ElementManager[];
@@ -7,8 +12,10 @@ class LayoutManager {
     private system: System
   ) {}
 
-  register(m: ElementManager): void {
+  register(element: HTMLElement, container?: HTMLElement): ElementManager {
+    let m = new ElementManager(this.system, element, container);
     this.managers.push(m);
+    return m;
   }
 
   updateSystem(): void {

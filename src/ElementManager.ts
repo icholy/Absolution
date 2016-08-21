@@ -11,8 +11,7 @@ class ElementManager {
   constructor(
     private system:    System,
     private element:   HTMLElement,
-    private container: HTMLElement,
-    private layout:    LayoutManager
+    private container: HTMLElement
   ) {
     this.id = element.id;
     let id = element.id;
@@ -26,8 +25,6 @@ class ElementManager {
     system.subtract(`${id}.height`, `${id}.bottom`, `${id}.top`);
     system.divide(`${id}_tmp2`, `${id}.height`, 2);
     system.add(`${id}.vcenter`, `${id}.top`, `${id}_tmp2`);
-
-    this.layout.register(this);
   }
 
   constrain(property: string, expression: string): void {
