@@ -3,6 +3,11 @@ abstract class Connector {
 
   private listeners: Function[] = [];
 
+  constructor(
+    protected name: string,
+    protected value: number
+  ) {}
+
   notify(): void {
     for (let listener of this.listeners) {
       listener();
@@ -13,6 +18,10 @@ abstract class Connector {
     this.listeners.push(listener);
   }
 
+  toString(): string {
+    return `${this.name}(${this.getValue()})`;
+  }
+
   abstract setValue(v: number): void;
   abstract getValue(): number;
   abstract hasValue(): boolean;
@@ -21,13 +30,8 @@ abstract class Connector {
 
 class Variable extends Connector {
 
-  private name: string;
-  private value: number;
-
   constructor(name: string) {
-    super();
-    this.name = name;
-    this.value = null;
+    super(name, null);
   }
 
   setValue(v: number): void {
@@ -53,16 +57,12 @@ class Variable extends Connector {
     this.value = null;
   }
 
-  toString(): string {
-    return `${this.name}(${this.getValue()})`;
-  }
-
 }
 
 class Constant extends Connector {
 
-  constructor(private value: number) {
-    super();
+  constructor(value: number) {
+    super("Const", value);
   }
 
   getValue(): number {
@@ -82,10 +82,6 @@ class Constant extends Connector {
 
   clearValue(): void {
     // do nothing
-  }
-
-  toString(): string {
-    return `Const(${this.value})`;
   }
   
 }
