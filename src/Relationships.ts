@@ -6,6 +6,8 @@ module Robin {
 
     /**
      * Try to solve the constraint.
+     *
+     * @param id the digest id
      */
     abstract solve(id: number): void;
 
