@@ -8,6 +8,8 @@ module Robin {
     // true if postition: "absolute" has been set
     private isAbsoluteSet = false;
 
+    // since both axis are set separately, we use this variable
+    // to store the left & top offsets so they can be applied together.
     private offsetIsSet = false;
     private offset: {
       left: number;
