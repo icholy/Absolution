@@ -209,12 +209,39 @@ module Robin {
     }
 
     private isPositionDifferent(position: RectPosition): boolean {
+      return !this.currentPosition
+          || this.isXPositionDifferent(position)
+          || this.isYPositionDifferent(position);
+    }
+
+    private isXPositionDifferent(position: RectPosition): boolean {
       let current = this.currentPosition;
-      return !current
-          || position.width !== current.width
-          || position.height !== current.height
-          || position.left !== current.left
-          || position.top !== current.top;
+      switch (this.xAxisConstraints) {
+        case XConstraint.LEFT_AND_WIDTH:
+          return current.left !== position.left
+              || current.width !== position.width;
+        case XConstraint.LEFT:
+          return current.left !== position.left;
+        case XConstraint.WIDTH:
+          return current.width !== position.width;
+        default:
+          return false;
+      }
+    }
+
+    private isYPositionDifferent(position: RectPosition): boolean {
+      let current = this.currentPosition;
+      switch (this.yAxisConstraints) {
+        case YConstraint.TOP_AND_HEIGHT:
+          return current.top !== position.top
+              || current.left !== position.left;
+        case YConstraint.TOP:
+          return current.top !== position.top;
+        case YConstraint.HEIGHT:
+          return current.height !== position.height;
+        default:
+          return false;
+      }
     }
 
     private constrainX(property: Property): void {
