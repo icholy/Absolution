@@ -1,10 +1,18 @@
 module Absolution {
 
   export interface ManagerOptions {
+
+    // Find and parser script tags with where type="text/absolution"
     findStyleSheets?: boolean;
-    findElements?:    boolean;
+
+    // Walk the dom and find elements with `a-rect` or `a-style` attributes.
+    findElements?: boolean;
+
+    // Use the selectors in the stylesheets to lookup elements in the dom.
     lookupSelectors?: boolean;
-    styleSheet?:      StyleSheet;
+
+    // Provide pre-compiled rules to the env.
+    envData?: EnvData;
   }
 
   const defaultOptions: ManagerOptions = {
@@ -35,8 +43,8 @@ module Absolution {
       this.rects["body"]     = new BodyRect(this);
 
       // load pre-compiled stylesheet
-      if (options.styleSheet) {
-        this.env.loadStyleSheet(options.styleSheet);
+      if (options.envData) {
+        this.env.setExportData(options.envData);
       }
 
       // find rulesets from script tags

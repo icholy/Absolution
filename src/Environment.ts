@@ -14,15 +14,6 @@ module Absolution {
     private parserCache    = {} as { [input: string]: any; };
     private stylesheets    = [] as StyleSheet[];
 
-    constructor(data?: EnvData) {
-      if (data) {
-        for (let stylesheet of data.stylesheets) {
-          this.loadStyleSheet(stylesheet);
-        }
-        this.parserCache = data.cache;
-      }
-    }
-
     private parse<T>(input: string, options?: ParseOptions, useCache: boolean = false): T {
       let result = this.parserCache[input];
       if (!result || !useCache) {
@@ -54,6 +45,15 @@ module Absolution {
         cache:       this.parserCache,
         stylesheets: this.stylesheets
       };
+    }
+
+    /**
+     * Set the environment data. This allows for use of pre-compiled rules
+     * for faster startup time and faster page load (no parser needed).
+     */
+    setExportData(data: EnvData): void {
+      this.stylesheets = data.stylesheets
+      this.parserCache = data.cache;
     }
 
     /**
