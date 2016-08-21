@@ -127,9 +127,25 @@ module Robin {
     }
 
     /**
+     * Update the rect using the values in the constraint system
+     */
+    updateRect(): void {
+      let position = {
+        left:   this.leftOffset.getValue(),
+        top:    this.topOffset.getValue(),
+        width:  this.width.getValue(),
+        height: this.height.getValue()
+      };
+      if (this.isConstrainedPositionDifferent(position)) {
+        this.setRectPosition(position);
+        this.position = position;
+      }
+    }
+
+    /**
      * Set the Rect's current position.
      */
-    setRectPosition(rect: RectPosition): void {
+    private setRectPosition(rect: RectPosition): void {
       let style = this.element.style;
       let positionChanged = false;
       let left  = 0;
@@ -169,22 +185,6 @@ module Robin {
         style.transform = `translate(${left}px, ${top}px)`;
         style.left = "0px";
         style.top = "0px";
-      }
-    }
-
-    /**
-     * Update the rect using the values in the constraint system
-     */
-    updateRect(): void {
-      let position = {
-        left:   this.leftOffset.getValue(),
-        top:    this.topOffset.getValue(),
-        width:  this.width.getValue(),
-        height: this.height.getValue()
-      };
-      if (this.isConstrainedPositionDifferent(position)) {
-        this.setRectPosition(position);
-        this.position = position;
       }
     }
 
