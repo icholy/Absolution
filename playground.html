@@ -40,6 +40,10 @@
       background-color: black;
     }
 
+    #Y {
+      background-color: purple;
+    }
+
   </style>
 
   <script type="text/robin">
@@ -55,6 +59,13 @@
       height:   A.height / 2;
       left:     A.left + (B.width * x);
       center-y: A.center-y + (10px * x);
+    }
+
+    #Y {
+      width:    100px;
+      height:   100px;
+      center-y: X.center-y + (sin((x * 4) - 2) * 100);
+      center-x: X.center-x + (cos((x * 4) - 2) * 100);
     }
 
   </script>
@@ -80,6 +91,8 @@
     r-style="width: 100 * x"
     r-height="max(100 - 100 * x, 50)"></div>
 
+  <div id="Y"></div>
+
   <button id="pause">Pause</button>
 
   <script>
@@ -88,6 +101,14 @@
 
     layout.system.func("max", function (a, b) {
       return Math.max(a, b);
+    });
+
+    layout.system.func("sin", function (x) {
+      return Math.sin(x);
+    });
+
+    layout.system.func("cos", function (x) {
+      return Math.cos(x);
     });
 
     layout.attachTo(document.body);
