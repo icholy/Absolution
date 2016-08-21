@@ -18,7 +18,7 @@ describe("Robin", function () {
     describe("Expressions", function () {
 
       function parse(input) {
-        return Robin.GeneratedParser.parse(input, { startRule: "expression" });
+        return Robin.Parser.expression(input);
       }
 
       it("should parse a number", function () {
@@ -58,6 +58,7 @@ describe("Robin", function () {
         var node = parse("foo(1)");
         expect(node.tag).toEqual("func_call");
         expect(node.name).toEqual("foo");
+        expect(node.params[0].value).toEqual(1);
       });
 
       it("should parse function call with multiple parameters", function () {
