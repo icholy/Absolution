@@ -219,7 +219,7 @@ class ElementManager {
     };
   }
 
-  private assertIsNotConstrained(property: Property): boolean {
+  private assertIsNotConstrained(property: Property): void {
     if (this.expressions.hasOwnProperty(property.toString())) {
       throw new Error(
         `${this.id}: ${Property[property]} is already set to ${this.expressions[property]}`);
