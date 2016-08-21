@@ -1,0 +1,24 @@
+{
+  "name": "constraints",
+  "version": "1.0.0",
+  "description": "constraint system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/icholy/Constraints.git"
+  },
+  "author": "Ilia Choly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/icholy/Constraints/issues"
+  },
+  "homepage": "https://github.com/icholy/Constraints#readme",
+  "devDependencies": {
+    "jasmine-core": "2.4.1"
+  },
+  "dependencies": {
+  }
+}

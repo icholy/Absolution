@@ -1,5 +1,5 @@
 
-export abstract class Connector {
+abstract class Connector {
 
   private listeners: Function[] = [];
 
@@ -19,7 +19,7 @@ export abstract class Connector {
   abstract clearValue(): void;
 }
 
-export class Variable extends Connector {
+class Variable extends Connector {
 
   private name: string;
   private value: number;
@@ -59,7 +59,7 @@ export class Variable extends Connector {
 
 }
 
-export class Constant extends Connector {
+class Constant extends Connector {
 
   constructor(private value: number) {
     super();

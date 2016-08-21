@@ -1,6 +1,5 @@
-import { Connector } from "Connectors";
 
-export abstract class Relationship {
+abstract class Relationship {
 
   abstract connectorValueChanged(): void;
 
@@ -17,7 +16,7 @@ export abstract class Relationship {
 
 }
 
-export class Equality extends Relationship {
+class Equality extends Relationship {
 
   constructor(
     private left: Connector,
@@ -44,7 +43,7 @@ export class Equality extends Relationship {
 
 }
 
-export class Addition extends Relationship {
+class Addition extends Relationship {
 
   constructor(
     private addend1: Connector,
@@ -78,7 +77,7 @@ export class Addition extends Relationship {
 
 }
 
-export class Multiplication extends Relationship {
+class Multiplication extends Relationship {
 
   constructor(
     private mult1:   Connector,
@@ -112,7 +111,7 @@ export class Multiplication extends Relationship {
 
 }
 
-export class Subtraction extends Relationship {
+class Subtraction extends Relationship {
 
   constructor(
     private minuend:    Connector,
@@ -146,7 +145,7 @@ export class Subtraction extends Relationship {
 
 }
 
-export class Division extends Relationship {
+class Division extends Relationship {
 
   constructor(
     private dividend: Connector,

@@ -1,13 +1,9 @@
-
-import { Relationship, Equality, Addition, Subtraction, Multiplication, Division } from "Relationships";
-import { Connector, Variable, Constant } from "Connectors";
-
 declare var Proxy;
 type Proxy = any;
 
 type Value = string | number | Connector;
 
-export default class System {
+class System {
 
   public $: Proxy;
 

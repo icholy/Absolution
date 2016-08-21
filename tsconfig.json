@@ -1,7 +1,15 @@
 {
   "compilerOptions": {
     "target":  "es5",
-    "module":  "umd",
-    "outDir":  "build"
-  }
+    "outDir":  "build",
+    "rootDir": "src"
+  },
+  "files": [
+    "src/Connectors.ts",
+    "src/Parser.ts",
+    "src/Relationships.ts",
+    "src/System.ts",
+    "src/test/Test.ts",
+    "typings/browser.d.ts"
+  ]
 }
