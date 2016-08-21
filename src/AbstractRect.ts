@@ -64,9 +64,9 @@ abstract class AbstractRect implements Rect {
     system.subtract(`${id}.width`, `${id}.right`, `${id}.left`);
     system.divide(`${id}_tmp1`, `${id}.width`, 2);
     system.add(`${id}.center-x`, `${id}.left`, `${id}_tmp1`);
-    system.add(`${id}.left.absolute`, `${id}.left`, `${container}.left.absolute`);
+    system.add(`${id}.absolute.left`, `${id}.left`, `${container}.absolute.left`);
 
-    this.absoluteLeft = system.getVariable(`${id}.left.absolute`);
+    this.absoluteLeft = system.getVariable(`${id}.absolute.left`);
     this.left         = system.getVariable(`${id}.left`);
     this.width        = system.getVariable(`${id}.width`);
 
@@ -74,9 +74,9 @@ abstract class AbstractRect implements Rect {
     system.subtract(`${id}.height`, `${id}.bottom`, `${id}.top`);
     system.divide(`${id}_tmp2`, `${id}.height`, 2);
     system.add(`${id}.center-y`, `${id}.top`, `${id}_tmp2`);
-    system.add(`${id}.top.absolute`, `${id}.top`, `${container}.top.absolute`);
+    system.add(`${id}.absolute.top`, `${id}.top`, `${container}.absolute.top`);
 
-    this.absoluteTop = system.getVariable(`${id}.top.absolute`);
+    this.absoluteTop = system.getVariable(`${id}.absolute.top`);
     this.top    = system.getVariable(`${id}.top`);
     this.height = system.getVariable(`${id}.height`);
   }
