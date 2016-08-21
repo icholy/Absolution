@@ -82,7 +82,6 @@ module Robin {
         }
         isRect = true;
 
-
         let target = attributeMap[attr.name];
         let text   = attr.textContent;
 

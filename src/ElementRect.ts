@@ -45,7 +45,7 @@ module Robin {
             `${this.getId()}.r-watch value error: "${options.watcher}" is not a supported watcher`);
         }
         let watcher = new MutationObserverWatcher(this);
-        this.addWatcher(watcher);
+        this.watchers.push(watcher);
       }
 
       let updateRect = this.updateRectPosition.bind(this);
@@ -85,14 +85,6 @@ module Robin {
       } catch (e) {
         throw new Error(this.createErrorMessage(propertyName, expression, e));
       }
-    }
-
-    /**
-     * Tell the element about a watcher so it can be
-     * property destroyed with the element.
-     */
-    addWatcher(watcher: Watcher): void {
-      this.watchers.push(watcher);
     }
 
     /**
