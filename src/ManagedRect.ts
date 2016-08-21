@@ -7,7 +7,7 @@ module Robin {
     rules:     Rule[];
   }
 
-  export class ManagedRect extends Rect {
+  export abstract class ManagedRect extends Rect {
 
     // used to check if a property has already been constrained.
     // also for generating useful error messages.
@@ -21,36 +21,14 @@ module Robin {
     // current Rect position
     private position: RectPosition;
 
-    // the element that's being managed
-    public element: HTMLElement;
-
-    private isAbsoluteSet = false;
-
-
-    // list of watchers to be cleaned up
-    // when the rect is destroyed
-    private watchers: Watcher[] = [];
-
     constructor(
-      element:   HTMLElement,
-      layout:    Layout,
-      options:   RectOptions
+      layout:  Layout,
+      options: RectOptions
     ) {
       super(layout, options.id, options.container);
-      this.element = element;
 
       for (let rule of options.rules) {
         this.constrain(rule.target, rule.text, rule.expr);
-      }
-
-      // add a watcher if one is specified
-      if (options.watcher) {
-        if (options.watcher !== "mutation") {
-          throw new Error(
-            `${this.getId()}.r-watch value error: "${options.watcher}" is not a supported watcher`);
-        }
-        let watcher = new MutationObserverWatcher(this);
-        this.watchers.push(watcher);
       }
 
       let updateRect = this.updateRectPosition.bind(this);
@@ -58,7 +36,12 @@ module Robin {
       this.left.onChange(updateRect);
       this.top.onChange(updateRect);
       this.height.onChange(updateRect);
+    }
 
+    /**
+     * Initialize the rect
+     */
+    protected initialize(): void {
       this.updateSystemPosition();
     }
 
@@ -107,7 +90,7 @@ module Robin {
     }
 
     /**
-     * Compare the position with the element's current position. Check if
+     * Compare the position with the rect's current position. Check if
      * any of the constrained properties are different.
      */
     private isConstrainedPositionDifferent(position: RectPosition): boolean {
@@ -117,7 +100,7 @@ module Robin {
     }
 
     /**
-     * Compare the position with the element's current position. Check if
+     * Compare the position with the rect's current position. Check if
      * any of the independent (unconstrained) properties are different.
      */
     private isIndependentPositionDifferent(position: RectPosition): boolean {
@@ -126,49 +109,37 @@ module Robin {
           || this.yAxis.independentAreDifferent(this.position, position);
     }
 
-    private setAbsolute(): void {
-      if (!this.isAbsoluteSet) {
-        this.element.style.position = "absolute";
-        this.isAbsoluteSet = true;
-      }
-    }
+    /**
+     * Set the rect's left offset
+     */
+    abstract setLeft(value: number): void;
 
     /**
-     * Set the element's left offset
+     * Set the rect's top offset
      */
-    setLeft(value: number): void {
-      this.setAbsolute();
-      this.element.style.left = `${value}px`;
-    }
+    abstract setTop(value: number): void;
 
     /**
-     * Set the element's top offset
+     * Set the rect's width
      */
-    setTop(value: number): void {
-      this.setAbsolute();
-      this.element.style.top = `${value}px`;
-    }
+    abstract setWidth(value: number): void;
 
     /**
-     * Set the element's width
+     * Set the rect's height
      */
-    setWidth(value: number): void {
-      this.element.style.width = `${value}px`;
-    }
+    abstract setHeight(value: number): void;
 
     /**
-     * Set the element's height
+     * Get the rect's position.
      */
-    setHeight(value: number): void {
-      this.element.style.height = `${value}px`;
-    }
+    abstract getRectPosition(): RectPosition;
 
     /**
      * If the element's independent (unconstrained) properties
      * have changed, use them to update the system.
      */
     updateSystemPosition(): void {
-      let position = Utils.getRectPosition(this.element);
+      let position = this.getRectPosition();
       if (this.isIndependentPositionDifferent(position)) {
         this.position = position;
         this.xAxis.updateSystem(this, position);
@@ -188,9 +159,6 @@ module Robin {
       system.destroyVariable(this.left);
       system.destroyVariable(this.leftOffset);
       system.destroyVariable(this.width);
-      for (let watcher of this.watchers) {
-        watcher.destroy();
-      }
     }
 
     private assertIsNotConstrained(propertyName: string): void {

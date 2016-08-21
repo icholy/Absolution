@@ -54,12 +54,12 @@ module Robin {
      * Update the system with the position's independent (unconstrained)
      * properties.
      */
-    updateSystem(rect: ElementRect, position: RectPosition): void;
+    updateSystem(rect: ManagedRect, position: RectPosition): void;
 
     /**
      * Update the element with the position's constrained properties.
      */
-    updateRect(rect: ElementRect, position: RectPosition): void;
+    updateRect(rect: ManagedRect, position: RectPosition): void;
   }
 
   export let XAxisBoth: ConstrainedAxis = {
@@ -76,10 +76,9 @@ module Robin {
       return false;
     },
 
-    updateSystem(rect: ElementRect, position: RectPosition): void {},
+    updateSystem(rect: ManagedRect, position: RectPosition): void {},
 
-    updateRect(rect: ElementRect, position: RectPosition): void {
-      let style = rect.element.style;
+    updateRect(rect: ManagedRect, position: RectPosition): void {
       rect.setLeft(position.left);
       rect.setWidth(position.width);
     }
@@ -99,11 +98,11 @@ module Robin {
       return a.width !== b.width;
     },
 
-    updateSystem(rect: ElementRect, position: RectPosition): void {
+    updateSystem(rect: ManagedRect, position: RectPosition): void {
       rect.width.assignValue(position.width);
     },
 
-    updateRect(rect: ElementRect, position: RectPosition): void {
+    updateRect(rect: ManagedRect, position: RectPosition): void {
       rect.setLeft(position.left);
     }
   };
@@ -122,11 +121,11 @@ module Robin {
       return a.left !== b.left;
     },
 
-    updateSystem(rect: ElementRect, position: RectPosition): void {
+    updateSystem(rect: ManagedRect, position: RectPosition): void {
       rect.left.assignValue(position.left);
     },
 
-    updateRect(rect: ElementRect, position: RectPosition): void {
+    updateRect(rect: ManagedRect, position: RectPosition): void {
       rect.setWidth(position.width);
     }
   };
@@ -149,12 +148,12 @@ module Robin {
       return a.width !== b.width || a.left !== b.left;
     },
 
-    updateSystem(rect: ElementRect, position: RectPosition): void {
+    updateSystem(rect: ManagedRect, position: RectPosition): void {
       rect.left.assignValue(position.left);
       rect.width.assignValue(position.width);
     },
 
-    updateRect(rect: ElementRect, position: RectPosition): void {}
+    updateRect(rect: ManagedRect, position: RectPosition): void {}
   };
 
   export let YAxisBoth: ConstrainedAxis = {
@@ -171,9 +170,9 @@ module Robin {
       return false;
     },
 
-    updateSystem(rect: ElementRect, position: RectPosition): void {},
+    updateSystem(rect: ManagedRect, position: RectPosition): void {},
 
-    updateRect(rect: ElementRect, position: RectPosition): void {
+    updateRect(rect: ManagedRect, position: RectPosition): void {
       rect.setHeight(position.height);
       rect.setTop(position.top);
     }
@@ -193,11 +192,11 @@ module Robin {
       return a.height !== b.height;
     },
 
-    updateSystem(rect: ElementRect, position: RectPosition): void {
+    updateSystem(rect: ManagedRect, position: RectPosition): void {
       rect.height.assignValue(position.height);
     },
 
-    updateRect(rect: ElementRect, position: RectPosition): void {
+    updateRect(rect: ManagedRect, position: RectPosition): void {
       rect.setTop(position.top);
     }
   };
@@ -216,11 +215,11 @@ module Robin {
       return a.top !== b.top;
     },
 
-    updateSystem(rect: ElementRect, position: RectPosition): void {
+    updateSystem(rect: ManagedRect, position: RectPosition): void {
       rect.top.assignValue(position.top);
     },
 
-    updateRect(rect: ElementRect, position: RectPosition): void {
+    updateRect(rect: ManagedRect, position: RectPosition): void {
       rect.setHeight(position.height);
     }
   };
@@ -243,12 +242,12 @@ module Robin {
       return a.top !== b.top || a.height !== b.height;
     },
 
-    updateSystem(rect: ElementRect, position: RectPosition): void {
+    updateSystem(rect: ManagedRect, position: RectPosition): void {
       rect.top.assignValue(position.top);
       rect.height.assignValue(position.height);
     },
 
-    updateRect(rect: ElementRect, position: RectPosition): void {}
+    updateRect(rect: ManagedRect, position: RectPosition): void {}
   };
 
 }
