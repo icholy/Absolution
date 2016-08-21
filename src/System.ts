@@ -238,7 +238,6 @@ module Robin {
         case "func_call":
           let result = this.createIntermediate();
           let params = node.params.map(p => this.evaluate(p));
-          console.log(params);
           this.call(node.name, result, params);
           return result;
         default:
