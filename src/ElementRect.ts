@@ -41,6 +41,8 @@ class ElementRect implements Rect {
   private top:    Constraints.Variable;
   private height: Constraints.Variable;
 
+  // these are the actual left & top values assigned
+  // to the element
   private leftOffset: Constraints.Variable;
   private topOffset:  Constraints.Variable;
 
