@@ -275,6 +275,11 @@ module Constraints {
     }
 
     private proxy(): Proxy {
+
+      if (!Proxy) {
+        return null;
+      }
+
       return new Proxy(this, {
         get(target: System, property: string, receiver: Proxy): number {
           if (target.has(property)) {
