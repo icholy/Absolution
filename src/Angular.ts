@@ -74,9 +74,7 @@ module Robin.Angular {
 
   function LayoutFactory(): Layout {
     let layout = new Layout();
-    layout.attachTo(document.body, {
-      findStyleSheets: true
-    });
+    layout.attachTo(document.body, { findStyleSheets: true });
     return layout;
   }
 
