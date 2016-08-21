@@ -4,6 +4,19 @@
 
 **WARNING WIP** I've only been testing this is chrome.
 
+# Quick Start
+
+``` sh
+npm install
+npm run tsc
+npm run peg
+python -mSimpleHTTPServer
+```
+
+Browse the `/examples` directory.
+
+# Feature Overview
+
 ``` html
 <div a-rect id="A"></div>
 <div a-rect id="B"></div>
