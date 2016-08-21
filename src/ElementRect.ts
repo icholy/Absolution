@@ -35,12 +35,4 @@ class ElementRect extends AbstractRect {
     }
   }
 
-  private setStyle(name: string, variable: Constraints.Variable): void {
-    let pixels = `${variable.getValue()}px`;
-    if (this.isDebugEnabled) {
-      console.debug(`(${this.id}) setting ${name} = ${pixels}`);
-    }
-    this.element.style[name] = pixels;
-  }
-
 }
