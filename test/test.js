@@ -1,9 +1,9 @@
-describe("Robin", function () {
+describe("Absolution", function () {
 
   describe("Variable", function () {
 
     it("should throw an error if it's already set to a different value", function () {
-      var v = new Robin.Variable("name");
+      var v = new Absolution.Variable("name");
       var spy = jasmine.createSpy('notified');
       v.setValue(123);
       expect(function () {
@@ -18,7 +18,7 @@ describe("Robin", function () {
     describe("Expressions", function () {
 
       function parse(input) {
-        return Robin.Parser.parse(input, { startRule: "expression" });
+        return Absolution.Parser.parse(input, { startRule: "expression" });
       }
 
       it("should parse a number", function () {
@@ -75,7 +75,7 @@ describe("Robin", function () {
 
   describe("System", function () {
 
-    var system = new Robin.System();
+    var system = new Absolution.System();
 
     beforeEach(function () {
       system.reset();
