@@ -21,8 +21,8 @@ module Robin {
   };
 
   const enum Axis { X, Y, NONE }
-  const enum XDependency { LEFT_AND_WIDTH, LEFT, WIDTH, NONE }
-  const enum YDependency { TOP_AND_HEIGHT, TOP, HEIGHT, NONE }
+  const enum XConstraint { LEFT_AND_WIDTH, LEFT, WIDTH, NONE }
+  const enum YConstraint { TOP_AND_HEIGHT, TOP, HEIGHT, NONE }
 
   export class ElementRect extends Rect {
 
@@ -31,13 +31,9 @@ module Robin {
     private expressions: { [propertyName: string]: string; } = {};
 
     // the dependencies are the rects properties that are
-    // reported to the constaint system when requested
-    private xAxisDependencies = XDependency.LEFT_AND_WIDTH;
-    private yAxisDependencies = YDependency.TOP_AND_HEIGHT;
-
-    // used to determine which properties from the constrain
-    // system should be used to update the element
-    private constrained = [] as Property[];
+    // constained by the system
+    private xAxisConstraints = XConstraint.NONE;
+    private yAxisConstraints = YConstraint.NONE;
 
     // current Rect position
     private currentPosition: RectPosition;
@@ -77,15 +73,14 @@ module Robin {
 
         switch (this.getPropertyAxis(property)) {
           case Axis.X:
-            property = this.updateXDependency(property);
+            this.constrainX(property);
             break;
           case Axis.Y:
-            property = this.updateYDependency(property);
+            this.constrainY(property);
             break;
         }
 
         this.system.set(`${this.id}.${propertyName}`, expression.toString());
-        this.constrained.push(property);
         this.expressions[propertyName] = expression;
 
       } catch (e) {
@@ -102,23 +97,34 @@ module Robin {
       let left  = 0;
       let top = 0;
 
-      for (let property of this.constrained) {
-        switch (property) {
-          case Property.TOP:
-            positionChanged = true;
-            top = rect.top;
-            break;
-          case Property.LEFT:
-            positionChanged = true;
-            left = rect.left;
-            break;
-          case Property.HEIGHT:
-            style.height = `${rect.height}px`;
-            break;
-          case Property.WIDTH:
-            style.width = `${rect.width}px`;
-            break;
-        }
+      switch (this.xAxisConstraints) {
+        case XConstraint.LEFT:
+          positionChanged = true;
+          left = rect.left;
+          break;
+        case XConstraint.WIDTH:
+          style.width = `${rect.width}px`;
+          break;
+        case XConstraint.LEFT_AND_WIDTH:
+          positionChanged = true;
+          left = rect.left;
+          style.width = `${rect.width}px`;
+          break;
+      }
+
+      switch (this.yAxisConstraints) {
+        case YConstraint.TOP:
+          positionChanged = true;
+          top = rect.top;
+          break;
+        case YConstraint.HEIGHT:
+          style.height = `${rect.height}px`;
+          break;
+        case YConstraint.TOP_AND_HEIGHT:
+          positionChanged = true;
+          top = rect.top;
+          style.height = `${rect.height}px`;
+          break;
       }
 
       if (positionChanged) {
@@ -147,9 +153,10 @@ module Robin {
      */
     updateSystem(): void {
 
+      // if both axis are completely constrained, we don't need the element's position
       if (
-        this.xAxisDependencies === XDependency.NONE &&
-        this.yAxisDependencies === YDependency.NONE
+        this.xAxisConstraints === XConstraint.LEFT_AND_WIDTH &&
+        this.yAxisConstraints === YConstraint.TOP_AND_HEIGHT
       ) {
         return;
       }
@@ -157,29 +164,29 @@ module Robin {
       let position = Utils.getRectPosition(this.element);
 
       // x axis
-      switch (this.xAxisDependencies) {
-        case XDependency.LEFT_AND_WIDTH:
+      switch (this.xAxisConstraints) {
+        case XConstraint.NONE:
           this.left.assignValue(position.left);
           this.width.assignValue(position.width);
           break;
-        case XDependency.LEFT:
+        case XConstraint.WIDTH:
           this.left.assignValue(position.left);
           break;
-        case XDependency.WIDTH:
+        case XConstraint.LEFT:
           this.width.assignValue(position.width);
           break;
       }
 
       // y axis
-      switch (this.yAxisDependencies) {
-        case YDependency.TOP_AND_HEIGHT:
+      switch (this.yAxisConstraints) {
+        case YConstraint.NONE:
           this.top.assignValue(position.top);
           this.height.assignValue(position.height);
           break;
-        case YDependency.TOP:
+        case YConstraint.HEIGHT:
           this.top.assignValue(position.top);
           break;
-        case YDependency.HEIGHT:
+        case YConstraint.TOP:
           this.height.assignValue(position.height);
           break;
       }
@@ -208,35 +215,33 @@ module Robin {
           || position.top !== current.top;
     }
 
-    private updateXDependency(property: Property): Property {
-      let isWidth = property === Property.WIDTH;
-      switch (this.xAxisDependencies) {
-        case XDependency.LEFT_AND_WIDTH:
-          this.xAxisDependencies = isWidth ? XDependency.LEFT : XDependency.WIDTH;
-          return isWidth ? Property.WIDTH : Property.LEFT;
-        case XDependency.LEFT:
-          this.xAxisDependencies = XDependency.NONE;
-          return Property.LEFT;
-        case XDependency.WIDTH:
-          this.xAxisDependencies = XDependency.NONE;
-          return Property.WIDTH;
+    private constrainX(property: Property): void {
+      switch (this.xAxisConstraints) {
+        case XConstraint.NONE:
+          let isWidth = property === Property.WIDTH;
+          this.xAxisConstraints = isWidth ? XConstraint.WIDTH : XConstraint.LEFT;
+          break;
+        case XConstraint.LEFT:
+        case XConstraint.WIDTH:
+          this.xAxisConstraints = XConstraint.LEFT_AND_WIDTH;
+          break;
         default:
             throw new Error(`the x axis already has 2 constraints`);
       }
     }
 
-    private updateYDependency(property: Property): Property {
-      let isHeight = property === Property.HEIGHT;
-      switch (this.yAxisDependencies) {
-        case YDependency.TOP_AND_HEIGHT:
-          this.yAxisDependencies = isHeight ? YDependency.TOP : YDependency.HEIGHT;
-          return isHeight ? Property.HEIGHT : Property.TOP;
-        case YDependency.TOP:
-          this.yAxisDependencies = YDependency.NONE;
-          return Property.TOP;
-        case YDependency.HEIGHT:
-          this.yAxisDependencies = YDependency.NONE;
-          return Property.HEIGHT;
+    private constrainY(property: Property): void {
+      switch (this.yAxisConstraints) {
+        case YConstraint.NONE:
+          let isHeight = property === Property.HEIGHT;
+          this.yAxisConstraints = isHeight ? YConstraint.HEIGHT : YConstraint.TOP;
+          break;
+        case YConstraint.TOP:
+          this.yAxisConstraints = YConstraint.TOP_AND_HEIGHT;
+          break;
+        case YConstraint.HEIGHT:
+          this.yAxisConstraints = YConstraint.TOP_AND_HEIGHT;
+          break;
         default:
             throw new Error(`the y axis already has 2 constraints`);
       }
