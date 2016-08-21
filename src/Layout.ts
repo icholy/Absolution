@@ -99,11 +99,15 @@ module Robin {
       switch (name) {
         case "style":
           value.split(";").forEach(attr => {
-            let parts = attr.split(":", 2);
-            if (parts.length === 2) {
-              let [name, value] = parts;
-              this.applyProperty(rect, name.trim(), value.trim());
+            if (attr.trim() === "") {
+              return;
             }
+            let parts = attr.split(":", 2);
+            if (parts.length !== 2) {
+              throw new Error(`the style is not valid: ${attr}`);
+            }
+            let [name, value] = parts;
+            this.applyProperty(rect, name.trim(), value.trim());
           });
           break;
         case "center-in":
