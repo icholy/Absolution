@@ -70,26 +70,4 @@ module Robin {
 
   }
 
-  export class ClassRect extends ManagedRect {
-
-    public rules: Rule[] = [];
-
-    constructor(
-      layout: Layout,
-      options: RectOptions
-    ) {
-      super(layout, options);
-      this.rules = options.rules.map(rule => {
-        let target = rule.target;
-        let text = `${this.id}.${target}`;
-        return {
-          target: target,
-          text:   text
-          expr:   { tag: "ident", value: text }
-        };
-      });
-    }
-
-  }
-
 }

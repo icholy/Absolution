@@ -36,8 +36,8 @@ module Robin {
 
     system = new System();
     digestID = 0;
-    rulesets = {} as { [id: string]: Rule[]; };
-    classes = {} as { [id: string]: ClassRect; };
+    rulesById = {} as { [id: string]: Rule[]; };
+    rulesByClass = {} as { [className: string]: Rule[]; };
 
     private updateIsRequested = false;
 
@@ -83,9 +83,9 @@ module Robin {
         rules:     []
       };
 
-      if (options.id && this.hasRuleSet(options.id)) {
+      if (options.id && this.hasRulesForId(options.id)) {
         isRect = true;
-        for (let rule of this.rulesets[options.id]) {
+        for (let rule of this.rulesById[options.id]) {
           this.handleRule(options, rule);
         }
       }
@@ -141,11 +141,10 @@ module Robin {
             break;
           case "class":
             let className = this.identFrom(rule);
-            if (!this.hasClass(className)) {
+            if (!this.hasRulesForClass(className)) {
               throw new Error(`${className} class not found`);
             }
-            let classRect = this.classes[className];
-            for (let rule of classRect.rules) {
+            for (let rule of this.rulesByClass[className]) {
               this.handleRule(options, rule);
             }
             break;
@@ -201,22 +200,17 @@ module Robin {
       for (let { selector, rules } of rulesets) {
         switch (selector.type) {
           case "class":
-            let options: RectOptions = {
-              id:        selector.name,
-              container: null,
-              watcher:   null,
-              rules:     []
-            };
-            for (let rule of rules) {
-              this.handleRule(options, rule);
+            if (this.hasRulesForClass(selector.name)) {
+              this.rulesByClass[selector.name].push(...rules);
+            } else {
+              this.rulesByClass[selector.name] = rules;
             }
-            this.classes[selector.name] = new ClassRect(this, options);
             break;
           case "id":
-            if (this.hasRuleSet(selector.name)) {
-              this.rulesets[selector.name].push(...rules);
+            if (this.hasRulesForId(selector.name)) {
+              this.rulesById[selector.name].push(...rules);
             } else {
-              this.rulesets[selector.name] = rules;
+              this.rulesById[selector.name] = rules;
             }
             break;
           default:
@@ -264,12 +258,12 @@ module Robin {
       }
     }
 
-    private hasRuleSet(id: string): boolean {
-      return this.rulesets.hasOwnProperty(id);
+    private hasRulesForId(id: string): boolean {
+      return this.rulesById.hasOwnProperty(id);
     }
 
-    private hasClass(id: string): boolean {
-      return this.classes.hasOwnProperty(id);
+    private hasRulesForClass(id: string): boolean {
+      return this.rulesByClass.hasOwnProperty(id);
     }
 
   }
