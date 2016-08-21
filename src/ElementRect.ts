@@ -62,17 +62,16 @@ class ElementRect extends Rect {
 
       switch (this.getPropertyAxis(property)) {
         case Axis.X:
-          this.constrainXProperty(property);
+          property = this.updateXDependency(property);
           break;
         case Axis.Y:
-          this.contrainYProperty(property);
+          property = this.updateYDependency(property);
           break;
-        default:
-          this.constrained.push(property);
       }
 
-      this.expressions[propertyName] = expression;
       this.system.set(`${this.id}.${propertyName}`, expression.toString());
+      this.constrained.push(property);
+      this.expressions[propertyName] = expression;
 
       if (this.isDebugEnabled) {
         console.debug(`(${this.id}) constrain ${propertyName} = "${expression}"`);
@@ -187,41 +186,35 @@ class ElementRect extends Rect {
         || position.top !== current.top;
   }
 
-  private constrainXProperty(property: Property): void {
+  private updateXDependency(property: Property): Property {
     let isWidth = property === Property.WIDTH;
     switch (this.xAxisDependencies) {
       case XDependency.LEFT_AND_WIDTH:
         this.xAxisDependencies = isWidth ? XDependency.LEFT : XDependency.WIDTH;
-        this.constrained.push(isWidth ? Property.WIDTH : Property.LEFT);
-        break;
+        return isWidth ? Property.WIDTH : Property.LEFT;
       case XDependency.LEFT:
         this.xAxisDependencies = XDependency.NONE;
-        this.constrained.push(Property.LEFT);
-        break;
+        return Property.LEFT;
       case XDependency.WIDTH:
         this.xAxisDependencies = XDependency.NONE;
-        this.constrained.push(Property.WIDTH);
-        break;
+        return Property.WIDTH;
       default:
           throw new Error(`the x axis already has 2 constraints`);
     }
   }
 
-  private contrainYProperty(property: Property): void {
+  private updateYDependency(property: Property): Property {
     let isHeight = property === Property.HEIGHT;
     switch (this.yAxisDependencies) {
       case YDependency.TOP_AND_HEIGHT:
         this.yAxisDependencies = isHeight ? YDependency.TOP : YDependency.HEIGHT;
-        this.constrained.push(isHeight ? Property.HEIGHT : Property.TOP);
-        break;
+        return isHeight ? Property.HEIGHT : Property.TOP;
       case YDependency.TOP:
-        this.constrained.push(Property.TOP);
         this.yAxisDependencies = YDependency.NONE;
-        break;
+        return Property.TOP;
       case YDependency.HEIGHT:
-        this.constrained.push(Property.HEIGHT);
         this.yAxisDependencies = YDependency.NONE;
-        break;
+        return Property.HEIGHT;
       default:
           throw new Error(`the y axis already has 2 constraints`);
     }
