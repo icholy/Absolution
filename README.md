@@ -89,7 +89,7 @@ manager.funcs(Math, "Math");
 
 The `Absolution.Manager` is how the user interacts with the system.
 
-```
+``` typescript
 let manager = new Absolution.Manager();
 
 // assign variables and attach functions
@@ -100,7 +100,7 @@ manager.initialize();
 By default, the manager will walk the entire DOM and `register` Elements which have an `a-rect` or `a-style` attribute.
 This behaviour is configured via an options object passed into the `initialize` method.
 
-``` ts
+``` typescript
 interface ManagerOptions {
 
   // Find and parser script tags with where type="text/absolution"
