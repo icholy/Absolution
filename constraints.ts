@@ -1,5 +1,4 @@
 
-
 module Constraints {
 
   export class Notifier {
@@ -65,10 +64,7 @@ module Constraints {
 
   export class Constant extends Connector {
 
-    constructor(
-      private name: string,
-      private value: number
-    ) {
+    constructor(private value: number) {
       super();
     }
 
@@ -82,7 +78,7 @@ module Constraints {
 
     setValue(v: number, id: number = -1): void {
       if (v !== this.value) {
-        throw new Error(`Contradiction: ${this.name} constant cannot be set`);
+        throw new Error(`Contradiction: ${this.value} constant cannot be set`);
       }
     }
 
@@ -241,5 +237,78 @@ module Constraints {
     }
 
   }
-}
 
+  type Value = string | number;
+
+  export class System {
+
+    private operations: Operation[] = [];
+    private variables:  { [name: string]: Variable; } = {};
+
+    private getVariable(name: string): Variable {
+      let variable = this.variables[name];
+      if (!variable) {
+        variable = new Variable(name);
+        this.variables[name] = variable;
+      }
+      return variable;
+    }
+
+    private connectorFor(v: Value): Connector {
+      if (typeof v === "string") {
+        return this.getVariable(v);
+      } else {
+        return new Constant(v);
+      }
+    }
+
+    get(name: string): number {
+      return this.getVariable(name).getValue();
+    }
+
+    set(name: string, v: number): void {
+      this.getVariable(name).setValue(v);
+    }
+
+    clear(name: string): void {
+      this.getVariable(name).clearValue();
+    }
+
+    purge(): void {
+      Object.keys(this.variables).forEach(name => this.clear(name))
+    }
+
+    add(addend1: Value, addend2: Value, sum: Value): void {
+      this.operations.push(new Adder(
+        this.connectorFor(addend1),
+        this.connectorFor(addend2),
+        this.connectorFor(sum)
+      ));
+    }
+
+    subtract(minuend: Value, subtrahend: Value, difference: Value): void {
+      this.operations.push(new Subtractor(
+        this.connectorFor(minuend),
+        this.connectorFor(subtrahend),
+        this.connectorFor(difference)
+      ));
+    }
+
+    multiply(mult1: Value, mult2: Value, product: Value): void {
+      this.operations.push(new Multiplier(
+        this.connectorFor(mult1),
+        this.connectorFor(mult2),
+        this.connectorFor(product)
+      ));
+    }
+
+    divide(dividend: Value, divisor: Value, quotient: Value): void {
+      this.operations.push(new Divider(
+        this.connectorFor(dividend),
+        this.connectorFor(divisor),
+        this.connectorFor(quotient)
+      ));
+    }
+
+  }
+}
