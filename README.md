@@ -13,14 +13,14 @@
 ### Anchor the element to another
 
 ``` html
-<div id="A" r-register>A</div>
+<div r-id="A">A</div>
 <div r-left="A.right">B</div>
 ```
 
 ### Use expressions
 
 ``` html
-<div id="A" r-register>A</div>
+<div r-id="A">A</div>
 <div id="B" r-left="A.right + B.width / 2">B</div>
 ```
 
