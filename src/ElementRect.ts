@@ -30,8 +30,8 @@ module Robin {
 
     // the dependencies are the rects properties that are
     // constained by the system
-    private xAxisConstraints = XConstraint.NONE;
-    private yAxisConstraints = YConstraint.NONE;
+    private xAxis = XAxisNone;
+    private yAxis = YAxisNone;
 
     // current Rect position
     private position: RectPosition;
@@ -77,10 +77,10 @@ module Robin {
 
         switch (this.getPropertyAxis(property)) {
           case Axis.X:
-            this.constrainX(property);
+            this.xAxis = this.xAxis.constrain(property);
             break;
           case Axis.Y:
-            this.constrainY(property);
+            this.yAxis = this.yAxis.constrain(property);
             break;
         }
 
@@ -89,44 +89,6 @@ module Robin {
 
       } catch (e) {
         throw new Error(this.createErrorMessage(propertyName, expression, e));
-      }
-    }
-
-    private constrainX(property: Property): void {
-      switch (this.xAxisConstraints) {
-        case XConstraint.NONE:
-          if (property === Property.WIDTH) {
-            this.xAxisConstraints = XConstraint.WIDTH;
-          } else {
-            this.xAxisConstraints = XConstraint.LEFT;
-          }
-          break;
-        case XConstraint.LEFT:
-        case XConstraint.WIDTH:
-          this.xAxisConstraints = XConstraint.LEFT_AND_WIDTH;
-          break;
-        default:
-            throw new Error(`the x axis already has 2 constraints`);
-      }
-    }
-
-    private constrainY(property: Property): void {
-      switch (this.yAxisConstraints) {
-        case YConstraint.NONE:
-          if (property === Property.HEIGHT) {
-            this.yAxisConstraints = YConstraint.HEIGHT;
-          } else {
-            this.yAxisConstraints = YConstraint.TOP;
-          }
-          break;
-        case YConstraint.TOP:
-          this.yAxisConstraints = YConstraint.TOP_AND_HEIGHT;
-          break;
-        case YConstraint.HEIGHT:
-          this.yAxisConstraints = YConstraint.TOP_AND_HEIGHT;
-          break;
-        default:
-            throw new Error(`the y axis already has 2 constraints`);
       }
     }
 
@@ -155,7 +117,7 @@ module Robin {
       let left  = 0;
       let top = 0;
 
-      switch (this.xAxisConstraints) {
+      switch (this.xAxis.constraint) {
         case XConstraint.LEFT:
           positionChanged = true;
           left = rect.left;
@@ -170,7 +132,7 @@ module Robin {
           break;
       }
 
-      switch (this.yAxisConstraints) {
+      switch (this.yAxis.constraint) {
         case YConstraint.TOP:
           positionChanged = true;
           top = rect.top;
@@ -194,83 +156,14 @@ module Robin {
 
     private isConstrainedPositionDifferent(position: RectPosition): boolean {
       return !this.position
-          || this.isConstrainedXPositionDifferent(position)
-          || this.isConstrainedYPositionDifferent(position);
-    }
-
-    private isConstrainedXPositionDifferent(position: RectPosition): boolean {
-      let current = this.position;
-      switch (this.xAxisConstraints) {
-        case XConstraint.LEFT_AND_WIDTH:
-          return current.left !== position.left
-              || current.width !== position.width;
-        case XConstraint.LEFT:
-          return current.left !== position.left;
-        case XConstraint.WIDTH:
-          return current.width !== position.width;
-        default:
-          return false;
-      }
-    }
-
-    private isConstrainedYPositionDifferent(position: RectPosition): boolean {
-      let current = this.position;
-      switch (this.yAxisConstraints) {
-        case YConstraint.TOP_AND_HEIGHT:
-          return current.top !== position.top
-              || current.left !== position.left;
-        case YConstraint.TOP:
-          return current.top !== position.top;
-        case YConstraint.HEIGHT:
-          return current.height !== position.height;
-        default:
-          return false;
-      }
+          || this.xAxis.constrainedAreDifferent(this.position, position)
+          || this.yAxis.constrainedAreDifferent(this.position, position);
     }
 
     private isIndependentPositionDifferent(position: RectPosition): boolean {
-
-      // if both axis are completely constrained, we don't need the element's position
-      if (
-        this.xAxisConstraints === XConstraint.LEFT_AND_WIDTH &&
-        this.yAxisConstraints === YConstraint.TOP_AND_HEIGHT
-      ) {
-        return false;
-      }
-
       return !this.position
-          || this.isIndependentXPositionDifferent(position)
-          || this.isIndependentYPositionDifferent(position);
-    }
-
-    private isIndependentXPositionDifferent(position: RectPosition): boolean {
-      let current = this.position;
-      switch (this.xAxisConstraints) {
-        case XConstraint.NONE:
-          return current.left !== position.left
-              || current.width !== position.width;
-        case XConstraint.WIDTH:
-          return current.left !== position.left;
-        case XConstraint.LEFT:
-          return current.width !== position.width;
-        default:
-          return false;
-      }
-    }
-
-    private isIndependentYPositionDifferent(position: RectPosition): boolean {
-      let current = this.position;
-      switch (this.yAxisConstraints) {
-        case YConstraint.NONE:
-          return current.top !== position.top
-              || current.left !== position.left;
-        case YConstraint.HEIGHT:
-          return current.top !== position.top;
-        case YConstraint.TOP:
-          return current.height !== position.height;
-        default:
-          return false;
-      }
+          || this.xAxis.independentAreDifferent(this.position, position)
+          || this.yAxis.independentAreDifferent(this.position, position);
     }
 
     updateSystemPosition(): void {
@@ -288,7 +181,7 @@ module Robin {
     setSystemPosition(position: RectPosition): void {
 
       // x axis
-      switch (this.xAxisConstraints) {
+      switch (this.xAxis.constraint) {
         case XConstraint.NONE:
           this.left.assignValue(position.left);
           this.width.assignValue(position.width);
@@ -302,7 +195,7 @@ module Robin {
       }
 
       // y axis
-      switch (this.yAxisConstraints) {
+      switch (this.yAxis.constraint) {
         case YConstraint.NONE:
           this.top.assignValue(position.top);
           this.height.assignValue(position.height);
