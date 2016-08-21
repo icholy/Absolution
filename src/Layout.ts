@@ -18,7 +18,20 @@ class Layout {
       "r-center-y":  "center-y",
       "r-register":  "register",
       "r-container": "container",
-      "r-center-in": "center-in"
+      "r-center-in": "center-in",
+
+      "data-r-id":        "id",
+      "data-r-left":      "left",
+      "data-r-right":     "right",
+      "data-r-top":       "top",
+      "data-r-bottom":    "bottom",
+      "data-r-width":     "width",
+      "data-r-height":    "height",
+      "data-r-center-x":  "center-x",
+      "data-r-center-y":  "center-y",
+      "data-r-register":  "register",
+      "data-r-container": "container",
+      "data-r-center-in": "center-in"
     };
 
     let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
@@ -37,17 +50,13 @@ class Layout {
           continue;
         }
         if (!isRegistered) {
-
-          let id: string;
-          if (el.hasAttribute("r-id")) {
-            el.getAttribute("r-id");
-          } else {
+          let id = this.getAttribute(el, "id");
+          if (!id) {
             id = el.id ? el.id : Utils.guid();
           }
-
-          let container = "document";
-          if (el.hasAttribute("r-container")) {
-            container = el.getAttribute("r-container")
+          let container = this.getAttribute(el, "contaner");
+          if (!container) {
+            container = "document";
           }
           rect = new ElementRect(id, el, container, this.system);
           this.rects.push(rect);
@@ -69,6 +78,16 @@ class Layout {
         }
       }
     }
+  }
+
+  private getAttribute(element: HTMLElement, name: string): string {
+    if (element.hasAttribute(`r-${name}`)) {
+      return element.getAttribute(`r-${name}`);
+    }
+    if (element.hasAttribute(`r-data-${name}`)) {
+      return element.getAttribute(`r-data-${name}`);
+    }
+    return null;
   }
 
   /**
