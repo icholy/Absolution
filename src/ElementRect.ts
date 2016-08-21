@@ -61,7 +61,7 @@ module Robin {
      * Constrain a property name to equal the expression.
      * There can only be two constraints per axis.
      */
-    constrain(propertyName: string, expression: string, node: any): void {
+    private constrain(propertyName: string, expression: string, node: any): void {
       try {
 
         let property = this.getPropertyByName(propertyName);
