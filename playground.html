@@ -16,10 +16,6 @@
   <script src="../build/Layout.js"></script>
   <style>
 
-    .box {
-      position: absolute;
-    }
-
     #container {
       position: relative;
     }
@@ -48,27 +44,27 @@
 </head>
 <body>
 
-  <div class="box" id="A" 
+  <div id="A" 
     r-style="height: A.width * x; right: X.left; bottom: X.top">A</div>
-  <div class="box green" id="B"
+  <div class="green" id="B"
     r-width="A.width / 2"
     r-height="A.height / 2"
     r-left="A.left + (B.width * x)"
     r-center-y="A.center-y + (10 * x)">B</div>
-  <div class="box" id="C" style="background-color: blue"
+  <div id="C" style="background-color: blue"
     r-left="B.right"
     r-top="B.bottom"
     r-height="B.height * 3"
     r-width="200">
   </div>
-  <div class="box" style="background-color: orange"
+  <div style="background-color: orange"
     r-center-y="C.center-y"
     r-right="C.center-x"
     r-width="C.height / 2"
     r-top="C.top + 200 * x">
   </div>
 
-  <div id="X" class="box" r-center-in="viewport" r-width="100 * x" r-height="100 - 100 * x"></div>
+  <div id="X" r-center-in="viewport" r-width="100 * x" r-height="100 - 100 * x"></div>
 
   <button id="pause">Pause</button>
 
