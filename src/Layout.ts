@@ -17,6 +17,7 @@ module Robin {
     "r-align-y":   "align-y",
     "r-size":      "size",
     "r-fill":      "fill",
+    "r-style":     "style",
 
     "data-r-id":        "id",
     "data-r-left":      "left",
@@ -33,7 +34,8 @@ module Robin {
     "data-r-align-x":   "align-x",
     "data-r-align-y":   "align-y",
     "data-r-size":      "size",
-    "data-r-fill":      "fill"
+    "data-r-fill":      "fill",
+    "data-r-style":     "style"
   };
 
   export class Layout {
@@ -85,7 +87,7 @@ module Robin {
           isRegistered = true;
         }
 
-        this.applyProperty(rect, attr.name, attr.textContent);
+        this.applyProperty(rect, attributeMap[attr.name], attr.textContent);
       }
 
       if (isRegistered) {
@@ -95,6 +97,12 @@ module Robin {
 
     private applyProperty(rect: ElementRect, name: string, value: string): void {
       switch (name) {
+        case "style":
+          value.split(";").forEach(attr => {
+            let [name, value] = attr.split(":");
+            this.applyProperty(rect, name.trim(), value.trim());
+          });
+          break;
         case "center-in":
           rect.constrain("center-x", `${value}.center-x`);
           rect.constrain("center-y", `${value}.center-y`);
