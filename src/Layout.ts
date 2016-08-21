@@ -12,7 +12,6 @@ module Robin {
 
       this.rects.push(new DocumentRect(this));
       this.rects.push(new ViewportRect(this));
-      this.rects.push(new ElementRect("body", document.body, "document", this));
 
       let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
       let el: HTMLElement;
@@ -115,6 +114,10 @@ module Robin {
             rect.constrain(property, attr.textContent);
         }
       }
+
+      if (isRegistered) {
+        rect.updateSystem();
+      }
     }
 
     private getAttribute(element: HTMLElement, name: string): string {
@@ -143,9 +146,6 @@ module Robin {
     }
 
     private updateNow(): void {
-      for (let r of this.rects) {
-        r.updateSystem();
-      }
       this.system.solve(this.digestID++);
       for (let r of this.rects) {
         r.updateRect();

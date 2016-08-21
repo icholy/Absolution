@@ -52,7 +52,7 @@ module Robin {
       super(layout, id, container);
       this.element = element;
       this.observer = new MutationObserver(mutations => {
-        layout.update();
+        this.updateSystem();
       });
       this.observer.observe(element, {
         attributes:    true,
@@ -273,11 +273,12 @@ module Robin {
       let position = Utils.getRectPosition(this.element);
       if (this.isIndependentPositionDifferent(position)) {
         this.setSystemPosition(position);
+        this.layout.update();
       }
     }
 
     /**
-     * Update the constaint system using the elements properties.
+     * Update the constaint system using the element position.
      */
     setSystemPosition(position: RectPosition): void {
 

@@ -5,7 +5,11 @@ module Robin {
 
     constructor(layout: Layout) {
       super(layout, "document");
-      window.addEventListener("resize", () => layout.update());
+      window.addEventListener("resize", () => {
+        this.updateSystem();
+        layout.update();
+      });
+      this.updateSystem();
     }
 
     updateRect(): void {}
