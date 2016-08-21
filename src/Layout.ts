@@ -72,7 +72,7 @@ module Robin {
 
       if (options.id && this.hasRuleSet(options.id)) {
         isRect = true;
-        options.rules = this.rulesets[options.id].slice();
+        options.rules.push(...this.rulesets[options.id]);
       }
 
       for (let i = 0; i < el.attributes.length; i++) {
