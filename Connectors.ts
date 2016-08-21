@@ -34,7 +34,7 @@ export class Variable extends Connector {
   setValue(v: number): void {
     if (this.isSet) {
       if (v !== this.value) {
-        throw new Error(`Contradiction: ${this.toString()} is already set`);
+        throw new Error(`Contradiction: ${this} is already set`);
       } else {
         return;
       }
@@ -79,7 +79,7 @@ export class Constant extends Connector {
   setValue(v: number): void {
     if (v !== this.value) {
       throw new Error(
-        `Contradiction: attempting to set ${this.toString()} to ${v}`);
+        `Contradiction: attempting to set ${this} to ${v}`);
     }
   }
 
