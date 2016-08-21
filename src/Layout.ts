@@ -1,9 +1,4 @@
 
-interface ElementOptions {
-  element:    HTMLElement,
-  container?: HTMLElement
-}
-
 class Layout {
 
   system = new Constraints.System();
@@ -49,7 +44,7 @@ class Layout {
           }
 
           let id = el.id ? el.id : this.guid();
-          rect = new ElementRect(id, this.system, el, container);
+          rect = new ElementRect(id, "document", this.system, el);
           this.rects.push(rect);
           isRegistered = true;
         }

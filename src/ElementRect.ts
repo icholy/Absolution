@@ -2,27 +2,17 @@
 class ElementRect extends AbstractRect {
 
   constructor(
-    id:     string,
-    system: Constraints.System,
+    id:        string,
+    container: string,
+    system:    Constraints.System,
 
-    private element:   HTMLElement,
-    private container: HTMLElement
+    private element: HTMLElement
   ) {
-    super(system, id);
+    super(system, id, container);
   }
 
   getPosition(): RectPosition {
-    let inner = this.element.getBoundingClientRect();
-    if (!this.container) {
-      return inner;
-    }
-    let outer = this.container.getBoundingClientRect();
-    return {
-      left:   inner.left - outer.left,
-      top:    inner.top - outer.top,
-      width:  inner.width,
-      height: inner.height
-    };
+    return this.element.getBoundingClientRect();
   }
 
   setPosition(rect: RectPosition): void {
