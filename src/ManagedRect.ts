@@ -107,6 +107,8 @@ module Robin {
         width:  this.width.getValue(),
         height: this.height.getValue(),
 
+        hasAny:    false,
+        hasOffset: false,
         hasLeft:   false,
         hasTop:    false,
         hasWidth:  false,
@@ -115,7 +117,9 @@ module Robin {
       if (this.isConstrainedPositionDifferent(update)) {
         this.xAxis.updateRect(update);
         this.yAxis.updateRect(update);
-        this.applyPositionUpdate(update);
+        if (update.hasAny) {
+          this.applyPositionUpdate(update);
+        }
         this.position = update;
       }
     }

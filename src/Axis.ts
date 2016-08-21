@@ -9,10 +9,12 @@ module Robin {
   }
 
   export interface RectPositionUpdate extends RectPosition {
+    hasAny:    boolean;
     hasLeft:   boolean;
     hasTop:    boolean;
     hasWidth:  boolean;
     hasHeight: boolean;
+    hasOffset: boolean;
   }
 
   export const nameToProperty = {
@@ -86,8 +88,10 @@ module Robin {
     updateSystem(rect: ManagedRect, position: RectPosition): void {},
 
     updateRect(update: RectPositionUpdate): void {
-      update.hasLeft = true;
-      update.hasWidth = true;
+      update.hasAny    = true;
+      update.hasLeft   = true;
+      update.hasWidth  = true;
+      update.hasOffset = true;
     }
   };
 
@@ -110,7 +114,9 @@ module Robin {
     },
 
     updateRect(update: RectPositionUpdate): void {
-      update.hasLeft = true;
+      update.hasAny    = true;
+      update.hasLeft   = true;
+      update.hasOffset = true;
     }
   };
 
@@ -133,6 +139,7 @@ module Robin {
     },
 
     updateRect(update: RectPositionUpdate): void {
+      update.hasAny   = true;
       update.hasWidth = true;
     }
   };
@@ -180,8 +187,10 @@ module Robin {
     updateSystem(rect: ManagedRect, position: RectPosition): void {},
 
     updateRect(update: RectPositionUpdate): void {
+      update.hasAny    = true;
       update.hasHeight = true;
       update.hasTop    = true;
+      update.hasOffset = true;
     }
   };
 
@@ -204,7 +213,9 @@ module Robin {
     },
 
     updateRect(update: RectPositionUpdate): void {
-      update.hasTop = true;
+      update.hasAny    = true;
+      update.hasTop    = true;
+      update.hasOffset = true;
     }
   };
 
@@ -227,6 +238,7 @@ module Robin {
     },
 
     updateRect(update: RectPositionUpdate): void {
+      update.hasAny    = true;
       update.hasHeight = true;
     }
   };

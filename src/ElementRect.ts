@@ -8,14 +8,6 @@ module Robin {
     // true if postition: "absolute" has been set
     private isAbsoluteSet = false;
 
-    // since both axis are set separately, we use this variable
-    // to store the left & top offsets so they can be applied together.
-    private offsetIsSet = false;
-    private offset: {
-      left: number;
-      top:  number;
-    };
-
     constructor(
       element: HTMLElement,
       layout:  Layout,
@@ -23,7 +15,6 @@ module Robin {
     ) {
       super(layout, options);
       this.element = element;
-      this.offset = { left: 0, top: 0 };
       this.initialize();
     }
 
@@ -47,47 +38,20 @@ module Robin {
 
     applyPositionUpdate(update: RectPositionUpdate): void {
       let style = this.element.style;
+
       if (update.hasHeight) {
         style.height = `${update.height}px`;
       }
+
       if (update.hasWidth) {
         style.width = `${update.width}px`;
       }
-      if (update.hasLeft) {
-        this.setLeft(update.left);
-      }
-      if (update.hasTop) {
-        this.setTop(update.top);
-      }
-      this.afterUpdateRect();
-    }
 
-    /**
-     * Set the element's left offset
-     */
-    setLeft(value: number): void {
-      this.setAbsolute();
-      this.offset.left = value;
-      this.offsetIsSet = true;
-    }
-
-    /**
-     * Set the element's top offset
-     */
-    setTop(value: number): void {
-      this.offset.top = value;
-      this.offsetIsSet = true;
-    }
-
-    /**
-     * Called after all the set methods.
-     */
-    afterUpdateRect(): void {
-      if (this.offsetIsSet) {
+      if (update.hasOffset) {
+        let left = update.hasLeft ? update.left : 0;
+        let top = update.hasTop ? update.top : 0;
+        style.transform = `translate(${left}px, ${top}px)`;
         this.setAbsolute();
-        this.element.style.transform = `translate(${this.offset.left}px, ${this.offset.top}px)`
-        this.offset = { left: 0, top: 0 };
-        this.offsetIsSet = false;
       }
     }
 
@@ -100,7 +64,6 @@ module Robin {
         this.isAbsoluteSet = true;
       }
     }
-
 
   }
 
