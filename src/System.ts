@@ -33,20 +33,17 @@ class System {
   /**
    * Set a variable's value
    */
-  set(name: string, v: number|string|any[]): void {
+  set(name: string, v: number|string): void {
     this.clear(name);
     if (typeof v === "number") {
       this.getVariable(name).setValue(v);
       return;
     }
     if (typeof v === "string") {
-      this.equals(name, v);
+      this.equals(name, this.evaluate(v));
       return
     }
-    if (Array.isArray(v)) {
-      this.equals(name, this.evalute(v));
-      return;
-    }
+    throw new Error(`invalid value ${v}`);
   }
 
   /**
@@ -130,35 +127,55 @@ class System {
     return this.relationships.map(rel => rel.toString()).join("\n");
   }
 
-  private evalute(ast: any): Connector {
-    if (Array.isArray(ast)) {
-      if (ast.length !== 3) {
-        throw new Error(`Syntax Error: ${ast}`);
-      }
-      let operator = ast[1];
-      let left = this.evalute(ast[0]);
-      let right = this.evalute(ast[2]);
-      let result = this.createIntermediate();
-      switch (operator) {
-        case "+":
-          this.add(result, left, right);
+  private evaluate(expr: string): Connector {
+    let parser = new Parser();
+    let tokens = parser.tokenize(expr);
+    let rpn = parser.infixToRPN(tokens);
+
+    let operator = [];
+    let values   = [];
+
+    for (let token of rpn) {
+      switch (token.type) {
+        case Type.VARIABLE:
+          values.push(this.getVariable(token.value));
           break;
-        case "-":
-          this.subtract(result, left, right);
+        case Type.NUMBER:
+          values.push(new Constant(token.value));
           break;
-        case "*":
-          this.multiply(result, left, right);
-          break;
-        case "/":
-          this.divide(result, left, right);
+        case Type.OPERATOR:
+          let right = values.pop();
+          let left = values.pop();
+          let operator = token.value;
+          values.push(this.createRelationship(operator, left, right));
           break;
         default:
-          throw new Error(`Syntax Error: invalid operator ${operator}`);
+          throw new Error("invalid expression");
       }
-      return result;
-    } else {
-      return this.connectorFor(ast);
     }
+
+    return values[0];
+  }
+
+  private createRelationship(operator: string, left: Connector, right: Connector): Connector {
+    let result = this.createIntermediate();
+    switch (operator) {
+      case "+":
+        this.add(result, left, right);
+        break;
+      case "-":
+        this.subtract(result, left, right);
+        break;
+      case "*":
+        this.multiply(result, left, right);
+        break;
+      case "/":
+        this.divide(result, left, right);
+        break;
+      default:
+        throw new Error(`Syntax Error: invalid operator ${operator}`);
+    }
+    return result;
   }
 
   private getVariable(name: string): Variable {

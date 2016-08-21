@@ -105,6 +105,9 @@ class Parser {
         case Type.NUMBER:
           output.push(token);
           break;
+        case Type.VARIABLE:
+          output.push(token);
+          break;
         case Type.OPERATOR:
           while (operators.length > 0 && precedence(peek()) >= precedence(token)) {
             output.push(operators.pop());
@@ -130,5 +133,6 @@ class Parser {
 
     return output;
   }
+
 }
 
