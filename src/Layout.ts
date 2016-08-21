@@ -140,12 +140,16 @@ module Robin {
         }
       }
 
+      if (!isRect) {
+        return null;
+      }
+
       // if there's no id, create a GUID
-      if (!info.id && isRect) {
+      if (!info.id) {
         info.id = Utils.guid();
       }
 
-      return isRect ? info : null;
+      return info;
     }
 
     private makeRuleFor(target: string, expression: string): Rule {
