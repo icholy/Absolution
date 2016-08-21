@@ -14,14 +14,22 @@ module Robin {
   export interface Context {
     hasVariable(name: string): boolean;
     getVariable(name: string): Variable;
+    hasFunction(name: string): boolean;
+    getFunction(name: string): FuncEntry;
   }
 
   let emptyContext: Context = {
+    hasVariable(name: string): boolean {
+      return false;
+    },
     getVariable(name: string): Variable {
       throw new Error(`context does not have ${name} variable`);
     },
-    hasVariable(name: string): boolean {
+    hasFunction(name: string): boolean {
       return false;
+    },
+    getFunction(name: string): FuncEntry {
+      throw new Error(`context does not have ${name} function`);
     }
   };
 
@@ -43,7 +51,7 @@ module Robin {
     /**
      * Check if a function has been registered
      */
-    hasFunc(name: string): boolean {
+    hasFunction(name: string): boolean {
       return name in this.funcs;
     }
 
@@ -51,7 +59,7 @@ module Robin {
      * Register a function
      */
     func(name: string, func: CustomFunc, arity: number = func.length): void {
-      if (this.hasFunc(name)) {
+      if (this.hasFunction(name)) {
         throw new Error(`${name} function already registered`);
       }
       this.funcs[name] = { name, func, arity };
@@ -201,10 +209,7 @@ module Robin {
      * max = max(a, b)
      */
     call(funcName: string, out: Value, params: Value[]): void {
-      if (!this.hasFunc(funcName)) {
-        throw new Error(`${funcName} is not a function`);
-      }
-      let entry = this.funcs[funcName];
+      let entry = this.getFunction(funcName, emptyContext);
       this.relationships.push(new CustomRelationship(
         entry.name,
         entry.func,
@@ -262,10 +267,28 @@ module Robin {
       }
     }
 
+    private getFunction(name: string, ctx: Context): FuncEntry {
+      if (ctx.hasFunction(name)) {
+        return ctx.getFunction(name);
+      }
+      if (this.hasFunction(name)) {
+        return this.funcs[name];
+      }
+      throw new Error(`${name} is not a function`);
+    }
+
     private handleFuncCall(node: FuncCallNode, ctx: Context): Variable {
       let result = this.createIntermediate();
       let params = node.params.map(p => this.evaluate(p, ctx));
-      this.call(node.name, result, params);
+
+      let entry = this.getFunction(node.name, ctx);
+      this.relationships.push(new CustomRelationship(
+        entry.name,
+        entry.func,
+        entry.arity,
+        params.map(p => this.variableFor(p)),
+        this.variableFor(result)
+      ));
       return result;
     }
 
