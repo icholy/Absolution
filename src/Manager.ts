@@ -3,6 +3,7 @@ module Absolution {
   export interface ManagerOptions {
     findStyleSheets?: boolean;
     findElements?:    boolean;
+    lookupSelectors?: boolean;
     styleSheet?:      StyleSheet;
   }
 
@@ -16,6 +17,7 @@ module Absolution {
     private digestID = 0;
     private changedRects: ManagedRect[] = [];
     private updateIsRequested = false;
+    private rects = {} as { [id: string]: Rect; };
 
     constructor(
       public env    = new Environment(),
@@ -25,9 +27,9 @@ module Absolution {
     attachTo(root: HTMLElement, options: ManagerOptions = defaultOptions) {
 
       // add the special rects
-      new ViewportRect(this);
-      new DocumentRect(this);
-      new BodyRect(this);
+      this.rects["viewport"] = new ViewportRect(this);
+      this.rects["document"] = new DocumentRect(this);
+      this.rects["body"]     = new BodyRect(this);
 
       // load pre-compiled stylesheet
       if (options.styleSheet) {
@@ -36,7 +38,9 @@ module Absolution {
 
       // find rulesets from script tags
       if (options.findStyleSheets) {
-        this.env.findStyleSheets();
+        Utils.forEachStyleScriptTag(el => {
+          this.env.parseStyleSheet(el.textContent);
+        });
       }
 
       // add variables from stylesheet
@@ -46,20 +50,51 @@ module Absolution {
 
       // add the virtual rects from the stylesheet
       for (let options of this.env.getVirtuals()) {
-        new VirtualRect(this, options);
+        this.rects[options.id] = new VirtualRect(this, options);
       }
 
       // walk the dom and find elements with a-attributes
       if (options.findElements) {
-        Utils.forEachElement(root, el => {
-          let options = this.env.getRectOptions(el);
-          if (options) {
-            new ElementRect(el, this, options);
-          }
-        });
+        Utils.forEachElement(root, el => this.register(el));
+      }
+
+      // use stylesheet selectors to lookup elements
+      if (options.lookupSelectors) {
+        for (let selector of this.env.getSelectors()) {
+          Utils.forEachSelector(selector, el => this.register(el));
+        }
       }
 
       this.update();
+    }
+
+    /**
+     * Returns true if the element is a registered rect.
+     */
+    private isRegistered(el: HTMLElement): boolean {
+      let id = Utils.getRectId(el);
+      return this.rects.hasOwnProperty(id);
+    }
+
+    /**
+     * Register an element with the manager.
+     */
+    register(el: HTMLElement): void {
+      if (this.isRegistered(el)) {
+        return;
+      }
+      let options = this.env.getRectOptions(el);
+      if (options) {
+        let rect = new ElementRect(el, this, options);
+        this.rects[options.id] = rect;
+      }
+    }
+
+    /**
+     * Get a rect by it's id.
+     */
+    getRect(id: string): Rect {
+      return this.rects[id];
     }
 
     /**

@@ -60,6 +60,20 @@ module Absolution {
     }
 
     /**
+     * Mark the element with the rect id.
+     */
+    static setRectId(element: HTMLElement, id: string): void {
+      element.dataset["absolutionId"] = id;
+    }
+
+    /**
+     * Get the rect id from an element.
+     */
+    static getRectId(element: HTMLElement): string {
+      return element.dataset["absolutionId"];
+    }
+
+    /**
      * Iterate over all elements starting from the supplied root.
      */
     static forEachElement(root: HTMLElement, callback: (el: HTMLElement) => void): void {
@@ -67,6 +81,29 @@ module Absolution {
       let el: HTMLElement;
       while (el = iterator.nextNode() as any) {
         callback(el);
+      }
+    }
+
+    /**
+     * Iterate over all <script> tags who's type is "text/absolution".
+     */
+    static forEachStyleScriptTag(callback: (el: HTMLScriptElement) => void): void {
+      let scriptTags = document.getElementsByTagName("script");
+      for (let i = 0; i < scriptTags.length; i++) {
+        let scriptTag = scriptTags.item(i);
+        if (scriptTag.getAttribute("type") === "text/absolution") {
+          callback(scriptTag);
+        }
+      }
+    }
+
+    /**
+     * Iterate over all elements matching the supplied selector.
+     */
+    static forEachSelector(selector: string, callback: (el: HTMLElement) => void): void {
+      let elements = document.querySelectorAll(selector)
+      for (let i = 0; i < elements.length; i++) {
+        callback(elements.item(i) as any);
       }
     }
 

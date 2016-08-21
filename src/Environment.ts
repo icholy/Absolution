@@ -36,14 +36,15 @@ module Absolution {
       }
     }
 
-    findStyleSheets(): void {
-      let scriptTags = document.getElementsByTagName("script");
-      for (let i = 0; i < scriptTags.length; i++) {
-        let scriptTag = scriptTags.item(i);
-        if (scriptTag.getAttribute("type") === "text/absolution") {
-          this.parseStyleSheet(scriptTag.textContent);
-        }
+    getSelectors(): string[] {
+      let selectors = [];
+      for (let className of Object.keys(this.rulesByClass)) {
+        selectors.push(`.${className}`);
       }
+      for (let id of Object.keys(this.rulesById)) {
+        selectors.push(`#${id}`);
+      }
+      return selectors;
     }
 
     private parseRulesets(rulesets: RuleSet[]): void {
