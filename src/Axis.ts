@@ -66,7 +66,7 @@ module Robin {
     /**
      * Update the element with the position's constrained properties.
      */
-    updateRect(update: RectPositionUpdate, position: RectPosition): void;
+    updateRect(update: RectPositionUpdate): void;
   }
 
   export let XAxisBoth: ConstrainedAxis = {
@@ -85,12 +85,9 @@ module Robin {
 
     updateSystem(rect: ManagedRect, position: RectPosition): void {},
 
-    updateRect(update: RectPositionUpdate, position: RectPosition): void {
+    updateRect(update: RectPositionUpdate): void {
       update.hasLeft = true;
-      update.left = position.left;
-
       update.hasWidth = true;
-      update.width = position.width;
     }
   };
 
@@ -112,9 +109,8 @@ module Robin {
       rect.width.assignValue(position.width);
     },
 
-    updateRect(update: RectPositionUpdate, position: RectPosition): void {
+    updateRect(update: RectPositionUpdate): void {
       update.hasLeft = true;
-      update.left = position.left;
     }
   };
 
@@ -136,9 +132,8 @@ module Robin {
       rect.left.assignValue(position.left);
     },
 
-    updateRect(update: RectPositionUpdate, position: RectPosition): void {
+    updateRect(update: RectPositionUpdate): void {
       update.hasWidth = true;
-      update.width = position.width;
     }
   };
 
@@ -165,7 +160,7 @@ module Robin {
       rect.width.assignValue(position.width);
     },
 
-    updateRect(update: RectPositionUpdate, position: RectPosition): void {}
+    updateRect(update: RectPositionUpdate): void {}
   };
 
   export let YAxisBoth: ConstrainedAxis = {
@@ -184,12 +179,9 @@ module Robin {
 
     updateSystem(rect: ManagedRect, position: RectPosition): void {},
 
-    updateRect(update: RectPositionUpdate, position: RectPosition): void {
+    updateRect(update: RectPositionUpdate): void {
       update.hasHeight = true;
-      update.height = position.height;
-
-      update.hasTop = true;
-      update.top = position.top;
+      update.hasTop    = true;
     }
   };
 
@@ -211,9 +203,8 @@ module Robin {
       rect.height.assignValue(position.height);
     },
 
-    updateRect(update: RectPositionUpdate, position: RectPosition): void {
+    updateRect(update: RectPositionUpdate): void {
       update.hasTop = true;
-      update.top = position.top;
     }
   };
 
@@ -235,9 +226,8 @@ module Robin {
       rect.top.assignValue(position.top);
     },
 
-    updateRect(update: RectPositionUpdate, position: RectPosition): void {
+    updateRect(update: RectPositionUpdate): void {
       update.hasHeight = true;
-      update.height = position.height;
     }
   };
 
@@ -264,7 +254,7 @@ module Robin {
       rect.height.assignValue(position.height);
     },
 
-    updateRect(update: RectPositionUpdate, position: RectPosition): void {}
+    updateRect(update: RectPositionUpdate): void {}
   };
 
 }

@@ -46,11 +46,12 @@ module Robin {
     }
 
     applyPositionUpdate(update: RectPositionUpdate): void {
+      let style = this.element.style;
       if (update.hasHeight) {
-        this.setHeight(update.height);
+        style.height = `${update.height}px`;
       }
       if (update.hasWidth) {
-        this.setWidth(update.width);
+        style.width = `${update.width}px`;
       }
       if (update.hasLeft) {
         this.setLeft(update.left);
@@ -76,20 +77,6 @@ module Robin {
     setTop(value: number): void {
       this.offset.top = value;
       this.offsetIsSet = true;
-    }
-
-    /**
-     * Set the element's width
-     */
-    setWidth(value: number): void {
-      this.element.style.width = `${value}px`;
-    }
-
-    /**
-     * Set the element's height
-     */
-    setHeight(value: number): void {
-      this.element.style.height = `${value}px`;
     }
 
     /**

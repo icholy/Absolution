@@ -101,18 +101,22 @@ module Robin {
      * Update the rect using the values in the constraint system
      */
     private updateRectPosition(): void {
-      let position = {
+      let update: RectPositionUpdate = {
         left:   this.leftOffset.getValue(),
         top:    this.topOffset.getValue(),
         width:  this.width.getValue(),
-        height: this.height.getValue()
+        height: this.height.getValue(),
+
+        hasLeft:   false,
+        hasTop:    false,
+        hasWidth:  false,
+        hasHeight: false
       };
-      if (this.isConstrainedPositionDifferent(position)) {
-        let update = {} as any;
-        this.xAxis.updateRect(update, position);
-        this.yAxis.updateRect(update, position);
+      if (this.isConstrainedPositionDifferent(update)) {
+        this.xAxis.updateRect(update);
+        this.yAxis.updateRect(update);
         this.applyPositionUpdate(update);
-        this.position = position;
+        this.position = update;
       }
     }
 
