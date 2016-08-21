@@ -74,6 +74,15 @@ module Absolution {
       this.update();
     }
 
+    private getClassNames(el: HTMLElement): string[] {
+      let classNames = el.className.split(" ");
+      let classAttr = el.getAttribute("a-class");
+      if (classAttr) {
+        classNames.push(...classAttr.split(" "));
+      }
+      return classNames.map(name => name.trim());
+    }
+
     getRectOptions(el: HTMLElement, isRect: boolean = false): RectOptions {
 
       let options: RectOptions = {
@@ -84,9 +93,16 @@ module Absolution {
       };
 
       if (options.id && this.hasRulesForId(options.id)) {
-        isRect = true;
         for (let rule of this.rulesById[options.id]) {
           this.handleRule(options, rule);
+        }
+      }
+
+      for (let name of this.getClassNames(el)) {
+        if (this.hasRulesForClass(name)) {
+          for (let rule of this.rulesByClass[name]) {
+            this.handleRule(options, rule);
+          }
         }
       }
 
@@ -103,7 +119,7 @@ module Absolution {
         });
       }
 
-      if (!isRect) {
+      if (!isRect && options.rules.length === 0) {
         return null;
       }
 
@@ -138,15 +154,7 @@ module Absolution {
           case "register":
           case "id":
           case "watch":
-            break;
           case "class":
-            let className = this.identFrom(rule);
-            if (!this.hasRulesForClass(className)) {
-              throw new Error(`${className} class not found`);
-            }
-            for (let rule of this.rulesByClass[className]) {
-              this.handleRule(options, rule);
-            }
             break;
           case "relative-to":
             options.container = this.identFrom(rule);
