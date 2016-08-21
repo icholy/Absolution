@@ -230,9 +230,7 @@ module Robin {
         case "number":
           return new Constant(node.value);
         case "op":
-          return this.handleOperation(node.op,
-              this.evaluate(node.left),
-              this.evaluate(node.right));
+          return this.handleOperation(node);
         case "func_call":
           let result = this.createIntermediate();
           let params = node.params.map(p => this.evaluate(p));
@@ -243,9 +241,11 @@ module Robin {
       }
     }
 
-    private handleOperation(operator: string, left: Variable, right: Variable): Variable {
+    private handleOperation(node: Expression): Variable {
+      let left = this.evaluate(node.left);
+      let right = this.evaluate(node.right);
       let result = this.createIntermediate();
-      switch (operator) {
+      switch (node.op) {
         case "+":
           this.add(result, left, right);
           break;
@@ -259,7 +259,7 @@ module Robin {
           this.divide(result, left, right);
           break;
         default:
-          throw new Error(`Syntax Error: invalid operator ${operator}`);
+          throw new Error(`Syntax Error: invalid operator ${node.op}`);
       }
       return result;
     }
