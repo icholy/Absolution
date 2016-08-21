@@ -85,7 +85,7 @@ module Robin {
       if (options.id && this.hasRuleSet(options.id)) {
         isRect = true;
         for (let rule of this.rulesets[options.id]) {
-          this.handleAttribute(options, rule.target, rule.text, rule.expr);
+          this.handleRule(options, rule);
         }
       }
 
@@ -100,7 +100,11 @@ module Robin {
         let text   = attr.textContent;
 
         try {
-          this.handleAttribute(options, target, text);
+          this.handleRule(options, {
+            target: target,
+            text:   text,
+            expr:   null
+          });
         } catch (e) {
           throw new Error(`${target}="${text}" ${e}`);
         }
@@ -125,45 +129,45 @@ module Robin {
       return { target, text, expr };
     }
 
-    private handleAttribute(options: RectOptions, target: string, text: string, expr?: Expression): void {
-      switch (target) {
+    private handleRule(options: RectOptions, rule: Rule): void {
+      switch (rule.target) {
         case "register":
         case "id":
         case "watch":
           break;
         case "container":
-          options.container = text;
+          options.container = rule.text;
           break;
         case "center-in":
-          options.rules.push(this.ruleFor("center-x", `${text}.center-x`));
-          options.rules.push(this.ruleFor("center-y", `${text}.center-y`));
+          options.rules.push(this.ruleFor("center-x", `${rule.text}.center-x`));
+          options.rules.push(this.ruleFor("center-y", `${rule.text}.center-y`));
           break;
         case "align-x":
-          options.rules.push(this.ruleFor("left", `${text}.left`));
-          options.rules.push(this.ruleFor("right", `${text}.right`));
+          options.rules.push(this.ruleFor("left", `${rule.text}.left`));
+          options.rules.push(this.ruleFor("right", `${rule.text}.right`));
           break;
         case "align-y":
-          options.rules.push(this.ruleFor("top", `${text}.top`));
-          options.rules.push(this.ruleFor("bottom", `${text}.bottom`));
+          options.rules.push(this.ruleFor("top", `${rule.text}.top`));
+          options.rules.push(this.ruleFor("bottom", `${rule.text}.bottom`));
           break;
         case "size":
-          options.rules.push(this.ruleFor("width", `${text}.width`));
-          options.rules.push(this.ruleFor("height", `${text}.height`));
+          options.rules.push(this.ruleFor("width", `${rule.text}.width`));
+          options.rules.push(this.ruleFor("height", `${rule.text}.height`));
           break;
         case "fill":
-          options.rules.push(this.ruleFor("top", `${text}.top`));
-          options.rules.push(this.ruleFor("bottom", `${text}.bottom`));
-          options.rules.push(this.ruleFor("left", `${text}.left`));
-          options.rules.push(this.ruleFor("right", `${text}.right`));
+          options.rules.push(this.ruleFor("top", `${rule.text}.top`));
+          options.rules.push(this.ruleFor("bottom", `${rule.text}.bottom`));
+          options.rules.push(this.ruleFor("left", `${rule.text}.left`));
+          options.rules.push(this.ruleFor("right", `${rule.text}.right`));
           break;
         case "style":
-          let rules = Parser.parse<Rule[]>(text, { startRule: "inline_rules" });
+          let rules = Parser.parse<Rule[]>(rule.text, { startRule: "inline_rules" });
           for (let rule of rules) {
-            this.handleAttribute(options, rule.target, rule.text, rule.expr);
+            this.handleRule(options, rule);
           }
           break;
         default:
-          options.rules.push(this.ruleFor(target, text, expr));
+          options.rules.push(this.ruleFor(rule.target, rule.text, rule.expr));
       }
     }
 
