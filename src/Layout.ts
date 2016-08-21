@@ -7,6 +7,7 @@ class Layout {
   constructor(root: HTMLElement) {
 
     const attributeMap = {
+      "r-id":        "id",
       "r-left":      "left",
       "r-right":     "right",
       "r-top":       "top",
@@ -37,7 +38,13 @@ class Layout {
         }
         if (!isRegistered) {
 
-          let id = el.id ? el.id : this.guid();
+          let id: string;
+          if (el.hasAttribute("r-id")) {
+            el.getAttribute("r-id");
+          } else {
+            id = el.id ? el.id : this.guid();
+          }
+
           let container = "document";
           if (el.hasAttribute("r-container")) {
             container = el.getAttribute("r-container")
@@ -55,6 +62,7 @@ class Layout {
             break;
           case "register":
           case "container":
+          case "id":
             break;
           default:
             rect.constrain(property, attr.textContent);
