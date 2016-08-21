@@ -14,21 +14,21 @@ class ElementRect extends Rect {
     return this.element.getBoundingClientRect();
   }
 
-  updateRect(): void {
+  setPosition(rect: RectPosition): void {
     let style = this.element.style;
     for (let property of this.constrained) {
       switch (property) {
         case Property.TOP:
-          this.setStyle("top", this.top);
+          style.top = `${rect.top}px`;
           break;
         case Property.HEIGHT:
-          this.setStyle("height", this.height);
+          style.height = `${rect.height}px`;
           break;
         case Property.LEFT:
-          this.setStyle("left", this.left);
+          style.left = `${rect.left}px`;
           break;
         case Property.WIDTH:
-          this.setStyle("width", this.width);
+          style.width = `${rect.width}px`;
           break;
       }
     }

@@ -43,10 +43,13 @@ abstract class Rect {
 
   // these variables represent the element's propeties
   // inside the constaint system
-  protected left:   Constraints.Variable;
-  protected width:  Constraints.Variable;
-  protected top:    Constraints.Variable;
-  protected height: Constraints.Variable;
+  private left:   Constraints.Variable;
+  private width:  Constraints.Variable;
+  private top:    Constraints.Variable;
+  private height: Constraints.Variable;
+
+  // current Rect position
+  private currentPosition: RectPosition;
 
   constructor(
     protected system: Constraints.System,
@@ -108,16 +111,30 @@ abstract class Rect {
   }
 
   /**
-   * Update the rect using the values in the constraint system
+   * Set the Rect's current position.
    */
-  abstract updateRect(): void;
-
+  abstract setPosition(rect: RectPosition): void;
 
   /**
    * Get the Rect's current position.
    */
   abstract getPosition(): RectPosition;
 
+  /**
+   * Update the rect using the values in the constraint system
+   */
+  updateRect(): void {
+    let position = {
+      left:   this.left.getValue(),
+      top:    this.top.getValue(),
+      width:  this.width.getValue(),
+      height: this.height.getValue()
+    };
+    if (this.isPositionDifferent(position)) {
+      this.setPosition(position);
+      this.currentPosition = position;
+    }
+  }
 
   /**
    * Update the constaint system using the elements properties.
@@ -171,6 +188,15 @@ abstract class Rect {
     system.destroyVariable(this.height);
     system.destroyVariable(this.left);
     system.destroyVariable(this.top);
+  }
+
+  private isPositionDifferent(position: RectPosition): boolean {
+    let current = this.currentPosition;
+    return !current
+        || position.width !== current.width
+        || position.height !== current.height
+        || position.left !== current.left
+        || position.top !== current.top;
   }
 
   private constrainXProperty(property: Property): void {
