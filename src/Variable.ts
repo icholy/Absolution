@@ -10,20 +10,6 @@ class Variable {
     private value: number = null
   ) {}
 
-  notify(): void {
-    for (let listener of this.listeners) {
-      listener();
-    }
-  }
-
-  onChange(listener: Function): void {
-    this.listeners.push(listener);
-  }
-
-  toString(): string {
-    return `${this.name}(${this.getValue()})`;
-  }
-
   assignValue(v: number): void {
     this.value = v;
     this.shouldPreserve = true;
@@ -52,6 +38,20 @@ class Variable {
   clearValue(force: boolean = false): void {
     if (force || !this.shouldPreserve) {
       this.value = null;
+    }
+  }
+
+  onChange(listener: Function): void {
+    this.listeners.push(listener);
+  }
+
+  toString(): string {
+    return `${this.name}(${this.getValue()})`;
+  }
+
+  private notify(): void {
+    for (let listener of this.listeners) {
+      listener();
     }
   }
 

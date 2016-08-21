@@ -86,7 +86,7 @@ class System {
     if (name) {
       this.getVariable(name).clearValue(true);
     } else {
-      Object.keys(this.variables).forEach(name => this.clear(name, true))
+      Object.keys(this.variables).forEach(name => this.clear(name))
     }
   }
 
