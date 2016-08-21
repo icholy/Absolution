@@ -28,6 +28,8 @@
 
     #container {
       position: relative;
+      left: 100px;
+      top: 100px;
     }
 
   </style>
@@ -35,8 +37,11 @@
 <body>
 
   <div id="container">
-    <div class="box" id="A" data-anchor-height="A.width / 2">A</div>
+    <div class="box" id="A" 
+      data-anchor-in="container"
+      data-anchor-height="A.width / 2">A</div>
     <div class="box" id="B" 
+      data-anchor-in="container"
       data-anchor-width="A.width / 2"
       data-anchor-height="A.height / 2"
       data-anchor-vcenter="A.vcenter"
@@ -58,11 +63,15 @@
       Object.keys(el.dataset).forEach(function (key) {
         if (key.indexOf("anchor") === 0) {
           if (!isInitialized) {
-            manager = new ElementManager(system, el, document.body, layout);
+            let container = document.body;
+            if (el.dataset["anchorIn"]) {
+              container = document.getElementById(el.dataset["anchorIn"]);
+            }
+            manager = new ElementManager(system, el, container, layout);
             isInitialized = true;
           }
           let property = key.substr(6).toLowerCase();
-          if (property !== "") {
+          if (property !== "" && property !== "in") {
             manager.constrain(property, el.dataset[key]);
           }
         }
