@@ -129,6 +129,8 @@ module Robin {
 
       if (positionChanged) {
         style.transform = `translate(${left}px, ${top}px)`;
+        style.left = "0px";
+        style.top = "0px";
       }
     }
 
