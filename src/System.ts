@@ -11,6 +11,20 @@ module Robin {
     arity: number;
   }
 
+  export interface Context {
+    hasVariable(name: string): boolean;
+    getVariable(name: string): Variable;
+  }
+
+  let emptyContext: Context = {
+    getVariable(name: string): Variable {
+      throw new Error(`context does not have ${name} variable`);
+    },
+    hasVariable(name: string): boolean {
+      return false;
+    }
+  };
+
   export class System {
 
     // A debugging tool for interrogating the system.
@@ -86,8 +100,8 @@ module Robin {
     /**
      * Set a variables value to the evaluated node
      */
-    setNode(name: string, node: any): void {
-      this.equals(name, this.evaluate(node));
+    setNode(name: string, node: any, ctx: Context = emptyContext): void {
+      this.equals(name, this.evaluate(node, ctx));
     }
 
     /**
@@ -225,36 +239,39 @@ module Robin {
       }
     }
 
-    private parse(expr: string): Variable {
+    private parse(expr: string, ctx: Context = emptyContext): Variable {
       let root = Parser.parse(expr, { startRule: "expression" });
-      return this.evaluate(root);
+      return this.evaluate(root, ctx);
     }
 
-    private evaluate(node: Expression): Variable {
+    private evaluate(node: Expression, ctx: Context): Variable {
       switch (node.tag) {
         case "ident":
+          if (ctx.hasVariable(node.value)) {
+            return ctx.getVariable(node.value);
+          }
           return this.getVariable(node.value);
         case "number":
           return new Constant(node.value);
         case "op":
-          return this.handleOperation(node);
+          return this.handleOperation(node, ctx);
         case "func_call":
-          return this.handleFuncCall(node);
+          return this.handleFuncCall(node, ctx);
         default:
           throw new Error("invalid expression");
       }
     }
 
-    private handleFuncCall(node: FuncCallNode): Variable {
+    private handleFuncCall(node: FuncCallNode, ctx: Context): Variable {
       let result = this.createIntermediate();
-      let params = node.params.map(p => this.evaluate(p));
+      let params = node.params.map(p => this.evaluate(p, ctx));
       this.call(node.name, result, params);
       return result;
     }
 
-    private handleOperation(node: OperationNode): Variable {
-      let left = this.evaluate(node.left);
-      let right = this.evaluate(node.right);
+    private handleOperation(node: OperationNode, ctx: Context): Variable {
+      let left = this.evaluate(node.left, ctx);
+      let right = this.evaluate(node.right, ctx);
       let result = this.createIntermediate();
       switch (node.op) {
         case "+":
