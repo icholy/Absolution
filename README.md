@@ -63,7 +63,7 @@ layout.system.func("min", (a, b) => Math.min(a, b));
 * `center-x`
 * `center-y`
 * `center-in`
-* `container`
+* `relative-to`
 * `align-x`
 * `align-y`
 * `fill`

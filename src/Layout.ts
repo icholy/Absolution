@@ -1,25 +1,25 @@
 module Absolution {
 
   const attributeMap = {
-    "a-id":        "id",
-    "a-left":      "left",
-    "a-right":     "right",
-    "a-top":       "top",
-    "a-bottom":    "bottom",
-    "a-width":     "width",
-    "a-height":    "height",
-    "a-center-x":  "center-x",
-    "a-center-y":  "center-y",
-    "a-register":  "register",
-    "a-container": "container",
-    "a-center-in": "center-in",
-    "a-align-x":   "align-x",
-    "a-align-y":   "align-y",
-    "a-size":      "size",
-    "a-fill":      "fill",
-    "a-watch":     "watch",
-    "a-style":     "style",
-    "a-class":     "class"
+    "a-id":          "id",
+    "a-left":        "left",
+    "a-right":       "right",
+    "a-top":         "top",
+    "a-bottom":      "bottom",
+    "a-width":       "width",
+    "a-height":      "height",
+    "a-center-x":    "center-x",
+    "a-center-y":    "center-y",
+    "a-register":    "register",
+    "a-relative-to": "relative-to",
+    "a-center-in":   "center-in",
+    "a-align-x":     "align-x",
+    "a-align-y":     "align-y",
+    "a-size":        "size",
+    "a-fill":        "fill",
+    "a-watch":       "watch",
+    "a-style":       "style",
+    "a-class":       "class"
   };
 
   export interface LayoutOptions {
@@ -148,8 +148,8 @@ module Absolution {
               this.handleRule(options, rule);
             }
             break;
-          case "container":
-            options.container = this.identFrom(rule)
+          case "relative-to":
+            options.container = this.identFrom(rule);
             break;
           case "center-in":
             let centerInIdent = this.identFrom(rule);
