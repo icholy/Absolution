@@ -208,40 +208,15 @@ module Robin {
     ) {
       super();
 
-      switch (func.length) {
-        case 1:
-          this.solver = this.solve1.bind(this);
-          break;
-        case 2:
-          this.solver = this.solve2.bind(this);
-          break;
-        default:
-          this.solver = this.solveHigher.bind(this);
+      if (input.length !== func.length) {
+        throw new Error(`${name}(...) takes ${func.length} 3 parameters, ` +
+                        `but ${input.length} input variables were given`);
       }
+
       this.attachTo(...input);
     }
 
     solve(id: number): void {
-      this.solver(id);
-    }
-
-    private solve1(id: number): void {
-      let [a] = this.input;
-      if (a.hasValue(id)) {
-        this.output.setValue(
-          this.func(a.getValue()), id);
-      }
-    }
-
-    private solve2(id: number): void {
-      let [a, b] = this.input;
-      if (a.hasValue(id) && b.hasValue(id)) {
-        this.output.setValue(
-          this.func(a.getValue(), b.getValue()), id);
-      }
-    }
-
-    private solveHigher(id: number): void {
       if (this.input.every(v => v.hasValue(id))) {
         let result = this.func.apply(null, this.input.map(v => v.getValue()));
         this.output.setValue(result, id);
