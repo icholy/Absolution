@@ -140,7 +140,7 @@ module Absolution.Angular {
 
   function ManagerFactory(): Manager {
     let manager = new Manager();
-    manager.attachTo(document.body, { findStyleSheets: true });
+    manager.initialize({ findStyleSheets: true });
     return manager;
   }
 

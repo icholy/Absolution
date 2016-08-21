@@ -24,7 +24,7 @@ module Absolution {
       public system = new System()
     ) {}
 
-    attachTo(root: HTMLElement, options: ManagerOptions = defaultOptions) {
+    initialize(options: ManagerOptions = defaultOptions) {
 
       // add the special rects
       this.rects["viewport"] = new ViewportRect(this);
@@ -55,7 +55,7 @@ module Absolution {
 
       // walk the dom and find elements with a-attributes
       if (options.findElements) {
-        Utils.forEachElement(root, el => this.register(el));
+        Utils.forEachElement(document.body, el => this.register(el));
       }
 
       // use stylesheet selectors to lookup elements
