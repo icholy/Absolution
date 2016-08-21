@@ -111,7 +111,7 @@ module Absolution {
         this.expressions[propertyName] = expression;
 
       } catch (e) {
-        throw this.createError(propertyName, expression, e);
+        throw this.constraintError(propertyName, expression, e);
       }
     }
 
@@ -211,7 +211,7 @@ module Absolution {
       return nameToProperty[name];
     }
 
-    private createError(propertyName: string, expression: string, error: any): Error {
+    private constraintError(propertyName: string, expression: string, error: any): Error {
       let reason = error instanceof Error ? error.message : error.toString();
       let description = `${this.id}.${propertyName}="${expression}"`;
       let expressions = Object.keys(this.expressions).map(propertyName => {
