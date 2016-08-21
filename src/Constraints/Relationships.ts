@@ -2,9 +2,19 @@ module Constraints {
 
   export abstract class Relationship {
 
+    /**
+     * Try to solve the constraint.
+     */
     abstract recompute(): void;
+
+    /**
+     * Get a list of used variables.
+     */
     abstract getVariables(): Variable[];
 
+    /**
+     * Attach this relationship to the supplied variables
+     */
     protected attachTo(...variables: Variable[]): void {
       for (let v of variables) {
         v.attach(this);
@@ -12,12 +22,9 @@ module Constraints {
       this.recompute();
     }
 
-    protected detachFrom(...variables: Variable[]): void {
-      for (let v of variables) {
-        v.detach(this);
-      }
-    }
-
+    /**
+     * Return true if all supplied variables have a value.
+     */
     protected haveValues(...variables: Variable[]): boolean {
       return variables.every(v => v.hasValue());
     }
@@ -27,7 +34,7 @@ module Constraints {
   export class Equality extends Relationship {
 
     constructor(
-      private left: Variable,
+      private left:  Variable,
       private right: Variable
     ) {
       super();
