@@ -144,6 +144,9 @@ class System {
           values.push(new Constant(token.value));
           break;
         case Type.OPERATOR:
+          if (values.length < 2) {
+            throw new Error("invalid expression");
+          }
           let right = values.pop();
           let left = values.pop();
           let operator = token.value;
