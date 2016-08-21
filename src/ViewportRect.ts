@@ -3,6 +3,7 @@ class ViewportRect extends Rect {
 
   constructor(layout: Layout) {
     super(layout, "viewport");
+    window.addEventListener("scroll", () => layout.update());
   }
 
   updateRect(): void {}

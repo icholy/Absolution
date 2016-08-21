@@ -3,6 +3,7 @@ class DocumentRect extends Rect {
 
   constructor(layout: Layout) {
     super(layout, "document");
+    window.addEventListener("resize", () => layout.update());
   }
 
   updateRect(): void {}
