@@ -59,8 +59,13 @@ module Absolution.Angular {
     }
 
     identToName(node: IdentNode): string {
-      if (node.tag === "property" && node.object === "parent" && this.ctrl) {
-        return `${this.ctrl.getRectId()}.${node.key}`;
+      if (this.ctrl) {
+        if (node.tag === "property" && node.object === "parent") {
+          return `${this.ctrl.getRectId()}.${node.key}`;
+        }
+        if (node.tag === "ident" && node.value === "parent") {
+          return this.ctrl.getRectId();
+        }
       }
       return node.value;
     }
@@ -74,11 +79,15 @@ module Absolution.Angular {
     }
 
     getOptionsWithContext(context: ScopeContext): RectOptions {
+      let container = context.identToName({
+        tag:   "ident",
+        value: this.options.container
+      });
       return {
         id:        this.options.id,
-        container: this.options.container,
         watcher:   this.options.watcher,
         rules:     this.options.rules,
+        container: container,
         context:   context
       };
     }
