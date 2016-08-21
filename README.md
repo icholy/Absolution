@@ -84,3 +84,53 @@ manager.funcs(Math, "Math");
 * `viewport`
 * `body`
 * `document`
+
+# Setup
+
+The `Absolution.Manager` is how the user interacts with the system.
+
+```
+let manager = new Absolution.Manager();
+
+// assign variables and attach functions
+
+manager.initialize();
+```
+
+By default, the manager will walk the entire DOM and `register` Elements which have an `a-rect` or `a-style` attribute.
+This behaviour is configured via an options object passed into the `initialize` method.
+
+``` ts
+interface ManagerOptions {
+
+  // Find and parser script tags with where type="text/absolution"
+  findStyleSheets?: boolean;
+
+  // Walk the dom and find elements with `a-rect` or `a-style` attributes.
+  findElements?: boolean;
+
+  // Use the selectors in the stylesheets to lookup elements in the dom.
+  lookupSelectors?: boolean;
+
+  // Provide pre-compiled rules to the env.
+  envData?: EnvData;
+}
+```
+
+Default Manager Options:
+
+``` json
+{
+  findStyleSheets: true,
+  findElements:    true
+}
+```
+
+## Manually managing Element life-cycle
+
+Element life-cycle can be manually managed using the `register` and `unregister` methods on the `Manager`.
+
+``` js
+manager.register(element);
+manager.unregister(element);
+```
