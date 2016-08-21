@@ -15,6 +15,6 @@
     "src/SpecialRects.ts",
     "src/ElementRect.ts",
     "src/Layout.ts",
-    "src/WatchStrategy.ts"
+    "src/Watcher.ts"
   ]
 }

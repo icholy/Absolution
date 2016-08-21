@@ -17,7 +17,7 @@ module Robin {
     // the element that's being managed
     public element: HTMLElement;
 
-    private watcher: WatchStrategy;
+    private watcher: Watcher;
 
     constructor(
       id:        string,
@@ -28,7 +28,7 @@ module Robin {
       super(layout, id, container);
       this.element = element;
 
-      this.watcher = new MutationObserverStrategy(this);
+      this.watcher = new MutationObserverWatcher(this);
 
       let updateRect = this.updateRectPosition.bind(this);
       this.width.onChange(updateRect);

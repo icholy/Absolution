@@ -1,11 +1,11 @@
 
 module Robin {
 
-  export interface WatchStrategy {
+  export interface Watcher {
     destroy(): void;
   }
 
-  export class MutationObserverStrategy implements WatchStrategy {
+  export class MutationObserverWatcher implements Watcher {
 
     private observer: MutationObserver;
 
