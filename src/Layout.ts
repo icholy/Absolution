@@ -156,7 +156,7 @@ module Robin {
       if (!options) {
         return;
       }
-      let rect = new ElementRect(options.id, el, options.container, this);
+      let rect = new ElementRect(el, this, options);
       for (let rule of options.rules) {
         rect.constrain(rule.target, rule.text, rule.expr);
       }

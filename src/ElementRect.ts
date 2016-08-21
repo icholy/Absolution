@@ -27,12 +27,11 @@ module Robin {
     private watchers: Watcher[] = [];
 
     constructor(
-      id:        string,
       element:   HTMLElement,
-      container: string,
-      layout:    Layout
+      layout:    Layout,
+      options:   RectOptions
     ) {
-      super(layout, id, container);
+      super(layout, options.id, options.container);
       this.element = element;
 
       let updateRect = this.updateRectPosition.bind(this);
