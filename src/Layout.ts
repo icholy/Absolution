@@ -141,12 +141,8 @@ module Robin {
       this.updateIsRequested = true;
       window.requestAnimationFrame(() => {
         this.updateIsRequested = false;
-        this.updateNow();
+        this.system.solve(this.digestID++);
       });
-    }
-
-    private updateNow(): void {
-      this.system.solve(this.digestID++);
     }
 
     /**
