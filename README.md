@@ -50,6 +50,13 @@ manager.assign("x", 100);
 manager.funcs(Math, "Math");
 ```
 
+``` css
+#foo {
+  left:  B.right + Math.sin(x) * 100px;
+  width: C.height - Math.min(A.height, 200px);
+}
+```
+
 ## Attributes 
 
 * `left`
