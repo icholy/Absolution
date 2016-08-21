@@ -36,11 +36,11 @@ module Robin {
         childList:     true
       });
 
-      let listener = () => this.updateRectPosition();
-      this.width.addListener(listener);
-      this.left.addListener(listener);
-      this.top.addListener(listener);
-      this.height.addListener(listener);
+      let updateRect = this.updateRectPosition.bind(this);
+      this.width.onChange(updateRect);
+      this.left.onChange(updateRect);
+      this.top.onChange(updateRect);
+      this.height.onChange(updateRect);
     }
 
     /**
