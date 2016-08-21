@@ -1,6 +1,6 @@
 # Absolution.js
 
-> Element positioning system inspired by SICP.
+> An Element positioning system.
 
 
 ``` html
