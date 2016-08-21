@@ -1,12 +1,5 @@
 module Robin {
 
-  interface RectOptions {
-    id:        string;
-    container: string;
-    watcher:   string;
-    rules:     Rule[];
-  }
-
   const attributeMap = {
     "r-id":        "id",
     "r-left":      "left",

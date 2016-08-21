@@ -1,5 +1,12 @@
 module Robin {
 
+  export interface RectOptions {
+    id:        string;
+    container: string;
+    watcher:   string;
+    rules:     Rule[];
+  }
+
   export class ElementRect extends Rect {
 
     // used to check if a property has already been constrained.
