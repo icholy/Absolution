@@ -276,12 +276,13 @@ module Constraints {
 
   }
 
-  type Value = string | number;
+  type Value = string | number | Connector;
 
   export class System {
 
     private operations: Operation[] = [];
     private variables:  { [name: string]: Variable; } = {};
+    private variableId = 0;
 
     private getVariable(name: string): Variable {
       let variable = this.variables[name];
@@ -292,11 +293,20 @@ module Constraints {
       return variable;
     }
 
+    private createIntermediate(): Variable {
+      let id = this.variableId++;
+      return this.getVariable(`Intermediate${id}`);
+    }
+
     private connectorFor(v: Value): Connector {
       if (typeof v === "string") {
         return this.getVariable(v);
-      } else {
+      } 
+      else if (typeof v === "number") {
         return new Constant(v);
+      }
+      else {
+        return v;
       }
     }
 
@@ -381,6 +391,42 @@ module Constraints {
         this.connectorFor(divisor),
         this.connectorFor(quotient)
       ));
+    }
+
+    private evalute(ast: any): Connector {
+      if (Array.isArray(ast)) {
+        if (ast.length !== 3) {
+          throw new Error(`Syntax Error: ${ast}`);
+        }
+        let operator = ast[0];
+        let param1 = this.evalute(ast[1]);
+        let param2 = this.evalute(ast[2]);
+        let result = this.createIntermediate();
+
+        switch (operator) {
+          case "+":
+            this.add(result, param1, param2);
+            break;
+          case "-":
+            this.subtract(result, param1, param2);
+            break;
+          case "*":
+            this.multiply(result, param1, param2);
+            break;
+          case "/":
+            this.divide(result, param1, param2);
+          default:
+            throw new Error(`Syntax Error: invalid operator ${operator}`);
+        }
+        return result;
+      } else {
+        return this.connectorFor(ast);
+      }
+    }
+
+    assign(name: string, ast: any): void {
+      let result = this.evalute(ast);
+      this.equals(name, result);
     }
 
     toString(): string {
