@@ -15,8 +15,6 @@ module Absolution {
     env = new Environment();
     system = new System();
     digestID = 0;
-    rulesById = {} as { [id: string]: Rule[]; };
-    rulesByClass = {} as { [className: string]: Rule[]; };
     changedRects: ManagedRect[] = [];
 
     private updateIsRequested = false;
@@ -30,30 +28,23 @@ module Absolution {
 
       // find rulesets from script tags
       if (options.findStyleSheets) {
-        let scriptTags = document.getElementsByTagName("script");
-        for (let i = 0; i < scriptTags.length; i++) {
-          let scriptTag = scriptTags.item(i);
-          if (scriptTag.getAttribute("type") === "text/absolution") {
-            this.env.parseStyleSheet(scriptTag.textContent);
-          }
-        }
+        this.env.findStyleSheets();
       }
 
       // walk the dom and find elements with a-attributes
       if (options.findElements) {
-        let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
-        let el: HTMLElement;
-        while (el = iterator.nextNode() as any) {
-          let options = this.env.getRectOptions(el);
-          if (options) {
-            new ElementRect(el, this, options);
-          }
-        }
+        this.env.findRectElements(root, (el: HTMLElement, options: RectOptions) => {
+          new ElementRect(el, this, options);
+        });
       }
 
       this.update();
     }
 
+    /**
+     * Queue a rect to be updated after the system
+     * is finished being solved.
+     */
     enqueueRect(rect: ManagedRect): void {
       this.changedRects.push(rect);
     }

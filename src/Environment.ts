@@ -22,17 +22,16 @@ module Absolution {
     "a-class":       "class"
   };
 
-  const defaultLayoutOptions: LayoutOptions = {
-    findStyleSheets: true,
-    findElements:    true
-  };
-
   export class Environment {
 
     rulesById = {} as { [id: string]: Rule[]; };
     rulesByClass = {} as { [className: string]: Rule[]; };
 
     private updateIsRequested = false;
+
+    constructor(rulesets: RuleSet[] = []) {
+      this.parseRulesets(rulesets);
+    }
 
     findStyleSheets(): void {
       let scriptTags = document.getElementsByTagName("script");
@@ -44,8 +43,18 @@ module Absolution {
       }
     }
 
-    parseStyleSheet(input: string): void {
-      let rulesets = Parser.parse<RuleSet[]>(input, { startRule: "rulesets" });
+    findRectElements(root: HTMLElement, callback: (el: HTMLElement, options: RectOptions) => void): void {
+      let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
+      let el: HTMLElement;
+      while (el = iterator.nextNode() as any) {
+        let options = this.getRectOptions(el);
+        if (options) {
+          callback(el, options);
+        }
+      }
+    }
+
+    private parseRulesets(rulesets: RuleSet[]): void {
       for (let { selector, rules } of rulesets) {
         switch (selector.type) {
           case "class":
@@ -66,6 +75,11 @@ module Absolution {
             throw new Error(`${selector.type} is not a valid selector type`);
         }
       }
+    }
+
+    parseStyleSheet(input: string): void {
+      let rulesets = Parser.parse<RuleSet[]>(input, { startRule: "rulesets" });
+      this.parseRulesets(rulesets);
     }
 
     private getClassNames(el: HTMLElement): string[] {
