@@ -84,42 +84,45 @@ module Robin {
           this.rects.push(rect);
           isRegistered = true;
         }
-        let property = attributeMap[attr.name];
-        let parentId = attr.textContent;
-        switch (property) {
-          case "center-in":
-            rect.constrain("center-x", `${parentId}.center-x`);
-            rect.constrain("center-y", `${parentId}.center-y`);
-            break;
-          case "align-x":
-            rect.constrain("left", `${parentId}.left`);
-            rect.constrain("right", `${parentId}.right`);
-            break;
-          case "align-y":
-            rect.constrain("top", `${parentId}.top`);
-            rect.constrain("bottom", `${parentId}.bottom`);
-            break;
-          case "size":
-            rect.constrain("width", `${parentId}.width`);
-            rect.constrain("height", `${parentId}.height`);
-            break;
-          case "fill":
-            rect.constrain("top", `${parentId}.top`);
-            rect.constrain("bottom", `${parentId}.bottom`);
-            rect.constrain("left", `${parentId}.left`);
-            rect.constrain("right", `${parentId}.right`);
-            break;
-          case "register":
-          case "container":
-          case "id":
-            break;
-          default:
-            rect.constrain(property, attr.textContent);
-        }
+
+        this.applyProperty(rect, attr.name, attr.textContent);
       }
 
       if (isRegistered) {
         rect.initialize();
+      }
+    }
+
+    private applyProperty(rect: ElementRect, name: string, value: string): void {
+      switch (name) {
+        case "center-in":
+          rect.constrain("center-x", `${value}.center-x`);
+          rect.constrain("center-y", `${value}.center-y`);
+          break;
+        case "align-x":
+          rect.constrain("left", `${value}.left`);
+          rect.constrain("right", `${value}.right`);
+          break;
+        case "align-y":
+          rect.constrain("top", `${value}.top`);
+          rect.constrain("bottom", `${value}.bottom`);
+          break;
+        case "size":
+          rect.constrain("width", `${value}.width`);
+          rect.constrain("height", `${value}.height`);
+          break;
+        case "fill":
+          rect.constrain("top", `${value}.top`);
+          rect.constrain("bottom", `${value}.bottom`);
+          rect.constrain("left", `${value}.left`);
+          rect.constrain("right", `${value}.right`);
+          break;
+        case "register":
+        case "container":
+        case "id":
+          break;
+        default:
+          rect.constrain(name, value);
       }
     }
 
