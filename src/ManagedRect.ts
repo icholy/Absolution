@@ -26,6 +26,8 @@ module Absolution {
     // when the rect is destroyed
     private watchers: Watcher[] = [];
 
+    // True if the rect already requested to be updated
+    // after the system is solved
     private isEnqueued = false;
 
     constructor(
@@ -43,13 +45,14 @@ module Absolution {
         this.watchers.push(watcher);
       }
 
+      // if one of the variables changes, request the layout to update the
+      // rect after the system is finished solving itself.
       let enqueue = () => {
         if (!this.isEnqueued) {
           this.isEnqueued = true;
           layout.enqueueRect(this);
         }
       };
-
       this.width.onChange(enqueue);
       this.left.onChange(enqueue);
       this.top.onChange(enqueue);
