@@ -25,8 +25,10 @@ module Robin {
       this.initialize();
     }
 
+    /**
+     * Create a watcher by name
+     */
     makeWatcher(name: string): Watcher {
-      // add a watcher if one is specified
       if (name !== "mutation") {
         throw new Error(
           `${this.getId()}.r-watch value error: "${name}" is not a supported watcher`);
