@@ -4,23 +4,24 @@ interface ElementOptions {
   container?: HTMLElement
 }
 
-const attributeMap = {
-  "anchorLeft":    "left",
-  "anchorRight":   "right",
-  "anchorTop":     "top",
-  "anchorBottom":  "bottom",
-  "anchorWidth":   "width",
-  "anchorHeight":  "height",
-  "anchorHcenter": "hcenter",
-  "anchorVcenter": "vcenter"
-};
-
 class LayoutManager {
 
   system = new Constraints.System();
   managers = [] as RectManager[];
 
   constructor(root: HTMLElement) {
+
+    const attributeMap = {
+      "anchorLeft":    "left",
+      "anchorRight":   "right",
+      "anchorTop":     "top",
+      "anchorBottom":  "bottom",
+      "anchorWidth":   "width",
+      "anchorHeight":  "height",
+      "anchorHcenter": "hcenter",
+      "anchorVcenter": "vcenter"
+    };
+
     let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
     let el: HTMLElement;
     while (el = iterator.nextNode() as any) {
