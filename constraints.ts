@@ -277,7 +277,7 @@ module Constraints {
 
   }
 
-  type Value = string | number | Connector;
+  export type Value = string | number | Connector;
 
   export class System {
 
