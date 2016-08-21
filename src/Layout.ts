@@ -10,8 +10,9 @@ module Robin {
 
     constructor(root: HTMLElement) {
 
-      this.rects.push(new DocumentRect(this));
       this.rects.push(new ViewportRect(this));
+      this.rects.push(new DocumentRect(this));
+      this.rects.push(new BodyRect(this));
 
       let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
       let el: HTMLElement;
