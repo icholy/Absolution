@@ -1,10 +1,13 @@
 module Absolution {
 
+  /**
+   * A base class for all rects types.
+   */
   export abstract class Rect {
 
     protected system: System;
 
-    // these variables represent the rect's propeties
+    // these variables represent the rect's properties
     // inside the constaint system
     public left:       Variable;
     public width:      Variable;
@@ -14,9 +17,9 @@ module Absolution {
     public leftOffset: Variable;
 
     constructor(
-      protected manager:   Manager,
-      protected id:        string,
-      protected container: string = null
+      protected manager:    Manager,
+      protected id:         string,
+      protected container?: string
     ) {
 
       let system = this.system = manager.system;

@@ -1,5 +1,8 @@
 module Absolution {
 
+  /**
+   * The base class for all relationships between variables.
+   */
   export abstract class Relationship {
 
     private variables: Variable[];

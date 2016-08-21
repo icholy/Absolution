@@ -1,6 +1,10 @@
 
 module Absolution {
 
+  /**
+   * A rect for the dom's document.
+   * It triggers an update on page resize.
+   */
   export class DocumentRect extends Rect {
 
     constructor(manager: Manager) {
@@ -23,6 +27,10 @@ module Absolution {
 
   }
 
+  /**
+   * A rect for the page's viewport.
+   * It triggers an update on page resize.
+   */
   export class ViewportRect extends Rect {
 
     constructor(manager: Manager) {
@@ -48,6 +56,10 @@ module Absolution {
 
   }
 
+  /**
+   * A rect for the dom's body.
+   * It triggers an update on page resize.
+   */
   export class BodyRect extends Rect {
 
     constructor(manager: Manager) {
@@ -70,6 +82,11 @@ module Absolution {
 
   }
 
+  /**
+   * A virtual rect is one that does not represent an existing
+   * element. It can be used as a container for other rects without
+   * needing to add additional html.
+   */
   export class VirtualRect extends ManagedRect {}
 
 }

@@ -73,7 +73,7 @@ module Absolution {
     }
 
     /**
-     * Update the rect's position
+     * Update the rect's position.
      */
     applyPositionUpdate(update: RectPositionUpdate): void {}
 
