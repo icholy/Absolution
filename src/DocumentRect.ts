@@ -15,8 +15,8 @@ class DocumentRect implements Rect {
     system.divide(`${id}_tmp1`, `${id}.width`, 2);
     system.add(`${id}.center-x`, `${id}.left`, `${id}_tmp1`);
     system.equals(`${id}.absolute.left`, `${id}.left`);
-    system.subtract(`${id}.width`, `${id}.absolute.right`, `${id}.absolute.left`);
-    system.add(`${id}.absolute.center-x`, `${id}.absolute.left`, `${id}_tmp1`);
+    system.equals(`${id}.absolute.right`, `${id}.right`);
+    system.equals(`${id}.absolute.center-x`, `${id}.center-x`);
 
     this.left  = system.getVariable(`${id}.left`);
     this.width = system.getVariable(`${id}.width`);
@@ -26,8 +26,8 @@ class DocumentRect implements Rect {
     system.divide(`${id}_tmp2`, `${id}.height`, 2);
     system.add(`${id}.center-y`, `${id}.top`, `${id}_tmp2`);
     system.equals(`${id}.absolute.top`, `${id}.top`);
-    system.subtract(`${id}.height`, `${id}.absolute.bottom`, `${id}.absolute.top`);
-    system.add(`${id}.absolute.center-y`, `${id}.absolute.top`, `${id}_tmp2`);
+    system.equals(`${id}.absolute.bottom`, `${id}.bottom`);
+    system.equals(`${id}.absolute.center-y`, `${id}.center-y`);
 
     this.top    = system.getVariable(`${id}.top`);
     this.height = system.getVariable(`${id}.height`);
