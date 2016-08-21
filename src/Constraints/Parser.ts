@@ -27,6 +27,7 @@ module Constraints {
 
       let lexems = [];
       let token = "";
+      let leadingSlash = false;
 
       function isWhiteSpace(c: string): boolean {
         return " \t\n\r\v".indexOf(c) !== -1;
@@ -46,12 +47,18 @@ module Constraints {
 
       function maybeAddToken(): void {
         if (token === "") {
+          leadingSlash = false;
           return;
         }
         if (isNumeric(token)) {
+          let sign = 1;
+          if (leadingSlash) {
+            lexems.pop();
+            sign = -1;
+          }
           lexems.push({
             type:  Type.NUMBER,
-            value: parseFloat(token)
+            value: sign * parseFloat(token)
           });
         } else {
           lexems.push({
@@ -60,6 +67,7 @@ module Constraints {
           });
         }
         token = "";
+        leadingSlash = false;
       }
 
       for (let c of input) {
@@ -87,6 +95,7 @@ module Constraints {
               type:  Type.OPERATOR,
               value: c
             });
+            leadingSlash = c === "-"
             break;
           default:
             token += c;

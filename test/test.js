@@ -117,7 +117,8 @@ describe("Constraints", function () {
         { input: "1*1+    10",  output: "1 * 1 + 10"    },
         { input: "A+1",         output: "A + 1"         },
         { input: "L + (W / 2)", output: "L + ( W / 2 )" },
-        { input: "foo-bar + 1", output: "foo-bar + 1"   }
+        { input: "foo-bar + 1", output: "foo-bar + 1"   },
+        { input: "-1 + -2",     output: "-1 + -2"       }
       ];
 
       testCases.forEach(function (testCase) {
