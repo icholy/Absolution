@@ -5,7 +5,7 @@ start
 ruleset
   = _ selector:selector _ "{" _ rules:rule* _ "}" _ {
       return {
-        tag: "ruleset",
+        tag:   "ruleset",
         rules: rules
       };
     }
@@ -16,9 +16,9 @@ selector
 rule
   = _ target:ident _ ":" _ expr:expression _ ";" _ {
       return {
-        tag: "rule",
+        tag:    "rule",
         target: target,
-        expr: expr
+        expr:   expr
       };
     }
 
@@ -30,10 +30,10 @@ expression
 add_or_subtract 
   = left:multiply_or_divide _ op:("+" / "-") _ right:add_or_subtract {
     return {
-      tag:  "op",
-      op:   op,
-      left: left,
-      right:right
+      tag:   "op",
+      op:    op,
+      left:  left,
+      right: right
     };
   }
   / multiply_or_divide
@@ -41,10 +41,10 @@ add_or_subtract
 multiply_or_divide
   = left:primary _ op:("*" / "/") _ right:multiply_or_divide {
       return {
-        tag:  "op",
-        op:   op,
-        left: left,
-        right:right
+        tag:   "op",
+        op:    op,
+        left:  left,
+        right: right
       };
     }
   / primary
@@ -56,7 +56,7 @@ primary
       }
     / name:ident "(" params:expression* ")" {
       return {
-        tag:    "func",
+        tag:    "func_call",
         name:   name,
         params: params
       };
