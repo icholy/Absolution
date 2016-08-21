@@ -129,6 +129,16 @@ module Robin {
       return { target, text, expr };
     }
 
+    private identFrom({ target, text, expr }: Rule): string {
+      if (!expr) {
+        expr = this.ruleFor(target, text).expr;
+      }
+      if (expr.tag !== "ident") {
+        throw new Error("expected ${text} to be an identifier");
+      }
+      return expr.value;
+    }
+
     private handleRule(options: RectOptions, rule: Rule): void {
       switch (rule.target) {
         case "register":
@@ -136,29 +146,34 @@ module Robin {
         case "watch":
           break;
         case "container":
-          options.container = rule.text;
+          options.container = this.identFrom(rule)
           break;
         case "center-in":
-          options.rules.push(this.ruleFor("center-x", `${rule.text}.center-x`));
-          options.rules.push(this.ruleFor("center-y", `${rule.text}.center-y`));
+          let centerInIdent = this.identFrom(rule);
+          options.rules.push(this.ruleFor("center-x", `${centerInIdent}.center-x`));
+          options.rules.push(this.ruleFor("center-y", `${centerInIdent}.center-y`));
           break;
         case "align-x":
-          options.rules.push(this.ruleFor("left", `${rule.text}.left`));
-          options.rules.push(this.ruleFor("right", `${rule.text}.right`));
+          let alignXIdent = this.identFrom(rule);
+          options.rules.push(this.ruleFor("left", `${alignXIdent}.left`));
+          options.rules.push(this.ruleFor("right", `${alignXIdent}.right`));
           break;
         case "align-y":
-          options.rules.push(this.ruleFor("top", `${rule.text}.top`));
-          options.rules.push(this.ruleFor("bottom", `${rule.text}.bottom`));
+          let alignYIdent = this.identFrom(rule);
+          options.rules.push(this.ruleFor("top", `${alignYIdent}.top`));
+          options.rules.push(this.ruleFor("bottom", `${alignYIdent}.bottom`));
           break;
         case "size":
-          options.rules.push(this.ruleFor("width", `${rule.text}.width`));
-          options.rules.push(this.ruleFor("height", `${rule.text}.height`));
+          let sizeIdent = this.identFrom(rule);
+          options.rules.push(this.ruleFor("width", `${sizeIdent}.width`));
+          options.rules.push(this.ruleFor("height", `${sizeIdent}.height`));
           break;
         case "fill":
-          options.rules.push(this.ruleFor("top", `${rule.text}.top`));
-          options.rules.push(this.ruleFor("bottom", `${rule.text}.bottom`));
-          options.rules.push(this.ruleFor("left", `${rule.text}.left`));
-          options.rules.push(this.ruleFor("right", `${rule.text}.right`));
+          let fillIdent = this.identFrom(rule);
+          options.rules.push(this.ruleFor("top", `${fillIdent}.top`));
+          options.rules.push(this.ruleFor("bottom", `${fillIdent}.bottom`));
+          options.rules.push(this.ruleFor("left", `${fillIdent}.left`));
+          options.rules.push(this.ruleFor("right", `${fillIdent}.right`));
           break;
         case "style":
           let rules = Parser.parse<Rule[]>(rule.text, { startRule: "inline_rules" });
@@ -167,7 +182,8 @@ module Robin {
           }
           break;
         default:
-          options.rules.push(this.ruleFor(rule.target, rule.text, rule.expr));
+          options.rules.push(
+              this.ruleFor(rule.target, rule.text, rule.expr));
       }
     }
 
