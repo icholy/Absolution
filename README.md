@@ -34,6 +34,24 @@
 layout.assign("x", 100);
 ```
 
+### Use JavaScript functions inside expressions
+
+``` js
+layout.system.func("cos", x => Math.cos(x));
+layout.system.func("min", (a, b) => Math.min(a, b));
+```
+
+### Declare your rules separately.
+
+``` html
+<script type="text/robin">
+  #foo {
+    left:  B.right + sin(x) * 100px;
+    width: C.height - min(A.height, 200px);
+  }
+</script>
+```
+
 # Attributes
 
 * `r-id`
