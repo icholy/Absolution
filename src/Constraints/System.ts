@@ -164,17 +164,6 @@ module Constraints {
       return this.relationships.map(r => r.toString()).join("\n");
     }
 
-    destroyVariable(v: Variable): void {
-      let name = v.getName();
-      if (!this.has(name)) {
-        return;
-      }
-      delete this.variables[name];
-      for (let r of v.getRelationships()) {
-        this.destroyRelationship(r);
-      }
-    }
-
     private destroyRelationship(r: Relationship): void {
       let index = this.relationships.indexOf(r);
       if (index === -1) {
@@ -183,7 +172,7 @@ module Constraints {
       this.relationships.splice(index, 1);
       for (let v of r.getVariables()) {
         v.detach(r);
-        if (v.canDestroy()) {
+        if (v.isOrphan()) {
           this.destroyVariable(v);
         }
       }
@@ -248,6 +237,17 @@ module Constraints {
         this.variables[name] = new Variable(name);
       }
       return this.variables[name];
+    }
+
+    destroyVariable(v: Variable): void {
+      let name = v.getName();
+      if (!this.has(name)) {
+        return;
+      }
+      delete this.variables[name];
+      for (let r of v.getRelationships()) {
+        this.destroyRelationship(r);
+      }
     }
 
     private createIntermediate(): Variable {

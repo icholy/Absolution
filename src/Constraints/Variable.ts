@@ -57,7 +57,7 @@ module Constraints {
       return this.relationships;
     }
 
-    canDestroy(): boolean {
+    isOrphan(): boolean {
       return !this.shouldPreserve && this.relationships.length === 0;
     }
 
