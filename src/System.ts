@@ -11,8 +11,8 @@ module Absolution {
   }
 
   export interface Context {
-    hasVariable(name: string): boolean;
-    getVariable(name: string): Variable;
+    hasVariable(name: string, node: IdentNode|PropertyNode): boolean;
+    getVariable(name: string, node: IdentNode|PropertyNode): Variable;
     hasFunction(name: string): boolean;
     getFunction(name: string): FuncEntry;
   }
@@ -251,7 +251,10 @@ module Absolution {
       switch (node.tag) {
         case "ident":
         case "property":
-          return this.getVariable(node.value, ctx);
+          if (ctx.hasVariable(node.value, node)) {
+            return ctx.getVariable(node.value, node);
+          }
+          return this.getVariable(node.value);
         case "number":
           return new Constant(node.value);
         case "op":
@@ -306,10 +309,7 @@ module Absolution {
     /**
      * Get or create a variable.
      */
-    getVariable(name: string, ctx: Context = emptyContext): Variable {
-      if (ctx.hasVariable(name)) {
-        return ctx.getVariable(name);
-      }
+    getVariable(name: string): Variable {
       if (!this.has(name)) {
         this.variables[name] = new Variable(name);
       }
