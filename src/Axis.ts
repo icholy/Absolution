@@ -55,13 +55,13 @@ module Robin {
     independentAreDifferent(a: RectPosition, b: RectPosition): boolean;
 
     /**
-     * Update the system with the positions independent (unconstrained)
+     * Update the system with the position's independent (unconstrained)
      * properties.
      */
     updateSystem(rect: ElementRect, position: RectPosition): void;
 
     /**
-     * Update the element with the positions constrained properties.
+     * Update the element with the position's constrained properties.
      */
     updateRect(rect: ElementRect, position: RectPosition): void;
   }
