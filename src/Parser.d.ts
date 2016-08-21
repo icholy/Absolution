@@ -6,7 +6,7 @@ declare module Robin {
   }
 
   export var Parser: {
-    parse(input: string, options?: ParseOptions): any;
+    parse<T>(input: string, options?: ParseOptions): T;
   };
 
   export type Expression = any;

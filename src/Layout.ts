@@ -84,7 +84,9 @@ module Robin {
 
       if (options.id && this.hasRuleSet(options.id)) {
         isRect = true;
-        options.rules.push(...this.rulesets[options.id]);
+        for (let rule of this.rulesets[options.id]) {
+          this.handleAttribute(options, rule.target, rule.text, rule.expr);
+        }
       }
 
       for (let i = 0; i < el.attributes.length; i++) {
@@ -116,15 +118,14 @@ module Robin {
       return options;
     }
 
-    private ruleFor(target: string, expression: string): Rule {
-      return {
-        target: target,
-        text:   expression,
-        expr:   Parser.parse(expression, { startRule: "expression" })
-      };
+    private ruleFor(target: string, text: string, expr?: Expression): Rule {
+      if (!expr) {
+        expr = Parser.parse(text, { startRule: "expression" })
+      }
+      return { target, text, expr };
     }
 
-    private handleAttribute(options: RectOptions, target: string, text: string): void {
+    private handleAttribute(options: RectOptions, target: string, text: string, expr?: Expression): void {
 
       switch (target) {
         case "register":
@@ -157,16 +158,18 @@ module Robin {
           options.rules.push(this.ruleFor("right", `${text}.right`));
           break;
         case "style":
-          let rules = Parser.parse(text, { startRule: "inline_rules" });
-          options.rules.push(...rules);
+          let rules = Parser.parse<Rule[]>(text, { startRule: "inline_rules" });
+          for (let rule of rules) {
+            this.handleAttribute(options, rule.target, rule.text, rule.expr);
+          }
           break;
         default:
-          options.rules.push(this.ruleFor(target, text));
+          options.rules.push(this.ruleFor(target, text, expr));
       }
     }
 
     parseStyleSheet(input: string): void {
-      let rulesets = Parser.parse(input, { startRule: "rulesets" }) as RuleSet[];
+      let rulesets = Parser.parse<RuleSet[]>(input, { startRule: "rulesets" });
       for (let set of rulesets) {
         if (this.hasRuleSet(set.id)) {
           this.rulesets[set.id].push(...set.rules);
