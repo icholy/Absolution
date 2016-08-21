@@ -47,9 +47,9 @@ class ElementRect extends Rect {
     id:        string,
     element:   HTMLElement,
     container: string,
-    system:    Constraints.System
+    layout:    Layout
   ) {
-    super(system, id, container);
+    super(layout, id, container);
     this.element = element;
   }
 

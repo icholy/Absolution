@@ -6,9 +6,9 @@ class Layout {
 
   constructor(root: HTMLElement) {
 
-    this.rects.push(new DocumentRect(this.system));
-    this.rects.push(new ViewportRect(this.system));
-    this.rects.push(new ElementRect("body", document.body, "document", this.system));
+    this.rects.push(new DocumentRect(this));
+    this.rects.push(new ViewportRect(this));
+    this.rects.push(new ElementRect("body", document.body, "document", this));
 
     let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
     let el: HTMLElement;
@@ -64,7 +64,7 @@ class Layout {
         if (!container) {
           container = "document";
         }
-        rect = new ElementRect(id, el, container, this.system);
+        rect = new ElementRect(id, el, container, this);
         this.rects.push(rect);
         isRegistered = true;
       }

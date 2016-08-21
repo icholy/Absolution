@@ -1,8 +1,8 @@
 
 class DocumentRect extends Rect {
 
-  constructor(system: Constraints.System) {
-    super(system, "document");
+  constructor(layout: Layout) {
+    super(layout, "document");
   }
 
   updateRect(): void {}

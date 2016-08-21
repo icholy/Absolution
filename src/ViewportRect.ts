@@ -1,8 +1,8 @@
 
 class ViewportRect extends Rect {
 
-  constructor(system: Constraints.System) {
-    super(system, "viewport");
+  constructor(layout: Layout) {
+    super(layout, "viewport");
   }
 
   updateRect(): void {}

@@ -1,6 +1,8 @@
 
 abstract class Rect {
 
+  protected system;
+
   // these variables represent the rect's propeties
   // inside the constaint system
   protected left:       Constraints.Variable;
@@ -11,10 +13,12 @@ abstract class Rect {
   protected leftOffset: Constraints.Variable;
 
   constructor(
-    protected system:    Constraints.System,
+    protected layout:    Layout,
     protected id:        string,
     protected container: string = null
   ) {
+
+    let system = this.system = layout.system;
 
     // x axis
     system.subtract(`${id}.width`, `${id}.right`, `${id}.left`);
