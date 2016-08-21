@@ -56,7 +56,6 @@ class ElementManager {
   updateSystem(): void {
     let id = this.id;
     let rect = this.element.getBoundingClientRect();
-    console.log(rect);
     if (this.xAxisConstraints === 0) {
       this.system.set(`${id}.left`, rect.left);
       this.system.set(`${id}.width`, rect.width);
