@@ -18,7 +18,8 @@ module Robin {
     "r-size":      "size",
     "r-fill":      "fill",
     "r-watch":     "watch",
-    "r-style":     "style"
+    "r-style":     "style",
+    "r-class":     "class"
   };
 
   export interface LayoutOptions {
@@ -36,6 +37,7 @@ module Robin {
     system = new System();
     digestID = 0;
     rulesets = {} as { [id: string]: Rule[]; };
+    classes = {} as { [id: string]: ClassRect; };
 
     private updateIsRequested = false;
 
@@ -137,6 +139,16 @@ module Robin {
           case "id":
           case "watch":
             break;
+          case "class":
+            let className = this.identFrom(rule);
+            if (!this.hasClass(className)) {
+              throw new Error(`${className} class not found`);
+            }
+            let classRect = this.classes[className];
+            for (let rule of classRect.rules) {
+              this.handleRule(options, rule);
+            }
+            break;
           case "container":
             options.container = this.identFrom(rule)
             break;
@@ -187,14 +199,19 @@ module Robin {
     parseStyleSheet(input: string): void {
       let rulesets = Parser.parse<RuleSet[]>(input, { startRule: "rulesets" });
       for (let { selector, rules } of rulesets) {
-        if (selector.type !== "id") {
-          console.log("classes are not supported yet");
-          continue;
-        }
-        if (this.hasRuleSet(selector.name)) {
-          this.rulesets[selector.name].push(...rules);
-        } else {
-          this.rulesets[selector.name] = rules;
+        switch (selector.type) {
+          case "class":
+            console.log("classes are not supported yet");
+            break;
+          case "id":
+            if (this.hasRuleSet(selector.name)) {
+              this.rulesets[selector.name].push(...rules);
+            } else {
+              this.rulesets[selector.name] = rules;
+            }
+            break;
+          default:
+            throw new Error(`${selector.type} is not a valid selector type`);
         }
       }
     }
@@ -240,6 +257,10 @@ module Robin {
 
     private hasRuleSet(id: string): boolean {
       return this.rulesets.hasOwnProperty(id);
+    }
+
+    private hasClass(id: string): boolean {
+      return this.classes.hasOwnProperty(id);
     }
 
   }
