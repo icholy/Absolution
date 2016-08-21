@@ -19,7 +19,7 @@ ruleset
 selector
   = type:("#" / ".") id:ident {
       return {
-        type: type === "#" ? "id" : "class",
+        type: type,
         name: id.value
       };
     }

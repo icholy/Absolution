@@ -59,14 +59,14 @@ module Absolution {
     private parseRulesets(rulesets: RuleSet[]): void {
       for (let { selector, rules } of rulesets) {
         switch (selector.type) {
-          case "class":
+          case ".":
             if (this.hasRulesForClass(selector.name)) {
               this.rulesByClass[selector.name].push(...rules);
             } else {
               this.rulesByClass[selector.name] = rules;
             }
             break;
-          case "id":
+          case "#":
             if (this.hasRulesForId(selector.name)) {
               this.rulesById[selector.name].push(...rules);
             } else {
