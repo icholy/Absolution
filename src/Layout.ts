@@ -1,5 +1,41 @@
 module Robin {
 
+  const attributeMap = {
+    "r-id":        "id",
+    "r-left":      "left",
+    "r-right":     "right",
+    "r-top":       "top",
+    "r-bottom":    "bottom",
+    "r-width":     "width",
+    "r-height":    "height",
+    "r-center-x":  "center-x",
+    "r-center-y":  "center-y",
+    "r-register":  "register",
+    "r-container": "container",
+    "r-center-in": "center-in",
+    "r-align-x":   "align-x",
+    "r-align-y":   "align-y",
+    "r-size":      "size",
+    "r-fill":      "fill",
+
+    "data-r-id":        "id",
+    "data-r-left":      "left",
+    "data-r-right":     "right",
+    "data-r-top":       "top",
+    "data-r-bottom":    "bottom",
+    "data-r-width":     "width",
+    "data-r-height":    "height",
+    "data-r-center-x":  "center-x",
+    "data-r-center-y":  "center-y",
+    "data-r-register":  "register",
+    "data-r-container": "container",
+    "data-r-center-in": "center-in",
+    "data-r-align-x":   "align-x",
+    "data-r-align-y":   "align-y",
+    "data-r-size":      "size",
+    "data-r-fill":      "fill"
+  };
+
   export class Layout {
 
     system = new System();
@@ -24,42 +60,6 @@ module Robin {
     }
 
     private handleNewElement(el: HTMLElement): void {
-
-      const attributeMap = {
-        "r-id":        "id",
-        "r-left":      "left",
-        "r-right":     "right",
-        "r-top":       "top",
-        "r-bottom":    "bottom",
-        "r-width":     "width",
-        "r-height":    "height",
-        "r-center-x":  "center-x",
-        "r-center-y":  "center-y",
-        "r-register":  "register",
-        "r-container": "container",
-        "r-center-in": "center-in",
-        "r-align-x":   "align-x",
-        "r-align-y":   "align-y",
-        "r-size":      "size",
-        "r-fill":      "fill",
-
-        "data-r-id":        "id",
-        "data-r-left":      "left",
-        "data-r-right":     "right",
-        "data-r-top":       "top",
-        "data-r-bottom":    "bottom",
-        "data-r-width":     "width",
-        "data-r-height":    "height",
-        "data-r-center-x":  "center-x",
-        "data-r-center-y":  "center-y",
-        "data-r-register":  "register",
-        "data-r-container": "container",
-        "data-r-center-in": "center-in",
-        "data-r-align-x":   "align-x",
-        "data-r-align-y":   "align-y",
-        "data-r-size":      "size",
-        "data-r-fill":      "fill"
-      };
 
       let isRegistered = false;
       let rect: ElementRect = null;
