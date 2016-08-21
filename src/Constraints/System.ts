@@ -172,7 +172,7 @@ module Constraints {
       this.relationships.splice(index, 1);
       for (let v of r.getVariables()) {
         v.detach(r);
-        if (v.isOrphan()) {
+        if (v.isOrphan() && !v.isAssigned()) {
           this.destroyVariable(v);
         }
       }
