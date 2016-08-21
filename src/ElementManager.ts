@@ -173,6 +173,17 @@ class ElementManager {
     }
   }
 
+  destroy(): void {
+    let system = this.system;
+    system.destroyVariable(this.top);
+    system.destroyVariable(this.height);
+    system.destroyVariable(this.left);
+    system.destroyVariable(this.top);
+
+    this.element     = null;
+    this.container   = null;
+  }
+
   private constrainXProperty(property: Property): void {
     let isWidth = property === Property.WIDTH;
     switch (this.xAxisDependencies) {

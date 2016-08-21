@@ -164,7 +164,7 @@ module Constraints {
       return this.relationships.map(r => r.toString()).join("\n");
     }
 
-    private destroyVariable(v: Variable): void {
+    destroyVariable(v: Variable): void {
       let name = v.getName();
       if (!this.has(name)) {
         return;
