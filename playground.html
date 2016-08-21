@@ -15,7 +15,7 @@
   <script src="../build/ElementRect.js"></script>
   <script src="../build/SpecialRects.js"></script>
   <script src="../build/Environment.js"></script>
-  <script src="../build/Layout.js"></script>
+  <script src="../build/Manager.js"></script>
   <style>
 
     #container {
@@ -117,11 +117,11 @@
 
   <script>
 
-    window.layout = new Absolution.Layout();
+    window.manager = new Absolution.Manager();
 
-    layout.funcsFrom(Math, "min", "max", "sin", "cos");
+    manager.funcsFrom(Math, "min", "max", "sin", "cos");
 
-    layout.attachTo(document.body);
+    manager.attachTo(document.body);
 
     function makeOscillator() {
 
@@ -145,8 +145,8 @@
     let oscillator = makeOscillator();
     let counter = 0;
 
-    layout.assign("x", oscillator());
-    layout.assign("y", counter);
+    manager.assign("x", oscillator());
+    manager.assign("y", counter);
 
     let paused = false;
 
@@ -155,8 +155,8 @@
         return;
       }
       counter += 0.1;
-      layout.assign("x", oscillator());
-      layout.assign("y", counter);
+      manager.assign("x", oscillator());
+      manager.assign("y", counter);
     }, 10);
 
     document.getElementById("pause").addEventListener("click", function () {

@@ -16,7 +16,7 @@
   <script src="../build/ElementRect.js"></script>
   <script src="../build/SpecialRects.js"></script>
   <script src="../build/Environment.js"></script>
-  <script src="../build/Layout.js"></script>
+  <script src="../build/Manager.js"></script>
   <script src="../build/Angular.js"></script>
 
   <style>
@@ -104,9 +104,9 @@
       return color;
     }
 
-    angular.module("App", ["absolution"]).controller("MainController", function ($scope, layout) {
+    angular.module("App", ["absolution"]).controller("MainController", function ($scope, absolution) {
 
-      window.layout = layout;
+      window.absolution = absolution;
 
       $scope.min = Math.min.bind(Math);
       $scope.max = Math.max.bind(Math);
