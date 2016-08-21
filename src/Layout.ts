@@ -34,7 +34,6 @@ module Robin {
   export class Layout {
 
     system = new System();
-    rects = [] as Rect[];
     digestID = 0;
     rulesets = {} as { [id: string]: Rule[]; };
 
@@ -43,9 +42,9 @@ module Robin {
     attachTo(root: HTMLElement, options: LayoutOptions = defaultLayoutOptions) {
 
       // add the special rects
-      this.rects.push(new ViewportRect(this));
-      this.rects.push(new DocumentRect(this));
-      this.rects.push(new BodyRect(this));
+      new ViewportRect(this);
+      new DocumentRect(this);
+      new BodyRect(this);
 
       // find rulesets from script tags
       if (options.findStyleSheets) {
@@ -233,18 +232,6 @@ module Robin {
       for (let name of names) {
         this.func(name, object[name].bind(object));
       }
-    }
-
-    /**
-     * Get a rect by id
-     */
-    getRect(id: string): Rect {
-      for (let rect of this.rects) {
-        if (rect.getId() === id) {
-          return rect;
-        }
-      }
-      return null;
     }
 
     private hasRuleSet(id: string): boolean {
