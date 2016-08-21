@@ -7,7 +7,6 @@ rulesets
 ruleset
   = _ id:selector _ "{" _ rules:rule* _ "}" _ {
       return {
-        tag:   "ruleset",
         id:    id,
         rules: rules
       };
@@ -21,7 +20,6 @@ selector
 rule
   = _ target:ident _ ":" _ expr:expression_with_text _ ";" _ {
       return {
-        tag:    "rule",
         target: target.value,
         expr:   expr
       };

@@ -12,14 +12,12 @@ declare module Robin {
   export type Expression = any;
 
   export interface Rule {
-    tag:    "rule";
     target: string;
     expr:   Expression;
     text:   string;
   }
 
   export interface RuleSet {
-    tag:   "ruleset";
     id:    string;
     rules: Rule[];
   }

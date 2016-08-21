@@ -43,7 +43,7 @@ module Robin {
     system = new System();
     rects = [] as Rect[];
     digestID = 0;
-    rulesets = {} as { [id: string]: RuleSet; };
+    rulesets = {} as { [id: string]: Rule[]; };
 
     private updateIsRequested = false;
 
@@ -96,7 +96,7 @@ module Robin {
 
           // add rulesets
           if (this.hasRuleSet(id)) {
-            let rules = this.rulesets[id].rules;
+            let rules = this.rulesets[id];
             for (let rule of rules) {
               this.applyProperty(rect, rule.target, rule.expr.text, rule.expr);
             }
@@ -121,7 +121,7 @@ module Robin {
     parseStyleSheet(input: string): void {
       let rulesets = Parser.parse(input, { startRule: "rulesets" }) as RuleSet[];
       for (let set of rulesets) {
-        this.rulesets[set.id] = set;
+        this.rulesets[set.id] = set.rules;
       }
     }
 
