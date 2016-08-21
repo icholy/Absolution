@@ -83,11 +83,11 @@ class ElementManager {
       let property = this.getPropertyByName(propertyName);
       this.assertIsNotConstrained(property);
 
-        if (this.isXAxisProperty(property)) {
-          this.constrainXProperty(property);
-        } else {
-          this.contrainYProperty(property);
-        }
+      if (this.isXAxisProperty(property)) {
+        this.constrainXProperty(property);
+      } else {
+        this.contrainYProperty(property);
+      }
 
       this.expressions[property] = expression;
       this.system.set(`${this.id}.${propertyName}`, expression.toString());
