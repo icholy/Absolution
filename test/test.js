@@ -58,7 +58,7 @@ describe("System", function () {
   var system = new System();
 
   beforeEach(function () {
-    system.reset();
+    system.initialize();
   });
 
   describe("Relationships", function () {

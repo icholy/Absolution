@@ -8,11 +8,12 @@ class System {
   public $: Proxy;
 
   private relationships: Relationship[];
+  private intermediates: Variable[];
   private variables:     { [name: string]: Variable; };
   private idsequence:    number;
 
   constructor() {
-    this.reset();
+    this.initialize();
     this.$ = this.proxy();
   }
 
@@ -55,18 +56,28 @@ class System {
     } else {
       Object.keys(this.variables).forEach(name => this.clear(name))
     }
+  }
+
+  /**
+   * Reset all intermediate variables
+   */
+  reset(): void {
+    for (let _var of this.intermediates) {
+      _var.clearValue();
+    }
     for (let relationship of this.relationships) {
       relationship.connectorValueChanged();
     }
   }
 
   /**
-   * Reset the whole system
+   * Initialize or Re-Initialize the system
    */
-  reset(): void {
+  initialize(): void {
     this.idsequence = 0;
     this.variables = Object.create(null);
     this.relationships = [];
+    this.intermediates = [];
   }
 
   /**
@@ -193,7 +204,9 @@ class System {
 
   private createIntermediate(): Variable {
     let id = this.idsequence++;
-    return this.getVariable(`$${id}`);
+    let con = this.getVariable(`$${id}`);
+    this.intermediates.push(con);
+    return con;
   }
 
   private connectorFor(v: Value): Connector {
