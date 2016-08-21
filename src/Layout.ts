@@ -16,7 +16,6 @@ class Layout {
       "r-height":    "height",
       "r-center-x":  "center-x",
       "r-center-y":  "center-y",
-      "r-center-in": "center-in",
       "r-register":  "register",
       "r-container": "container"
     };
@@ -55,11 +54,6 @@ class Layout {
         }
         let property = attributeMap[attr.name];
         switch (property) {
-          case "center-in":
-            let id = attr.textContent;
-            rect.constrain(`center-x`, `${id}.center-x`);
-            rect.constrain(`center-y`, `${id}.center-y`);
-            break;
           case "register":
           case "container":
           case "id":
