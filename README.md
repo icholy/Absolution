@@ -3,9 +3,6 @@
 > Position elements the way you've always wanted to.
 
 
-Examples:
-
-
 ### Center in another element.
 
 ``` html
