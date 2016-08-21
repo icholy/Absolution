@@ -207,6 +207,20 @@ module Robin {
     }
 
     /**
+     * Register all functions on an object
+     */
+    funcsFrom(prefix: string, object: any): void {
+      for (let key in object) {
+        if (
+          object.hasOwnProperty(key) &&
+          typeof object[key] === "function"
+        )  {
+          this.func(`${prefix}.key`, object[key].bind(object));
+        }
+      }
+    }
+
+    /**
      * Get a rect by id
      */
     getRect(id: string): Rect {
