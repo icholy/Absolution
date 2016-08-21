@@ -90,7 +90,7 @@ module Robin {
         container: null,
         watcher:   null,
         rules:     []
-      }
+      };
 
       if (info.id && this.hasRuleSet(info.id)) {
         isRect = true;
