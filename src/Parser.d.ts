@@ -5,7 +5,7 @@ declare module Robin {
     startRule?: string;
   }
 
-  export var GeneratedParser: {
+  export var Parser: {
     parse(input: string, options?: ParseOptions): any;
   };
 

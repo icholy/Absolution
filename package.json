@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "peg": "pegjs --allowed-start-rules expression -e Robin.GeneratedParser robin.pegjs build/GeneratedParser.js"
+    "peg": "pegjs --allowed-start-rules expression -e Robin.Parser robin.pegjs build/Parser.js"
   },
   "repository": {
     "type": "git",

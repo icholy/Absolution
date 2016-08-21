@@ -212,7 +212,7 @@ module Robin {
     }
 
     private parse(expr: string): Variable {
-      let root = GeneratedParser.parse(expr, { startRule: "expression" });
+      let root = Parser.parse(expr, { startRule: "expression" });
       return this.evaluate(root);
     }
 

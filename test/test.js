@@ -18,7 +18,7 @@ describe("Robin", function () {
     describe("Expressions", function () {
 
       function parse(input) {
-        return Robin.GeneratedParser.parse(input, { startRule: "expression" });
+        return Robin.Parser.parse(input, { startRule: "expression" });
       }
 
       it("should parse a number", function () {
