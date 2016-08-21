@@ -79,7 +79,7 @@ class ElementManager {
 
   constrain(propertyName: string, expression: string): void {
     let property = this.getPropertyByName(propertyName);
-    this.assertIsNotConstrained(property)
+    this.assertIsNotConstrained(property);
 
     if (this.isXAxisProperty(property)) {
       this.constrainXProperty(property);
