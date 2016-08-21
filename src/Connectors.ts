@@ -34,6 +34,10 @@ class Variable extends Connector {
     super(name, null);
   }
 
+  changeValue(v: number): void {
+    this.value = v;
+  }
+
   setValue(v: number): void {
     if (v === this.value) {
       return;
