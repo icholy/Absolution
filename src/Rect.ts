@@ -25,7 +25,6 @@ module Robin {
       system.subtract(`${id}.width`, `${id}.right`, `${id}.left`);
       system.divide(`${id}_tmp1`, `${id}.width`, 2);
       system.add(`${id}.center-x`, `${id}.left`, `${id}_tmp1`);
-      system.subtract(`${id}.left-offset`, `${id}.left`, `${container}.left`);
 
       this.left  = system.getVariable(`${id}.left`);
       this.width = system.getVariable(`${id}.width`);
