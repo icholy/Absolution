@@ -99,7 +99,7 @@ module Robin {
       switch (name) {
         case "style":
           value.split(";").forEach(attr => {
-            let [name, value] = attr.split(":");
+            let [name, value] = attr.split(":", 1);
             this.applyProperty(rect, name.trim(), value.trim());
           });
           break;
