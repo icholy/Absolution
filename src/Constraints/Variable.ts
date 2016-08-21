@@ -25,7 +25,7 @@ module Constraints {
      */
     setValue(v: number): void {
       if (this.hasValue()) {
-        if (this.closeEnough(this.value, v)) {
+        if (this.isCloseEnough(v)) {
           return;
         }
         throw new Error(`Contradiction: ${this} is already set (attempting to set ${v})`);
@@ -120,8 +120,12 @@ module Constraints {
       }
     }
 
-    private closeEnough(a: number, b: number): boolean {
-      return Math.abs(b - a) <= this.flexibility;
+    /**
+     * Check if the value is close enough to the current
+     * value to be considered equal
+     */
+    private isCloseEnough(v: number): boolean {
+      return Math.abs(v - this.value) <= this.flexibility;
     }
 
   }
