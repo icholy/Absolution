@@ -43,6 +43,8 @@ class ElementRect extends Rect {
   // the element that's being managed
   private element: HTMLElement;
 
+  private observer: MutationObserver;
+
   constructor(
     id:        string,
     element:   HTMLElement,
@@ -51,6 +53,14 @@ class ElementRect extends Rect {
   ) {
     super(layout, id, container);
     this.element = element;
+    this.observer = new MutationObserver(mutations => {
+      layout.update();
+    });
+    this.observer.observe(element, {
+      attributes:    true,
+      characterData: true,
+      childList:     true
+    });
   }
 
   /**
@@ -184,6 +194,7 @@ class ElementRect extends Rect {
     system.destroyVariable(this.left);
     system.destroyVariable(this.leftOffset);
     system.destroyVariable(this.width);
+    this.observer.disconnect();
   }
 
   private isPositionDifferent(position: RectPosition): boolean {
