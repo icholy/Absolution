@@ -1,21 +1,21 @@
 {
-  "name": "constraints",
+  "name": "robin",
   "version": "1.0.0",
-  "description": "constraint system",
+  "description": "a constraint based layout system",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/icholy/Constraints.git"
+    "url": "git+https://github.com/icholy/Robin.git"
   },
   "author": "Ilia Choly",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/icholy/Constraints/issues"
+    "url": "https://github.com/icholy/Robin/issues"
   },
-  "homepage": "https://github.com/icholy/Constraints#readme",
+  "homepage": "https://github.com/icholy/Robin#readme",
   "devDependencies": {
     "jasmine-core": "2.4.1"
   },
