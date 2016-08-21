@@ -1,11 +1,11 @@
 
-module Robin {
+declare module Robin {
 
   interface ParseOptions {
     startRule?: string;
   }
 
-  export declare var GeneratedParser: {
+  export var GeneratedParser: {
     parse(input: string, options?: ParseOptions): any;
   };
 
