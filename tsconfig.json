@@ -5,7 +5,7 @@
     "rootDir": "src"
   },
   "files": [
-    "src/Connectors.ts",
+    "src/Variable.ts",
     "src/Parser.ts",
     "src/Relationships.ts",
     "src/System.ts",

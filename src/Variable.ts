@@ -1,11 +1,13 @@
 
-abstract class Connector {
+class Variable {
 
   private listeners: Function[] = [];
+  private shouldPreserve: boolean = true;
+  private flexibility = 0.001;
 
   constructor(
-    protected name: string,
-    protected value: number
+    private name: string,
+    private value: number = null
   ) {}
 
   notify(): void {
@@ -20,21 +22,6 @@ abstract class Connector {
 
   toString(): string {
     return `${this.name}(${this.getValue()})`;
-  }
-
-  abstract setValue(v: number): void;
-  abstract getValue(): number;
-  abstract hasValue(): boolean;
-  abstract clearValue(): void;
-}
-
-class Variable extends Connector {
-
-  private shouldPreserve: boolean = true;
-  private flexibility = 0.001;
-
-  constructor(name: string, value: number = null) {
-    super(name, value);
   }
 
   assignValue(v: number): void {

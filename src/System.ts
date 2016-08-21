@@ -1,7 +1,7 @@
 declare var Proxy;
 type Proxy = any;
 
-type Value = string | number | Connector;
+type Value = string | number | Variable;
 
 class System {
 
@@ -75,7 +75,7 @@ class System {
   solve(): void {
     this.clearVolatile();
     for (let relationship of this.relationships) {
-      relationship.connectorValueChanged();
+      relationship.variableValueChanged();
     }
   }
 
@@ -104,8 +104,8 @@ class System {
    */
   equals(left: Value, right: Value): void {
     this.relationships.push(new Equality(
-      this.connectorFor(left),
-      this.connectorFor(right)
+      this.variableFor(left),
+      this.variableFor(right)
     ));
   }
 
@@ -114,9 +114,9 @@ class System {
    */
   add(sum: Value, addend1: Value, addend2: Value): void {
     this.relationships.push(new Addition(
-      this.connectorFor(addend1),
-      this.connectorFor(addend2),
-      this.connectorFor(sum)
+      this.variableFor(addend1),
+      this.variableFor(addend2),
+      this.variableFor(sum)
     ));
   }
 
@@ -125,9 +125,9 @@ class System {
    */
   subtract(difference: Value, minuend: Value, subtrahend: Value): void {
     this.relationships.push(new Subtraction(
-      this.connectorFor(minuend),
-      this.connectorFor(subtrahend),
-      this.connectorFor(difference)
+      this.variableFor(minuend),
+      this.variableFor(subtrahend),
+      this.variableFor(difference)
     ));
   }
 
@@ -136,9 +136,9 @@ class System {
    */
   multiply(product: Value, mult1: Value, mult2: Value): void {
     this.relationships.push(new Multiplication(
-      this.connectorFor(mult1),
-      this.connectorFor(mult2),
-      this.connectorFor(product)
+      this.variableFor(mult1),
+      this.variableFor(mult2),
+      this.variableFor(product)
     ));
   }
 
@@ -147,9 +147,9 @@ class System {
    */
   divide(quotient: Value, dividend: Value, divisor: Value): void {
     this.relationships.push(new Division(
-      this.connectorFor(dividend),
-      this.connectorFor(divisor),
-      this.connectorFor(quotient)
+      this.variableFor(dividend),
+      this.variableFor(divisor),
+      this.variableFor(quotient)
     ));
   }
 
@@ -160,7 +160,7 @@ class System {
     return this.relationships.map(rel => rel.toString()).join("\n");
   }
 
-  private evaluate(expr: string): Connector {
+  private evaluate(expr: string): Variable {
     let parser = new Parser();
     let tokens = parser.tokenize(expr);
     let rpn = parser.infixToRPN(tokens);
@@ -193,7 +193,7 @@ class System {
     return values[0];
   }
 
-  private createRelationship(operator: string, left: Connector, right: Connector): Connector {
+  private createRelationship(operator: string, left: Variable, right: Variable): Variable {
     let result = this.createIntermediate();
     switch (operator) {
       case "+":
@@ -227,7 +227,7 @@ class System {
     return con;
   }
 
-  private connectorFor(v: Value): Connector {
+  private variableFor(v: Value): Variable {
     if (typeof v === "string") {
       return this.getVariable(v);
     } 

@@ -1,17 +1,17 @@
 
 abstract class Relationship {
 
-  abstract connectorValueChanged(): void;
+  abstract variableValueChanged(): void;
 
-  protected listenTo(...connectors: Connector[]): void {
-    for (let c of connectors) {
-      c.onChange(() => this.connectorValueChanged());
+  protected listenTo(...variables: Variable[]): void {
+    for (let v of variables) {
+      v.onChange(() => this.variableValueChanged());
     }
-    this.connectorValueChanged();
+    this.variableValueChanged();
   }
 
-  protected haveValues(...connectors: Connector[]): boolean {
-    return connectors.every(c => c.hasValue());
+  protected haveValues(...variables: Variable[]): boolean {
+    return variables.every(v => v.hasValue());
   }
 
 }
@@ -19,14 +19,14 @@ abstract class Relationship {
 class Equality extends Relationship {
 
   constructor(
-    private left: Connector,
-    private right: Connector
+    private left: Variable,
+    private right: Variable
   ) {
     super();
     this.listenTo(left, right);
   }
 
-  connectorValueChanged(): void {
+  variableValueChanged(): void {
     switch (true) {
       case this.left.hasValue():
         this.right.setValue(this.left.getValue());
@@ -46,15 +46,15 @@ class Equality extends Relationship {
 class Addition extends Relationship {
 
   constructor(
-    private addend1: Connector,
-    private addend2: Connector,
-    private sum:     Connector
+    private addend1: Variable,
+    private addend2: Variable,
+    private sum:     Variable
   ) {
     super();
     this.listenTo(addend1, addend2, sum);
   }
 
-  connectorValueChanged(): void {
+  variableValueChanged(): void {
     switch (true) {
       case this.haveValues(this.addend1, this.addend2):
         this.sum.setValue(
@@ -80,15 +80,15 @@ class Addition extends Relationship {
 class Multiplication extends Relationship {
 
   constructor(
-    private mult1:   Connector,
-    private mult2:   Connector,
-    private product: Connector
+    private mult1:   Variable,
+    private mult2:   Variable,
+    private product: Variable
   ) {
     super();
     this.listenTo(mult1, mult2, product);
   }
 
-  connectorValueChanged() {
+  variableValueChanged() {
     switch (true) {
       case this.haveValues(this.mult1, this.mult2):
         this.product.setValue(
@@ -114,15 +114,15 @@ class Multiplication extends Relationship {
 class Subtraction extends Relationship {
 
   constructor(
-    private minuend:    Connector,
-    private subtrahend: Connector,
-    private difference: Connector
+    private minuend:    Variable,
+    private subtrahend: Variable,
+    private difference: Variable
   ) {
     super();
     this.listenTo(minuend, subtrahend, difference);
   }
 
-  connectorValueChanged() {
+  variableValueChanged() {
     switch (true) {
       case this.haveValues(this.minuend, this.subtrahend):
         this.difference.setValue(
@@ -148,15 +148,15 @@ class Subtraction extends Relationship {
 class Division extends Relationship {
 
   constructor(
-    private dividend: Connector,
-    private divisor:  Connector,
-    private quotient: Connector
+    private dividend: Variable,
+    private divisor:  Variable,
+    private quotient: Variable
   ) {
     super();
     this.listenTo(dividend, divisor, quotient);
   }
 
-  connectorValueChanged(): void {
+  variableValueChanged(): void {
     switch (true) {
       case this.haveValues(this.dividend, this.divisor):
         this.quotient.setValue(
