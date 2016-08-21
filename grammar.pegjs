@@ -93,13 +93,17 @@ primary
     / ident
 
 func_call
-  = name:ident "(" params:func_params ")" {
+  = name:func_name "(" params:func_params ")" {
       return {
         tag:    "func_call",
         name:   name.value,
         params: params
       };
     }
+
+func_name
+  = property
+  / ident
 
 func_params
   = first:expression? rest:func_params_rest* {
