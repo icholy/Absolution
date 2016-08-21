@@ -20,6 +20,7 @@ ruleset
 selector
   = type:("#" / "." / "~") id:ident {
       return {
+        tag:  "selector",
         type: type,
         name: id.value
       };

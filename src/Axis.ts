@@ -28,7 +28,7 @@ module Absolution {
     "center-y": Property.CENTER_Y
   };
 
-  export let propertyToAxis = {} as { [property: any]: Axis; };
+  export let propertyToAxis = {} as { [property: number]: Axis; };
   propertyToAxis[Property.BOTTOM]   = Axis.X;
   propertyToAxis[Property.LEFT]     = Axis.X;
   propertyToAxis[Property.WIDTH]    = Axis.X;

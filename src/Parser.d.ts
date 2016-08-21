@@ -48,7 +48,8 @@ declare module Absolution {
   }
 
   export interface SelectorNode {
-    type: "selector";
+    tag:  "selector";
+    type: string;
     name: string;
   }
 
