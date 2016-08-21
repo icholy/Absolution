@@ -129,11 +129,11 @@ numeric
     }
 
 property
-  = object:ident "." key:ident {
+  = obj:ident "." key:ident {
     return {
       tag:    "property",
-      object: parent,
-      key:    key,
+      object: obj.value,
+      key:    key.value,
       value:  text()
     };
   }
