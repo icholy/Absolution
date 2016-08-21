@@ -1,5 +1,5 @@
 
-module Robin.Angular {
+module Absolution.Angular {
 
   class ScopeContext implements Context {
 
@@ -104,7 +104,7 @@ module Robin.Angular {
     return layout;
   }
 
-  angular.module("robin", []);
-  angular.module("robin").factory("layout", LayoutFactory);
-  angular.module("robin").directive("rect", ["layout", Directive]);
+  angular.module("absolution", []);
+  angular.module("absolution").factory("layout", LayoutFactory);
+  angular.module("absolution").directive("aRect", ["layout", Directive]);
 }

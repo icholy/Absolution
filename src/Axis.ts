@@ -1,5 +1,5 @@
 
-module Robin {
+module Absolution {
 
   export const enum Axis { X, Y }
 

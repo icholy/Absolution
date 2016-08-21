@@ -1,5 +1,5 @@
 
-module Robin {
+module Absolution {
 
   export class DocumentRect extends Rect {
 

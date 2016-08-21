@@ -1,25 +1,25 @@
-module Robin {
+module Absolution {
 
   const attributeMap = {
-    "r-id":        "id",
-    "r-left":      "left",
-    "r-right":     "right",
-    "r-top":       "top",
-    "r-bottom":    "bottom",
-    "r-width":     "width",
-    "r-height":    "height",
-    "r-center-x":  "center-x",
-    "r-center-y":  "center-y",
-    "r-register":  "register",
-    "r-container": "container",
-    "r-center-in": "center-in",
-    "r-align-x":   "align-x",
-    "r-align-y":   "align-y",
-    "r-size":      "size",
-    "r-fill":      "fill",
-    "r-watch":     "watch",
-    "r-style":     "style",
-    "r-class":     "class"
+    "a-id":        "id",
+    "a-left":      "left",
+    "a-right":     "right",
+    "a-top":       "top",
+    "a-bottom":    "bottom",
+    "a-width":     "width",
+    "a-height":    "height",
+    "a-center-x":  "center-x",
+    "a-center-y":  "center-y",
+    "a-register":  "register",
+    "a-container": "container",
+    "a-center-in": "center-in",
+    "a-align-x":   "align-x",
+    "a-align-y":   "align-y",
+    "a-size":      "size",
+    "a-fill":      "fill",
+    "a-watch":     "watch",
+    "a-style":     "style",
+    "a-class":     "class"
   };
 
   export interface LayoutOptions {
@@ -53,13 +53,13 @@ module Robin {
         let scriptTags = document.getElementsByTagName("script");
         for (let i = 0; i < scriptTags.length; i++) {
           let scriptTag = scriptTags.item(i);
-          if (scriptTag.getAttribute("type") === "text/robin") {
+          if (scriptTag.getAttribute("type") === "text/absolution") {
             this.parseStyleSheet(scriptTag.textContent);
           }
         }
       }
 
-      // walk the dom and find elements with robin attributes
+      // walk the dom and find elements with a-attributes
       if (options.findElements) {
         let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
         let el: HTMLElement;
@@ -77,7 +77,7 @@ module Robin {
     getRectOptions(el: HTMLElement, isRect: boolean = false): RectOptions {
 
       let options: RectOptions = {
-        id:        el.id ? el.id : el.getAttribute("r-id"),
+        id:        el.id ? el.id : el.getAttribute("a-id"),
         container: null,
         watcher:   null,
         rules:     []

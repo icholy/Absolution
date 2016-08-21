@@ -1,4 +1,4 @@
-module Robin {
+module Absolution {
 
   declare var Proxy;
   type Proxy = any;

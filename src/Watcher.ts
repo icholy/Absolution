@@ -1,5 +1,5 @@
 
-module Robin {
+module Absolution {
 
   export interface Watcher {
     destroy(): void;

@@ -1,4 +1,4 @@
-module Robin {
+module Absolution {
 
   export abstract class Rect {
 

@@ -1,5 +1,5 @@
 
-declare module Robin {
+declare module Absolution {
 
   interface ParseOptions {
     startRule?: string;
