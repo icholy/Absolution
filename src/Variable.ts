@@ -2,10 +2,10 @@ module Absolution {
 
   export class Variable {
 
-    private callbacks:     Function[]     = [];
-    private relationships: Relationship[] = [];
-    private flexibility = 0.001;
-    private digestID    = -1;
+    private callbacks     = [] as Function[];
+    private relationships = [] as Relationship[];
+    private flexibility   = 0.001;
+    private digestID      = -1;
 
     constructor(
       private name: string,

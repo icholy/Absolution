@@ -10,6 +10,10 @@ module Absolution {
     func:  Function;
   }
 
+  /**
+   * A context implementation can intercept and rewrite
+   * variable and function access.
+   */
   export interface Context {
     hasVariable(name: string): boolean;
     getVariable(name: string): Variable;
@@ -18,6 +22,9 @@ module Absolution {
     identToName(node: IdentNode): string;
   }
 
+  /**
+   * The default empty context.
+   */
   let emptyContext: Context = {
     hasVariable(name: string): boolean {
       return false;
@@ -140,7 +147,9 @@ module Absolution {
       if (name) {
         this.getVariable(name).clearValue();
       } else {
-        Object.keys(this.variables).forEach(name => this.clear(name));
+        for (let name of Object.keys(this.variables)) {
+          this.clear(name);
+        }
       }
     }
 
@@ -232,6 +241,10 @@ module Absolution {
       return expressions.join("\n");
     }
 
+    /**
+     * Destroy a relationship and any variables that were orphaned
+     * in the process.
+     */
     private destroyRelationship(r: Relationship): void {
       let index = this.relationships.indexOf(r);
       if (index === -1) {
@@ -246,11 +259,17 @@ module Absolution {
       }
     }
 
+    /**
+     * Parse an expression with the provided context.
+     */
     private parse(expr: string, ctx: Context = emptyContext): Variable {
       let root = Parser.parse<Expression>(expr, { startRule: "expression" });
       return this.evaluate(root, ctx);
     }
 
+    /**
+     * Evaluate an expression with the provided context.
+     */
     private evaluate(node: Expression, ctx: Context): Variable {
       switch (node.tag) {
         case "ident":
@@ -260,14 +279,17 @@ module Absolution {
         case "number":
           return new Constant(node.value);
         case "op":
-          return this.handleOperation(node, ctx);
+          return this.evaluateOperation(node, ctx);
         case "func_call":
-          return this.handleFuncCall(node, ctx);
+          return this.evaluateFuncCall(node, ctx);
         default:
           throw new Error("invalid expression");
       }
     }
 
+    /**
+     * Get a function by name.
+     */
     private getFunction(name: string, ctx: Context): FuncEntry {
       if (ctx.hasFunction(name)) {
         return ctx.getFunction(name);
@@ -278,14 +300,20 @@ module Absolution {
       throw new Error(`${name} is not a function`);
     }
 
-    private handleFuncCall(node: FuncCallNode, ctx: Context): Variable {
+    /**
+     * Evaluate a function call node.
+     */
+    private evaluateFuncCall(node: FuncCallNode, ctx: Context): Variable {
       let result = this.createIntermediate();
       let params = node.params.map(p => this.evaluate(p, ctx));
       this.call(node.name, result, params, ctx);
       return result;
     }
 
-    private handleOperation(node: OperationNode, ctx: Context): Variable {
+    /**
+     * Evaluate an operation node.
+     */
+    private evaluateOperation(node: OperationNode, ctx: Context): Variable {
       let left = this.evaluate(node.left, ctx);
       let right = this.evaluate(node.right, ctx);
       let result = this.createIntermediate();
@@ -335,11 +363,17 @@ module Absolution {
       }
     }
 
+    /**
+     * Create a variable with an unique name.
+     */
     private createIntermediate(): Variable {
       let id = this.idsequence++;
       return this.getVariable(`$${id}`);
     }
 
+    /**
+     * Create a variable for the provided value.
+     */
     private variableFor(v: Value): Variable {
       if (typeof v === "string") {
         return this.getVariable(v);
@@ -352,6 +386,10 @@ module Absolution {
       }
     }
 
+    /**
+     * Creates a proxy object that can be used to play with the
+     * constraint system interactively.
+     */
     private proxy(): Proxy {
 
       if (!Proxy) {
