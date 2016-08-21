@@ -7,6 +7,14 @@ module Robin {
 
   export module Parser {
 
+    export function expression(input: string): any {
+      return GeneratedParser.parse(input, "expression");
+    }
+
+    export function rulesets(input: string): any {
+      return GeneratedParser.parse(input, "rulesets");
+    }
+
     export interface NumberNode {
       tag:   "number";
       value: number;
