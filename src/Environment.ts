@@ -26,9 +26,13 @@ module Absolution {
 
     private rulesById = {} as { [id: string]: Rule[]; };
     private rulesByClass = {} as { [className: string]: Rule[]; };
+    private userVariables = [] as VariableNode[];
 
-    constructor(rulesets: RuleSet[] = []) {
-      this.parseRulesets(rulesets);
+    constructor(stylesheet?: StyleSheet) {
+      if (stylesheet) {
+        this.parseRulesets(stylesheet.rulesets);
+        this.userVariables.push(...stylesheet.variables);
+      }
     }
 
     findStyleSheets(): void {
@@ -220,6 +224,10 @@ module Absolution {
 
     hasRulesForClass(id: string): boolean {
       return this.rulesByClass.hasOwnProperty(id);
+    }
+
+    getVariables(): VariableNode[] {
+      return this.userVariables;
     }
 
   }
