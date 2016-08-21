@@ -61,12 +61,12 @@ module Absolution {
       }
       this.updateIsRequested = true;
       window.requestAnimationFrame(() => {
-        this.updateIsRequested = false;
         this.system.solve(this.digestID++);
         for (let rect of this.changedRects) {
           rect.updateRectPosition();
         }
         this.changedRects = [];
+        this.updateIsRequested = false;
       });
     }
 
