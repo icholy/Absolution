@@ -82,8 +82,7 @@
 
     let oscillator = makeOscillator();
 
-    layout.system.assign("x", oscillator());
-    layout.update();
+    layout.assign("x", oscillator());
 
     let paused = false;
 
@@ -91,8 +90,7 @@
       if (paused) {
         return;
       }
-      layout.system.assign("x", oscillator());
-      layout.update();
+      layout.assign("x", oscillator());
     }, 10);
 
     document.getElementById("pause").addEventListener("click", function () {
