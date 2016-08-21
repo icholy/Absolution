@@ -31,6 +31,9 @@ module Absolution {
       }
       let result = this.parserCache[input];
       if (!result) {
+        if (!Absolution.Parser) {
+          throw new Error("Absolution.Parser is not loaded!");
+        }
         result = Parser.parse<T>(input, options);
         this.parserCache[input] = result;
       }
