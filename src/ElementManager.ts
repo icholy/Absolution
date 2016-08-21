@@ -1,4 +1,4 @@
-enum ElementProperty {
+enum Property {
   LEFT,
   RIGHT,
   WIDTH,
@@ -10,21 +10,21 @@ enum ElementProperty {
 }
 
 const nameToProperty = {
-  "left":    ElementProperty.LEFT,
-  "right":   ElementProperty.RIGHT,
-  "width":   ElementProperty.WIDTH,
-  "hcenter": ElementProperty.HCENTER,
-  "top":     ElementProperty.VCENTER,
-  "bottom":  ElementProperty.BOTTOM,
-  "height":  ElementProperty.HEIGHT,
-  "vcenter": ElementProperty.VCENTER
+  "left":    Property.LEFT,
+  "right":   Property.RIGHT,
+  "width":   Property.WIDTH,
+  "hcenter": Property.HCENTER,
+  "top":     Property.VCENTER,
+  "bottom":  Property.BOTTOM,
+  "height":  Property.HEIGHT,
+  "vcenter": Property.VCENTER
 };
 
 class ElementManager {
 
   private id: string;
   private expressions: { [property: number]: string; } = {};
-  private constrained = [] as ElementProperty[];
+  private constrained = [] as Property[];
 
   private xAxisConstraints = 0;
   private yAxisConstraints = 0;
@@ -66,20 +66,20 @@ class ElementManager {
         `${this.id}.${propertyName} is already set to ${this.expressions[property]}`);
     }
     switch (property) {
-      case ElementProperty.WIDTH:
-      case ElementProperty.LEFT:
-      case ElementProperty.RIGHT:
-      case ElementProperty.HCENTER:
+      case Property.WIDTH:
+      case Property.LEFT:
+      case Property.RIGHT:
+      case Property.HCENTER:
         if (this.xAxisConstraints >= 2) {
           throw new Error(
             `cannot set ${this.id}.${propertyName} because the x axis already has 2 constraints`);
         }
         this.xAxisConstraints++;
         break;
-      case ElementProperty.HEIGHT:
-      case ElementProperty.TOP:
-      case ElementProperty.BOTTOM:
-      case ElementProperty.VCENTER:
+      case Property.HEIGHT:
+      case Property.TOP:
+      case Property.BOTTOM:
+      case Property.VCENTER:
         if (this.yAxisConstraints >= 2) {
           throw new Error(
             `cannot set ${this.id}.${propertyName} because the y axis already has 2 constraints`);
@@ -98,20 +98,20 @@ class ElementManager {
     let style = this.element.style;
     for (let property of this.constrained) {
       switch (property) {
-        case ElementProperty.TOP:
-        case ElementProperty.BOTTOM:
-        case ElementProperty.VCENTER:
+        case Property.TOP:
+        case Property.BOTTOM:
+        case Property.VCENTER:
           style.top = `${this.top.getValue()}px`;
           break;
-        case ElementProperty.HEIGHT:
+        case Property.HEIGHT:
           style.height = `${this.height.getValue()}px`;
           break;
-        case ElementProperty.LEFT:
-        case ElementProperty.RIGHT:
-        case ElementProperty.HCENTER:
+        case Property.LEFT:
+        case Property.RIGHT:
+        case Property.HCENTER:
           style.left = `${this.left.getValue()}px`;
           break;
-        case ElementProperty.WIDTH:
+        case Property.WIDTH:
           style.width = `${this.width.getValue()}px`;
           break;
       }
@@ -131,7 +131,7 @@ class ElementManager {
         this.width.assignValue(rect.width);
         break;
       case 1:
-        if (this.isConstrained(ElementProperty.WIDTH)) {
+        if (this.isConstrained(Property.WIDTH)) {
           this.left.assignValue(rect.left);
         } else {
           this.width.assignValue(rect.width);
@@ -147,7 +147,7 @@ class ElementManager {
         this.height.assignValue(rect.height);
         break;
       case 1:
-        if (this.isConstrained(ElementProperty.HEIGHT)) {
+        if (this.isConstrained(Property.HEIGHT)) {
           this.top.assignValue(rect.top);
         } else {
           this.height.assignValue(rect.height);
@@ -172,7 +172,7 @@ class ElementManager {
     };
   }
 
-  private isConstrained(property: ElementProperty): boolean {
+  private isConstrained(property: Property): boolean {
     return this.expressions.hasOwnProperty(property.toString());
   }
 
