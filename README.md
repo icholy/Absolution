@@ -54,22 +54,29 @@ layout.system.func("min", (a, b) => Math.min(a, b));
 
 # Attributes
 
+* `left`
+* `right`
+* `top`
+* `bottom`
+* `width`
+* `height`
+* `center-x`
+* `center-y`
+* `center-in`
+* `container`
+* `align-x`
+* `align-y`
+* `fill`
+* `size`
+* `watch`
+
+# Special Attributes
+
 * `r-id`
 * `r-register`
-* `r-left`
-* `r-right`
-* `r-top`
-* `r-bottom`
-* `r-width`
-* `r-height`
-* `r-center-x`
-* `r-center-y`
-* `r-center-in`
-* `r-container`
-* `r-align-x`
-* `r-align-y`
-* `r-fill`
-* `r-size`
-* `r-watch`
 
+# Special Rects
 
+* `viewport`
+* `body`
+* `document`
