@@ -24,4 +24,10 @@ module Robin {
     }
   }
 
+  export class NullWatcher implements Watcher {
+    destroy(): void {
+      // do nothing
+    }
+  }
+
 }

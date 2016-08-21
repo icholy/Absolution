@@ -51,18 +51,26 @@ module Robin {
     /**
      * Make a watcher for the rect
      */
-    abstract makeWatcher(name: string): Watcher;
+    makeWatcher(name: string): Watcher {
+      return new NullWatcher();
+    }
 
     /**
      * Update the rect's position
      */
-    abstract applyPositionUpdate(update: RectPositionUpdate): void;
+    applyPositionUpdate(update: RectPositionUpdate): void {}
 
     /**
      * Get the rect's position.
      */
-    abstract getRectPosition(): RectPosition;
-
+    getRectPosition(): RectPosition {
+      return {
+        left:   null,
+        top:    null,
+        width:  null,
+        height: null
+      };
+    }
 
     /**
      * Initialize the rect
