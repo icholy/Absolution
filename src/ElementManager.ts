@@ -1,9 +1,30 @@
+enum ElementProperty {
+  LEFT,
+  RIGHT,
+  WIDTH,
+  HCENTER,
+  TOP,
+  BOTTOM,
+  HEIGHT,
+  VCENTER
+}
+
+const nameToProperty = {
+  "left":    ElementProperty.LEFT,
+  "right":   ElementProperty.RIGHT,
+  "width":   ElementProperty.WIDTH,
+  "hcenter": ElementProperty.HCENTER,
+  "top":     ElementProperty.VCENTER,
+  "bottom":  ElementProperty.BOTTOM,
+  "height":  ElementProperty.HEIGHT,
+  "vcenter": ElementProperty.VCENTER
+};
 
 class ElementManager {
 
   private id: string;
-  private expressions: { [property: string]: string; } = {};
-  private constrained = [] as string[];
+  private expressions: { [property: number]: string; } = {};
+  private constrained = [] as ElementProperty[];
 
   private xAxisConstraints = 0;
   private yAxisConstraints = 0;
@@ -38,30 +59,31 @@ class ElementManager {
     this.height = system.getVariable(`${id}.height`);
   }
 
-  constrain(property: string, expression: string): void {
+  constrain(propertyName: string, expression: string): void {
+    let property = nameToProperty[propertyName];
     if (this.isConstrained(property)) {
       throw new Error(
-        `${property} is already set to ${this.expressions[property]}`);
+        `${propertyName} is already set to ${this.expressions[property]}`);
     }
     switch (property) {
-      case "width":
-      case "left":
-      case "right":
-      case "hcenter":
+      case ElementProperty.WIDTH:
+      case ElementProperty.LEFT:
+      case ElementProperty.RIGHT:
+      case ElementProperty.HCENTER:
         this.xAxisConstraints++;
         break;
-      case "height":
-      case "top":
-      case "bottom":
-      case "vcenter":
+      case ElementProperty.HEIGHT:
+      case ElementProperty.TOP:
+      case ElementProperty.BOTTOM:
+      case ElementProperty.VCENTER:
         this.yAxisConstraints++;
         break;
       default:
-        throw new Error(`${property} is not a supported property`);
+        throw new Error(`${propertyName} is not a supported property`);
     }
     this.expressions[property] = expression;
     this.constrained.push(property);
-    this.system.set(`${this.id}.${property}`, expression.toString());
+    this.system.set(`${this.id}.${propertyName}`, expression.toString());
   }
 
   updateSystem(): void {
@@ -71,7 +93,7 @@ class ElementManager {
       this.width.assignValue(rect.width);
     }
     else if (this.xAxisConstraints === 1) {
-      if (this.isConstrained("width")) {
+      if (this.isConstrained(ElementProperty.WIDTH)) {
         this.left.assignValue(rect.left);
       } else {
         this.width.assignValue(rect.width);
@@ -82,7 +104,7 @@ class ElementManager {
       this.height.assignValue(rect.height);
     }
     else if (this.yAxisConstraints === 1) {
-      if (this.isConstrained("height")) {
+      if (this.isConstrained(ElementProperty.HEIGHT)) {
         this.top.assignValue(rect.top);
       } else {
         this.height.assignValue(rect.height);
@@ -94,20 +116,20 @@ class ElementManager {
     let style = this.element.style;
     for (let property of this.constrained) {
       switch (property) {
-        case "top":
-        case "bottom":
-        case "vcenter":
+        case ElementProperty.TOP:
+        case ElementProperty.BOTTOM:
+        case ElementProperty.VCENTER:
           style.top = `${this.top.getValue()}px`;
           break;
-        case "height":
+        case ElementProperty.HEIGHT:
           style.height = `${this.height.getValue()}px`;
           break;
-        case "left":
-        case "right":
-        case "hcenter":
+        case ElementProperty.LEFT:
+        case ElementProperty.RIGHT:
+        case ElementProperty.HCENTER:
           style.left = `${this.left.getValue()}px`;
           break;
-        case "width":
+        case ElementProperty.WIDTH:
           style.width = `${this.width.getValue()}px`;
           break;
       }
@@ -130,8 +152,8 @@ class ElementManager {
     };
   }
 
-  private isConstrained(property: string): boolean {
-    return this.expressions.hasOwnProperty(property);
+  private isConstrained(property: ElementProperty): boolean {
+    return this.expressions.hasOwnProperty(property.toString());
   }
 
   private guid(): string {
