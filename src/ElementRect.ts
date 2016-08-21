@@ -41,16 +41,6 @@ module Robin {
       return Utils.getRectPosition(this.element);
     }
 
-    private setAbsolute(): void {
-      if (!this.isAbsoluteSet) {
-        let style = this.element.style;
-        style.position = "absolute";
-        style.left = "0px";
-        style.top = "0px";
-        this.isAbsoluteSet = true;
-      }
-    }
-
     /**
      * Set the element's left offset
      */
@@ -82,6 +72,9 @@ module Robin {
       this.element.style.height = `${value}px`;
     }
 
+    /**
+     * Called after all the set methods.
+     */
     afterUpdateRect(): void {
       if (this.offsetIsSet) {
         this.setAbsolute();
@@ -90,6 +83,17 @@ module Robin {
         this.offsetIsSet = false;
       }
     }
+
+    private setAbsolute(): void {
+      if (!this.isAbsoluteSet) {
+        let style = this.element.style;
+        style.position = "absolute";
+        style.left = "0px";
+        style.top = "0px";
+        this.isAbsoluteSet = true;
+      }
+    }
+
 
   }
 
