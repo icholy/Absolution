@@ -30,15 +30,10 @@ declare module Absolution {
   }
 
   export interface IdentNode {
-    tag:   "ident";
-    value: string;
-  }
-
-  export interface PropertyNode {
-    tag:    "property";
-    parent: string;
-    name:   string;
-    value:  string;
+    tag:     "ident"|"property";
+    value:   string;
+    object?: string;
+    key?:    string;
   }
 
   export interface NumberIdent {

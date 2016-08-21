@@ -11,8 +11,8 @@ module Absolution {
   }
 
   export interface Context {
-    hasVariable(name: string, node: IdentNode|PropertyNode): boolean;
-    getVariable(name: string, node: IdentNode|PropertyNode): Variable;
+    hasVariable(name: string, node: IdentNode): boolean;
+    getVariable(name: string, node: IdentNode): Variable;
     hasFunction(name: string): boolean;
     getFunction(name: string): FuncEntry;
   }
