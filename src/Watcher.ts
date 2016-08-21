@@ -9,6 +9,10 @@ module Absolution {
     destroy(): void;
   }
 
+  /**
+   * A watcher that uses a MutationObserver to observe an element
+   * for changes.
+   */
   export class MutationObserverWatcher implements Watcher {
 
     private observer: MutationObserver;
