@@ -34,25 +34,17 @@ module Robin {
   propertyToAxis[Property.BOTTOM]   = Axis.Y;
   propertyToAxis[Property.CENTER_Y] = Axis.Y;
 
-  export interface XAxis {
-    constrain(property: Property): XAxis;
+  export interface ConstrainedAxis {
+    constrain(property: Property): ConstrainedAxis;
     constrainedAreDifferent(a: RectPosition, b: RectPosition): boolean;
     independentAreDifferent(a: RectPosition, b: RectPosition): boolean;
     updateSystem(rect: ElementRect, position: RectPosition): void;
     updateRect(rect: ElementRect, position: RectPosition): void;
   }
 
-  export interface YAxis {
-    constrain(property: Property): YAxis;
-    constrainedAreDifferent(a: RectPosition, b: RectPosition): boolean;
-    independentAreDifferent(a: RectPosition, b: RectPosition): boolean;
-    updateSystem(rect: ElementRect, position: RectPosition): void;
-    updateRect(rect: ElementRect, position: RectPosition): void;
-  }
+  export let XAxisBoth: ConstrainedAxis = {
 
-  export let XAxisBoth: XAxis = {
-
-    constrain(property: Property): XAxis {
+    constrain(property: Property): ConstrainedAxis {
       throw new Error(`the x axis already has 2 constraints`);
     },
 
@@ -73,9 +65,9 @@ module Robin {
     }
   };
 
-  export let XAxisLeft: XAxis = {
+  export let XAxisLeft: ConstrainedAxis = {
 
-    constrain(property: Property): XAxis {
+    constrain(property: Property): ConstrainedAxis {
       return XAxisBoth;
     },
 
@@ -97,9 +89,9 @@ module Robin {
     }
   };
 
-  export let XAxisWidth: XAxis = {
+  export let XAxisWidth: ConstrainedAxis = {
 
-    constrain(property: Property): XAxis {
+    constrain(property: Property): ConstrainedAxis {
       return XAxisBoth;
     },
 
@@ -121,9 +113,9 @@ module Robin {
     }
   };
 
-  export let XAxisNone: XAxis = {
+  export let XAxisNone: ConstrainedAxis = {
 
-    constrain(property: Property): XAxis {
+    constrain(property: Property): ConstrainedAxis {
       if (property === Property.WIDTH) {
         return XAxisWidth;
       } else {
@@ -147,10 +139,9 @@ module Robin {
     updateRect(rect: ElementRect, position: RectPosition): void {}
   };
 
-  export let YAxisBoth: YAxis = {
+  export let YAxisBoth: ConstrainedAxis = {
 
-
-    constrain(property: Property): YAxis {
+    constrain(property: Property): ConstrainedAxis {
       throw new Error(`the y axis already has 2 constraints`);
     },
 
@@ -171,10 +162,9 @@ module Robin {
     }
   };
 
-  export let YAxisTop: YAxis = {
+  export let YAxisTop: ConstrainedAxis = {
 
-
-    constrain(property: Property): YAxis {
+    constrain(property: Property): ConstrainedAxis {
       return YAxisBoth;
     },
 
@@ -196,10 +186,9 @@ module Robin {
     }
   };
 
-  export let YAxisHeight: YAxis = {
+  export let YAxisHeight: ConstrainedAxis = {
 
-
-    constrain(property: Property): YAxis {
+    constrain(property: Property): ConstrainedAxis {
       return YAxisBoth;
     },
 
@@ -221,9 +210,9 @@ module Robin {
     }
   };
 
-  export let YAxisNone: YAxis = {
+  export let YAxisNone: ConstrainedAxis = {
 
-    constrain(property: Property): YAxis {
+    constrain(property: Property): ConstrainedAxis {
       if (property === Property.HEIGHT) {
         return YAxisHeight;
       } else {
