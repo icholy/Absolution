@@ -22,27 +22,39 @@ class Utils {
     return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
   }
 
+  static getViewportRectPosition(): RectPosition {
+
+    let body = document.body;
+    let docElem = document.documentElement;
+
+    let scrollTop = window.pageYOffset || (docElem && docElem.scrollTop) || body.scrollTop;
+    let scrollLeft = window.pageXOffset || (docElem && docElem.scrollLeft) || body.scrollLeft;
+
+    let clientTop = (docElem && docElem.clientTop) || body.clientTop || 0;
+    let clientLeft = (docElem && docElem.clientLeft) || body.clientLeft || 0;
+
+    let width = window.innerWidth || (docElem && docElem.clientWidth) || body.clientHeight;
+    let height = window.innerHeight || (docElem && docElem.clientHeight) || body.clientHeight;
+
+    return {
+      top:    scrollTop - clientTop,
+      left:   scrollLeft - clientLeft,
+      width:  width,
+      height: height
+    };
+  }
+
   /**
    * Get an Element's absolute position
    *
    * http://javascript.info/tutorial/coordinates#the-right-way-elem-getboundingclientrect
    */
   static getRectPosition(element: HTMLElement): RectPosition {
-
+    let viewport = Utils.getViewportRectPosition();
     let bounds = element.getBoundingClientRect();
-
-    let body = document.body;
-    let docElem = document.documentElement;
-
-    let scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop;
-    let scrollLeft = window.pageXOffset || docElem.scrollLeft || body.scrollLeft;
-
-    let clientTop = docElem.clientTop || body.clientTop || 0;
-    let clientLeft = docElem.clientLeft || body.clientLeft || 0;
-
     return {
-      top:    bounds.top +  scrollTop - clientTop,
-      left:   bounds.left + scrollLeft - clientLeft,
+      top:    bounds.top + viewport.top,
+      left:   bounds.left + viewport.left,
       width:  bounds.width,
       height: bounds.height
     };

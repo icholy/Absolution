@@ -9,6 +9,7 @@ class Layout {
     let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
 
     this.rects.push(new DocumentRect(this.system));
+    this.rects.push(new ViewportRect(this.system));
 
     let el: HTMLElement;
     while (el = iterator.nextNode() as any) {
