@@ -54,7 +54,7 @@ class Layout {
             rect.constrain(`center-y`, `${id}.center-y`);
             break;
           case "register":
-          case "relative-to":
+          case "container":
             break;
           default:
             rect.constrain(property, attr.textContent);
