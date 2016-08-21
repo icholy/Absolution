@@ -25,24 +25,12 @@ module Robin {
      * Get the current viewports absolute position.
      */
     static getViewportRectPosition(): RectPosition {
-
-      let body = document.body;
-      let docElem = document.documentElement;
-
-      let scrollTop = window.pageYOffset || (docElem && docElem.scrollTop) || body.scrollTop;
-      let scrollLeft = window.pageXOffset || (docElem && docElem.scrollLeft) || body.scrollLeft;
-
-      let clientTop = (docElem && docElem.clientTop) || body.clientTop || 0;
-      let clientLeft = (docElem && docElem.clientLeft) || body.clientLeft || 0;
-
-      let width = window.innerWidth || (docElem && docElem.clientWidth) || body.clientHeight;
-      let height = window.innerHeight || (docElem && docElem.clientHeight) || body.clientHeight;
-
+      let el = document.documentElement;
       return {
-        top:    scrollTop - clientTop,
-        left:   scrollLeft - clientLeft,
-        width:  width,
-        height: height
+        top:    el.scrollTop - el.clientTop,
+        left:   el.scrollLeft - el.clientLeft,
+        width:  el.clientWidth,
+        height: el.clientHeight
       };
     }
 
