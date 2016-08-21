@@ -48,8 +48,8 @@ abstract class AbstractRect implements Rect {
   private top:    Constraints.Variable;
   private height: Constraints.Variable;
 
-  private absoluteLeft: Constraints.Variable;
-  private absoluteTop:  Constraints.Variable;
+  private leftOffset: Constraints.Variable;
+  private topOffset:  Constraints.Variable;
 
   // current Rect position
   private currentPosition: RectPosition;
@@ -64,25 +64,21 @@ abstract class AbstractRect implements Rect {
     system.subtract(`${id}.width`, `${id}.right`, `${id}.left`);
     system.divide(`${id}_tmp1`, `${id}.width`, 2);
     system.add(`${id}.center-x`, `${id}.left`, `${id}_tmp1`);
-    system.add(`${id}.absolute.left`, `${id}.left`, `${container}.absolute.left`);
-    system.add(`${id}.absolute.right`, `${id}.right`, `${container}.absolute.left`);
-    system.add(`${id}.absolute.center-x`, `${id}.center-x`, `${container}.absolute.left`);
+    system.subtract(`${id}.left-offset`, `${id}.left`, `${container}.left`);
 
-    this.absoluteLeft = system.getVariable(`${id}.absolute.left`);
-    this.left         = system.getVariable(`${id}.left`);
-    this.width        = system.getVariable(`${id}.width`);
+    this.left       = system.getVariable(`${id}.left`);
+    this.leftOffset = system.getVariable(`${id}.left-offset`);
+    this.width      = system.getVariable(`${id}.width`);
 
     // y axis
     system.subtract(`${id}.height`, `${id}.bottom`, `${id}.top`);
     system.divide(`${id}_tmp2`, `${id}.height`, 2);
     system.add(`${id}.center-y`, `${id}.top`, `${id}_tmp2`);
-    system.add(`${id}.absolute.top`, `${id}.top`, `${container}.absolute.top`);
-    system.add(`${id}.absolute.bottom`, `${id}.bottom`, `${container}.absolute.top`);
-    system.add(`${id}.absolute.center-y`, `${id}.center-y`, `${container}.absolute.top`);
+    system.subtract(`${id}.top-offset`, `${id}.top`, `${container}.top`);
 
-    this.absoluteTop = system.getVariable(`${id}.absolute.top`);
-    this.top    = system.getVariable(`${id}.top`);
-    this.height = system.getVariable(`${id}.height`);
+    this.top       = system.getVariable(`${id}.top`);
+    this.topOffset = system.getVariable(`${id}.top-offset`);
+    this.height    = system.getVariable(`${id}.height`);
   }
 
   /**
@@ -133,8 +129,8 @@ abstract class AbstractRect implements Rect {
    */
   updateRect(): void {
     let position = {
-      left:   this.left.getValue(),
-      top:    this.top.getValue(),
+      left:   this.leftOffset.getValue(),
+      top:    this.topOffset.getValue(),
       width:  this.width.getValue(),
       height: this.height.getValue()
     };
@@ -161,11 +157,11 @@ abstract class AbstractRect implements Rect {
     // x axis
     switch (this.xAxisDependencies) {
       case XDependency.LEFT_AND_WIDTH:
-        this.absoluteLeft.assignValue(position.left);
+        this.left.assignValue(position.left);
         this.width.assignValue(position.width);
         break;
       case XDependency.LEFT:
-        this.absoluteLeft.assignValue(position.left);
+        this.left.assignValue(position.left);
         break;
       case XDependency.WIDTH:
         this.width.assignValue(position.width);
@@ -175,11 +171,11 @@ abstract class AbstractRect implements Rect {
     // y axis
     switch (this.yAxisDependencies) {
       case YDependency.TOP_AND_HEIGHT:
-        this.absoluteTop.assignValue(position.top);
+        this.top.assignValue(position.top);
         this.height.assignValue(position.height);
         break;
       case YDependency.TOP:
-        this.absoluteTop.assignValue(position.top);
+        this.top.assignValue(position.top);
         break;
       case YDependency.HEIGHT:
         this.height.assignValue(position.height);
@@ -193,9 +189,11 @@ abstract class AbstractRect implements Rect {
   destroy(): void {
     let system = this.system;
     system.destroyVariable(this.top);
+    system.destroyVariable(this.topOffset);
     system.destroyVariable(this.height);
     system.destroyVariable(this.left);
-    system.destroyVariable(this.top);
+    system.destroyVariable(this.leftOffset);
+    system.destroyVariable(this.width);
   }
 
   private isPositionDifferent(position: RectPosition): boolean {
