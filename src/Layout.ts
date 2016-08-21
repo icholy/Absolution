@@ -19,7 +19,9 @@ class Layout {
       "rWidth":   "width",
       "rHeight":  "height",
       "rCenterX": "center-x",
-      "rCenterY": "center-y"
+      "rCenterY": "center-y",
+      "rCenterIn": "center-in"
+      "rRegister": "register"
     };
 
     let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
@@ -29,7 +31,7 @@ class Layout {
       let isRegistered = false;
       let rect = null;
       Object.keys(el.dataset).forEach(key => {
-        if (!attributeMap[key]) {
+        if (!attributeMap.hasOwnProperty(key)) {
           return;
         }
         if (!isRegistered) {
@@ -37,7 +39,17 @@ class Layout {
           isRegistered = true;
         }
         let property = attributeMap[key];
-        rect.constrain(property, el.dataset[key]);
+        switch (property) {
+          case "center-in":
+            let id = attributeMap[key];
+            rect.constrain(`center-x`, `${id}.center-x`);
+            rect.constrain(`center-y`, `${id}.center-y`);
+            break;
+          case "register":
+            break;
+          default:
+            rect.constrain(property, el.dataset[key]);
+        }
       });
     }
   }
