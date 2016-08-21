@@ -6,27 +6,27 @@
 
 ``` html
 <div id="A" a-rect>A</div>
-<div a-center-in="A">B</div>
+<div a-style="center-in: A">B</div>
 ```
 
 ### Anchor the element to another
 
 ``` html
 <div id="A">A</div>
-<div a-left="A.right">B</div>
+<div a-style="left: A.right">B</div>
 ```
 
 ### Use expressions
 
 ``` html
 <div id="A">A</div>
-<div id="B" a-left="A.right + B.width / 2">B</div>
+<div id="B" a-style="left: A.right + B.width / 2">B</div>
 ```
 
 ### Use JavaScript variables inside expressions
 
 ``` html
-<div id="A" a-width="x * A.height">A</div>
+<div id="A" a-style="width: x * A.height">A</div>
 ```
 
 ``` js
@@ -69,9 +69,10 @@ manager.func("min", (a, b) => Math.min(a, b));
 * `size`
 * `watch`
 
-# Special Attributes
+# Element Attributes
 
 * `a-rect`
+* `a-style`
 
 # Special Rects
 
