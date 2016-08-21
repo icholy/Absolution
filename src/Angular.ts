@@ -7,9 +7,9 @@ module Absolution.Angular {
     private functions: { [name: string]: FuncEntry; };
 
     constructor(
-      private layout: Layout,
-      private $scope: ng.IScope,
-      private parentCtrl:   Controller
+      private layout:     Layout,
+      private $scope:     ng.IScope,
+      private parentCtrl: Controller
     ) {
       this.variables = Object.create(null);
       this.functions = Object.create(null);
