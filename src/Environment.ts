@@ -15,11 +15,13 @@ module Absolution {
     private stylesheet: StyleSheet;
 
     constructor(data?: ExportData) {
-      if (data.stylesheet) {
-        this.loadStyleSheet(data.stylesheet);
-      }
-      if (data.cache) {
-        this.parserCache = data.cache;
+      if (data) {
+        if (data.stylesheet) {
+          this.loadStyleSheet(data.stylesheet);
+        }
+        if (data.cache) {
+          this.parserCache = data.cache;
+        }
       }
     }
 
