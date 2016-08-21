@@ -2,7 +2,7 @@ module Constraints {
 
   export class Variable {
 
-    private listeners: Relationship[] = [];
+    private relationships: Relationship[] = [];
     private shouldPreserve: boolean = true;
     private flexibility = 0.001;
 
@@ -43,13 +43,13 @@ module Constraints {
     }
 
     attach(relationship: Relationship): void {
-      this.listeners.push(relationship);
+      this.relationships.push(relationship);
     }
 
     detach(relationship: Relationship): void {
-      let index = this.listeners.indexOf(relationship);
+      let index = this.relationships.indexOf(relationship);
       if (index !== -1) {
-        this.listeners.splice(index, 1);
+        this.relationships.splice(index, 1);
       }
     }
 
@@ -58,7 +58,7 @@ module Constraints {
     }
 
     private notify(): void {
-      for (let relationship of this.listeners) {
+      for (let relationship of this.relationships) {
         relationship.recompute();
       }
     }
