@@ -154,6 +154,33 @@ variable
     }
   }
 
+vfl_expression
+  = _ "|" items:(vfl_rect / vfl_space)* "|" {
+      return items;
+    }
+
+vfl_rect
+  = "[" id:ident "]" {
+      return {
+        tag:  "rect",
+        name: id.value
+      };
+    }
+
+vfl_space
+  = "-(" expr:expression ")-" {
+      return {
+        tag:  "space",
+        expr: expr
+      };
+    }
+  / "-" {
+      return {
+        tag: "space"
+      };
+    }
+
+
 macro
   = "@" name:ident _ ":" _ content:[^;]* _ ";" {
       return {
