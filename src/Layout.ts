@@ -3,6 +3,7 @@ module Absolution {
   export interface LayoutOptions {
     findStyleSheets?: boolean;
     findElements?:    boolean;
+    styleSheet?:      StyleSheet;
   }
 
   const defaultOptions: LayoutOptions = {
@@ -27,6 +28,11 @@ module Absolution {
       new ViewportRect(this);
       new DocumentRect(this);
       new BodyRect(this);
+
+      // load pre-compiled stylesheet
+      if (options.styleSheet) {
+        this.env.loadStyleSheet(options.styleSheet);
+      }
 
       // find rulesets from script tags
       if (options.findStyleSheets) {

@@ -87,11 +87,15 @@ module Absolution {
       }
     }
 
+    loadStyleSheet(stylesheet: StyleSheet): void {
+      this.parseRulesets(stylesheet.rulesets);
+      this.userVariables.push(...stylesheet.variables);
+    }
+
     parseStyleSheet(input: string): void {
       try {
         let stylesheet = Parser.parse<StyleSheet>(input, { startRule: "stylesheet" });
-        this.parseRulesets(stylesheet.rulesets);
-        this.userVariables.push(...stylesheet.variables);
+        this.loadStyleSheet(stylesheet);
       } catch (e) {
         if (e instanceof Parser.SyntaxError) {
           throw new Error(Utils.formatParserError(e, input));
