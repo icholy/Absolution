@@ -118,10 +118,7 @@
 
     window.layout = new Robin.Layout();
 
-    layout.func("min", Math.min.bind(Math));
-    layout.func("max", Math.max.bind(Math));
-    layout.func("sin", Math.sin.bind(Math));
-    layout.func("cos", Math.cos.bind(Math));
+    layout.funcsFrom(Math, "min", "max", "sin", "cos");
 
     layout.attachTo(document.body);
 

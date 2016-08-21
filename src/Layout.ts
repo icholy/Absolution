@@ -209,14 +209,9 @@ module Robin {
     /**
      * Register all functions on an object
      */
-    funcsFrom(prefix: string, object: any): void {
-      for (let key in object) {
-        if (
-          object.hasOwnProperty(key) &&
-          typeof object[key] === "function"
-        )  {
-          this.func(`${prefix}.key`, object[key].bind(object));
-        }
+    funcsFrom(object: any, ...names: string[]): void {
+      for (let name of names) {
+        this.func(name, object[name].bind(object));
       }
     }
 
