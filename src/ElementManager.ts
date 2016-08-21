@@ -27,7 +27,7 @@ class ElementManager {
   private id: string;
   private expressions: { [propertyName: string]: string; } = {};
   private constrained = [] as Property[];
-  private isDebug = true;
+  private isDebugEnabled = true;
 
   // the dependencies are the element properties that are
   // reported to the constaint system when requested
@@ -90,7 +90,7 @@ class ElementManager {
       this.expressions[propertyName] = expression;
       this.system.set(`${this.id}.${propertyName}`, expression.toString());
 
-      if (this.isDebug) {
+      if (this.isDebugEnabled) {
         console.debug(`(${this.id}) constrain ${propertyName} = "${expression}"`);
       }
 
@@ -124,7 +124,7 @@ class ElementManager {
 
   private setStyle(name: string, variable: Constraints.Variable): void {
     let pixels = `${variable.getValue()}px`;
-    if (this.isDebug) {
+    if (this.isDebugEnabled) {
       console.debug(`(${this.id}) setting ${name} = ${pixels}`);
     }
     this.element.style[name] = pixels;
