@@ -87,7 +87,7 @@ module Robin {
 
       let info: RectInfo = {
         id:        el.id ? el.id : this.getAttribute(el, "id"),
-        container: "document",
+        container: null,
         watcher:   null,
         rules:     []
       }
