@@ -52,5 +52,6 @@ layout.assign("x", 100);
 * `r-align-y`
 * `r-fill`
 * `r-size`
+* `r-style`
 
 
