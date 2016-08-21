@@ -34,17 +34,26 @@ module Robin {
       super(layout, options.id, options.container);
       this.element = element;
 
+      for (let rule of options.rules) {
+        this.constrain(rule.target, rule.text, rule.expr);
+      }
+
+      // add a watcher if one is specified
+      if (options.watcher) {
+        if (options.watcher !== "mutation") {
+          throw new Error(
+            `${this.getId()}.r-watch value error: "${options.watcher}" is not a supported watcher`);
+        }
+        let watcher = new MutationObserverWatcher(this);
+        this.addWatcher(watcher);
+      }
+
       let updateRect = this.updateRectPosition.bind(this);
       this.width.onChange(updateRect);
       this.left.onChange(updateRect);
       this.top.onChange(updateRect);
       this.height.onChange(updateRect);
-    }
 
-    /**
-     * Initialize the rect after setting all the constraints.
-     */
-    initialize(): void {
       this.updateSystemPosition();
     }
 

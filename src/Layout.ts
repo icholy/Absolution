@@ -50,7 +50,10 @@ module Robin {
       let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
       let el: HTMLElement;
       while (el = iterator.nextNode() as any) {
-        this.maybeAddElement(el);
+        let options = this.getRectOptions(el);
+        if (options) {
+          new ElementRect(el, this, options);
+        }
       }
 
       this.update();
@@ -149,29 +152,6 @@ module Robin {
         default:
           options.rules.push(this.ruleFor(target, text));
       }
-    }
-
-    maybeAddElement(el: HTMLElement): void {
-      let options = this.getRectOptions(el);
-      if (!options) {
-        return;
-      }
-      let rect = new ElementRect(el, this, options);
-      for (let rule of options.rules) {
-        rect.constrain(rule.target, rule.text, rule.expr);
-      }
-
-      // add a watcher if one is specified
-      if (options.watcher) {
-        if (options.watcher !== "mutation") {
-          throw new Error(
-            `${rect.getId()}.r-watch value error: "${options.watcher}" is not a supported watcher`);
-        }
-        let watcher = new MutationObserverWatcher(rect);
-        rect.addWatcher(watcher);
-      }
-
-      rect.initialize();
     }
 
     parseStyleSheet(input: string): void {
