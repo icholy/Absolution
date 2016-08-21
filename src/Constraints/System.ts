@@ -161,8 +161,12 @@ module Constraints {
     /**
      * Dump all the relationships as strings
      */
-    toString(): string {
-      return this.relationships.map(r => r.toString()).join("\n");
+    toString(filter: string = null): string {
+      let expressions = this.relationships.map(r => r.toString());
+      if (filter) {
+        expressions = expressions.filter(expr => expr.indexOf(filter) !== -1);
+      }
+      return expressions.join("\n");
     }
 
     private destroyRelationship(r: Relationship): void {

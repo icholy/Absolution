@@ -48,6 +48,9 @@ abstract class AbstractRect implements Rect {
   private top:    Constraints.Variable;
   private height: Constraints.Variable;
 
+  private absoluteLeft: Constraints.Variable;
+  private absoluteTop:  Constraints.Variable;
+
   // current Rect position
   private currentPosition: RectPosition;
 
@@ -63,8 +66,9 @@ abstract class AbstractRect implements Rect {
     system.add(`${id}.center-x`, `${id}.left`, `${id}_tmp1`);
     system.add(`${id}.left.absolute`, `${id}.left`, `${container}.left.absolute`);
 
-    this.left  = system.getVariable(`${id}.left`);
-    this.width = system.getVariable(`${id}.width`);
+    this.absoluteLeft = system.getVariable(`${id}.left.absolute`);
+    this.left         = system.getVariable(`${id}.left`);
+    this.width        = system.getVariable(`${id}.width`);
 
     // y axis
     system.subtract(`${id}.height`, `${id}.bottom`, `${id}.top`);
@@ -72,6 +76,7 @@ abstract class AbstractRect implements Rect {
     system.add(`${id}.center-y`, `${id}.top`, `${id}_tmp2`);
     system.add(`${id}.top.absolute`, `${id}.top`, `${container}.top.absolute`);
 
+    this.absoluteTop = system.getVariable(`${id}.top.absolute`);
     this.top    = system.getVariable(`${id}.top`);
     this.height = system.getVariable(`${id}.height`);
   }
@@ -152,11 +157,11 @@ abstract class AbstractRect implements Rect {
     // x axis
     switch (this.xAxisDependencies) {
       case XDependency.LEFT_AND_WIDTH:
-        this.left.assignValue(position.left);
+        this.absoluteLeft.assignValue(position.left);
         this.width.assignValue(position.width);
         break;
       case XDependency.LEFT:
-        this.left.assignValue(position.left);
+        this.absoluteLeft.assignValue(position.left);
         break;
       case XDependency.WIDTH:
         this.width.assignValue(position.width);
@@ -166,11 +171,11 @@ abstract class AbstractRect implements Rect {
     // y axis
     switch (this.yAxisDependencies) {
       case YDependency.TOP_AND_HEIGHT:
-        this.top.assignValue(position.top);
+        this.absoluteTop.assignValue(position.top);
         this.height.assignValue(position.height);
         break;
       case YDependency.TOP:
-        this.top.assignValue(position.top);
+        this.absoluteTop.assignValue(position.top);
         break;
       case YDependency.HEIGHT:
         this.height.assignValue(position.height);
