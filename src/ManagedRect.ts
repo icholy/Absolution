@@ -18,7 +18,7 @@ module Absolution {
 
     // used to check if a property has already been constrained.
     // also for generating useful error messages.
-    private expressions: { [propertyName: string]: string; } = {};
+    private expressions = {} as { [propertyName: string]: string; };
 
     // the axis represent the constrained properties of the 
     // element.
@@ -30,14 +30,14 @@ module Absolution {
 
     // list of watchers to be cleaned up
     // when the rect is destroyed
-    private watchers: Watcher[] = [];
+    private watchers = [] as Watcher[];
 
     // True if the rect already requested to be updated
     // after the system is solved
     private isEnqueued = false;
 
     constructor(
-      manager:  Manager,
+      manager: Manager,
       options: RectOptions
     ) {
       super(manager, options.id, options.container);
