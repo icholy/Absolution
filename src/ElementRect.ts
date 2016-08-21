@@ -108,8 +108,11 @@ module Robin {
     private constrainX(property: Property): void {
       switch (this.xAxisConstraints) {
         case XConstraint.NONE:
-          let isWidth = property === Property.WIDTH;
-          this.xAxisConstraints = isWidth ? XConstraint.WIDTH : XConstraint.LEFT;
+          if (property === Property.WIDTH) {
+            this.xAxisConstraints = XConstraint.WIDTH;
+          } else {
+            this.xAxisConstraints = XConstraint.LEFT;
+          }
           break;
         case XConstraint.LEFT:
         case XConstraint.WIDTH:
@@ -123,8 +126,11 @@ module Robin {
     private constrainY(property: Property): void {
       switch (this.yAxisConstraints) {
         case YConstraint.NONE:
-          let isHeight = property === Property.HEIGHT;
-          this.yAxisConstraints = isHeight ? YConstraint.HEIGHT : YConstraint.TOP;
+          if (property === Property.HEIGHT) {
+            this.yAxisConstraints = YConstraint.HEIGHT;
+          } else {
+            this.yAxisConstraints = YConstraint.TOP;
+          }
           break;
         case YConstraint.TOP:
           this.yAxisConstraints = YConstraint.TOP_AND_HEIGHT;
