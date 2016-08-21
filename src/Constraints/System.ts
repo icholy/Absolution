@@ -191,7 +191,6 @@ module Constraints {
       let tokens = parser.tokenize(expr);
       let rpn = parser.infixToRPN(tokens);
 
-      let operator = [];
       let values   = [];
 
       for (let token of rpn) {
