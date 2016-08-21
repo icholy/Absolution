@@ -1,6 +1,6 @@
 # Absolution.js
 
-> An Element positioning system.
+> An Element positioning system inspired by SICP's "Propagation of Constraints".
 
 **WARNING WIP** I've only been testing this is chrome.
 
