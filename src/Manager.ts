@@ -12,17 +12,17 @@ module Absolution {
     findElements:    true
   };
 
+  /**
+   * The manager is the primary interface to the client.
+   */
   export class Manager {
 
-    private digestID = 0;
-    private changedRects: ManagedRect[] = [];
-    private updateIsRequested = false;
-    private rects = {} as { [id: string]: Rect; };
-
-    constructor(
-      public env    = new Environment(),
-      public system = new System()
-    ) {}
+    private system          = new System();
+    private env             = new Environment();
+    private digestID        = 0;
+    private changedRects    = [] as ManagedRect[];
+    private isUpdatePending = false;
+    private rects           = {} as { [id: string]: Rect; };
 
     initialize(options: ManagerOptions = defaultOptions) {
 
@@ -66,6 +66,20 @@ module Absolution {
       }
 
       this.update();
+    }
+
+    /**
+     * Get the system instance.
+     */
+    getSystem(): System {
+      return this.system;
+    }
+
+    /**
+     * Get the environtment instance.
+     */
+    getEnv(): Environment {
+      return this.env;
     }
 
     /**
@@ -125,17 +139,17 @@ module Absolution {
      * animation frame.
      */
     update(): void {
-      if (this.updateIsRequested) {
+      if (this.isUpdatePending) {
         return;
       }
-      this.updateIsRequested = true;
+      this.isUpdatePending = true;
       window.requestAnimationFrame(() => {
         this.system.solve(this.digestID++);
         for (let rect of this.changedRects) {
           rect.updateRectPosition();
         }
         this.changedRects = [];
-        this.updateIsRequested = false;
+        this.isUpdatePending = false;
       });
     }
 

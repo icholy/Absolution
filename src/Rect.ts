@@ -22,7 +22,7 @@ module Absolution {
       protected container?: string
     ) {
 
-      let system = this.system = manager.system;
+      let system = this.system = manager.getSystem();
 
       // x axis
       system.subtract(`${id}.width`, `${id}.right`, `${id}.left`);
