@@ -25,6 +25,7 @@ module Robin {
     "r-size":      "size",
     "r-fill":      "fill",
     "r-watch":     "watch",
+    "r-style":     "style",
 
     "data-r-id":        "id",
     "data-r-left":      "left",
@@ -42,7 +43,8 @@ module Robin {
     "data-r-align-y":   "align-y",
     "data-r-size":      "size",
     "data-r-fill":      "fill",
-    "data-r-watch":     "watch"
+    "data-r-watch":     "watch",
+    "data-r-style":     "style"
   };
 
   export class Layout {
@@ -134,6 +136,10 @@ module Robin {
             info.rules.push(this.makeRuleFor("bottom", `${text}.bottom`));
             info.rules.push(this.makeRuleFor("left", `${text}.left`));
             info.rules.push(this.makeRuleFor("right", `${text}.right`));
+            break;
+          case "style":
+            let rules = Parser.parse(text, { startRule: "inline_rules" });
+            info.rules = info.rules.concat(rules);
             break;
           default:
             info.rules.push(this.makeRuleFor(target, text));

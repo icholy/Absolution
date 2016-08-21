@@ -5,7 +5,7 @@ rulesets
   }
 
 ruleset
-  = _ id:selector _ "{" _ rules:rule* _ "}" _ {
+  = _ id:selector _ "{" _ rules:rule_with_trailing_semi* _ "}" _ {
       return {
         id:    id,
         rules: rules
@@ -17,8 +17,23 @@ selector
     return id.value;
   }
 
+inline_rules
+  = _ first:rule _ rest:rule_with_leading_semi* _ ";"? _ {
+    return [first].concat(rest);
+  }
+
+rule_with_leading_semi
+  = _ ";" _ rule:rule _ {
+      return rule;
+    }
+
+rule_with_trailing_semi
+  = _ rule:rule _ ";"+ _ {
+      return rule;
+    }
+
 rule
-  = _ target:ident _ ":" _ expr:expression_with_text _ ";" _ {
+  = _ target:ident _ ":" _ expr:expression_with_text _ {
       return {
         target: target.value,
         expr:   expr
