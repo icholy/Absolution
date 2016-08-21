@@ -95,6 +95,13 @@ describe("Constraints", function () {
         expect(system.$.C).toEqual(15);
       });
 
+      it("should correctly parse expression with negative numbers", function () {
+        system.$.A = "-1 + B";
+        system.$.B = 10;
+
+        expect(system.$.A).toEqual(9);
+      });
+
     });
     
   });
