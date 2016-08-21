@@ -73,9 +73,7 @@ module Robin {
       this.update();
     }
 
-    private getRectOptions(el: HTMLElement): RectOptions {
-
-      let isRect = false;
+    getRectOptions(el: HTMLElement, isRect: boolean = false): RectOptions {
 
       let options: RectOptions = {
         id:        el.id ? el.id : el.getAttribute("r-id"),

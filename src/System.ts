@@ -5,7 +5,7 @@ module Robin {
 
   type Value = string | number | Variable;
 
-  interface FuncEntry {
+  export interface FuncEntry {
     name:  string;
     func:  Function;
     arity: number;
