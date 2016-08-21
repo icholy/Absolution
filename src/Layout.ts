@@ -1,5 +1,12 @@
 module Robin {
 
+  interface RectInfo {
+    id:        string;
+    container: string;
+    watcher:   string;
+    rules:     Rule[];
+  }
+
   const attributeMap = {
     "r-id":        "id",
     "r-left":      "left",
@@ -72,46 +79,104 @@ module Robin {
       this.update();
     }
 
-    private handleNewElement(el: HTMLElement): void {
+    private getRectInfo(el: HTMLElement): RectInfo {
 
-      let isRegistered = false;
-      let rect: ElementRect = null;
+      let isRect = false;
+
+      let info: RectInfo = {
+        id:        el.id ? el.id : this.getAttribute(el, "id"),
+        container: "document",
+        watcher:   null,
+        rules:     []
+      }
+
+      if (info.id && this.hasRuleSet(info.id)) {
+        isRect = true;
+        info.rules = this.rulesets[info.id].slice();
+      }
 
       for (let i = 0; i < el.attributes.length; i++) {
         let attr = el.attributes.item(i);
         if (!attributeMap.hasOwnProperty(attr.name)) {
           continue;
         }
-        if (!isRegistered) {
-          let id = this.getAttribute(el, "id");
-          if (!id) {
-            id = el.id ? el.id : Utils.guid();
-          }
-          let container = this.getAttribute(el, "container");
-          if (!container) {
-            container = "document";
-          }
-          rect = new ElementRect(id, el, container, this);
-          this.rects.push(rect);
+        isRect = true;
 
-          // add rulesets
-          if (this.hasRuleSet(id)) {
-            let rules = this.rulesets[id];
-            for (let rule of rules) {
-              this.applyProperty(rect, rule.target, rule.expr.text, rule.expr);
-            }
-          }
+        let target = attributeMap[attr.name];
+        let text   = attr.textContent;
 
-          isRegistered = true;
+        switch (target) {
+          case "register":
+          case "id":
+          case "watch":
+            break;
+          case "container":
+            info.container = text;
+            break;
+          case "center-in":
+            info.rules.push(this.makeRuleFor("center-x", `${text}.center-x`));
+            info.rules.push(this.makeRuleFor("center-y", `${text}.center-y`));
+            break;
+          case "align-x":
+            info.rules.push(this.makeRuleFor("left", `${text}.left`));
+            info.rules.push(this.makeRuleFor("right", `${text}.right`));
+            break;
+          case "align-y":
+            info.rules.push(this.makeRuleFor("top", `${text}.top`));
+            info.rules.push(this.makeRuleFor("bottom", `${text}.bottom`));
+            break;
+          case "size":
+            info.rules.push(this.makeRuleFor("width", `${text}.width`));
+            info.rules.push(this.makeRuleFor("height", `${text}.height`));
+            break;
+          case "fill":
+            info.rules.push(this.makeRuleFor("top", `${text}.top`));
+            info.rules.push(this.makeRuleFor("bottom", `${text}.bottom`));
+            info.rules.push(this.makeRuleFor("left", `${text}.left`));
+            info.rules.push(this.makeRuleFor("right", `${text}.right`));
+            break;
+          default:
+            info.rules.push(this.makeRuleFor(target, text));
         }
-
-        let node = Parser.parse(attr.textContent, { startRule: "expression" });
-        this.applyProperty(rect, attributeMap[attr.name], attr.textContent, node);
       }
 
-      if (isRegistered) {
-        rect.initialize();
+      // if there's no id, create a GUID
+      if (!info.id && isRect) {
+        info.id = Utils.guid();
       }
+
+      return isRect ? info : null;
+    }
+
+    private makeRuleFor(target: string, expression: string): Rule {
+      return {
+        target: target,
+        text:   expression,
+        expr:   Parser.parse(expression, { startRule: "expression" })
+      };
+    }
+
+    private handleNewElement(el: HTMLElement): void {
+      let info = this.getRectInfo(el);
+      if (!info) {
+        return;
+      }
+      let rect = new ElementRect(info.id, el, info.container, this);
+      for (let rule of info.rules) {
+        rect.constrain(rule.target, rule.text, rule.expr)
+      }
+
+      // add a watcher if one is specified
+      if (info.watcher) {
+        if (info.watcher !== "mutation") {
+          throw new Error(
+            `${rect.getId()}.r-watch value error: "${info.watcher}" is not a supported watcher`);
+        }
+        let watcher = new MutationObserverWatcher(rect)
+        rect.addWatcher(watcher);
+      }
+
+      rect.initialize();
     }
 
     private hasRuleSet(id: string): boolean {
@@ -122,46 +187,6 @@ module Robin {
       let rulesets = Parser.parse(input, { startRule: "rulesets" }) as RuleSet[];
       for (let set of rulesets) {
         this.rulesets[set.id] = set.rules;
-      }
-    }
-
-    private applyProperty(rect: ElementRect, name: string, value: string, node: Expression): void {
-      switch (name) {
-        case "watch":
-          if (value !== "mutation") {
-            throw new Error(
-              `${rect.getId()}.r-watch value error: "${value}" is not a supported watcher`);
-          }
-          rect.addWatcher(new MutationObserverWatcher(rect));
-          break;
-        case "center-in":
-          rect.constrain("center-x", `${value}.center-x`);
-          rect.constrain("center-y", `${value}.center-y`);
-          break;
-        case "align-x":
-          rect.constrain("left", `${value}.left`);
-          rect.constrain("right", `${value}.right`);
-          break;
-        case "align-y":
-          rect.constrain("top", `${value}.top`);
-          rect.constrain("bottom", `${value}.bottom`);
-          break;
-        case "size":
-          rect.constrain("width", `${value}.width`);
-          rect.constrain("height", `${value}.height`);
-          break;
-        case "fill":
-          rect.constrain("top", `${value}.top`);
-          rect.constrain("bottom", `${value}.bottom`);
-          rect.constrain("left", `${value}.left`);
-          rect.constrain("right", `${value}.right`);
-          break;
-        case "register":
-        case "container":
-        case "id":
-          break;
-        default:
-          rect.constrain(name, value, node);
       }
     }
 
