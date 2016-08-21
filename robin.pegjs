@@ -1,8 +1,8 @@
 
 rulesets
   = _ sets:ruleset* {
-    return sets;
-  }
+      return sets;
+    }
 
 ruleset
   = _ id:selector _ "{" _ rules:rule_with_trailing_semi* _ "}" _ {
@@ -14,13 +14,13 @@ ruleset
 
 selector
   = "#" id:ident {
-    return id.value;
-  }
+      return id.value;
+    }
 
 inline_rules
   = _ first:rule _ rest:rule_with_leading_semi* _ ";"? _ {
-    return [first].concat(rest);
-  }
+      return [first].concat(rest);
+    }
 
 rule_with_leading_semi
   = _ ";" _ rule:rule _ {
@@ -40,11 +40,11 @@ rule
       };
     }
 
-expression_with_text =
-  expr:expression {
-    expr.text = text();
-    return expr;
-  }
+expression_with_text 
+  = expr:expression {
+      expr.text = text();
+      return expr;
+    }
 
 expression
   = _ expr:add_or_subtract _ {
@@ -53,13 +53,13 @@ expression
 
 add_or_subtract 
   = left:multiply_or_divide _ op:("+" / "-") _ right:add_or_subtract {
-    return {
-      tag:   "op",
-      op:    op,
-      left:  left,
-      right: right
-    };
-  }
+      return {
+        tag:   "op",
+        op:    op,
+        left:  left,
+        right: right
+      };
+    }
   / multiply_or_divide
 
 multiply_or_divide
