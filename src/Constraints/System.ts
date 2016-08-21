@@ -285,6 +285,12 @@ module Constraints {
         set(target: System, property: string, value: any, receiver: Proxy): void {
           target.set(property, value);
         },
+        has(target: System, property: string): boolean {
+          return target.has(property);
+        },
+        deleteProperty(target: System, property: string): void {
+          target.destroy(property);
+        },
         ownKeys(target: System): string[] {
           return Object.keys(target.variables);
         }
