@@ -18,26 +18,7 @@ module Robin {
     "r-size":      "size",
     "r-fill":      "fill",
     "r-watch":     "watch",
-    "r-style":     "style",
-
-    "data-r-id":        "id",
-    "data-r-left":      "left",
-    "data-r-right":     "right",
-    "data-r-top":       "top",
-    "data-r-bottom":    "bottom",
-    "data-r-width":     "width",
-    "data-r-height":    "height",
-    "data-r-center-x":  "center-x",
-    "data-r-center-y":  "center-y",
-    "data-r-register":  "register",
-    "data-r-container": "container",
-    "data-r-center-in": "center-in",
-    "data-r-align-x":   "align-x",
-    "data-r-align-y":   "align-y",
-    "data-r-size":      "size",
-    "data-r-fill":      "fill",
-    "data-r-watch":     "watch",
-    "data-r-style":     "style"
+    "r-style":     "style"
   };
 
   export class Layout {
@@ -80,7 +61,7 @@ module Robin {
       let isRect = false;
 
       let options: RectOptions = {
-        id:        el.id ? el.id : this.getAttribute(el, "id"),
+        id:        el.id ? el.id : el.getAttribute("r-id"),
         container: null,
         watcher:   null,
         rules:     []
@@ -235,16 +216,6 @@ module Robin {
         if (rect.getId() === id) {
           return rect;
         }
-      }
-      return null;
-    }
-
-    private getAttribute(element: HTMLElement, name: string): string {
-      if (element.hasAttribute(`r-${name}`)) {
-        return element.getAttribute(`r-${name}`);
-      }
-      if (element.hasAttribute(`r-data-${name}`)) {
-        return element.getAttribute(`r-data-${name}`);
       }
       return null;
     }
