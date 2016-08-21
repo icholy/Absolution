@@ -143,30 +143,30 @@ module Robin {
             break;
           case "center-in":
             let centerInIdent = this.identFrom(rule);
-            options.rules.push(this.ruleFor("center-x", `${centerInIdent}.center-x`));
-            options.rules.push(this.ruleFor("center-y", `${centerInIdent}.center-y`));
+            this.handleRule(options, this.ruleFor("center-x", `${centerInIdent}.center-x`));
+            this.handleRule(options, this.ruleFor("center-y", `${centerInIdent}.center-y`));
             break;
           case "align-x":
             let alignXIdent = this.identFrom(rule);
-            options.rules.push(this.ruleFor("left", `${alignXIdent}.left`));
-            options.rules.push(this.ruleFor("right", `${alignXIdent}.right`));
+            this.handleRule(options, this.ruleFor("left", `${alignXIdent}.left`));
+            this.handleRule(options, this.ruleFor("right", `${alignXIdent}.right`));
             break;
           case "align-y":
             let alignYIdent = this.identFrom(rule);
-            options.rules.push(this.ruleFor("top", `${alignYIdent}.top`));
-            options.rules.push(this.ruleFor("bottom", `${alignYIdent}.bottom`));
+            this.handleRule(options, this.ruleFor("top", `${alignYIdent}.top`));
+            this.handleRule(options, this.ruleFor("bottom", `${alignYIdent}.bottom`));
             break;
           case "size":
             let sizeIdent = this.identFrom(rule);
-            options.rules.push(this.ruleFor("width", `${sizeIdent}.width`));
-            options.rules.push(this.ruleFor("height", `${sizeIdent}.height`));
+            this.handleRule(options, this.ruleFor("width", `${sizeIdent}.width`));
+            this.handleRule(options, this.ruleFor("height", `${sizeIdent}.height`));
             break;
           case "fill":
             let fillIdent = this.identFrom(rule);
-            options.rules.push(this.ruleFor("top", `${fillIdent}.top`));
-            options.rules.push(this.ruleFor("bottom", `${fillIdent}.bottom`));
-            options.rules.push(this.ruleFor("left", `${fillIdent}.left`));
-            options.rules.push(this.ruleFor("right", `${fillIdent}.right`));
+            this.handleRule(options, this.ruleFor("top", `${fillIdent}.top`));
+            this.handleRule(options, this.ruleFor("bottom", `${fillIdent}.bottom`));
+            this.handleRule(options, this.ruleFor("left", `${fillIdent}.left`));
+            this.handleRule(options, this.ruleFor("right", `${fillIdent}.right`));
             break;
           case "style":
             let rules = Parser.parse<Rule[]>(rule.text, { startRule: "inline_rules" });
