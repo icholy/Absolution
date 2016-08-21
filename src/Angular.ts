@@ -27,12 +27,12 @@ module Absolution.Angular {
       return v;
     }
 
-    hasVariable(name: string, node: IdentNode): boolean {
+    hasVariable(name: string): boolean {
       return name in this.variables
           || typeof this.$scope[name] === "number";
     }
 
-    getVariable(name: string, node: IdentNode): Variable {
+    getVariable(name: string): Variable {
       if (!(name in this.variables)) {
         this.variables[name] = this.makeVariable(name);
       }
@@ -58,11 +58,11 @@ module Absolution.Angular {
       return this.functions[name];
     }
 
-    remapIdent(name: string, node: IdentNode): string {
+    identToName(node: IdentNode): string {
       if (node.tag === "property" && node.object === "parent" && this.ctrl) {
         return `${this.ctrl.getRectId()}.${node.key}`;
       }
-      return name;
+      return node.value;
     }
   }
 

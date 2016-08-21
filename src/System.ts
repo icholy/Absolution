@@ -11,11 +11,11 @@ module Absolution {
   }
 
   export interface Context {
-    hasVariable(name: string, node: IdentNode): boolean;
-    getVariable(name: string, node: IdentNode): Variable;
+    hasVariable(name: string): boolean;
+    getVariable(name: string): Variable;
     hasFunction(name: string): boolean;
     getFunction(name: string): FuncEntry;
-    remapIdent(name: string, node: IdentNode): string;
+    identToName(node: IdentNode): string;
   }
 
   let emptyContext: Context = {
@@ -31,8 +31,8 @@ module Absolution {
     getFunction(name: string): FuncEntry {
       throw new Error(`context does not have ${name} function`);
     },
-    remapIdent(name: string): string {
-      return name;
+    identToName(node: IdentNode): string {
+      return node.value;
     }
   };
 
@@ -255,10 +255,8 @@ module Absolution {
       switch (node.tag) {
         case "ident":
         case "property":
-          if (ctx.hasVariable(node.value, node)) {
-            return ctx.getVariable(node.value, node);
-          }
-          return this.getVariable(node.value);
+          let name = ctx.identToName(node);
+          return this.getVariable(name);
         case "number":
           return new Constant(node.value);
         case "op":
@@ -313,7 +311,10 @@ module Absolution {
     /**
      * Get or create a variable.
      */
-    getVariable(name: string): Variable {
+    getVariable(name: string, ctx: Context = emptyContext): Variable {
+      if (ctx.hasVariable(name)) {
+        return ctx.getVariable(name);
+      }
       if (!this.has(name)) {
         this.variables[name] = new Variable(name);
       }
