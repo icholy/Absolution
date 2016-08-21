@@ -91,19 +91,26 @@ class ElementManager {
   }
 
   updateElement(): void {
+    let style = this.element.style;
     for (let property of this.constrained) {
       switch (property) {
+        case "top":
         case "bottom":
         case "vcenter":
-          property = "top";
+          style.top = `${this.top.getValue()}px`;
           break;
+        case "height":
+          style.height = `${this.height.getValue()}px`;
+          break;
+        case "left":
         case "right":
         case "hcenter":
-          property = "left";
+          style.left = `${this.left.getValue()}px`;
+          break;
+        case "width":
+          style.width = `${this.width.getValue()}px`;
           break;
       }
-      let value = this.system.get(`${this.id}.${property}`);
-      this.element.style[property] = `${value}px`;
     }
   }
   
