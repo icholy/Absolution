@@ -46,7 +46,7 @@ module Robin {
      * Constrain a property name to equal the expression.
      * There can only be two constraints per axis.
      */
-    constrain(propertyName: string, expression: string): void {
+    constrain(propertyName: string, expression: string, node?: any): void {
       try {
 
         let property = this.getPropertyByName(propertyName);
@@ -61,7 +61,10 @@ module Robin {
             break;
         }
 
-        this.system.set(`${this.id}.${propertyName}`, expression.toString());
+        if (!node) {
+          node = Parser.parse(expression, { startRule: "expression" });
+        }
+        this.system.setNode(`${this.id}.${propertyName}`, node);
         this.expressions[propertyName] = expression;
 
       } catch (e) {

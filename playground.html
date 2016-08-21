@@ -72,8 +72,6 @@
 
     window.layout = new Robin.Layout();
 
-    layout.parseRuleSet(" #A { width: height + 1; } ");
-
     layout.system.func("max", function (a, b) {
       return Math.max(a, b);
     });

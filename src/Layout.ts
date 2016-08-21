@@ -45,7 +45,7 @@ module Robin {
     system = new System();
     rects = [] as Rect[];
     digestID = 0;
-    rulesets = [] as RuleSet[];
+    rulesets = {} as { [id: string]: RuleSet; };
 
     private updateIsRequested = false;
 
@@ -87,6 +87,15 @@ module Robin {
           }
           rect = new ElementRect(id, el, container, this);
           this.rects.push(rect);
+
+          // add rulesets
+          if (this.hasRuleSet(id)) {
+            let rules = this.rulesets[id].rules;
+            for (let rule of rules) {
+              rect.constrain(rule.target, rule.text, rule.expr);
+            }
+          }
+
           isRegistered = true;
         }
 
@@ -98,8 +107,15 @@ module Robin {
       }
     }
 
-    parseRuleSet(input: string): void {
-      this.rulesets = Parser.parse(input, { startRule: "rulesets" });
+    private hasRuleSet(id: string): boolean {
+      return this.rulesets.hasOwnProperty(id);
+    }
+
+    parseStyle(input: string): void {
+      let rulesets = Parser.parse(input, { startRule: "rulesets" }) as RuleSet[];
+      for (let set of rulesets) {
+        this.rulesets[set.id] = set;
+      }
     }
 
     private applyProperty(rect: ElementRect, name: string, value: string): void {

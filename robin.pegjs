@@ -21,7 +21,8 @@ rule
       return {
         tag:    "rule",
         target: target.value,
-        expr:   expr
+        expr:   expr,
+        text:   text()
       };
     }
 

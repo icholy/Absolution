@@ -15,6 +15,7 @@ declare module Robin {
     tag:    "rule";
     target: string;
     expr:   Expression;
+    text:   string;
   }
 
   export interface RuleSet {
