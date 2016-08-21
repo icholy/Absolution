@@ -99,13 +99,6 @@ module Constraints {
 
   export abstract class Operation {
 
-    private static _idSequence: number = 0;
-    private id: number;
-
-    constructor() {
-      this.id = Operation._idSequence++;
-    }
-
     abstract connectorValueChanged(): void;
 
     protected listenTo(...connectors: Connector[]): void {
@@ -280,23 +273,38 @@ module Constraints {
       }
     }
 
+    /**
+     * Get a variable's value
+     */
     get(name: string): number {
       return this.getVariable(name).getValue();
     }
 
+    /**
+     * Set a variable's value
+     */
     set(name: string, v: number): void {
       this.getVariable(name).setValue(v);
     }
 
+    /**
+     * Clear a variable's value
+     */
     clear(name: string): void {
       this.getVariable(name).clearValue();
     }
 
-    purge(): void {
+    /**
+     * Clear all variables
+     */
+    reset(): void {
       Object.keys(this.variables).forEach(name => this.clear(name))
     }
 
-    add(addend1: Value, addend2: Value, sum: Value): void {
+    /**
+     * sum = addend1 + addend2
+     */
+    add(sum: Value, addend1: Value, addend2: Value): void {
       this.operations.push(new Adder(
         this.connectorFor(addend1),
         this.connectorFor(addend2),
@@ -304,7 +312,10 @@ module Constraints {
       ));
     }
 
-    subtract(minuend: Value, subtrahend: Value, difference: Value): void {
+    /**
+     * difference = minuend - subtrahend
+     */
+    subtract(difference: Value, minuend: Value, subtrahend: Value): void {
       this.operations.push(new Subtractor(
         this.connectorFor(minuend),
         this.connectorFor(subtrahend),
@@ -312,7 +323,10 @@ module Constraints {
       ));
     }
 
-    multiply(mult1: Value, mult2: Value, product: Value): void {
+    /**
+     * product = mult1 * mult2
+     */
+    multiply(product: Value, mult1: Value, mult2: Value): void {
       this.operations.push(new Multiplier(
         this.connectorFor(mult1),
         this.connectorFor(mult2),
@@ -320,7 +334,10 @@ module Constraints {
       ));
     }
 
-    divide(dividend: Value, divisor: Value, quotient: Value): void {
+    /**
+     * quotient = dividend / divisor
+     */
+    divide(quotient: Value, dividend: Value, divisor: Value): void {
       this.operations.push(new Divider(
         this.connectorFor(dividend),
         this.connectorFor(divisor),
