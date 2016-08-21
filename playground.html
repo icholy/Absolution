@@ -45,9 +45,8 @@
   <button id="pause">Pause</button>
 
   <script>
-    window.system = new System();
 
-    window.layout = new LayoutManager(system);
+    window.layout = new LayoutManager();
 
     let elements = document.getElementsByTagName("*");
 
@@ -95,7 +94,7 @@
 
     let oscillator = makeOscillator();
 
-    system.assign("x", oscillator());
+    layout.system.assign("x", oscillator());
     layout.updateSystem();
     layout.updateLayout();
 
@@ -105,7 +104,7 @@
       if (paused) {
         return;
       }
-      system.assign("x", oscillator());
+      layout.system.assign("x", oscillator());
       layout.updateLayout();
     }, 10);
 

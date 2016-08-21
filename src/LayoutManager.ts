@@ -6,11 +6,8 @@ interface ElementOptions {
 
 class LayoutManager {
 
-  private managers = [] as ElementManager[];
-
-  constructor(
-    private system: System
-  ) {}
+  system = new System();
+  managers = [] as ElementManager[];
 
   register(element: HTMLElement, container?: HTMLElement): ElementManager {
     let m = new ElementManager(this.system, element, container);
