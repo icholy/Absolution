@@ -1,7 +1,6 @@
 module Absolution {
 
   const attributeMap = {
-    "a-id":          "id",
     "a-left":        "left",
     "a-right":       "right",
     "a-top":         "top",
@@ -114,7 +113,7 @@ module Absolution {
     getRectOptions(el: HTMLElement, isRect: boolean = false): RectOptions {
 
       let options: RectOptions = {
-        id:        el.id ? el.id : el.getAttribute("a-id"),
+        id:        el.id,
         container: null,
         watcher:   null,
         rules:     []

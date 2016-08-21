@@ -12,14 +12,14 @@
 ### Anchor the element to another
 
 ``` html
-<div a-id="A">A</div>
+<div id="A">A</div>
 <div a-left="A.right">B</div>
 ```
 
 ### Use expressions
 
 ``` html
-<div a-id="A">A</div>
+<div id="A">A</div>
 <div id="B" a-left="A.right + B.width / 2">B</div>
 ```
 
@@ -71,7 +71,6 @@ manager.func("min", (a, b) => Math.min(a, b));
 
 # Special Attributes
 
-* `a-id`
 * `a-rect`
 
 # Special Rects
