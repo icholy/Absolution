@@ -110,7 +110,7 @@ class ElementManager {
           this.setStyle("top", this.top);
           break;
         case Property.HEIGHT:
-          this.setStyle("height", this.height)
+          this.setStyle("height", this.height);
           break;
         case Property.LEFT:
           this.setStyle("left", this.left);
