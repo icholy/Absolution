@@ -20,8 +20,6 @@ module Robin {
     "center-y": Property.CENTER_Y
   };
 
-  const enum Axis { X, Y, NONE }
-
   export class ElementRect extends Rect {
 
     // used to check if a property has already been constrained.
@@ -75,7 +73,7 @@ module Robin {
         let property = this.getPropertyByName(propertyName);
         this.assertIsNotConstrained(propertyName);
 
-        switch (this.getPropertyAxis(property)) {
+        switch (propertyToAxis[property]) {
           case Axis.X:
             this.xAxis = this.xAxis.constrain(property);
             break;
@@ -157,23 +155,6 @@ module Robin {
       system.destroyVariable(this.leftOffset);
       system.destroyVariable(this.width);
       this.observer.disconnect();
-    }
-
-    private getPropertyAxis(property: Property): Axis {
-      switch (property) {
-        case Property.LEFT:
-        case Property.WIDTH:
-        case Property.RIGHT:
-        case Property.CENTER_X:
-          return Axis.X;
-        case Property.TOP:
-        case Property.HEIGHT:
-        case Property.BOTTOM:
-        case Property.CENTER_Y:
-          return Axis.Y;
-        default:
-          return Axis.NONE;
-      }
     }
 
     private assertIsNotConstrained(propertyName: string): void {
