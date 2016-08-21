@@ -2,9 +2,26 @@
 class LayoutManager {
 
   private managers = [] as ElementManager[];
-  private system: System;
+  private isBusy = false;
 
-  notifyElementChanged(): void {
+  constructor(
+    private system: System
+  ) {}
+
+  register(m: ElementManager): void {
+    this.managers.push(m);
+  }
+
+  elementChanged(): void {
+    if (this.isBusy) {
+      return;
+    }
+    this.isBusy = true;
+    this.updateLayout();
+    this.isBusy = false;
+  }
+
+  private updateLayout(): void {
     this.system.clear();
     for (let manager of this.managers) {
       manager.updateSystem();
@@ -12,10 +29,6 @@ class LayoutManager {
     for (let manager of this.managers) {
       manager.updateElement();
     }
-  }
-
-  register(m: ElementManager): void {
-    this.managers.push(m);
   }
 
 }
