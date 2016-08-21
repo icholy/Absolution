@@ -70,4 +70,6 @@ module Absolution {
 
   }
 
+  export class VirtualRect extends ManagedRect {}
+
 }

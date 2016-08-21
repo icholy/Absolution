@@ -38,6 +38,11 @@ module Absolution {
         this.system.setNode(userVar.name, userVar.expr);
       }
 
+      // add the virtual rects from the stylesheet
+      for (let options of this.env.getVirtuals()) {
+        new VirtualRect(this, options);
+      }
+
       // walk the dom and find elements with a-attributes
       if (options.findElements) {
         this.env.findRectElements(root, (el: HTMLElement, options: RectOptions) => {
