@@ -42,7 +42,7 @@ class Layout {
           if (el.hasAttribute("r-id")) {
             el.getAttribute("r-id");
           } else {
-            id = el.id ? el.id : this.guid();
+            id = el.id ? el.id : Utils.guid();
           }
 
           let container = "document";
@@ -90,15 +90,6 @@ class Layout {
   assign(name: string, value: number): void {
     this.system.assign(name, value);
     this.update();
-  }
-
-  private guid(): string {
-    function s4() {
-      return Math.floor((1 + Math.random()) * 0x10000)
-        .toString(16)
-        .substring(1);
-    }
-    return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
   }
 
 }

@@ -22,13 +22,6 @@ const enum Axis { X, Y, NONE }
 const enum XDependency { LEFT_AND_WIDTH, LEFT, WIDTH, NONE }
 const enum YDependency { TOP_AND_HEIGHT, TOP, HEIGHT, NONE }
 
-interface RectPosition {
-  left:   number;
-  top:    number;
-  width:  number;
-  height: number;
-}
-
 class ElementRect implements Rect {
 
   private expressions: { [propertyName: string]: string; } = {};
@@ -166,7 +159,7 @@ class ElementRect implements Rect {
       return;
     }
 
-    let position = this.element.getBoundingClientRect();
+    let position = Utils.getRectPosition(this.element);
 
     // x axis
     switch (this.xAxisDependencies) {

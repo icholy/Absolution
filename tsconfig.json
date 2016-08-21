@@ -9,6 +9,7 @@
     "src/Constraints/Parser.ts",
     "src/Constraints/Relationships.ts",
     "src/Constraints/System.ts",
+    "src/Utils.ts",
     "src/Rect.ts",
     "src/DocumentRect.ts",
     "src/ElementRect.ts",

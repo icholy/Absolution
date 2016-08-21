@@ -1,0 +1,24 @@
+
+interface RectPosition {
+  left:   number;
+  top:    number;
+  width:  number;
+  height: number;
+}
+
+class Utils {
+
+  static guid(): string {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
+  }
+
+  static getRectPosition(element: HTMLElement): RectPosition {
+    return element.getBoundingClientRect();
+  }
+
+}
