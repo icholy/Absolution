@@ -49,5 +49,4 @@ layout.assign("x", 100);
 * `r-center-in`
 * `r-container`
 
-If you're anal, you can use `data-` prefixes.
 
