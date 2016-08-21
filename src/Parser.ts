@@ -1,18 +1,22 @@
 
 module Robin {
 
-  declare var GeneratedParser: {
-    parse(input: string, startRule?: string): any;
+  interface ParseOptions {
+    startRule?: string;
+  }
+
+  export declare var GeneratedParser: {
+    parse(input: string, options?: ParseOptions): any;
   };
 
   export module Parser {
 
     export function expression(input: string): any {
-      return GeneratedParser.parse(input, "expression");
+      return GeneratedParser.parse(input, { startRule: "expression" });
     }
 
     export function rulesets(input: string): any {
-      return GeneratedParser.parse(input, "rulesets");
+      return GeneratedParser.parse(input, { startRule: "rulesets" });
     }
 
     export interface NumberNode {

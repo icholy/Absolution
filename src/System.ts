@@ -53,7 +53,7 @@ module Robin {
         return;
       }
       if (typeof v === "string") {
-        this.equals(name, this.evaluate(v));
+        this.equals(name, this.parse(v));
         return
       }
       throw new Error(`it's not a value value ${v}`)
@@ -176,38 +176,34 @@ module Robin {
       }
     }
 
-    private evaluate(expr: string): Variable {
-      let parser = new Parser();
-      let tokens = parser.tokenize(expr);
-      let rpn = parser.infixToRPN(tokens);
+    private parse(expr: string): Variable {
+      let root = Parser.expression(expr);
+      return this.evaluate(root);
+    }
 
-      let values   = [];
+    private evaluate(node: any): Variable {
 
-      for (let token of rpn) {
-        switch (token.type) {
-          case Type.VARIABLE:
-            values.push(this.getVariable(token.value));
-            break;
-          case Type.NUMBER:
-            let v = new Variable("Const");
-            v.assignValue(token.value);
-            values.push(v);
-            break;
-          case Type.OPERATOR:
-            if (values.length < 2) {
-              throw new Error("invalid expression");
-            }
-            let right = values.pop();
-            let left = values.pop();
-            let operator = token.value;
-            values.push(this.createRelationship(operator, left, right));
-            break;
-          default:
-            throw new Error("invalid expression");
-        }
+      if (Parser.isIdent(node)) {
+        return this.getVariable(node.value);
       }
 
-      return values[0];
+      if (Parser.isNumber(node)) {
+        let v = new Variable("Const");
+        v.assignValue(node.value);
+        return v;
+      }
+
+      if (Parser.isBinaryOp(node)) {
+        let left  = this.evaluate(node.left);
+        let right = this.evaluate(node.right);
+        return this.createRelationship(node.op, left, right);
+      }
+
+      if (Parser.isFuncCall(node)) {
+        throw new Error("functions not supported yet");
+      }
+
+      throw new Error("invalid expression");
     }
 
     private createRelationship(operator: string, left: Variable, right: Variable): Variable {

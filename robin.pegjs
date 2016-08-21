@@ -50,27 +50,35 @@ multiply_or_divide
   / primary
 
 primary
-  = integer
+  = numeric
     / "(" expr:expression ")" {
         return expr;
       }
     / name:ident "(" params:expression* ")" {
       return {
         tag:    "func_call",
-        name:   name,
+        name:   name.value,
         params: params
       };
     }
     / ident
 
-integer
-  = value:(("+" / "-")? [0-9]+) unit:("px" / "em")? {
-  	  if (unit === "em") {
-      	throw new Error("'em' unit is not currently supported");
+numeric
+  = sign:("-" / "+")? value:[0-9]+ decimal:("." [0-9]*)? unit:("px" / "em")? {
+      if (unit === "em") {
+        throw new Error("'em' unit is not currently supported");
+      }
+      var str = "";
+      if (sign) {
+        str += "-";
+      }
+      str += value;
+      if (decimal) {
+        str += "." + decimal[1].join("");
       }
       return {
-        tag:   "number",
-        value: parseInt(value, 10);
+        tag: "number",
+        value: parseFloat(str, 10)
       };
     }
 

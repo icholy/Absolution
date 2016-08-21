@@ -13,6 +13,57 @@ describe("Robin", function () {
 
   });
 
+  describe("GeneratedParser", function () {
+
+    describe("Expressions", function () {
+
+      function parse(input) {
+        return Robin.GeneratedParser.parse(input, { startRule: "expression" });
+      }
+
+      it("should parse a number", function () {
+        var node = parse("1");
+        expect(node.value).toEqual(1);
+      });
+
+      it("should parse a negative number", function () {
+        var node = parse("-1");
+        expect(node.value).toEqual(-1);
+      });
+
+      it("should parse decimal numbers", function () {
+        var node = parse("1.1");
+        expect(node.value).toEqual(1.1);
+      });
+
+      it("should parse negative decimal numbers", function () {
+        var node = parse("-5.43");
+        expect(node.value).toEqual(-5.43);
+      });
+
+      it("should parse a variable name", function () {
+        var node = parse("$fo-o_");
+        expect(node.value).toEqual("$fo-o_");
+      });
+
+      it("should parse basic arithmetic", function () {
+        var node = parse("a + 1");
+        expect(node.tag).toEqual("op");
+        expect(node.op).toEqual("+");
+        expect(node.left.value).toEqual("a");
+        expect(node.right.value).toEqual(1);
+      });
+
+      it("should parse function calls", function () {
+        var node = parse("foo(1)");
+        expect(node.tag).toEqual("func_call");
+        expect(node.name).toEqual("foo");
+      });
+
+    });
+
+  });
+
   describe("System", function () {
 
     var system = new Robin.System();
@@ -97,60 +148,6 @@ describe("Robin", function () {
 
     });
     
-  });
-
-  describe("Parser", function () {
-
-    var parser = new Robin.Parser();
-
-    function tokensToString(tokens) {
-      return tokens.map(function (token) {
-        return token.value;
-      }).join(" ");
-    }
-
-    describe("Tokenizer", function () {
-
-      var testCases = [
-        { input: "1 + 1",       output: "1 + 1"         },
-        { input: "1/1",         output: "1 / 1"         },
-        { input: "1*1+    10",  output: "1 * 1 + 10"    },
-        { input: "A+1",         output: "A + 1"         },
-        { input: "L + (W / 2)", output: "L + ( W / 2 )" },
-        { input: "foo-bar + 1", output: "foo-bar + 1"   },
-        { input: "-1 + -2",     output: "-1 + -2"       }
-      ];
-
-      testCases.forEach(function (testCase) {
-        it("should tokenize " + testCase.input, function () {
-          var tokens = parser.tokenize(testCase.input);
-          expect(tokensToString(tokens)).toEqual(testCase.output);
-        });
-      });
-
-    });
-
-    describe("RPN", function () {
-
-      var testCases = [
-        { input: "1 + 1",          output: "1 1 +"          },
-        { input: "1 + 1 * 3",      output: "1 1 3 * +"      },
-        { input: "4 / 5 + 10 / 3", output: "4 5 / 10 3 / +" },
-        { input: "(1 + 2) /2",     output: "1 2 + 2 /"      },
-        { input: "A / 5 + 10 / X", output: "A 5 / 10 X / +" },
-        { input: "L + (W / 2)",    output: "L W 2 / +"      }
-      ];
-
-      testCases.forEach(function (testCase) {
-        it("should convert " + testCase.input + " to RPN", function () {
-          var tokens = parser.tokenize(testCase.input);
-          var rpn = parser.infixToRPN(tokens);
-          expect(tokensToString(rpn)).toEqual(testCase.output);
-        });
-      });
-
-    });
-
   });
 
 });
