@@ -118,21 +118,10 @@
 
     window.layout = new Robin.Layout();
 
-    layout.system.func("max", function (a, b) {
-      return Math.max(a, b);
-    });
-
-    layout.system.func("min", function (a, b) {
-      return Math.min(a, b);
-    });
-
-    layout.system.func("sin", function (x) {
-      return Math.sin(x);
-    });
-
-    layout.system.func("cos", function (x) {
-      return Math.cos(x);
-    });
+    layout.system.func("max", Math.max.bind(Math));
+    layout.system.func("min", Math.min.bind(Math));
+    layout.system.func("sin", Math.sin.bind(Math));
+    layout.system.func("cos", Math.cos.bind(Math));
 
     layout.attachTo(document.body);
 
