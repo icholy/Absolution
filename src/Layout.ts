@@ -46,42 +46,42 @@ class Layout {
       "data-r-center-in": "center-in"
     };
 
-      let isRegistered = false;
-      let rect: ElementRect = null;
+    let isRegistered = false;
+    let rect: ElementRect = null;
 
-      for (let i = 0; i < el.attributes.length; i++) {
-        let attr = el.attributes.item(i);
-        if (!attributeMap.hasOwnProperty(attr.name)) {
-          continue;
-        }
-        if (!isRegistered) {
-          let id = this.getAttribute(el, "id");
-          if (!id) {
-            id = el.id ? el.id : Utils.guid();
-          }
-          let container = this.getAttribute(el, "contaner");
-          if (!container) {
-            container = "document";
-          }
-          rect = new ElementRect(id, el, container, this.system);
-          this.rects.push(rect);
-          isRegistered = true;
-        }
-        let property = attributeMap[attr.name];
-        switch (property) {
-          case "center-in":
-            let parentId = attr.textContent;
-            rect.constrain("center-x", `${parentId}.center-x`);
-            rect.constrain("center-y", `${parentId}.center-y`);
-            break;
-          case "register":
-          case "container":
-          case "id":
-            break;
-          default:
-            rect.constrain(property, attr.textContent);
-        }
+    for (let i = 0; i < el.attributes.length; i++) {
+      let attr = el.attributes.item(i);
+      if (!attributeMap.hasOwnProperty(attr.name)) {
+        continue;
       }
+      if (!isRegistered) {
+        let id = this.getAttribute(el, "id");
+        if (!id) {
+          id = el.id ? el.id : Utils.guid();
+        }
+        let container = this.getAttribute(el, "contaner");
+        if (!container) {
+          container = "document";
+        }
+        rect = new ElementRect(id, el, container, this.system);
+        this.rects.push(rect);
+        isRegistered = true;
+      }
+      let property = attributeMap[attr.name];
+      switch (property) {
+        case "center-in":
+          let parentId = attr.textContent;
+          rect.constrain("center-x", `${parentId}.center-x`);
+          rect.constrain("center-y", `${parentId}.center-y`);
+          break;
+        case "register":
+        case "container":
+        case "id":
+          break;
+        default:
+          rect.constrain(property, attr.textContent);
+      }
+    }
   }
 
   private getAttribute(element: HTMLElement, name: string): string {
