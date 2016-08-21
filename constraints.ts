@@ -326,17 +326,23 @@ module Constraints {
     }
 
     /**
-     * Clear a variable's value
+     * Clear a variable's value. If a variable name is not passed, all are cleared.
      */
-    clear(name: string): void {
-      this.getVariable(name).clearValue();
+    clear(name?: string): void {
+      if (name) {
+        this.getVariable(name).clearValue();
+      } else {
+        Object.keys(this.variables).forEach(name => this.clear(name))
+      }
     }
 
     /**
-     * Clear all variables
+     * Reset the whole system
      */
     reset(): void {
-      Object.keys(this.variables).forEach(name => this.clear(name))
+      this.variableId = 0;
+      this.variables = {};
+      this.operations = [];
     }
 
     /**
@@ -402,7 +408,6 @@ module Constraints {
         let param1 = this.evalute(ast[1]);
         let param2 = this.evalute(ast[2]);
         let result = this.createIntermediate();
-
         switch (operator) {
           case "+":
             this.add(result, param1, param2);
