@@ -35,10 +35,10 @@ module Constraints {
       this.isSet = false;
     }
 
-    setValue(v: number, id: number = -1): void {
+    setValue(v: number): void {
       if (this.isSet) {
         if (v !== this.value) {
-          throw new Error(`Contradiction: ${this.name} is already set`);
+          throw new Error(`Contradiction: ${this.toString()} is already set`);
         } else {
           return;
         }
@@ -49,7 +49,7 @@ module Constraints {
     }
 
     getValue(): number {
-      return this.value;
+      return this.isSet ? this.value : null;
     }
 
     hasValue(): boolean {
@@ -58,6 +58,10 @@ module Constraints {
 
     clearValue(): void {
       this.isSet = false;
+    }
+
+    toString(): string {
+      return `${this.name}(${this.getValue()})`;
     }
 
   }
@@ -76,14 +80,19 @@ module Constraints {
       return true;
     }
 
-    setValue(v: number, id: number = -1): void {
+    setValue(v: number): void {
       if (v !== this.value) {
-        throw new Error(`Contradiction: ${this.value} constant cannot be set`);
+        throw new Error(
+          `Contradiction: attempting to set ${this.toString()} to ${v}`);
       }
     }
 
     clearValue(): void {
       // do nothing
+    }
+
+    toString(): string {
+      return `Const(${this.value})`;
     }
     
   }
@@ -103,14 +112,11 @@ module Constraints {
       for (let c of connectors) {
         c.onNotify(() => this.connectorValueChanged());
       }
+      this.connectorValueChanged();
     }
 
     protected haveValues(...connectors: Connector[]): boolean {
       return connectors.every(c => c.hasValue());
-    }
-
-    getId(): number {
-      return this.id;
     }
 
   }
@@ -127,21 +133,24 @@ module Constraints {
     }
 
     connectorValueChanged(): void {
-      let id = this.getId();
       switch (true) {
         case this.haveValues(this.addend1, this.addend2):
           this.sum.setValue(
-              this.addend1.getValue() + this.addend2.getValue(), id);
+              this.addend1.getValue() + this.addend2.getValue());
           break;
         case this.haveValues(this.addend1, this.sum):
           this.addend2.setValue(
-              this.sum.getValue() - this.addend1.getValue(), id);
+              this.sum.getValue() - this.addend1.getValue());
           break;
         case this.haveValues(this.addend2, this.sum):
           this.addend1.setValue(
-              this.sum.getValue() - this.addend2.getValue(), id);
+              this.sum.getValue() - this.addend2.getValue());
           break;
       }
+    }
+
+    toString(): string {
+      return `${this.addend1} + ${this.addend2} = ${this.sum}`;
     }
 
   }
@@ -158,21 +167,24 @@ module Constraints {
     }
 
     connectorValueChanged() {
-      let id = this.getId();
       switch (true) {
         case this.haveValues(this.mult1, this.mult2):
           this.product.setValue(
-              this.mult1.getValue() * this.mult2.getValue(), id);
+              this.mult1.getValue() * this.mult2.getValue());
           break;
         case this.haveValues(this.product, this.mult1):
           this.mult2.setValue(
-              this.product.getValue() / this.mult1.getValue(), id);
+              this.product.getValue() / this.mult1.getValue());
           break;
         case this.haveValues(this.product, this.mult2):
           this.mult1.setValue(
-              this.product.getValue() / this.mult2.getValue(), id);
+              this.product.getValue() / this.mult2.getValue());
           break;
       }
+    }
+
+    toString(): string {
+      return `${this.mult1} * ${this.mult2} = ${this.product}`;
     }
 
   }
@@ -189,21 +201,24 @@ module Constraints {
     }
 
     connectorValueChanged() {
-      let id = this.getId();
       switch (true) {
         case this.haveValues(this.minuend, this.subtrahend):
           this.difference.setValue(
-              this.minuend.getValue() - this.subtrahend.getValue(), id);
+              this.minuend.getValue() - this.subtrahend.getValue());
           break;
         case this.haveValues(this.minuend, this.difference):
           this.subtrahend.setValue(
-              this.minuend.getValue() - this.difference.getValue(), id);
+              this.minuend.getValue() - this.difference.getValue());
           break;
         case this.haveValues(this.subtrahend, this.difference):
           this.minuend.setValue(
-              this.subtrahend.getValue() + this.difference.getValue(), id);
+              this.subtrahend.getValue() + this.difference.getValue());
           break;
       }
+    }
+
+    toString(): string {
+      return `${this.minuend} - ${this.subtrahend} = ${this.difference}`;
     }
 
   }
@@ -220,20 +235,23 @@ module Constraints {
     }
 
     connectorValueChanged(): void {
-      let id = this.getId();
       switch (true) {
         case this.haveValues(this.dividend, this.divisor):
           this.quotient.setValue(
-              this.dividend.getValue() / this.divisor.getValue(), id);
+              this.dividend.getValue() / this.divisor.getValue());
           break;
         case this.haveValues(this.dividend, this.quotient):
           this.divisor.setValue(
-              this.dividend.getValue() / this.quotient.getValue(), id);
+              this.dividend.getValue() / this.quotient.getValue());
           break;
         case this.haveValues(this.divisor, this.quotient):
           this.dividend.setValue(
-              this.divisor.getValue() * this.quotient.getValue(), id);
+              this.divisor.getValue() * this.quotient.getValue());
       }
+    }
+
+    toString(): string {
+      return `${this.dividend} / ${this.divisor} = ${this.quotient}`;
     }
 
   }
@@ -308,6 +326,10 @@ module Constraints {
         this.connectorFor(divisor),
         this.connectorFor(quotient)
       ));
+    }
+
+    toString(): string {
+      return this.operations.map(op => op.toString()).join("\n");
     }
 
   }
