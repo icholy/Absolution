@@ -223,8 +223,7 @@ class System {
 
   private createIntermediate(): Variable {
     let id = this.idsequence++;
-    let con = this.getVariable(`$${id}`);
-    return con;
+    return this.getVariable(`$${id}`);
   }
 
   private variableFor(v: Value): Variable {
