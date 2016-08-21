@@ -59,23 +59,23 @@ class Parser {
       if (isWhiteSpace(c)) {
         maybeAddToken();
       } else if (c === "(") {
-		maybeAddToken();
+        maybeAddToken();
         lexems.push({
           type:  Type.LEFT_PAREN,
           value: c
         });
-	  } else if (c === ")") {
-		maybeAddToken();
-        lexems.push({
-          type:  Type.RIGHT_PAREN,
-          value: c
-        });
-	  } else if (isOperator(c)) {
-		maybeAddToken();
-        lexems.push({
-          type:  Type.OPERATOR,
-          value: c
-        });
+      } else if (c === ")") {
+          maybeAddToken();
+          lexems.push({
+            type:  Type.RIGHT_PAREN,
+            value: c
+          });
+      } else if (isOperator(c)) {
+          maybeAddToken();
+          lexems.push({
+            type:  Type.OPERATOR,
+            value: c
+          });
       } else {
         token += c;
       }
@@ -98,7 +98,7 @@ class Parser {
     let precedence = (token: Lexeme) => {
       return this.precedence[token.value];
     };
-	
+
     for (let token of tokens) {
 
       switch (token.type) {
@@ -113,7 +113,7 @@ class Parser {
             output.push(operators.pop());
           }
           operators.push(token);
-		  break;
+          break;
         case Type.LEFT_PAREN:
           operators.push(token);
           break;
@@ -123,7 +123,7 @@ class Parser {
             output.push(op);
             op = operators.pop();
           }
-		  break;
+          break;
       }
     }
 
