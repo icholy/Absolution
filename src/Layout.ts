@@ -63,6 +63,7 @@ module Robin {
       this.rects.push(new DocumentRect(this));
       this.rects.push(new BodyRect(this));
 
+      // find rulesets from script tags
       let scriptTags = document.getElementsByTagName("script");
       for (let i = 0; i < scriptTags.length; i++) {
         let scriptTag = scriptTags.item(i);
