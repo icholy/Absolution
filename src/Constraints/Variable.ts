@@ -57,6 +57,14 @@ module Constraints {
       return this.relationships;
     }
 
+    canDestroy(): boolean {
+      return !this.shouldPreserve && this.relationships.length === 0;
+    }
+
+    getName(): string {
+      return this.name;
+    }
+
     toString(): string {
       return `${this.name}(${this.getValue()})`;
     }

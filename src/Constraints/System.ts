@@ -155,6 +155,25 @@ module Constraints {
       return this.relationships.map(rel => rel.toString()).join("\n");
     }
 
+    private destroyVariable(v: Variable): void {
+      let name = v.getName();
+      delete this.variables[name];
+      for (let r of v.getRelationships()) {
+        this.destroyRelationship(r);
+      }
+    }
+
+    private destroyRelationship(r: Relationship): void {
+      let index = this.relationships.indexOf(r);
+      this.relationships.splice(index, 1);
+      for (let v of r.getVariables()) {
+        v.detach(r);
+        if (v.canDestroy()) {
+          this.destroyVariable(v);
+        }
+      }
+    }
+
     private evaluate(expr: string): Variable {
       let parser = new Parser();
       let tokens = parser.tokenize(expr);
@@ -214,6 +233,12 @@ module Constraints {
         this.variables[name] = new Variable(name);
       }
       return this.variables[name];
+    }
+
+    removeVariable(name: string): Variable {
+      if (this.has(name)) {
+        this.destroyVariable(this.variables[name]);
+      }
     }
 
     private createIntermediate(): Variable {
