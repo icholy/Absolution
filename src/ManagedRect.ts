@@ -102,17 +102,20 @@ module Robin {
      */
     private updateRectPosition(): void {
       let update: RectPositionUpdate = {
-        left:   this.leftOffset.getValue(),
-        top:    this.topOffset.getValue(),
-        width:  this.width.getValue(),
-        height: this.height.getValue(),
 
+        // these flags are set by the axis if the rect
+        // should use them to update itself
         hasAny:    false,
         hasOffset: false,
         hasLeft:   false,
         hasTop:    false,
         hasWidth:  false,
-        hasHeight: false
+        hasHeight: false,
+
+        left:   this.leftOffset.getValue(),
+        top:    this.topOffset.getValue(),
+        width:  this.width.getValue(),
+        height: this.height.getValue()
       };
       if (this.isConstrainedPositionDifferent(update)) {
         this.xAxis.updateRect(update);
