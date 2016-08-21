@@ -3,17 +3,6 @@ module Robin {
 
   export const enum Axis { X, Y, NONE }
 
-  export let propertyToAxis = {} as { [property: any]: Axis; };
-  propertyToAxis[Property.BOTTOM]   = Axis.X;
-  propertyToAxis[Property.LEFT]     = Axis.X;
-  propertyToAxis[Property.WIDTH]    = Axis.X;
-  propertyToAxis[Property.RIGHT]    = Axis.X;
-  propertyToAxis[Property.CENTER_X] = Axis.X;
-  propertyToAxis[Property.TOP]      = Axis.Y;
-  propertyToAxis[Property.HEIGHT]   = Axis.Y;
-  propertyToAxis[Property.BOTTOM]   = Axis.Y;
-  propertyToAxis[Property.CENTER_Y] = Axis.Y;
-
   export const enum Property {
 
     // X Axis
@@ -33,6 +22,17 @@ module Robin {
     "height":   Property.HEIGHT,
     "center-y": Property.CENTER_Y
   };
+
+  export let propertyToAxis = {} as { [property: any]: Axis; };
+  propertyToAxis[Property.BOTTOM]   = Axis.X;
+  propertyToAxis[Property.LEFT]     = Axis.X;
+  propertyToAxis[Property.WIDTH]    = Axis.X;
+  propertyToAxis[Property.RIGHT]    = Axis.X;
+  propertyToAxis[Property.CENTER_X] = Axis.X;
+  propertyToAxis[Property.TOP]      = Axis.Y;
+  propertyToAxis[Property.HEIGHT]   = Axis.Y;
+  propertyToAxis[Property.BOTTOM]   = Axis.Y;
+  propertyToAxis[Property.CENTER_Y] = Axis.Y;
 
   export interface XAxis {
     constrain(property: Property): XAxis;
