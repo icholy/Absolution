@@ -5,6 +5,7 @@ module Robin {
     container: string;
     watcher:   string;
     rules:     Rule[];
+    context?:  Context;
   }
 
   export abstract class ManagedRect extends Rect {
@@ -32,7 +33,7 @@ module Robin {
       super(layout, options.id, options.container);
 
       for (let rule of options.rules) {
-        this.constrain(rule.target, rule.expr.text, rule.expr);
+        this.constrain(rule, options.context);
       }
 
       if (options.watcher) {
@@ -74,7 +75,12 @@ module Robin {
      * Constrain a property name to equal the expression.
      * There can only be two constraints per axis.
      */
-    private constrain(propertyName: string, expression: string, node: any): void {
+    private constrain(rule: Rule, context: Context): void {
+
+      let propertyName = rule.target;
+      let expression = rule.expr.text;
+      let node = rule.expr;
+
       try {
 
         let property = this.getPropertyByName(propertyName);
