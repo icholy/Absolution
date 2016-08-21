@@ -2,12 +2,13 @@
 class ElementRect extends Rect {
 
   constructor(
+    id:     string,
     system: Constraints.System,
 
     private element:   HTMLElement,
     private container: HTMLElement
   ) {
-    super(system, element.id);
+    super(system, id);
   }
 
   getPosition(): RectPosition {

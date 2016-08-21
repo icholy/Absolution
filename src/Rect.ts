@@ -56,10 +56,6 @@ abstract class Rect {
     protected id:     string
   ) {
 
-    if (!id) {
-      this.id = id = this.guid();
-    }
-
     // x axis
     system.subtract(`${id}.width`, `${id}.right`, `${id}.left`);
     system.divide(`${id}_tmp1`, `${id}.width`, 2);
@@ -276,15 +272,6 @@ abstract class Rect {
       return `\t${this.id}.${propertyName} = ${this.expressions[propertyName]}`
     }).join("\n");
     return `cannot set ${description} because ${reason}\n\nConstraints:\n\n${expressions}`;
-  }
-
-  private guid(): string {
-    function s4() {
-      return Math.floor((1 + Math.random()) * 0x10000)
-        .toString(16)
-        .substring(1);
-    }
-    return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
   }
 
 }
