@@ -46,3 +46,5 @@ layout.assign("x", 100);
 * `r-center-in`
 * `r-center-x`
 * `r-center-y`
+* `r-size`
+* `r-relative-to`
