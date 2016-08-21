@@ -2,7 +2,7 @@ module Absolution {
 
   export interface ManagerOptions {
 
-    // Find and parser script tags with where type="text/absolution"
+    // Find and parse script tags where type="text/absolution"
     findStyleSheets?: boolean;
 
     // Walk the dom and find elements with `a-rect` or `a-style` attributes.
