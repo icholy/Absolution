@@ -30,7 +30,7 @@ module Robin.Angular {
     }
 
     getVariable(name: string): Variable {
-      if (!this.variables.hasOwnProperty(name)) {
+      if (!(name in this.variables)) {
         this.variables[name] = this.makeVariable(name);
       }
       return this.variables[name];
