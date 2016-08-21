@@ -83,7 +83,7 @@ module Robin {
      * Constrain a property name to equal the expression.
      * There can only be two constraints per axis.
      */
-    private constrain(rule: Rule, ctx: Context): void {
+    protected constrain(rule: Rule, ctx: Context): void {
 
       let propertyName = rule.target;
       let expression = rule.expr.text;

@@ -70,4 +70,20 @@ module Robin {
 
   }
 
+  export class ClassRect extends ManagedRect {
+
+    public rules: Rule[] = [];
+
+    protected constrain(rule: Rule, ctx: Context): void {
+      super.constrain(rule, ctx);
+      let target = rule.target;
+      this.rules.push({
+        target: target,
+        text:   `${this.id}.${target}`,
+        expr:   { tag: "ident", value: target }
+      });
+    }
+
+  }
+
 }
