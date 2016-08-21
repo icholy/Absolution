@@ -222,7 +222,12 @@ module Robin {
       }
 
       if (Parser.isFuncCall(node)) {
-        throw new Error("functions not supported yet");
+        if (node.params.length !== 2) {
+          throw new Error("functions can only take 2 parameters");
+        }
+        let left = this.evaluate(node.params[0]);
+        let right = this.evaluate(node.params[1]);
+        return this.createRelationship(node.name, left, right);
       }
 
       throw new Error("invalid expression");
@@ -242,6 +247,12 @@ module Robin {
           break;
         case "/":
           this.divide(result, left, right);
+          break;
+        case "min":
+          this.min(result, left, right);
+          break;
+        case "max":
+          this.max(result, left, right);
           break;
         default:
           throw new Error(`Syntax Error: invalid operator ${operator}`);

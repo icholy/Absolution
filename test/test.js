@@ -140,12 +140,10 @@ describe("Robin", function () {
       });
 
       it("should correctly parse complex expressions", function () {
-
         system.$.W = "R - L";
         system.$.C = "L + (W / 2)";
         system.$.L = 10;
         system.$.R = 20;
-
         expect(system.$.W).toEqual(10);
         expect(system.$.C).toEqual(15);
       });
@@ -153,8 +151,13 @@ describe("Robin", function () {
       it("should correctly parse expression with negative numbers", function () {
         system.$.A = "-1 + B";
         system.$.B = 10;
-
         expect(system.$.A).toEqual(9);
+      });
+
+      it("should parse expressions with functions", function () {
+        system.$.A = "1 + min(C, 5)";
+        system.$.C = 3;
+        expect(system.$.A).toEqual(4);
       });
 
     });
