@@ -13,6 +13,7 @@
     "src/Axis.ts",
     "src/Rect.ts",
     "src/SpecialRects.ts",
+    "src/ManagedRect.ts",
     "src/ElementRect.ts",
     "src/Layout.ts",
     "src/Watcher.ts"
