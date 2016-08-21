@@ -18,6 +18,8 @@ module Robin {
       while (el = iterator.nextNode() as any) {
         this.handleNewElement(el);
       }
+
+      this.update();
     }
 
     private handleNewElement(el: HTMLElement): void {
@@ -35,6 +37,10 @@ module Robin {
         "r-register":  "register",
         "r-container": "container",
         "r-center-in": "center-in",
+        "r-align-x":   "align-x",
+        "r-align-y":   "align-y",
+        "r-size":      "size",
+        "r-fill":      "fill",
 
         "data-r-id":        "id",
         "data-r-left":      "left",
@@ -47,7 +53,11 @@ module Robin {
         "data-r-center-y":  "center-y",
         "data-r-register":  "register",
         "data-r-container": "container",
-        "data-r-center-in": "center-in"
+        "data-r-center-in": "center-in",
+        "data-r-align-x":   "align-x",
+        "data-r-align-y":   "align-y",
+        "data-r-size":      "size",
+        "data-r-fill":      "fill"
       };
 
       let isRegistered = false;
@@ -72,11 +82,29 @@ module Robin {
           isRegistered = true;
         }
         let property = attributeMap[attr.name];
+        let parentId = attr.textContent;
         switch (property) {
           case "center-in":
-            let parentId = attr.textContent;
             rect.constrain("center-x", `${parentId}.center-x`);
             rect.constrain("center-y", `${parentId}.center-y`);
+            break;
+          case "align-x":
+            rect.constrain("left", `${parentId}.left`);
+            rect.constrain("right", `${parentId}.right`);
+            break;
+          case "align-y":
+            rect.constrain("top", `${parentId}.top`);
+            rect.constrain("bottom", `${parentId}.bottom`);
+            break;
+          case "size":
+            rect.constrain("width", `${parentId}.width`);
+            rect.constrain("height", `${parentId}.height`);
+            break;
+          case "fill":
+            rect.constrain("top", `${parentId}.top`);
+            rect.constrain("bottom", `${parentId}.bottom`);
+            rect.constrain("left", `${parentId}.left`);
+            rect.constrain("right", `${parentId}.right`);
             break;
           case "register":
           case "container":

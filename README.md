@@ -48,5 +48,9 @@ layout.assign("x", 100);
 * `r-center-y`
 * `r-center-in`
 * `r-container`
+* `r-align-x`
+* `r-align-y`
+* `r-fill`
+* `r-size`
 
 
