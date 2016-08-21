@@ -41,8 +41,7 @@ module Robin.Angular {
     private makeFunction(name: string): FuncEntry {
       return {
         name:  name,
-        func:  this.$scope[name],
-        arity: this.$scope[name].length
+        func:  this.$scope[name]
       };
     }
 

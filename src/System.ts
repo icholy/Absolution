@@ -8,7 +8,6 @@ module Robin {
   export interface FuncEntry {
     name:  string;
     func:  Function;
-    arity: number;
   }
 
   export interface Context {
@@ -58,11 +57,11 @@ module Robin {
     /**
      * Register a function
      */
-    func(name: string, func: CustomFunc, arity: number = func.length): void {
+    func(name: string, func: CustomFunc): void {
       if (this.hasFunction(name)) {
         throw new Error(`${name} function already registered`);
       }
-      this.funcs[name] = { name, func, arity };
+      this.funcs[name] = { name, func };
     }
 
     /**
@@ -213,7 +212,6 @@ module Robin {
       this.relationships.push(new CustomRelationship(
         entry.name,
         entry.func,
-        entry.arity,
         params.map(p => this.variableFor(p)),
         this.variableFor(out)
       ));

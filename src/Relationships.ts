@@ -202,18 +202,11 @@ module Robin {
     constructor(
       private name:  string,
       private func:  CustomFunc,
-      private arity: number,
 
       private input:  Variable[],
       private output: Variable
     ) {
       super();
-
-      if (input.length !== arity) {
-        throw new Error(`${name}(...) takes ${func.length} 3 parameters, ` +
-                        `but ${input.length} input variables were given`);
-      }
-
       this.attachTo(...input);
     }
 
