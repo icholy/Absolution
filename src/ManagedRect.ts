@@ -186,13 +186,7 @@ module Absolution {
      * Destroy the Rect and all its variables.
      */
     destroy(): void {
-      let system = this.system;
-      system.destroyVariable(this.top);
-      system.destroyVariable(this.topOffset);
-      system.destroyVariable(this.height);
-      system.destroyVariable(this.left);
-      system.destroyVariable(this.leftOffset);
-      system.destroyVariable(this.width);
+      super.destroy();
       for (let watcher of this.watchers) {
         watcher.destroy();
       }
