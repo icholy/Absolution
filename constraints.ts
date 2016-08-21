@@ -114,6 +114,33 @@ module Constraints {
 
   }
 
+  export class Equaler extends Operation {
+
+    constructor(
+      private left: Connector,
+      private right: Connector
+    ) {
+      super();
+      this.listenTo(left, right);
+    }
+
+    connectorValueChanged(): void {
+      switch (true) {
+        case this.left.hasValue():
+          this.right.setValue(this.left.getValue());
+          break;
+        case this.right.hasValue():
+          this.left.setValue(this.right.getValue());
+          break;
+      }
+    }
+
+    toString(): string {
+      return `${this.left} = ${this.right}`;
+    }
+
+  }
+
   export class Adder extends Operation {
 
     constructor(
@@ -300,6 +327,16 @@ module Constraints {
      */
     reset(): void {
       Object.keys(this.variables).forEach(name => this.clear(name))
+    }
+
+    /**
+     * left = right
+     */
+    equals(left: Value, right: Value): void {
+      this.operations.push(new Equaler(
+        this.connectorFor(left),
+        this.connectorFor(right)
+      ));
     }
 
     /**
