@@ -27,6 +27,7 @@ class ElementManager {
   private id: string;
   private expressions: { [propertyName: string]: string; } = {};
   private constrained = [] as Property[];
+  private isDebug = false;
 
   // the dependencies are the element properties that are
   // reported to the constaint system when requested
@@ -102,19 +103,27 @@ class ElementManager {
     for (let property of this.constrained) {
       switch (property) {
         case Property.TOP:
-          style.top = `${this.top.getValue()}px`;
+          this.setStyle("top", this.top);
           break;
         case Property.HEIGHT:
-          style.height = `${this.height.getValue()}px`;
+          this.setStyle("height", this.height)
           break;
         case Property.LEFT:
-          style.left = `${this.left.getValue()}px`;
+          this.setStyle("left", this.left);
           break;
         case Property.WIDTH:
-          style.width = `${this.width.getValue()}px`;
+          this.setStyle("width", this.width);
           break;
       }
     }
+  }
+
+  private setStyle(name: string, variable: number): void {
+    let pixels = `${variable.getValue()}px`;
+    if (this.isDebug) {
+      console.debug(`(${this.id}) setting ${name} = ${pixels}`);
+    }
+    this.element.style[name] = pixels;
   }
   
   /**
