@@ -41,23 +41,32 @@
     }
 
   </style>
+
+  <script type="text/robin">
+
+    #A {
+      height: A.width * x;
+      right:  X.left;
+      bottom: X.top;
+    }
+
+    #B {
+      width:    A.width / 2;
+      height:   A.height / 2;
+      left:     A.left + (B.width * x);
+      center-y: A.center-y + (10 * x);
+    }
+
+  </script>
+
 </head>
 <body>
 
-  <div id="A" 
-    r-height="A.width * x"
-    r-right="X.left"
-    r-bottom="X.top">A</div>
-  <div class="green" id="B"
-    r-width="A.width / 2"
-    r-height="A.height / 2"
-    r-left="A.left + (B.width * x)"
-    r-center-y="A.center-y + (10 * x)">B</div>
-  <div id="C" style="background-color: blue"
-    r-left="B.right"
-    r-top="B.bottom"
-    r-height="B.height * 3"
-    r-width="200">
+  <div id="A">A</div>
+  <div class="green" id="B">B</div>
+  <div id="C"
+    style="background-color: blue"
+    r-style="left: B.right; top: B.bottom; height: B.height * 3; width: 200px">
   </div>
   <div style="background-color: orange"
     r-center-y="C.center-y"
@@ -66,7 +75,10 @@
     r-top="C.top + 200 * x">
   </div>
 
-  <div id="X" r-center-in="viewport" r-style="width: 100 * x" r-height="max(100 - 100 * x, 50)"></div>
+  <div id="X" 
+    r-center-in="viewport"
+    r-style="width: 100 * x"
+    r-height="max(100 - 100 * x, 50)"></div>
 
   <button id="pause">Pause</button>
 

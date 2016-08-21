@@ -63,11 +63,11 @@ module Robin {
       this.rects.push(new DocumentRect(this));
       this.rects.push(new BodyRect(this));
 
-      let styleTags = document.getElementsByTagName("style");
-      for (let i = 0; i < styleTags.length; i++) {
-        let styleTag = styleTags.item(i);
-        if (styleTag.getAttribute("type") === "text/robin") {
-          this.parseStyleSheet(styleTag.textContent);
+      let scriptTags = document.getElementsByTagName("script");
+      for (let i = 0; i < scriptTags.length; i++) {
+        let scriptTag = scriptTags.item(i);
+        if (scriptTag.getAttribute("type") === "text/robin") {
+          this.parseStyleSheet(scriptTag.textContent);
         }
       }
 
