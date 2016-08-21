@@ -56,26 +56,27 @@ class ElementManager {
   updateSystem(): void {
     let id = this.id;
     let rect = this.element.getBoundingClientRect();
+    console.log(rect);
     if (this.xAxisConstraints === 0) {
       this.system.set(`${id}.left`, rect.left);
-      this.system.set(`${id}.right`, rect.right);
+      this.system.set(`${id}.width`, rect.width);
     }
     else if (this.xAxisConstraints === 1) {
-      if (this.isConstrained("left")) {
-        this.system.set(`${id}.right`, rect.right);
-      } else {
+      if (this.isConstrained("width")) {
         this.system.set(`${id}.left`, rect.left);
+      } else {
+        this.system.set(`${id}.width`, rect.width);
       }
     }
     if (this.yAxisConstraints === 0) {
       this.system.set(`${id}.top`, rect.top);
-      this.system.set(`${id}.bottom`, rect.bottom);
+      this.system.set(`${id}.height`, rect.height);
     }
     else if (this.yAxisConstraints === 1) {
-      if (this.isConstrained("top")) {
-        this.system.set(`${id}.bottom`, rect.bottom);
+      if (this.isConstrained("height")) {
+        this.system.set(`${id}.top`, rect.height);
       } else {
-        this.system.set(`${id}.top`, rect.top);
+        this.system.set(`${id}.height`, rect.height);
       }
     }
   }
