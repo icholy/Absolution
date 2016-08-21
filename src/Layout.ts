@@ -73,16 +73,10 @@ class Layout {
   /**
    * Update the system from the element's actual values
    */
-  updateSystem(): void {
+  update(): void {
     for (let r of this.rects) {
       r.updateSystem();
     }
-  }
-
-  /**
-   * Update the elements with the system's value
-   */
-  updateLayout(): void {
     this.system.solve();
     for (let r of this.rects) {
       r.updateRect();
