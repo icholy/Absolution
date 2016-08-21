@@ -102,7 +102,7 @@ module Absolution.Angular {
       restrict: "A",
       require: [ "aRect", "?^^aRect" ],
       controller: Controller,
-      scope: true,
+      scope: false,
       link: {
         pre(scope: ng.IScope, element: ng.IAugmentedJQuery, attr: ng.IAttributes, [ctrl, pCtrl]: Controller[]): void {
           let el = element[0];
