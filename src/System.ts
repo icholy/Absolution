@@ -252,10 +252,7 @@ module Robin {
     private evaluate(node: Expression, ctx: Context): Variable {
       switch (node.tag) {
         case "ident":
-          if (ctx.hasVariable(node.value)) {
-            return ctx.getVariable(node.value);
-          }
-          return this.getVariable(node.value);
+          return this.getVariable(node.value, ctx);
         case "number":
           return new Constant(node.value);
         case "op":
@@ -310,7 +307,10 @@ module Robin {
     /**
      * Get or create a variable.
      */
-    getVariable(name: string): Variable {
+    getVariable(name: string, ctx: Context = emptyContext): Variable {
+      if (ctx.hasVariable(name)) {
+        return ctx.getVariable(name);
+      }
       if (!this.has(name)) {
         this.variables[name] = new Variable(name);
       }
