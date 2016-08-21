@@ -119,6 +119,14 @@ class ElementManager {
   }
   
   updateSystem(): void {
+
+    if (
+      this.xAxisDependencies === XDependency.NONE &&
+      this.yAxisDependencies === YDependency.NONE
+    ) {
+      return;
+    }
+
     let rect = this.getBoundingRect();
 
     // x axis
