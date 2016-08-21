@@ -256,7 +256,7 @@ module Absolution {
         case "ident":
         case "property":
           let name = ctx.identToName(node);
-          return this.getVariable(name);
+          return this.getVariable(name, ctx);
         case "number":
           return new Constant(node.value);
         case "op":
