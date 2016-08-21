@@ -1,44 +1,66 @@
 
 module Absolution {
 
+  /**
+   * Specifies which axis where's operating on.
+   */
   export const enum Axis { X, Y }
 
+  /**
+   * Specifies the propeties of a rect.
+   */
   export const enum Property {
     LEFT, RIGHT, WIDTH, CENTER_X, // X Axis
     TOP, BOTTOM, HEIGHT, CENTER_Y // Y Axis
   }
 
+  /**
+   * A RectPosition which also specifies which properties should
+   * be used to update the Element.
+   */
   export interface RectPositionUpdate extends RectPosition {
-    hasAny:    boolean;
-    hasLeft:   boolean;
-    hasTop:    boolean;
-    hasWidth:  boolean;
+    hasAny: boolean;
+    hasLeft: boolean;
+    hasTop: boolean;
+    hasWidth: boolean;
     hasHeight: boolean;
     hasOffset: boolean;
   }
 
+  /**
+   * A mapping between property names and the enumerated value.
+   */
   export const nameToProperty = {
-    "left":     Property.LEFT,
-    "right":    Property.RIGHT,
-    "width":    Property.WIDTH,
+    "left": Property.LEFT,
+    "right": Property.RIGHT,
+    "width": Property.WIDTH,
     "center-x": Property.CENTER_X,
-    "top":      Property.TOP,
-    "bottom":   Property.BOTTOM,
-    "height":   Property.HEIGHT,
+    "top": Property.TOP,
+    "bottom": Property.BOTTOM,
+    "height": Property.HEIGHT,
     "center-y": Property.CENTER_Y
   };
 
+  /**
+   * A mapping between the enumerated property values and the
+   * axis they're on.
+   */
   export let propertyToAxis = {} as { [property: number]: Axis; };
-  propertyToAxis[Property.BOTTOM]   = Axis.X;
-  propertyToAxis[Property.LEFT]     = Axis.X;
-  propertyToAxis[Property.WIDTH]    = Axis.X;
-  propertyToAxis[Property.RIGHT]    = Axis.X;
+  propertyToAxis[Property.BOTTOM] = Axis.X;
+  propertyToAxis[Property.LEFT] = Axis.X;
+  propertyToAxis[Property.WIDTH] = Axis.X;
+  propertyToAxis[Property.RIGHT] = Axis.X;
   propertyToAxis[Property.CENTER_X] = Axis.X;
-  propertyToAxis[Property.TOP]      = Axis.Y;
-  propertyToAxis[Property.HEIGHT]   = Axis.Y;
-  propertyToAxis[Property.BOTTOM]   = Axis.Y;
+  propertyToAxis[Property.TOP] = Axis.Y;
+  propertyToAxis[Property.HEIGHT] = Axis.Y;
+  propertyToAxis[Property.BOTTOM] = Axis.Y;
   propertyToAxis[Property.CENTER_Y] = Axis.Y;
 
+  /**
+   * ContrainedAxis defines the interface for an Axis' state.
+   * The implementations form a state-machine which is used to glue together an
+   * Element and it's backing Rect.
+   */
   export interface ConstrainedAxis {
 
     /**
@@ -85,12 +107,12 @@ module Absolution {
       return false;
     },
 
-    updateSystem(rect: ManagedRect, position: RectPosition): void {},
+    updateSystem(rect: ManagedRect, position: RectPosition): void { },
 
     updateRect(update: RectPositionUpdate): void {
-      update.hasAny    = true;
-      update.hasLeft   = true;
-      update.hasWidth  = true;
+      update.hasAny = true;
+      update.hasLeft = true;
+      update.hasWidth = true;
       update.hasOffset = true;
     }
   };
@@ -114,8 +136,8 @@ module Absolution {
     },
 
     updateRect(update: RectPositionUpdate): void {
-      update.hasAny    = true;
-      update.hasLeft   = true;
+      update.hasAny = true;
+      update.hasLeft = true;
       update.hasOffset = true;
     }
   };
@@ -139,7 +161,7 @@ module Absolution {
     },
 
     updateRect(update: RectPositionUpdate): void {
-      update.hasAny   = true;
+      update.hasAny = true;
       update.hasWidth = true;
     }
   };
@@ -167,7 +189,7 @@ module Absolution {
       rect.width.assignValue(position.width);
     },
 
-    updateRect(update: RectPositionUpdate): void {}
+    updateRect(update: RectPositionUpdate): void { }
   };
 
   export let YAxisBoth: ConstrainedAxis = {
@@ -184,12 +206,12 @@ module Absolution {
       return false;
     },
 
-    updateSystem(rect: ManagedRect, position: RectPosition): void {},
+    updateSystem(rect: ManagedRect, position: RectPosition): void { },
 
     updateRect(update: RectPositionUpdate): void {
-      update.hasAny    = true;
+      update.hasAny = true;
       update.hasHeight = true;
-      update.hasTop    = true;
+      update.hasTop = true;
       update.hasOffset = true;
     }
   };
@@ -213,8 +235,8 @@ module Absolution {
     },
 
     updateRect(update: RectPositionUpdate): void {
-      update.hasAny    = true;
-      update.hasTop    = true;
+      update.hasAny = true;
+      update.hasTop = true;
       update.hasOffset = true;
     }
   };
@@ -238,7 +260,7 @@ module Absolution {
     },
 
     updateRect(update: RectPositionUpdate): void {
-      update.hasAny    = true;
+      update.hasAny = true;
       update.hasHeight = true;
     }
   };
@@ -266,7 +288,7 @@ module Absolution {
       rect.height.assignValue(position.height);
     },
 
-    updateRect(update: RectPositionUpdate): void {}
+    updateRect(update: RectPositionUpdate): void { }
   };
 
 }

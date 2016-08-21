@@ -58,6 +58,10 @@ module Absolution {
       }
     }
 
+    /**
+     * Update the Element to be absolutely positioned in the top left
+     * hand side of the page.
+     */
     private setAbsolute(): void {
       if (!this.isAbsoluteSet) {
         let style = this.element.style;
