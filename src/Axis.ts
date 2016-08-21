@@ -35,10 +35,34 @@ module Robin {
   propertyToAxis[Property.CENTER_Y] = Axis.Y;
 
   export interface ConstrainedAxis {
+
+    /**
+     * Take a new property to constrain and return the
+     * new constrained axis.
+     */
     constrain(property: Property): ConstrainedAxis;
+
+    /**
+     * Check if any of the contrained properties of the two
+     * positions are different.
+     */
     constrainedAreDifferent(a: RectPosition, b: RectPosition): boolean;
+
+    /**
+     * Check if any of the independent (unconstrained) properties of
+     * the two positions are different.
+     */
     independentAreDifferent(a: RectPosition, b: RectPosition): boolean;
+
+    /**
+     * Update the system with the positions independent (unconstrained)
+     * properties.
+     */
     updateSystem(rect: ElementRect, position: RectPosition): void;
+
+    /**
+     * Update the element with the positions constrained properties.
+     */
     updateRect(rect: ElementRect, position: RectPosition): void;
   }
 
