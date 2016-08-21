@@ -95,19 +95,11 @@ module Robin {
           continue;
         }
         isRect = true;
-
-        let target = attributeMap[attr.name];
-        let text   = attr.textContent;
-
-        try {
-          this.handleRule(options, {
-            target: target,
-            text:   text,
-            expr:   null
-          });
-        } catch (e) {
-          throw new Error(`${target}="${text}" ${e}`);
-        }
+        this.handleRule(options, {
+          target: attributeMap[attr.name],
+          text:   attr.textContent,
+          expr:   null
+        });
       }
 
       if (!isRect) {
