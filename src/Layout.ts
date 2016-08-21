@@ -21,6 +21,16 @@ module Robin {
     "r-style":     "style"
   };
 
+  export interface LayoutOptions {
+    findStyleSheets: boolean;
+    findElements:    boolean;
+  }
+
+  const defaultLayoutOptions: LayoutOptions = {
+    findStyleSheets: true,
+    findElements:    true
+  };
+
   export class Layout {
 
     system = new System();
@@ -30,7 +40,7 @@ module Robin {
 
     private updateIsRequested = false;
 
-    attachTo(root: HTMLElement) {
+    attachTo(root: HTMLElement, options: LayoutOptions = defaultLayoutOptions) {
 
       // add the special rects
       this.rects.push(new ViewportRect(this));
@@ -38,21 +48,25 @@ module Robin {
       this.rects.push(new BodyRect(this));
 
       // find rulesets from script tags
-      let scriptTags = document.getElementsByTagName("script");
-      for (let i = 0; i < scriptTags.length; i++) {
-        let scriptTag = scriptTags.item(i);
-        if (scriptTag.getAttribute("type") === "text/robin") {
-          this.parseStyleSheet(scriptTag.textContent);
+      if (options.findStyleSheets) {
+        let scriptTags = document.getElementsByTagName("script");
+        for (let i = 0; i < scriptTags.length; i++) {
+          let scriptTag = scriptTags.item(i);
+          if (scriptTag.getAttribute("type") === "text/robin") {
+            this.parseStyleSheet(scriptTag.textContent);
+          }
         }
       }
 
       // walk the dom and find elements with robin attributes
-      let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
-      let el: HTMLElement;
-      while (el = iterator.nextNode() as any) {
-        let options = this.getRectOptions(el);
-        if (options) {
-          new ElementRect(el, this, options);
+      if (options.findElements) {
+        let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
+        let el: HTMLElement;
+        while (el = iterator.nextNode() as any) {
+          let options = this.getRectOptions(el);
+          if (options) {
+            new ElementRect(el, this, options);
+          }
         }
       }
 
