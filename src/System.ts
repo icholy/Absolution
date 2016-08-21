@@ -223,7 +223,6 @@ module Robin {
     }
 
     private evaluate(node: Expression): Variable {
-
       switch (node.tag) {
         case "ident":
           return this.getVariable(node.value);
