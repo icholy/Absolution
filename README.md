@@ -2,6 +2,7 @@
 
 > An Element positioning system.
 
+**WARNING WIP** I've only been testing this is chrome.
 
 ``` html
 <div a-rect id="A"></div>
