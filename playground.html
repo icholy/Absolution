@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>Playground</title>
+  <script src="../build/Connectors.js"></script>
+  <script src="../build/Parser.js"></script>
+  <script src="../build/Relationships.js"></script>
+  <script src="../build/System.js"></script>
+  <script src="../build/ElementManager.js"></script>
+  <script src="../build/LayoutManager.js"></script>
+  <style>
+    .box {
+      position: absolute;
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box" id="A">A</div>
+  <div class="box" id="B">B</div>
+  <div class="box" id="C">C</div>
+
+  <script>
+    window.system = new System();
+
+    window.layout = new LayoutManager(system);
+
+    window.A = new ElementManager(system, document.getElementById("A"), layout);
+    window.B = new ElementManager(system, document.getElementById("B"), layout);
+    window.C = new ElementManager(system, document.getElementById("C"), layout);
+
+    A.constrain("width", 10000);
+
+    layout.updateLayout();
+
+  </script>
+
+</body>
+</html>

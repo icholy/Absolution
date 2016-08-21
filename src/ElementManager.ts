@@ -2,7 +2,7 @@
 class ElementManager {
 
   private id: string;
-  private expressions: { [property: string]: string; }
+  private expressions: { [property: string]: string; } = {};
   private constrained = [] as string[];
 
   private xAxisConstraints = 0;
@@ -78,11 +78,12 @@ class ElementManager {
     for (let property of this.constrained) {
       let value = this.system.get(`${this.id}.${property}`);
       this.element.style[property] = value;
+      console.log(`${this.id}.${property} = ${value}`);
     }
   }
 
   private isConstrained(property: string): boolean {
-    return property in this.expressions;
+    return this.expressions.hasOwnProperty(property);
   }
 
   private handleResize(): void {
