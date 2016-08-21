@@ -193,4 +193,52 @@ module Robin {
 
   }
 
+  export class Min extends Relationship {
+
+    constructor(
+      private a:   Variable,
+      private b:   Variable,
+      private min: Variable
+    ) {
+      super();
+      this.attachTo(a, b);
+    }
+
+    solve(id: number): void {
+      if (this.a.hasValue(id) && this.b.hasValue(id)) {
+        this.min.setValue(
+          Math.min(this.a.getValue(), this.b.getValue()), id);
+      }
+    }
+
+    toString(): string {
+      return `${this.min} = min(${this.a}, ${this.b})`;
+    }
+
+  }
+
+  export class Max extends Relationship {
+
+    constructor(
+      private a:   Variable,
+      private b:   Variable,
+      private max: Variable
+    ) {
+      super();
+      this.attachTo(a, b);
+    }
+
+    solve(id: number): void {
+      if (this.a.hasValue(id) && this.b.hasValue(id)) {
+        this.max.setValue(
+          Math.max(this.a.getValue(), this.b.getValue()), id)
+      }
+    }
+
+    toString(): string {
+      return `${this.max} = max(${this.a}, ${this.b})`;
+    }
+
+  }
+
 }
