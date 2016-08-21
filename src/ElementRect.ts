@@ -15,7 +15,7 @@ module Absolution {
     ) {
       super(layout, options);
       this.element = element;
-      this.initialize();
+      this.updateSystemPosition();
     }
 
     /**

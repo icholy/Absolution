@@ -84,13 +84,6 @@ module Absolution {
     }
 
     /**
-     * Initialize the rect
-     */
-    protected initialize(): void {
-      this.updateSystemPosition();
-    }
-
-    /**
      * Constrain a property name to equal the expression.
      * There can only be two constraints per axis.
      */
