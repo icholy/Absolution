@@ -88,23 +88,6 @@ module Robin {
       }
     }
 
-    private getPropertyAxis(property: Property): Axis {
-      switch (property) {
-        case Property.LEFT:
-        case Property.WIDTH:
-        case Property.RIGHT:
-        case Property.CENTER_X:
-          return Axis.X;
-        case Property.TOP:
-        case Property.HEIGHT:
-        case Property.BOTTOM:
-        case Property.CENTER_Y:
-          return Axis.Y;
-        default:
-          return Axis.NONE;
-      }
-    }
-
     private constrainX(property: Property): void {
       switch (this.xAxisConstraints) {
         case XConstraint.NONE:
@@ -297,6 +280,23 @@ module Robin {
       system.destroyVariable(this.leftOffset);
       system.destroyVariable(this.width);
       this.observer.disconnect();
+    }
+
+    private getPropertyAxis(property: Property): Axis {
+      switch (property) {
+        case Property.LEFT:
+        case Property.WIDTH:
+        case Property.RIGHT:
+        case Property.CENTER_X:
+          return Axis.X;
+        case Property.TOP:
+        case Property.HEIGHT:
+        case Property.BOTTOM:
+        case Property.CENTER_Y:
+          return Axis.Y;
+        default:
+          return Axis.NONE;
+      }
     }
 
     private assertIsNotConstrained(propertyName: string): void {
