@@ -1,12 +1,10 @@
 const enum Property {
-  LEFT    = 0,
-  RIGHT   = 1,
-  WIDTH   = 2,
-  HCENTER = 3,
-  TOP     = 4,
-  BOTTOM  = 5,
-  HEIGHT  = 6,
-  VCENTER = 7
+
+  // X Axis
+  LEFT, RIGHT, WIDTH, HCENTER,
+
+  // Y Axis
+  TOP, BOTTOM, HEIGHT, VCENTER
 }
 
 const nameToProperty = {
@@ -20,25 +18,9 @@ const nameToProperty = {
   "vcenter": Property.VCENTER
 };
 
-const enum Axis {
-  X    = 0,
-  Y    = 1,
-  NONE = 2
-}
-
-const enum XDependency {
-  LEFT_AND_WIDTH = 0,
-  LEFT           = 1,
-  WIDTH          = 2,
-  NONE           = 3
-}
-
-const enum YDependency {
-  TOP_AND_HEIGHT = 0,
-  TOP            = 1,
-  HEIGHT         = 2,
-  NONE           = 3
-}
+const enum Axis { X, Y, NONE }
+const enum XDependency { LEFT_AND_WIDTH, LEFT, WIDTH, NONE }
+const enum YDependency { TOP_AND_HEIGHT, TOP, HEIGHT, NONE }
 
 class ElementManager {
 
