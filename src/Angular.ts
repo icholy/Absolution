@@ -25,7 +25,7 @@ module Robin.Angular {
     }
 
     hasVariable(name: string): boolean {
-      return this.variables.hasOwnProperty(name) 
+      return name in this.variables
           || typeof this.$scope[name] === "number";
     }
 
