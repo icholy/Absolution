@@ -7,6 +7,7 @@ module Constraints {
 
   export class System {
 
+    // A debugging tool for interrogating the system.
     public $: Proxy;
 
     private relationships: Relationship[];
@@ -232,6 +233,9 @@ module Constraints {
       return result;
     }
 
+    /**
+     * Get or create a variable.
+     */
     getVariable(name: string): Variable {
       if (!this.has(name)) {
         this.variables[name] = new Variable(name);
@@ -239,6 +243,9 @@ module Constraints {
       return this.variables[name];
     }
 
+    /**
+     * Destroy a variable and any relationships that depend on it.
+     */
     destroyVariable(v: Variable): void {
       let name = v.getName();
       if (!this.has(name)) {
