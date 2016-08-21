@@ -8,11 +8,12 @@ stylesheet
     }
 
 ruleset
-  = _ selector:selector _ "{" _ rules:rule_with_trailing_semi* _ "}" _ {
+  = _ selector:selector _ "{" _ items:(rule_with_trailing_semi / macro)* _ "}" _ {
       return {
         tag:      "ruleset",
         selector: selector,
-        rules:    rules
+        rules:    items.filter(function (item) { return item.tag === "rule"; }),
+        macros:   items.filter(function (item) { return item.tag === "macro"; })
       };
     }
 
@@ -42,6 +43,7 @@ rule_with_trailing_semi
 rule
   = _ target:ident _ ":" _ expr:expression_with_text _ {
       return {
+        tag:    "rule",
         target: target.value,
         expr:   expr,
         text:   expr.text
@@ -151,6 +153,15 @@ variable
       text: expr.text
     }
   }
+
+macro
+  = "@" name:ident _ ":" _ content:[^;]* _ ";" {
+      return {
+        tag:  "macro",
+        name: name.value,
+        text: content.join("")
+      }
+    }
 
 ident
   = [a-zA-Z$_-] [a-zA-Z0-9$_-]* {
