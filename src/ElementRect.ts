@@ -24,6 +24,8 @@ const enum YDependency { TOP_AND_HEIGHT, TOP, HEIGHT, NONE }
 
 class ElementRect extends Rect {
 
+  // used to check if a property has already been constrained.
+  // also for generating useful error messages.
   private expressions: { [propertyName: string]: string; } = {};
 
   // the dependencies are the rects properties that are
@@ -31,8 +33,9 @@ class ElementRect extends Rect {
   private xAxisDependencies = XDependency.LEFT_AND_WIDTH;
   private yAxisDependencies = YDependency.TOP_AND_HEIGHT;
 
+  // used to determine which properties from the constrain
+  // system should be used to update the element
   private constrained = [] as Property[];
-  private isDebugEnabled = false;
 
   // current Rect position
   private currentPosition: RectPosition;
@@ -73,10 +76,6 @@ class ElementRect extends Rect {
       this.constrained.push(property);
       this.expressions[propertyName] = expression;
 
-      if (this.isDebugEnabled) {
-        console.debug(`(${this.id}) constrain ${propertyName} = "${expression}"`);
-      }
-
     } catch (e) {
       throw new Error(this.createErrorMessage(propertyName, expression, e));
     }
@@ -87,7 +86,6 @@ class ElementRect extends Rect {
    */
   setPosition(rect: RectPosition): void {
     let style = this.element.style;
-
     let positionChanged = false;
     let left  = 0;
     let top = 0;
