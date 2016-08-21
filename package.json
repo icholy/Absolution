@@ -19,9 +19,9 @@
   "homepage": "https://github.com/icholy/Robin#readme",
   "devDependencies": {
     "jasmine-core": "2.4.1",
+    "pegjs": "^0.9.0",
     "typescript": "^1.8.10"
   },
   "dependencies": {
-    "pegjs": "^0.9.0"
   }
 }
