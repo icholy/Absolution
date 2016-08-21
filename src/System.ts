@@ -212,38 +212,33 @@ module Robin {
     }
 
     private parse(expr: string): Variable {
-      let root = Parser.expression(expr);
+      let root = GeneratedParser.parse(expr, { startRule: "expression" });
       return this.evaluate(root);
     }
 
     private evaluate(node: any): Variable {
 
-      if (Parser.isIdent(node)) {
-        return this.getVariable(node.value);
+      switch (node.tag) {
+        case "ident":
+          return this.getVariable(node.value);
+        case "number":
+          let v = new Variable("Const");
+          v.assignValue(node.value);
+          return v;
+        case "op":
+          return this.createRelationship(node.op, 
+              this.evaluate(node.left),
+              this.evaluate(node.right));
+        case "func_call":
+          if (node.params.length !== 2) {
+            throw new Error("functions can only take 2 parameters");
+          }
+          return this.createCustomRelationship(node.name,
+              this.evaluate(node.params[0]),
+              this.evaluate(node.params[1]));
+        default:
+          throw new Error("invalid expression");
       }
-
-      if (Parser.isNumber(node)) {
-        let v = new Variable("Const");
-        v.assignValue(node.value);
-        return v;
-      }
-
-      if (Parser.isBinaryOp(node)) {
-        let left  = this.evaluate(node.left);
-        let right = this.evaluate(node.right);
-        return this.createRelationship(node.op, left, right);
-      }
-
-      if (Parser.isFuncCall(node)) {
-        if (node.params.length !== 2) {
-          throw new Error("functions can only take 2 parameters");
-        }
-        let left = this.evaluate(node.params[0]);
-        let right = this.evaluate(node.params[1]);
-        return this.createCustomRelationship(node.name, left, right);
-      }
-
-      throw new Error("invalid expression");
     }
 
     private createCustomRelationship(funcName: string, left: Variable, right: Variable): Variable {
