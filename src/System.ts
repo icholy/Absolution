@@ -5,6 +5,12 @@ module Robin {
 
   type Value = string | number | Variable;
 
+  interface FuncEntry {
+    name:  string;
+    func:  Function;
+    arity: number;
+  }
+
   export class System {
 
     // A debugging tool for interrogating the system.
@@ -12,7 +18,7 @@ module Robin {
 
     private relationships: Relationship[];
     private variables:     { [name: string]: Variable; };
-    private funcs:         { [name: string]: CustomFunc; };
+    private funcs:         { [name: string]: FuncEntry; };
     private idsequence:    number;
 
     constructor() {
@@ -30,11 +36,11 @@ module Robin {
     /**
      * Register a function
      */
-    func(name: string, func: CustomFunc): void {
+    func(name: string, func: CustomFunc, arity: number = func.length): void {
       if (this.hasFunc(name)) {
         throw new Error(`${name} function already registered`);
       }
-      this.funcs[name] = func;
+      this.funcs[name] = { name, func, arity };
     }
 
     /**
@@ -184,9 +190,11 @@ module Robin {
       if (!this.hasFunc(funcName)) {
         throw new Error(`${funcName} is not a function`);
       }
+      let entry = this.funcs[funcName];
       this.relationships.push(new CustomRelationship(
-        name, this.funcs[funcName],
-
+        entry.name,
+        entry.func,
+        entry.arity,
         params.map(p => this.variableFor(p)),
         this.variableFor(out)
       ));
