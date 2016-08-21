@@ -1,12 +1,12 @@
-enum Property {
-  LEFT,
-  RIGHT,
-  WIDTH,
-  HCENTER,
-  TOP,
-  BOTTOM,
-  HEIGHT,
-  VCENTER
+const enum Property {
+  LEFT    = 0,
+  RIGHT   = 1,
+  WIDTH   = 2,
+  HCENTER = 3,
+  TOP     = 4,
+  BOTTOM  = 5,
+  HEIGHT  = 6,
+  VCENTER = 7
 }
 
 const nameToProperty = {
@@ -20,18 +20,18 @@ const nameToProperty = {
   "vcenter": Property.VCENTER
 };
 
-enum XDependency {
-  LEFT_AND_WIDTH,
-  LEFT,
-  WIDTH,
-  NONE
+const enum XDependency {
+  LEFT_AND_WIDTH = 0,
+  LEFT           = 1,
+  WIDTH          = 2,
+  NONE           = 3
 }
 
-enum YDependency {
-  TOP_AND_HEIGHT,
-  TOP,
-  HEIGHT,
-  NONE
+const enum YDependency {
+  TOP_AND_HEIGHT = 0,
+  TOP            = 1,
+  HEIGHT         = 2,
+  NONE           = 3
 }
 
 class ElementManager {
@@ -78,17 +78,24 @@ class ElementManager {
   }
 
   constrain(propertyName: string, expression: string): void {
-    let property = this.getPropertyByName(propertyName);
-    this.assertIsNotConstrained(property);
+    try {
 
-    if (this.isXAxisProperty(property)) {
-      this.constrainXProperty(property);
-    } else {
-      this.contrainYProperty(property);
+      let property = this.getPropertyByName(propertyName);
+      this.assertIsNotConstrained(property);
+
+        if (this.isXAxisProperty(property)) {
+          this.constrainXProperty(property);
+        } else {
+          this.contrainYProperty(property);
+        }
+
+      this.expressions[property] = expression;
+      this.system.set(`${this.id}.${propertyName}`, expression.toString());
+
+    } catch (e) {
+      let reason = e instanceof Error ? e.message : e.toString()
+      throw new Error(`cannot set ${this.id}.${propertyName} because ${reason}`);
     }
-
-    this.expressions[property] = expression;
-    this.system.set(`${this.id}.${propertyName}`, expression.toString());
   }
 
   /**
@@ -168,8 +175,7 @@ class ElementManager {
         this.xAxisDependencies = XDependency.NONE;
         break;
       default:
-          throw new Error(
-            `cannot set ${Property[property]} of ${this.id} because the x axis already has 2 constraints`);
+          throw new Error(`the x axis already has 2 constraints`);
     }
     this.constrained.push(isWidth ? Property.WIDTH : Property.LEFT);
   }
@@ -185,8 +191,7 @@ class ElementManager {
         this.yAxisDependencies = YDependency.NONE;
         break;
       default:
-          throw new Error(
-            `cannot set ${Property[property]} of ${this.id} because the y axis already has 2 constraints`);
+          throw new Error(`the y axis already has 2 constraints`);
     }
     this.constrained.push(isHeight ? Property.HEIGHT : Property.TOP);
   }
@@ -216,15 +221,13 @@ class ElementManager {
 
   private assertIsNotConstrained(property: Property): void {
     if (this.expressions.hasOwnProperty(property.toString())) {
-      throw new Error(
-        `${this.id}: ${Property[property]} is already set to ${this.expressions[property]}`);
+      throw new Error(`it's already set to (${this.expressions[property]})`);
     }
   }
 
   private getPropertyByName(name: string): Property {
     if (!nameToProperty.hasOwnProperty(name)) {
-      throw new Error(
-        `${this.id}: "${name}" is not a supported property`);
+      throw new Error(`"${name}" is not a supported property`);
     }
     return nameToProperty[name];
   }
