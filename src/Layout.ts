@@ -80,7 +80,7 @@ module Robin {
           if (!id) {
             id = el.id ? el.id : Utils.guid();
           }
-          let container = this.getAttribute(el, "contaner");
+          let container = this.getAttribute(el, "container");
           if (!container) {
             container = "document";
           }
