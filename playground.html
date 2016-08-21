@@ -10,17 +10,29 @@
   <script src="../build/ElementManager.js"></script>
   <script src="../build/LayoutManager.js"></script>
   <style>
+
     .box {
       position: absolute;
-      background-color: red;
     }
+
+    #A {
+      background-color: red;
+      top: 100px;
+      width: 500px;
+      height: 600px;
+    }
+
+    #B {
+      background-color: green;
+    }
+
+
   </style>
 </head>
 <body>
 
   <div class="box" id="A">A</div>
   <div class="box" id="B">B</div>
-  <div class="box" id="C">C</div>
 
   <script>
     window.system = new System();
@@ -29,14 +41,11 @@
 
     window.A = new ElementManager(system, document.getElementById("A"), layout);
     window.B = new ElementManager(system, document.getElementById("B"), layout);
-    window.C = new ElementManager(system, document.getElementById("C"), layout);
 
-    A.constrain("width", 100);
-    B.constrain("width", "A.width / 2")
-    B.constrain("top", "A.bottom");
-    B.constrain("left", "A.right + 100");
-    C.constrain("top", "B.bottom * 2.5");
-    C.constrain("left", "B.right / 2");
+    B.constrain("width", "A.width / 2");
+    B.constrain("height", "A.height / 2");
+    B.constrain("vcenter", "A.vcenter");
+    B.constrain("hcenter", "A.hcenter");
 
     layout.updateLayout();
 
