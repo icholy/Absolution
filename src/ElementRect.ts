@@ -11,7 +11,17 @@ class ElementRect extends Rect {
   }
 
   getPosition(): RectPosition {
-    return this.element.getBoundingClientRect();
+    let inner = this.element.getBoundingClientRect();
+    if (!this.container) {
+      return inner;
+    }
+    let outer = this.container.getBoundingClientRect();
+    return {
+      left:   inner.left - outer.left,
+      top:    inner.top - outer.top,
+      width:  inner.width,
+      height: inner.height
+    };
   }
 
   setPosition(rect: RectPosition): void {

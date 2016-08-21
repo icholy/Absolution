@@ -12,27 +12,17 @@ class Layout {
   constructor(root: HTMLElement) {
 
     const attributeMap = {
-      "r-left":      "left",
-      "r-right":     "right",
-      "r-top":       "top",
-      "r-bottom":    "bottom",
-      "r-width":     "width",
-      "r-height":    "height",
-      "r-center-x":  "center-x",
-      "r-center-y":  "center-y",
-      "r-center-in": "center-in",
-      "r-register":  "register",
-
-      "data-r-left":      "left",
-      "data-r-right":     "right",
-      "data-r-top":       "top",
-      "data-r-bottom":    "bottom",
-      "data-r-width":     "width",
-      "data-r-height":    "height",
-      "data-r-center-x":  "center-x",
-      "data-r-center-y":  "center-y",
-      "data-r-center-in": "center-in",
-      "data-r-register":  "register"
+      "r-left":        "left",
+      "r-right":       "right",
+      "r-top":         "top",
+      "r-bottom":      "bottom",
+      "r-width":       "width",
+      "r-height":      "height",
+      "r-center-x":    "center-x",
+      "r-center-y":    "center-y",
+      "r-center-in":   "center-in",
+      "r-register":    "register",
+      "r-relative-to": "relative-to"
     };
 
     let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
@@ -50,7 +40,14 @@ class Layout {
           continue;
         }
         if (!isRegistered) {
-          rect = this.register(el, null);
+
+          let container = null;
+          if (el.hasAttribute("r-relative-to")) {
+            let relativeTo = el.getAttribute("r-relative-to")
+            container = document.getElementById(relativeTo);
+          }
+
+          rect = this.register(el, container);
           isRegistered = true;
         }
         let property = attributeMap[attr.name];
@@ -61,6 +58,7 @@ class Layout {
             rect.constrain(`center-y`, `${id}.center-y`);
             break;
           case "register":
+          case "relative-to":
             break;
           default:
             rect.constrain(property, attr.textContent);
