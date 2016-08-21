@@ -20,6 +20,12 @@ const nameToProperty = {
   "vcenter": Property.VCENTER
 };
 
+const enum Axis {
+  X    = 0,
+  Y    = 1,
+  NONE = 2
+}
+
 const enum XDependency {
   LEFT_AND_WIDTH = 0,
   LEFT           = 1,
@@ -77,16 +83,25 @@ class ElementManager {
     this.height = system.getVariable(`${id}.height`);
   }
 
+  /**
+   * Constrain a property name to equal the expression.
+   * There can only be two constraints per axis.
+   */
   constrain(propertyName: string, expression: string): void {
     try {
 
       let property = this.getPropertyByName(propertyName);
       this.assertIsNotConstrained(property);
 
-      if (this.isXAxisProperty(property)) {
-        this.constrainXProperty(property);
-      } else {
-        this.contrainYProperty(property);
+      switch (this.getPropertyAxis(property)) {
+        case Axis.X:
+          this.constrainXProperty(property);
+          break;
+        case Axis.Y:
+          this.contrainYProperty(property);
+          break;
+        default:
+          this.constrained.push(property);
       }
 
       this.expressions[property] = expression;
@@ -196,11 +211,21 @@ class ElementManager {
     this.constrained.push(isHeight ? Property.HEIGHT : Property.TOP);
   }
 
-  private isXAxisProperty(property: Property): boolean {
-    return property === Property.LEFT
-        || property === Property.WIDTH
-        || property === Property.RIGHT
-        || property === Property.HCENTER;
+  private getPropertyAxis(property: Property): Axis {
+    switch (property) {
+      case Property.LEFT:
+      case Property.WIDTH:
+      case Property.RIGHT:
+      case Property.HCENTER:
+        return Axis.X;
+      case Property.TOP:
+      case Property.HEIGHT:
+      case Property.BOTTOM:
+      case Property.VCENTER:
+        return Axis.Y;
+      default:
+        return Axis.NONE;
+    }
   }
 
   private getBoundingRect(): ClientRect {
