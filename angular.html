@@ -56,6 +56,15 @@
       };
     }
 
+    function getRandomColor() {
+      let letters = '0123456789ABCDEF'.split('');
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
     angular.module("App", ["robin"]).controller("MainController", function ($scope, layout) {
 
       window.layout = layout;
@@ -68,14 +77,21 @@
       let oscillator = makeOscillator();
       let counter = 0;
 
-      layout.assign("x", oscillator());
-      layout.assign("y", counter);
+      $scope.x = oscillator();
+      $scope.y = counter;
 
       setInterval(function () {
         counter += 0.1;
-        layout.assign("x", oscillator());
-        layout.assign("y", counter);
+        $scope.x = oscillator();
+        $scope.y = counter;
+        $scope.$digest();
       }, 10);
+
+      $scope.rects = [];
+      for (let i = 0; i < 10; i++) {
+        let color = getRandomColor();
+        $scope.rects.push(color);
+      }
 
     });
 
@@ -83,6 +99,9 @@
 
 </head>
 <body ng-app="App" ng-controller="MainController">
-  <div rect id="A">A</div>
+  <div rect
+    ng-repeat="r in rects"
+    r-style="left: x * $index * 100px; top: x * 100px * $index"
+    ng-style="{ 'background-color': r }">A</div>
 </body>
 </html>
