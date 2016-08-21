@@ -134,56 +134,62 @@ module Robin {
         expr = this.ruleFor(target, text).expr;
       }
       if (expr.tag !== "ident") {
-        throw new Error(`expected ${text} to be an identifier`);
+        throw new Error(`"${text}" is not an identifier`);
       }
       return expr.value;
     }
 
     private handleRule(options: RectOptions, rule: Rule): void {
-      switch (rule.target) {
-        case "register":
-        case "id":
-        case "watch":
-          break;
-        case "container":
-          options.container = this.identFrom(rule)
-          break;
-        case "center-in":
-          let centerInIdent = this.identFrom(rule);
-          options.rules.push(this.ruleFor("center-x", `${centerInIdent}.center-x`));
-          options.rules.push(this.ruleFor("center-y", `${centerInIdent}.center-y`));
-          break;
-        case "align-x":
-          let alignXIdent = this.identFrom(rule);
-          options.rules.push(this.ruleFor("left", `${alignXIdent}.left`));
-          options.rules.push(this.ruleFor("right", `${alignXIdent}.right`));
-          break;
-        case "align-y":
-          let alignYIdent = this.identFrom(rule);
-          options.rules.push(this.ruleFor("top", `${alignYIdent}.top`));
-          options.rules.push(this.ruleFor("bottom", `${alignYIdent}.bottom`));
-          break;
-        case "size":
-          let sizeIdent = this.identFrom(rule);
-          options.rules.push(this.ruleFor("width", `${sizeIdent}.width`));
-          options.rules.push(this.ruleFor("height", `${sizeIdent}.height`));
-          break;
-        case "fill":
-          let fillIdent = this.identFrom(rule);
-          options.rules.push(this.ruleFor("top", `${fillIdent}.top`));
-          options.rules.push(this.ruleFor("bottom", `${fillIdent}.bottom`));
-          options.rules.push(this.ruleFor("left", `${fillIdent}.left`));
-          options.rules.push(this.ruleFor("right", `${fillIdent}.right`));
-          break;
-        case "style":
-          let rules = Parser.parse<Rule[]>(rule.text, { startRule: "inline_rules" });
-          for (let rule of rules) {
-            this.handleRule(options, rule);
-          }
-          break;
-        default:
-          options.rules.push(
-              this.ruleFor(rule.target, rule.text, rule.expr));
+      try {
+        switch (rule.target) {
+          case "register":
+          case "id":
+          case "watch":
+            break;
+          case "container":
+            options.container = this.identFrom(rule)
+            break;
+          case "center-in":
+            let centerInIdent = this.identFrom(rule);
+            options.rules.push(this.ruleFor("center-x", `${centerInIdent}.center-x`));
+            options.rules.push(this.ruleFor("center-y", `${centerInIdent}.center-y`));
+            break;
+          case "align-x":
+            let alignXIdent = this.identFrom(rule);
+            options.rules.push(this.ruleFor("left", `${alignXIdent}.left`));
+            options.rules.push(this.ruleFor("right", `${alignXIdent}.right`));
+            break;
+          case "align-y":
+            let alignYIdent = this.identFrom(rule);
+            options.rules.push(this.ruleFor("top", `${alignYIdent}.top`));
+            options.rules.push(this.ruleFor("bottom", `${alignYIdent}.bottom`));
+            break;
+          case "size":
+            let sizeIdent = this.identFrom(rule);
+            options.rules.push(this.ruleFor("width", `${sizeIdent}.width`));
+            options.rules.push(this.ruleFor("height", `${sizeIdent}.height`));
+            break;
+          case "fill":
+            let fillIdent = this.identFrom(rule);
+            options.rules.push(this.ruleFor("top", `${fillIdent}.top`));
+            options.rules.push(this.ruleFor("bottom", `${fillIdent}.bottom`));
+            options.rules.push(this.ruleFor("left", `${fillIdent}.left`));
+            options.rules.push(this.ruleFor("right", `${fillIdent}.right`));
+            break;
+          case "style":
+            let rules = Parser.parse<Rule[]>(rule.text, { startRule: "inline_rules" });
+            for (let rule of rules) {
+              this.handleRule(options, rule);
+            }
+            break;
+          default:
+            options.rules.push(
+                this.ruleFor(rule.target, rule.text, rule.expr));
+        }
+      } catch (e) {
+        let reason = e instanceof Error ? e.message : e.toString();
+        throw new Error(
+          `couldn't create rule ${rule.target}="${rule.text}" because ${reason}`);
       }
     }
 
