@@ -17,7 +17,8 @@ class Layout {
       "r-center-x":  "center-x",
       "r-center-y":  "center-y",
       "r-register":  "register",
-      "r-container": "container"
+      "r-container": "container",
+      "r-center-in": "center-in"
     };
 
     let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
@@ -28,7 +29,7 @@ class Layout {
     while (el = iterator.nextNode() as any) {
 
       let isRegistered = false;
-      let rect = null;
+      let rect: ElementRect = null;
 
       for (let i = 0; i < el.attributes.length; i++) {
         let attr = el.attributes.item(i);
@@ -54,6 +55,11 @@ class Layout {
         }
         let property = attributeMap[attr.name];
         switch (property) {
+          case "center-in":
+            let parentId = attr.textContent;
+            rect.constrain("center-x", `${parentId}.center-x`);
+            rect.constrain("center-y", `${parentId}.center-y`);
+            break;
           case "register":
           case "container":
           case "id":
