@@ -79,16 +79,28 @@ module Absolution {
     /**
      * Register an element with the manager.
      */
-    register(el: HTMLElement): void {
+    register(el: HTMLElement, options?: RectOptions): void {
       if (this.isRegistered(el)) {
         return;
       }
-      let options = this.env.getRectOptions(el);
+      options = options || this.env.getRectOptions(el);
       if (options) {
         let rect = new ElementRect(el, this, options);
         let { id } = options;
         Utils.setRectId(el, id);
         this.rects[id] = rect;
+      }
+    }
+
+    /**
+     * Unregister an element from the manager.
+     */
+    unregister(el: HTMLElement): void {
+      let id = Utils.getRectId(el);
+      let rect = this.rects[id];
+      if (rect) {
+        rect.destroy();
+        delete this.rects[id];
       }
     }
 
