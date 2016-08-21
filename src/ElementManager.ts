@@ -82,17 +82,24 @@ class ElementManager {
 
   updateElement(): void {
     for (let property of this.constrained) {
+      switch (property) {
+        case "bottom":
+        case "vcenter":
+          property = "top";
+          break;
+        case "right":
+        case "hcenter":
+          property = "left";
+          break;
+      }
       let value = this.system.get(`${this.id}.${property}`);
+      console.log(`setting ${this.id}.${property} = ${value}`);
       this.element.style[property] = `${value}px`;
     }
   }
 
   private isConstrained(property: string): boolean {
     return this.expressions.hasOwnProperty(property);
-  }
-
-  private handleResize(): void {
-    console.log("element resized");
   }
 
 }
