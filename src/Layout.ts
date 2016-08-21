@@ -17,7 +17,6 @@ module Robin {
     "r-align-y":   "align-y",
     "r-size":      "size",
     "r-fill":      "fill",
-    "r-style":     "style",
     "r-watch":     "watch",
 
     "data-r-id":        "id",
@@ -36,7 +35,6 @@ module Robin {
     "data-r-align-y":   "align-y",
     "data-r-size":      "size",
     "data-r-fill":      "fill",
-    "data-r-style":     "style",
     "data-r-watch":     "watch"
   };
 
@@ -126,20 +124,6 @@ module Robin {
               `${rect.getId()}.r-watch value error: "${value}" is not a supported watcher`);
           }
           rect.addWatcher(new MutationObserverWatcher(rect));
-          break;
-        case "style":
-          value.split(";").forEach(attr => {
-            attr = attr.trim();
-            if (attr === "") {
-              return;
-            }
-            let parts = attr.split(":");
-            if (parts.length !== 2) {
-              throw new Error(`${rect.getId()}.r-style syntax error: "${attr}"`);
-            }
-            let [name, value] = parts;
-            this.applyProperty(rect, name.trim(), value.trim());
-          });
           break;
         case "center-in":
           rect.constrain("center-x", `${value}.center-x`);
