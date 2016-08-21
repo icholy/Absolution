@@ -26,12 +26,12 @@ module Absolution.Angular {
       return v;
     }
 
-    hasVariable(name: string): boolean {
+    hasVariable(name: string, node: IdentNode): boolean {
       return name in this.variables
           || typeof this.$scope[name] === "number";
     }
 
-    getVariable(name: string): Variable {
+    getVariable(name: string, node: IdentNode): Variable {
       if (!(name in this.variables)) {
         this.variables[name] = this.makeVariable(name);
       }
