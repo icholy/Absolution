@@ -91,6 +91,10 @@ module Absolution {
       return classNames.map(name => name.trim());
     }
 
+    /**
+     * Get the rect options for an element, or null if it's not valid.
+     * You can pass a second parameter which forces it.
+     */
     getRectOptions(el: HTMLElement, isRect: boolean = false): RectOptions {
 
       let options: RectOptions = {
