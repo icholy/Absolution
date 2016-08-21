@@ -12,14 +12,14 @@ class LayoutManager {
   constructor(root: HTMLElement) {
 
     const attributeMap = {
-      "anchorLeft":    "left",
-      "anchorRight":   "right",
-      "anchorTop":     "top",
-      "anchorBottom":  "bottom",
-      "anchorWidth":   "width",
-      "anchorHeight":  "height",
-      "anchorHcenter": "hcenter",
-      "anchorVcenter": "vcenter"
+      "rLeft":    "left",
+      "rRight":   "right",
+      "rTop":     "top",
+      "rBottom":  "bottom",
+      "rWidth":   "width",
+      "rHeight":  "height",
+      "rHcenter": "hcenter",
+      "rVcenter": "vcenter"
     };
 
     let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);

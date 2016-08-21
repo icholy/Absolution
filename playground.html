@@ -35,23 +35,23 @@
 <body>
 
   <div class="box" id="A"
-    data-anchor-height="A.width * x">A</div>
+    data-r-height="A.width * x">A</div>
   <div class="box green" id="B"
-    data-anchor-width="A.width / 2"
-    data-anchor-height="A.height / 2"
-    data-anchor-left="A.left + (B.width * x)"
-    data-anchor-vcenter="A.vcenter + (10 * x)">B</div>
+    data-r-width="A.width / 2"
+    data-r-height="A.height / 2"
+    data-r-left="A.left + (B.width * x)"
+    data-r-vcenter="A.vcenter + (10 * x)">B</div>
   <div class="box" id="C" style="background-color: blue"
-    data-anchor-left="B.right"
-    data-anchor-top="B.bottom"
-    data-anchor-height="B.height * 3"
-    data-anchor-width="200">
+    data-r-left="B.right"
+    data-r-top="B.bottom"
+    data-r-height="B.height * 3"
+    data-r-width="200">
   </div>
   <div class="box" style="background-color: orange"
-    data-anchor-vcenter="C.vcenter"
-    data-anchor-right="C.hcenter"
-    data-anchor-width="C.height / 2"
-    data-anchor-top="C.top + 200 * x">
+    data-r-vcenter="C.vcenter"
+    data-r-right="C.hcenter"
+    data-r-width="C.height / 2"
+    data-r-top="C.top + 200 * x">
   </div>
 
   <button id="pause">Pause</button>
