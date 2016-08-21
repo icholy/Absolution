@@ -90,8 +90,7 @@ class ElementManager {
       this.system.set(`${this.id}.${propertyName}`, expression.toString());
 
     } catch (e) {
-      let reason = e instanceof Error ? e.message : e.toString();
-      throw new Error(`cannot set ${this.id}.${propertyName}="${expression}" because ${reason}`);
+      throw new Error(this.createErrorMessage(propertyName, expression, e));
     }
   }
 
@@ -248,4 +247,12 @@ class ElementManager {
     return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
   }
 
+  private createErrorMessage(propertyName: string, expression: string, error: any): string {
+      let reason = error instanceof Error ? error.message : error.toString();
+      let description = `${this.id}.${propertyName}="${expression}"`;
+      let expressions = Object.keys(this.expressions).map(propertyName => {
+        return `\t${this.id}.${propertyName} = ${this.expressions[propertyName]}`
+      }).join("\n");
+      return `cannot set ${description} because ${reason}\n\nConstraints:\n\n${expressions}`;
+  }
 }
