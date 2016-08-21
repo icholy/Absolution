@@ -6,8 +6,8 @@ module Robin {
     // also for generating useful error messages.
     private expressions: { [propertyName: string]: string; } = {};
 
-    // the dependencies are the rects properties that are
-    // constained by the system
+    // the axis represent the constrained properties of the 
+    // element.
     private xAxis = XAxisNone;
     private yAxis = YAxisNone;
 
