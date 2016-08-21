@@ -25,7 +25,7 @@ const enum YDependency { TOP_AND_HEIGHT, TOP, HEIGHT, NONE }
 class ElementManager {
 
   private id: string;
-  private expressions: { [property: number]: string; } = {};
+  private expressions: { [propertyName: string]: string; } = {};
   private constrained = [] as Property[];
 
   // the dependencies are the element properties that are
@@ -73,7 +73,7 @@ class ElementManager {
     try {
 
       let property = this.getPropertyByName(propertyName);
-      this.assertIsNotConstrained(property);
+      this.assertIsNotConstrained(propertyName);
 
       switch (this.getPropertyAxis(property)) {
         case Axis.X:
@@ -86,12 +86,12 @@ class ElementManager {
           this.constrained.push(property);
       }
 
-      this.expressions[property] = expression;
+      this.expressions[propertyName] = expression;
       this.system.set(`${this.id}.${propertyName}`, expression.toString());
 
     } catch (e) {
       let reason = e instanceof Error ? e.message : e.toString();
-      throw new Error(`cannot set ${this.id}.${propertyName} because ${reason}`);
+      throw new Error(`cannot set ${this.id}.${propertyName}="${expression}" because ${reason}`);
     }
   }
 
@@ -226,9 +226,9 @@ class ElementManager {
     };
   }
 
-  private assertIsNotConstrained(property: Property): void {
-    if (this.expressions.hasOwnProperty(property.toString())) {
-      throw new Error(`it's already set to (${this.expressions[property]})`);
+  private assertIsNotConstrained(propertyName: string): void {
+    if (this.expressions.hasOwnProperty(propertyName)) {
+      throw new Error(`it's already set to (${this.expressions[propertyName]})`);
     }
   }
 
