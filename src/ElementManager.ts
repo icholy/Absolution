@@ -27,7 +27,7 @@ class ElementManager {
   private id: string;
   private expressions: { [propertyName: string]: string; } = {};
   private constrained = [] as Property[];
-  private isDebug = false;
+  private isDebug = true;
 
   // the dependencies are the element properties that are
   // reported to the constaint system when requested
@@ -89,6 +89,10 @@ class ElementManager {
 
       this.expressions[propertyName] = expression;
       this.system.set(`${this.id}.${propertyName}`, expression.toString());
+
+      if (this.isDebug) {
+        console.debug(`(${this.id}) constrain ${propertyName} = "${expression}"`);
+      }
 
     } catch (e) {
       throw new Error(this.createErrorMessage(propertyName, expression, e));
