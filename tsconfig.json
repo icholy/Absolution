@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target":  "es5",
-    "outDir":  "build",
-    "rootDir": "src"
+    "rootDir": "src",
+    "outFile": "build/Absolution.js"
   },
   "files": [
     "src/Variable.ts",
@@ -13,8 +13,8 @@
     "src/Utils.ts",
     "src/Axis.ts",
     "src/Rect.ts",
-    "src/SpecialRects.ts",
     "src/ManagedRect.ts",
+    "src/SpecialRects.ts",
     "src/ElementRect.ts",
     "src/Manager.ts",
     "src/Watcher.ts",
