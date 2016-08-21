@@ -1,6 +1,6 @@
 module Robin {
 
-  interface RectInfo {
+  interface RectOptions {
     id:        string;
     container: string;
     watcher:   string;
@@ -82,20 +82,20 @@ module Robin {
       this.update();
     }
 
-    private getRectInfo(el: HTMLElement): RectInfo {
+    private getRectOptions(el: HTMLElement): RectOptions {
 
       let isRect = false;
 
-      let info: RectInfo = {
+      let options: RectOptions = {
         id:        el.id ? el.id : this.getAttribute(el, "id"),
         container: null,
         watcher:   null,
         rules:     []
       };
 
-      if (info.id && this.hasRuleSet(info.id)) {
+      if (options.id && this.hasRuleSet(options.id)) {
         isRect = true;
-        info.rules = this.rulesets[info.id].slice();
+        options.rules = this.rulesets[options.id].slice();
       }
 
       for (let i = 0; i < el.attributes.length; i++) {
@@ -110,7 +110,7 @@ module Robin {
         let text   = attr.textContent;
 
         try {
-          this.handleAttribute(info, target, text);
+          this.handleAttribute(options, target, text);
         } catch (e) {
           throw new Error(`${target}="${text}" ${e}`);
         }
@@ -121,11 +121,11 @@ module Robin {
       }
 
       // if there's no id, create a GUID
-      if (!info.id) {
-        info.id = Utils.guid();
+      if (!options.id) {
+        options.id = Utils.guid();
       }
 
-      return info;
+      return options;
     }
 
     private ruleFor(target: string, expression: string): Rule {
@@ -136,7 +136,7 @@ module Robin {
       };
     }
 
-    private handleAttribute(info: RectInfo, target: string, text: string): void {
+    private handleAttribute(options: RectOptions, target: string, text: string): void {
 
       switch (target) {
         case "register":
@@ -144,54 +144,54 @@ module Robin {
         case "watch":
           break;
         case "container":
-          info.container = text;
+          options.container = text;
           break;
         case "center-in":
-          info.rules.push(this.ruleFor("center-x", `${text}.center-x`));
-          info.rules.push(this.ruleFor("center-y", `${text}.center-y`));
+          options.rules.push(this.ruleFor("center-x", `${text}.center-x`));
+          options.rules.push(this.ruleFor("center-y", `${text}.center-y`));
           break;
         case "align-x":
-          info.rules.push(this.ruleFor("left", `${text}.left`));
-          info.rules.push(this.ruleFor("right", `${text}.right`));
+          options.rules.push(this.ruleFor("left", `${text}.left`));
+          options.rules.push(this.ruleFor("right", `${text}.right`));
           break;
         case "align-y":
-          info.rules.push(this.ruleFor("top", `${text}.top`));
-          info.rules.push(this.ruleFor("bottom", `${text}.bottom`));
+          options.rules.push(this.ruleFor("top", `${text}.top`));
+          options.rules.push(this.ruleFor("bottom", `${text}.bottom`));
           break;
         case "size":
-          info.rules.push(this.ruleFor("width", `${text}.width`));
-          info.rules.push(this.ruleFor("height", `${text}.height`));
+          options.rules.push(this.ruleFor("width", `${text}.width`));
+          options.rules.push(this.ruleFor("height", `${text}.height`));
           break;
         case "fill":
-          info.rules.push(this.ruleFor("top", `${text}.top`));
-          info.rules.push(this.ruleFor("bottom", `${text}.bottom`));
-          info.rules.push(this.ruleFor("left", `${text}.left`));
-          info.rules.push(this.ruleFor("right", `${text}.right`));
+          options.rules.push(this.ruleFor("top", `${text}.top`));
+          options.rules.push(this.ruleFor("bottom", `${text}.bottom`));
+          options.rules.push(this.ruleFor("left", `${text}.left`));
+          options.rules.push(this.ruleFor("right", `${text}.right`));
           break;
         case "style":
           let rules = Parser.parse(text, { startRule: "inline_rules" });
-          info.rules = info.rules.concat(rules);
+          options.rules = options.rules.concat(rules);
           break;
         default:
-          info.rules.push(this.ruleFor(target, text));
+          options.rules.push(this.ruleFor(target, text));
       }
     }
 
     maybeAddElement(el: HTMLElement): void {
-      let info = this.getRectInfo(el);
-      if (!info) {
+      let options = this.getRectOptions(el);
+      if (!options) {
         return;
       }
-      let rect = new ElementRect(info.id, el, info.container, this);
-      for (let rule of info.rules) {
+      let rect = new ElementRect(options.id, el, options.container, this);
+      for (let rule of options.rules) {
         rect.constrain(rule.target, rule.text, rule.expr);
       }
 
       // add a watcher if one is specified
-      if (info.watcher) {
-        if (info.watcher !== "mutation") {
+      if (options.watcher) {
+        if (options.watcher !== "mutation") {
           throw new Error(
-            `${rect.getId()}.r-watch value error: "${info.watcher}" is not a supported watcher`);
+            `${rect.getId()}.r-watch value error: "${options.watcher}" is not a supported watcher`);
         }
         let watcher = new MutationObserverWatcher(rect);
         rect.addWatcher(watcher);
