@@ -78,21 +78,15 @@ class ElementManager {
   }
 
   constrain(propertyName: string, expression: string): void {
-    if (!nameToProperty.hasOwnProperty(propertyName)) {
-      throw new Error(
-        `${this.id}.${propertyName} is not a supported property`);
-    }
-    let property = nameToProperty[propertyName];
-    if (this.isConstrained(property)) {
-      throw new Error(
-        `${this.id}.${propertyName} is already set to ${this.expressions[property]}`);
-    }
+    let property = this.getPropertyByName(propertyName);
+    this.assertIsNotConstrained(property)
+
     if (this.isXAxisProperty(property)) {
       this.updateXDependencies(property);
-    }
-    else {
+    } else {
       this.updateYDependencies(property);
     }
+
     this.expressions[property] = expression;
     this.constrained.push(property);
     this.system.set(`${this.id}.${propertyName}`, expression.toString());
@@ -225,8 +219,19 @@ class ElementManager {
     };
   }
 
-  private isConstrained(property: Property): boolean {
-    return this.expressions.hasOwnProperty(property.toString());
+  private assertIsNotConstrained(property: Property): boolean {
+    if (this.expressions.hasOwnProperty(property.toString())) {
+      throw new Error(
+        `${this.id}: ${Property[property]} is already set to ${this.expressions[property]}`);
+    }
+  }
+
+  private getPropertyByName(name: string): Property {
+    if (!nameToProperty.hasOwnProperty(name)) {
+      throw new Error(
+        `${this.id}: "${name}" is not a supported property`);
+    }
+    return nameToProperty[name];
   }
 
   private guid(): string {
