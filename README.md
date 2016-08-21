@@ -7,7 +7,7 @@
 
 ``` html
 <div id="A" r-register>A</div>
-<div r-center-x="A.center-x" r-center-y="A.center-y">B</div>
+<div r-center-in="A">B</div>
 ```
 
 ### Anchor the element to another
@@ -46,4 +46,5 @@ layout.assign("x", 100);
 * `r-height`
 * `r-center-x`
 * `r-center-y`
+* `r-center-in`
 * `r-container`
