@@ -32,9 +32,11 @@
     window.C = new ElementManager(system, document.getElementById("C"), layout);
 
     A.constrain("width", 100);
+    B.constrain("width", "A.width / 2")
     B.constrain("top", "A.bottom");
     B.constrain("left", "A.right + 100");
-    C.constrain("top", "B.bottom");
+    C.constrain("top", "B.bottom * 2.5");
+    C.constrain("left", "B.right / 2");
 
     layout.updateLayout();
 
