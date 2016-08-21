@@ -24,7 +24,7 @@ module Robin {
     // the element that's being managed
     public element: HTMLElement;
 
-    // list of watcher to be cleaned up
+    // list of watchers to be cleaned up
     // when the rect is destroyed
     private watchers: Watcher[] = [];
 
