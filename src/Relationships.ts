@@ -222,7 +222,7 @@ module Robin {
     }
 
     solve(id: number): void {
-      this.solve2(id);
+      this.solver(id);
     }
 
     private solve1(id: number): void {

@@ -236,9 +236,6 @@ module Robin {
               this.evaluate(node.left),
               this.evaluate(node.right));
         case "func_call":
-          if (node.params.length !== 2) {
-            throw new Error("functions can only take 2 parameters");
-          }
           let result = this.createIntermediate();
           let params = node.params.map(p => this.evaluate(p));
           console.log(params);
