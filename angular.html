@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>Playground</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+  <script src="../build/Variable.js"></script>
+  <script src="../build/Parser.js"></script>
+  <script src="../build/Relationships.js"></script>
+  <script src="../build/System.js"></script>
+  <script src="../build/Utils.js"></script>
+  <script src="../build/Watcher.js"></script>
+  <script src="../build/Axis.js"></script>
+  <script src="../build/Rect.js"></script>
+  <script src="../build/ManagedRect.js"></script>
+  <script src="../build/ElementRect.js"></script>
+  <script src="../build/SpecialRects.js"></script>
+  <script src="../build/Layout.js"></script>
+  <script src="../build/Angular.js"></script>
+
+  <style>
+
+    #A {
+      background-color: red;
+    }
+
+  </style>
+
+  <script type="text/robin">
+
+    #A {
+      height: 200px;
+      width: 200px * x;
+    }
+
+  </script>
+
+  <script>
+
+    function makeOscillator() {
+
+      let step = 0.01;
+      let current = 0;
+
+      return function () {
+        current += step;
+        if (current >= 1) {
+          current = 1;
+          step = step * -1;
+        }
+        else if (current <= 0) {
+          current = 0;
+          step = step * -1;
+        }
+        return current;
+      };
+    }
+
+    angular.module("App", ["robin"]).controller("MainController", function ($scope, layout) {
+
+      window.layout = layout;
+
+      layout.func("min", Math.min.bind(Math));
+      layout.func("max", Math.max.bind(Math));
+      layout.func("sin", Math.sin.bind(Math));
+      layout.func("cos", Math.cos.bind(Math));
+
+      let oscillator = makeOscillator();
+      let counter = 0;
+
+      layout.assign("x", oscillator());
+      layout.assign("y", counter);
+
+      setInterval(function () {
+        counter += 0.1;
+        layout.assign("x", oscillator());
+        layout.assign("y", counter);
+      }, 10);
+
+    });
+
+  </script>
+
+</head>
+<body ng-app="App" ng-controller="MainController">
+  <div rect id="A">A</div>
+</body>
+</html>
