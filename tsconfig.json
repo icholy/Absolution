@@ -5,10 +5,10 @@
     "rootDir": "src"
   },
   "files": [
-    "src/Constraints/Variable.ts",
-    "src/Constraints/Parser.ts",
-    "src/Constraints/Relationships.ts",
-    "src/Constraints/System.ts",
+    "src/Variable.ts",
+    "src/Parser.ts",
+    "src/Relationships.ts",
+    "src/System.ts",
     "src/Utils.ts",
     "src/Rect.ts",
     "src/DocumentRect.ts",
