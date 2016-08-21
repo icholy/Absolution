@@ -110,9 +110,15 @@ module Absolution.Angular {
           attr:        ng.IAttributes,
           controllers: Controller[]
         ): void {
-          let [ctrl, parentController] = controllers;
+          let [ctrl, parentCtrl] = controllers;
           let el = element[0];
           let options = layout.getRectOptions(el, true);
+
+          // automatically set the container
+          if (!options.container && parentCtrl) {
+            options.container = parentCtrl.getRectId();
+          }
+
           ctrl.setOptions(options);
         },
         post(
@@ -121,8 +127,8 @@ module Absolution.Angular {
           attr:        ng.IAttributes,
           controllers: Controller[]
         ): void {
-          let [ctrl, parentController] = controllers;
-          let context = new ScopeContext(layout, scope, parentController);
+          let [ctrl, parentCtrl] = controllers;
+          let context = new ScopeContext(layout, scope, parentCtrl);
           let options = ctrl.getOptionsWithContext(context)
           let el = element[0];
           let rect = new ElementRect(el, layout, options);
