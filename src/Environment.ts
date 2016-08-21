@@ -36,6 +36,9 @@ module Absolution {
       }
     }
 
+    /**
+     * Get a list of selectors from the stylesheet.
+     */
     getSelectors(): string[] {
       let selectors = [];
       for (let className of Object.keys(this.rulesByClass)) {

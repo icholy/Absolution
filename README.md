@@ -1,7 +1,6 @@
 # Absolution.js
 
-> Position elements the way you've always wanted to.
-
+> Element positioning system inspired by SICP.
 
 ### Center in another element.
 
@@ -31,14 +30,14 @@
 ```
 
 ``` js
-layout.assign("x", 100);
+manager.assign("x", 100);
 ```
 
 ### Use JavaScript functions inside expressions
 
 ``` js
-layout.system.func("cos", x => Math.cos(x));
-layout.system.func("min", (a, b) => Math.min(a, b));
+manager.func("cos", x => Math.cos(x));
+manager.func("min", (a, b) => Math.min(a, b));
 ```
 
 ### Declare your rules separately.
