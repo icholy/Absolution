@@ -139,22 +139,22 @@ export default class System {
       if (ast.length !== 3) {
         throw new Error(`Syntax Error: ${ast}`);
       }
-      let operator = ast[0];
-      let param1 = this.evalute(ast[1]);
-      let param2 = this.evalute(ast[2]);
+      let operator = ast[1];
+      let left = this.evalute(ast[0]);
+      let right = this.evalute(ast[2]);
       let result = this.createIntermediate();
       switch (operator) {
         case "+":
-          this.add(result, param1, param2);
+          this.add(result, left, right);
           break;
         case "-":
-          this.subtract(result, param1, param2);
+          this.subtract(result, left, right);
           break;
         case "*":
-          this.multiply(result, param1, param2);
+          this.multiply(result, left, right);
           break;
         case "/":
-          this.divide(result, param1, param2);
+          this.divide(result, left, right);
           break;
         default:
           throw new Error(`Syntax Error: invalid operator ${operator}`);
