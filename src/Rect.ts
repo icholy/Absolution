@@ -6,12 +6,12 @@ module Robin {
 
     // these variables represent the rect's propeties
     // inside the constaint system
-    protected left:       Variable;
-    protected width:      Variable;
-    protected top:        Variable;
-    protected height:     Variable;
-    protected topOffset:  Variable;
-    protected leftOffset: Variable;
+    left:       Variable;
+    width:      Variable;
+    top:        Variable;
+    height:     Variable;
+    topOffset:  Variable;
+    leftOffset: Variable;
 
     constructor(
       protected layout:    Layout,

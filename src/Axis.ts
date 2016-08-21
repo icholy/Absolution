@@ -9,6 +9,7 @@ module Robin {
     constrain(property: Property): XAxis;
     constrainedAreDifferent(a: RectPosition, b: RectPosition): boolean;
     independentAreDifferent(a: RectPosition, b: RectPosition): boolean;
+    updateSystem(rect: ElementRect, position: RectPosition): void;
   }
 
   export interface YAxis {
@@ -16,6 +17,7 @@ module Robin {
     constrain(property: Property): YAxis;
     constrainedAreDifferent(a: RectPosition, b: RectPosition): boolean;
     independentAreDifferent(a: RectPosition, b: RectPosition): boolean;
+    updateSystem(rect: ElementRect, position: RectPosition): void;
   }
 
   export let XAxisBoth: XAxis = {
@@ -32,7 +34,9 @@ module Robin {
 
     independentAreDifferent(a: RectPosition, b: RectPosition): boolean {
       return false;
-    }
+    },
+
+    updateSystem(rect: ElementRect, position: RectPosition): void {}
   };
 
   export let XAxisLeft: XAxis = {
@@ -49,6 +53,10 @@ module Robin {
 
     independentAreDifferent(a: RectPosition, b: RectPosition): boolean {
       return a.width !== b.width;
+    },
+
+    updateSystem(rect: ElementRect, position: RectPosition): void {
+      rect.width.assignValue(position.width);
     }
   };
 
@@ -66,6 +74,10 @@ module Robin {
 
     independentAreDifferent(a: RectPosition, b: RectPosition): boolean {
       return a.left !== b.left;
+    },
+
+    updateSystem(rect: ElementRect, position: RectPosition): void {
+      rect.left.assignValue(position.left);
     }
   };
 
@@ -87,6 +99,11 @@ module Robin {
 
     independentAreDifferent(a: RectPosition, b: RectPosition): boolean {
       return a.width !== b.width || a.left !== b.left;
+    },
+
+    updateSystem(rect: ElementRect, position): void {
+      rect.left.assignValue(position.left);
+      rect.width.assignValue(position.width);
     }
   };
 
@@ -104,7 +121,9 @@ module Robin {
 
     independentAreDifferent(a: RectPosition, b: RectPosition): boolean {
       return false;
-    }
+    },
+
+    updateSystem(rect: ElementRect, position: RectPosition): void {}
   };
 
   export let YAxisTop: YAxis = {
@@ -121,6 +140,10 @@ module Robin {
 
     independentAreDifferent(a: RectPosition, b: RectPosition): boolean {
       return a.height !== b.height;
+    },
+
+    updateSystem(rect: ElementRect, position: RectPosition): void {
+      rect.height.assignValue(position.height);
     }
   };
 
@@ -138,6 +161,10 @@ module Robin {
 
     independentAreDifferent(a: RectPosition, b: RectPosition): boolean {
       return a.top !== b.top;
+    },
+
+    updateSystem(rect: ElementRect, position: RectPosition): void {
+      rect.top.assignValue(position.top);
     }
   };
 
@@ -159,6 +186,11 @@ module Robin {
 
     independentAreDifferent(a: RectPosition, b: RectPosition): boolean {
       return a.top !== b.top || a.height !== b.height;
+    },
+
+    updateSystem(rect: ElementRect, position: RectPosition): void {
+      rect.top.assignValue(position.top);
+      rect.height.assignValue(position.height);
     }
 
   }

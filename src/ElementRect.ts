@@ -179,34 +179,8 @@ module Robin {
      * Update the constaint system using the element position.
      */
     setSystemPosition(position: RectPosition): void {
-
-      // x axis
-      switch (this.xAxis.constraint) {
-        case XConstraint.NONE:
-          this.left.assignValue(position.left);
-          this.width.assignValue(position.width);
-          break;
-        case XConstraint.WIDTH:
-          this.left.assignValue(position.left);
-          break;
-        case XConstraint.LEFT:
-          this.width.assignValue(position.width);
-          break;
-      }
-
-      // y axis
-      switch (this.yAxis.constraint) {
-        case YConstraint.NONE:
-          this.top.assignValue(position.top);
-          this.height.assignValue(position.height);
-          break;
-        case YConstraint.HEIGHT:
-          this.top.assignValue(position.top);
-          break;
-        case YConstraint.TOP:
-          this.height.assignValue(position.height);
-          break;
-      }
+      this.yAxis.updateSystem(this, position);
+      this.xAxis.updateSystem(this, position);
     }
 
     /**
