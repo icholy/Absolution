@@ -82,13 +82,12 @@ class ElementManager {
     this.assertIsNotConstrained(property)
 
     if (this.isXAxisProperty(property)) {
-      this.updateXDependencies(property);
+      this.constrainXProperty(property);
     } else {
-      this.updateYDependencies(property);
+      this.contrainYProperty(property);
     }
 
     this.expressions[property] = expression;
-    this.constrained.push(property);
     this.system.set(`${this.id}.${propertyName}`, expression.toString());
   }
 
@@ -100,16 +99,12 @@ class ElementManager {
     for (let property of this.constrained) {
       switch (property) {
         case Property.TOP:
-        case Property.BOTTOM:
-        case Property.VCENTER:
           style.top = `${this.top.getValue()}px`;
           break;
         case Property.HEIGHT:
           style.height = `${this.height.getValue()}px`;
           break;
         case Property.LEFT:
-        case Property.RIGHT:
-        case Property.HCENTER:
           style.left = `${this.left.getValue()}px`;
           break;
         case Property.WIDTH:
@@ -162,12 +157,11 @@ class ElementManager {
     }
   }
 
-  private updateXDependencies(property: Property): void {
+  private constrainXProperty(property: Property): void {
+    let isWidth = property === Property.WIDTH;
     switch (this.xAxisDependencies) {
       case XDependency.LEFT_AND_WIDTH:
-        this.xAxisDependencies = property === Property.WIDTH
-          ? XDependency.LEFT
-          : XDependency.WIDTH;
+        this.xAxisDependencies = isWidth ? XDependency.LEFT : XDependency.WIDTH;
         break;
       case XDependency.LEFT:
       case XDependency.WIDTH:
@@ -177,14 +171,14 @@ class ElementManager {
           throw new Error(
             `cannot set ${Property[property]} of ${this.id} because the x axis already has 2 constraints`);
     }
+    this.constrained.push(isWidth ? Property.WIDTH : Property.LEFT);
   }
 
-  private updateYDependencies(property: Property): void {
+  private contrainYProperty(property: Property): void {
+    let isHeight = property === Property.HEIGHT;
     switch (this.yAxisDependencies) {
       case YDependency.TOP_AND_HEIGHT:
-        this.yAxisDependencies = property === Property.HEIGHT
-          ? YDependency.TOP
-          : YDependency.HEIGHT;
+        this.yAxisDependencies = isHeight ? YDependency.TOP : YDependency.HEIGHT;
         break;
       case YDependency.TOP:
       case YDependency.HEIGHT:
@@ -194,6 +188,7 @@ class ElementManager {
           throw new Error(
             `cannot set ${Property[property]} of ${this.id} because the y axis already has 2 constraints`);
     }
+    this.constrained.push(isHeight ? Property.HEIGHT : Property.TOP);
   }
 
   private isXAxisProperty(property: Property): boolean {
