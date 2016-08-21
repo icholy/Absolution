@@ -8,6 +8,7 @@
     "src/Connectors.ts",
     "src/Parser.ts",
     "src/Relationships.ts",
-    "src/System.ts"
+    "src/System.ts",
+    "src/ElementManager.ts"
   ]
 }
