@@ -420,6 +420,7 @@ module Constraints {
             break;
           case "/":
             this.divide(result, param1, param2);
+            break;
           default:
             throw new Error(`Syntax Error: invalid operator ${operator}`);
         }
