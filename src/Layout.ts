@@ -102,7 +102,7 @@ module Robin {
             if (attr.trim() === "") {
               return;
             }
-            let parts = attr.split(":", 2);
+            let parts = attr.split(":");
             if (parts.length !== 2) {
               throw new Error(`the style is not valid: ${attr}`);
             }
