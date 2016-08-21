@@ -73,7 +73,7 @@ class ElementManager {
     }
     else if (this.yAxisConstraints === 1) {
       if (this.isConstrained("height")) {
-        this.system.set(`${id}.top`, rect.height);
+        this.system.set(`${id}.top`, rect.top);
       } else {
         this.system.set(`${id}.height`, rect.height);
       }
