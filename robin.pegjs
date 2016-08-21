@@ -36,7 +36,8 @@ rule
   = _ target:ident _ ":" _ expr:expression_with_text _ {
       return {
         target: target.value,
-        expr:   expr
+        expr:   expr,
+        text:   expr.text
       };
     }
 
