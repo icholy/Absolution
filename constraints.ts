@@ -98,7 +98,7 @@ module Constraints {
     
   }
 
-  export abstract class Operation {
+  export abstract class Relationship {
 
     abstract connectorValueChanged(): void;
 
@@ -115,7 +115,7 @@ module Constraints {
 
   }
 
-  export class Equaler extends Operation {
+  export class Equality extends Relationship {
 
     constructor(
       private left: Connector,
@@ -142,7 +142,7 @@ module Constraints {
 
   }
 
-  export class Adder extends Operation {
+  export class Addition extends Relationship {
 
     constructor(
       private addend1: Connector,
@@ -176,7 +176,7 @@ module Constraints {
 
   }
 
-  export class Multiplier extends Operation {
+  export class Multiplication extends Relationship {
 
     constructor(
       private mult1:   Connector,
@@ -210,7 +210,7 @@ module Constraints {
 
   }
 
-  export class Subtractor extends Operation {
+  export class Subtraction extends Relationship {
 
     constructor(
       private minuend:    Connector,
@@ -244,7 +244,7 @@ module Constraints {
 
   }
 
-  export class Divider extends Operation {
+  export class Division extends Relationship {
 
     constructor(
       private dividend: Connector,
@@ -283,7 +283,7 @@ module Constraints {
 
     public $: any;
 
-    private operations: Operation[] = [];
+    private relationships: Relationship[] = [];
     private variables:  { [name: string]: Variable; } = Object.create(null);
     private variableId = 0;
 
@@ -291,32 +291,11 @@ module Constraints {
       this.$ = this.proxy();
     }
 
-    private hasVariable(name: string): boolean {
+    /**
+     * Checks if a variable exists
+     */
+    has(name: string): boolean {
       return name in this.variables;
-    }
-
-    private getVariable(name: string): Variable {
-      if (!this.hasVariable(name)) {
-        this.variables[name] = new Variable(name);
-      }
-      return this.variables[name];
-    }
-
-    private createIntermediate(): Variable {
-      let id = this.variableId++;
-      return this.getVariable(`Intermediate${id}`);
-    }
-
-    private connectorFor(v: Value): Connector {
-      if (typeof v === "string") {
-        return this.getVariable(v);
-      } 
-      else if (typeof v === "number") {
-        return new Constant(v);
-      }
-      else {
-        return v;
-      }
     }
 
     /**
@@ -362,14 +341,14 @@ module Constraints {
     reset(): void {
       this.variableId = 0;
       this.variables = Object.create(null);
-      this.operations = [];
+      this.relationships = [];
     }
 
     /**
      * left = right
      */
     equals(left: Value, right: Value): void {
-      this.operations.push(new Equaler(
+      this.relationships.push(new Equality(
         this.connectorFor(left),
         this.connectorFor(right)
       ));
@@ -379,7 +358,7 @@ module Constraints {
      * sum = addend1 + addend2
      */
     add(sum: Value, addend1: Value, addend2: Value): void {
-      this.operations.push(new Adder(
+      this.relationships.push(new Addition(
         this.connectorFor(addend1),
         this.connectorFor(addend2),
         this.connectorFor(sum)
@@ -390,7 +369,7 @@ module Constraints {
      * difference = minuend - subtrahend
      */
     subtract(difference: Value, minuend: Value, subtrahend: Value): void {
-      this.operations.push(new Subtractor(
+      this.relationships.push(new Subtraction(
         this.connectorFor(minuend),
         this.connectorFor(subtrahend),
         this.connectorFor(difference)
@@ -401,7 +380,7 @@ module Constraints {
      * product = mult1 * mult2
      */
     multiply(product: Value, mult1: Value, mult2: Value): void {
-      this.operations.push(new Multiplier(
+      this.relationships.push(new Multiplication(
         this.connectorFor(mult1),
         this.connectorFor(mult2),
         this.connectorFor(product)
@@ -412,7 +391,7 @@ module Constraints {
      * quotient = dividend / divisor
      */
     divide(quotient: Value, dividend: Value, divisor: Value): void {
-      this.operations.push(new Divider(
+      this.relationships.push(new Division(
         this.connectorFor(dividend),
         this.connectorFor(divisor),
         this.connectorFor(quotient)
@@ -450,14 +429,41 @@ module Constraints {
       }
     }
 
+    /**
+     * Dump all the relationships as strings
+     */
     toString(): string {
-      return this.operations.map(op => op.toString()).join("\n");
+      return this.relationships.map(rel => rel.toString()).join("\n");
+    }
+
+    private getVariable(name: string): Variable {
+      if (!this.has(name)) {
+        this.variables[name] = new Variable(name);
+      }
+      return this.variables[name];
+    }
+
+    private createIntermediate(): Variable {
+      let id = this.variableId++;
+      return this.getVariable(`$${id}`);
+    }
+
+    private connectorFor(v: Value): Connector {
+      if (typeof v === "string") {
+        return this.getVariable(v);
+      } 
+      else if (typeof v === "number") {
+        return new Constant(v);
+      }
+      else {
+        return v;
+      }
     }
 
     private proxy(): Proxy {
       return new Proxy(this, {
         get(target: System, property: string, receiver: Proxy): number {
-          if (target.hasVariable(property)) {
+          if (target.has(property)) {
             return target.get(property);
           }
           return target[property];
