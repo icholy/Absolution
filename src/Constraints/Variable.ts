@@ -116,7 +116,7 @@ module Constraints {
 
     private notify(): void {
       for (let relationship of this.relationships) {
-        relationship.recompute();
+        relationship.solve();
       }
     }
 
