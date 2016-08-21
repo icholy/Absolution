@@ -11,11 +11,12 @@ export default class System {
 
   public $: Proxy;
 
-  private relationships: Relationship[] = [];
-  private variables:  { [name: string]: Variable; } = Object.create(null);
-  private variableId = 0;
+  private relationships: Relationship[];
+  private variables:     { [name: string]: Variable; };
+  private idsequence:    number;
 
   constructor() {
+    this.reset();
     this.$ = this.proxy();
   }
 
@@ -67,7 +68,7 @@ export default class System {
    * Reset the whole system
    */
   reset(): void {
-    this.variableId = 0;
+    this.idsequence = 0;
     this.variables = Object.create(null);
     this.relationships = [];
   }
@@ -172,7 +173,7 @@ export default class System {
   }
 
   private createIntermediate(): Variable {
-    let id = this.variableId++;
+    let id = this.idsequence++;
     return this.getVariable(`$${id}`);
   }
 
