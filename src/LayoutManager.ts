@@ -4,6 +4,17 @@ interface ElementOptions {
   container?: HTMLElement
 }
 
+const attributeMap = {
+  "anchorLeft":    "left",
+  "anchorRight":   "right",
+  "anchorTop":     "top",
+  "anchorBottom":  "bottom",
+  "anchorWidth":   "width",
+  "anchorHeight":  "height",
+  "anchorHcenter": "hcenter",
+  "anchorVcenter": "vcenter"
+};
+
 class LayoutManager {
 
   system = new Constraints.System();
@@ -16,20 +27,15 @@ class LayoutManager {
       let isRegistered = false;
       let manager = null;
       Object.keys(el.dataset).forEach(key => {
-        if (key.indexOf("anchor") === 0) {
-          if (!isRegistered) {
-            let container = null;
-            if (el.dataset["anchorIn"]) {
-              container = document.getElementById(el.dataset["anchorIn"]);
-            }
-            manager = this.register(el, container);
-            isRegistered = true;
-          }
-          let property = key.substr(6).toLowerCase();
-          if (property !== "" && property !== "in") {
-            manager.constrain(property, el.dataset[key]);
-          }
+        if (!attributeMap[key]) {
+          return;
         }
+        if (!isRegistered) {
+          manager = this.register(el, null);
+          isRegistered = true;
+        }
+        let property = attributeMap[key];
+        manager.constrain(property, el.dataset[key]);
       });
     }
   }
