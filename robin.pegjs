@@ -1,23 +1,26 @@
 
-start
+rulesets
   = ruleset*
 
 ruleset
-  = _ selector:selector _ "{" _ rules:rule* _ "}" _ {
+  = _ id:selector _ "{" _ rules:rule* _ "}" _ {
       return {
         tag:   "ruleset",
+        id:    id,
         rules: rules
       };
     }
 
 selector
-  = ("#" / ".") ident
+  = "#" id:ident {
+    return id.value;
+  }
 
 rule
   = _ target:ident _ ":" _ expr:expression _ ";" _ {
       return {
         tag:    "rule",
-        target: target,
+        target: target.value,
         expr:   expr
       };
     }

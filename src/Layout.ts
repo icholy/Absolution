@@ -45,6 +45,7 @@ module Robin {
     system = new System();
     rects = [] as Rect[];
     digestID = 0;
+    rulesets = [] as RuleSet[];
 
     private updateIsRequested = false;
 
@@ -95,6 +96,10 @@ module Robin {
       if (isRegistered) {
         rect.initialize();
       }
+    }
+
+    parseRuleSet(input: string): void {
+      this.rulesets = Parser.parse(input, { startRule: "rulesets" });
     }
 
     private applyProperty(rect: ElementRect, name: string, value: string): void {
