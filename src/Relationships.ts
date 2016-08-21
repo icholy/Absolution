@@ -193,15 +193,13 @@ module Robin {
 
   }
 
-  export type CustomFunc = Function;
-
   export class CustomRelationship extends Relationship {
 
     private solver: (id: number) => void;
 
     constructor(
       private name:  string,
-      private func:  CustomFunc,
+      private func:  Function,
 
       private input:  Variable[],
       private output: Variable

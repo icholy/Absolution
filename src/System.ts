@@ -57,7 +57,7 @@ module Robin {
     /**
      * Register a function
      */
-    func(name: string, func: CustomFunc): void {
+    func(name: string, func: Function): void {
       if (this.hasFunction(name)) {
         throw new Error(`${name} function already registered`);
       }
