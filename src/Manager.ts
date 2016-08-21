@@ -86,7 +86,9 @@ module Absolution {
       let options = this.env.getRectOptions(el);
       if (options) {
         let rect = new ElementRect(el, this, options);
-        this.rects[options.id] = rect;
+        let { id } = options;
+        Utils.setRectId(el, id);
+        this.rects[id] = rect;
       }
     }
 
