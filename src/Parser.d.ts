@@ -36,7 +36,7 @@ declare module Absolution {
     key?:    string;
   }
 
-  export interface NumberIdent {
+  export interface NumberNode {
     tag:   "number";
     value: number;
   }
