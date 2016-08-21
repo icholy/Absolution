@@ -17,7 +17,7 @@ module Robin {
     // the element that's being managed
     public element: HTMLElement;
 
-    private observer: MutationObserver;
+    private watcher: WatchStrategy;
 
     constructor(
       id:        string,
@@ -28,13 +28,7 @@ module Robin {
       super(layout, id, container);
       this.element = element;
 
-      let updateSystem = this.updateSystemPosition.bind(this);
-      this.observer = new MutationObserver(updateSystem);
-      this.observer.observe(element, {
-        attributes:    true,
-        characterData: true,
-        childList:     true
-      });
+      this.watcher = new MutationObserverStrategy(this);
 
       let updateRect = this.updateRectPosition.bind(this);
       this.width.onChange(updateRect);
@@ -118,7 +112,7 @@ module Robin {
      * If the element's independent (unconstrained) properties
      * have changed, use them to update the system.
      */
-    private updateSystemPosition(): void {
+    updateSystemPosition(): void {
       let position = Utils.getRectPosition(this.element);
       if (this.isIndependentPositionDifferent(position)) {
         this.position = position;
@@ -139,7 +133,7 @@ module Robin {
       system.destroyVariable(this.left);
       system.destroyVariable(this.leftOffset);
       system.destroyVariable(this.width);
-      this.observer.disconnect();
+      this.watcher.destroy();
     }
 
     private assertIsNotConstrained(propertyName: string): void {
