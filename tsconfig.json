@@ -16,6 +16,8 @@
     "src/ManagedRect.ts",
     "src/ElementRect.ts",
     "src/Layout.ts",
-    "src/Watcher.ts"
+    "src/Watcher.ts",
+    "src/Angular.ts",
+    "typings/index.d.ts"
   ]
 }
