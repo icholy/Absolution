@@ -93,7 +93,7 @@ class ElementManager {
       this.system.set(`${this.id}.${propertyName}`, expression.toString());
 
     } catch (e) {
-      let reason = e instanceof Error ? e.message : e.toString()
+      let reason = e instanceof Error ? e.message : e.toString();
       throw new Error(`cannot set ${this.id}.${propertyName} because ${reason}`);
     }
   }
