@@ -3,13 +3,25 @@ module Robin {
   export abstract class Relationship {
 
     private variables: Variable[];
+    private digestID: number;
 
     /**
-     * Try to solve the constraint.
+     * Notify the relationship that one if its variables has changed
+     */
+    notify(id: number): void {
+      if (id !== this.digestID && this.solve(id)) {
+        this.digestID = id;
+      }
+    }
+
+    /**
+     * Try to solve the constraint. Returns a boolean value
+     * indicating of it was solved or not.
      *
      * @param id the digest id
+     * @return true if it was solved.
      */
-    abstract solve(id: number): void;
+    protected abstract solve(id: number): boolean;
 
     /**
      * Attach this relationship to the supplied variables
@@ -41,14 +53,16 @@ module Robin {
       this.attachTo(left, right);
     }
 
-    solve(id: number): void {
+    solve(id: number): boolean {
       switch (true) {
         case this.left.hasValue(id):
           this.right.setValue(this.left.getValue(), id);
-          break;
+          return true;
         case this.right.hasValue(id):
           this.left.setValue(this.right.getValue(), id);
-          break;
+          return true;
+        default:
+          return false;
       }
     }
 
@@ -69,20 +83,22 @@ module Robin {
       this.attachTo(addend1, addend2, sum);
     }
 
-    solve(id: number): void {
+    solve(id: number): boolean {
       switch (true) {
         case this.addend1.hasValue(id) && this.addend2.hasValue(id):
           this.sum.setValue(
               this.addend1.getValue() + this.addend2.getValue(), id);
-          break;
+          return true;
         case (this.addend1.hasValue(id) && this.sum.hasValue(id)):
           this.addend2.setValue(
               this.sum.getValue() - this.addend1.getValue(), id);
-          break;
+          return true;
         case (this.addend2.hasValue(id) && this.sum.hasValue(id)):
           this.addend1.setValue(
               this.sum.getValue() - this.addend2.getValue(), id);
-          break;
+          return true;
+        default:
+          return false;
       }
     }
 
@@ -103,20 +119,22 @@ module Robin {
       this.attachTo(mult1, mult2, product);
     }
 
-    solve(id: number) {
+    solve(id: number): boolean {
       switch (true) {
         case (this.mult1.hasValue(id) && this.mult2.hasValue(id)):
           this.product.setValue(
               this.mult1.getValue() * this.mult2.getValue(), id);
-          break;
+          return true;
         case (this.product.hasValue(id) && this.mult1.hasValue(id)):
           this.mult2.setValue(
               this.product.getValue() / this.mult1.getValue(), id);
-          break;
+          return true;
         case (this.product.hasValue(id) && this.mult2.hasValue(id)):
           this.mult1.setValue(
               this.product.getValue() / this.mult2.getValue(), id);
-          break;
+          return true;
+        default:
+          return false;
       }
     }
 
@@ -137,20 +155,22 @@ module Robin {
       this.attachTo(minuend, subtrahend, difference);
     }
 
-    solve(id: number) {
+    solve(id: number): boolean {
       switch (true) {
         case (this.minuend.hasValue(id) && this.subtrahend.hasValue(id)):
           this.difference.setValue(
               this.minuend.getValue() - this.subtrahend.getValue(), id);
-          break;
+          return true;
         case (this.minuend.hasValue(id) && this.difference.hasValue(id)):
           this.subtrahend.setValue(
               this.minuend.getValue() - this.difference.getValue(), id);
-          break;
+          return true;
         case (this.subtrahend.hasValue(id) && this.difference.hasValue(id)):
           this.minuend.setValue(
               this.subtrahend.getValue() + this.difference.getValue(), id);
-          break;
+          return true;
+        default:
+          return false;
       }
     }
 
@@ -171,19 +191,22 @@ module Robin {
       this.attachTo(dividend, divisor, quotient);
     }
 
-    solve(id: number): void {
+    solve(id: number): boolean {
       switch (true) {
         case (this.dividend.hasValue(id) && this.divisor.hasValue(id)):
           this.quotient.setValue(
               this.dividend.getValue() / this.divisor.getValue(), id);
-          break;
+          return true;
         case (this.dividend.hasValue(id) && this.quotient.hasValue(id)):
           this.divisor.setValue(
               this.dividend.getValue() / this.quotient.getValue(), id);
-          break;
+          return true;
         case (this.divisor.hasValue(id) && this.quotient.hasValue(id)):
           this.dividend.setValue(
               this.divisor.getValue() * this.quotient.getValue(), id);
+          return true;
+        default:
+          return false;
       }
     }
 
@@ -195,7 +218,7 @@ module Robin {
 
   export class CustomRelationship extends Relationship {
 
-    private solver: (id: number) => void;
+    private solver: (id: number) => boolean;
 
     constructor(
       private name:  string,
@@ -223,47 +246,51 @@ module Robin {
       this.attachTo(...input);
     }
 
-    solve(id: number): void {
-      this.solver(id);
+    solve(id: number): boolean {
+      return this.solver(id);
     }
 
-    solveN(id: number): void {
+    solveN(id: number): boolean {
       let params = [];
       for (let v of this.input) {
         if (!v.hasValue(id)) {
-          return;
+          return false;
         }
         params.push(v.getValue());
       }
       let result = this.func(...params);
       this.output.setValue(result, id);
+      return true;
     }
 
-    solve1(id: number): void {
+    solve1(id: number): boolean {
       let v = this.input[0];
       if (!v.hasValue(id)) {
-        return;
+        return false;
       }
       let result = this.func(v.getValue());
       this.output.setValue(result, id);
+      return true;
     }
 
-    solve2(id: number): void {
+    solve2(id: number): boolean {
       let [v1, v2] = this.input;
       if (!v1.hasValue(id) || !v2.hasValue(id)) {
-        return;
+        return false;
       }
       let result = this.func(v1.getValue(), v2.getValue());
       this.output.setValue(result, id);
+      return true;
     }
 
-    solve3(id: number): void {
+    solve3(id: number): boolean {
       let [v1, v2, v3] = this.input;
       if (!v1.hasValue(id) || !v2.hasValue(id) || !v3.hasValue(id)) {
-        return;
+        return false;
       }
       let result = this.func(v1.getValue(), v2.getValue(), v3.getValue());
       this.output.setValue(result, id);
+      return true;
     }
 
     toString(): string {

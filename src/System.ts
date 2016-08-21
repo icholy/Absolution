@@ -125,7 +125,7 @@ module Robin {
      */
     solve(digestID: number): void {
       for (let relationship of this.relationships) {
-        relationship.solve(digestID);
+        relationship.notify(digestID);
       }
     }
 
