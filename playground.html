@@ -26,16 +26,23 @@
       background-color: green;
     }
 
+    #container {
+      position: relative;
+    }
+
   </style>
 </head>
 <body>
 
-  <div class="box" id="A" data-anchor-height="A.width / 2">A</div>
-  <div class="box" id="B" 
-    data-anchor-width="A.width / 2"
-    data-anchor-height="A.height / 2"
-    data-anchor-vcenter="A.vcenter"
-    data-anchor-hcenter="A.hcenter">B</div>
+  <div id="container">
+    <div class="box" id="A" data-anchor-height="A.width / 2">A</div>
+    <div class="box" id="B" 
+      data-anchor-width="A.width / 2"
+      data-anchor-height="A.height / 2"
+      data-anchor-vcenter="A.vcenter"
+      data-anchor-hcenter="A.hcenter">B</div>
+  </div>
+
 
   <script>
     window.system = new System();
@@ -51,7 +58,7 @@
       Object.keys(el.dataset).forEach(function (key) {
         if (key.indexOf("anchor") === 0) {
           if (!isInitialized) {
-            manager = new ElementManager(system, el, layout);
+            manager = new ElementManager(system, el, document.body, layout);
             isInitialized = true;
           }
           let property = key.substr(6).toLowerCase();

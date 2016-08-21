@@ -9,9 +9,10 @@ class ElementManager {
   private yAxisConstraints = 0;
 
   constructor(
-    private system:  System,
-    private element: HTMLElement,
-    private layout:  LayoutManager
+    private system:    System,
+    private element:   HTMLElement,
+    private container: HTMLElement,
+    private layout:    LayoutManager
   ) {
     this.id = element.id;
     let id = element.id;
@@ -55,7 +56,7 @@ class ElementManager {
 
   updateSystem(): void {
     let id = this.id;
-    let rect = this.element.getBoundingClientRect();
+    let rect = this.getBoundingRect();
     if (this.xAxisConstraints === 0) {
       this.system.set(`${id}.left`, rect.left);
       this.system.set(`${id}.width`, rect.width);
@@ -95,6 +96,19 @@ class ElementManager {
       let value = this.system.get(`${this.id}.${property}`);
       this.element.style[property] = `${value}px`;
     }
+  }
+  
+  private getBoundingRect(): ClientRect {
+    let inner = this.element.getBoundingClientRect();
+    let outer = this.container.getBoundingClientRect();
+    return {
+      left:   inner.left - outer.left,
+      right:  inner.right - outer.right,
+      top:    inner.top - outer.top,
+      bottom: inner.bottom - outer.bottom,
+      width:  inner.width,
+      height: inner.height
+    };
   }
 
   private isConstrained(property: string): boolean {
