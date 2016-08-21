@@ -186,7 +186,6 @@ module Robin {
 
     parseStyleSheet(input: string): void {
       let rulesets = Parser.parse<RuleSet[]>(input, { startRule: "rulesets" });
-      console.log(rulesets);
       for (let { selector, rules } of rulesets) {
         if (selector.type !== "id") {
           console.log("classes are not supported yet");
