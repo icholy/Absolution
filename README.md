@@ -2,31 +2,42 @@
 
 > Element positioning system inspired by SICP.
 
-### Center in another element.
 
 ``` html
-<div id="A" a-rect>A</div>
-<div a-style="center-in: A">B</div>
+<div a-rect id="A"></div>
+<div a-rect id="B"></div>
 ```
 
-### Anchor the element to another
+### Anchor elements to eachother
 
-``` html
-<div id="A">A</div>
-<div a-style="left: A.right">B</div>
+``` css
+#B {
+	left: A.right;
+}
+```
+
+### Center in another element.
+
+``` css
+#B {
+	center-in: A;	
+}
 ```
 
 ### Use expressions
 
-``` html
-<div id="A">A</div>
-<div id="B" a-style="left: A.right + B.width / 2">B</div>
+``` css
+#B {
+	left: A.right + B.width / 2;
+}
 ```
 
 ### Use JavaScript variables inside expressions
 
-``` html
-<div id="A" a-style="width: x * A.height">A</div>
+``` css
+#B {
+	width: x * A.height;
+}
 ```
 
 ``` js
@@ -36,22 +47,10 @@ manager.assign("x", 100);
 ### Use JavaScript functions inside expressions
 
 ``` js
-manager.func("cos", x => Math.cos(x));
-manager.func("min", (a, b) => Math.min(a, b));
+manager.funcs(Math, "Math");
 ```
 
-### Declare your rules separately.
-
-``` html
-<script type="text/absolution">
-  #foo {
-    left:  B.right + sin(x) * 100px;
-    width: C.height - min(A.height, 200px);
-  }
-</script>
-```
-
-# Attributes
+## Attributes 
 
 * `left`
 * `right`
