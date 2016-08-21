@@ -63,23 +63,31 @@ class ElementManager {
     let property = nameToProperty[propertyName];
     if (this.isConstrained(property)) {
       throw new Error(
-        `${propertyName} is already set to ${this.expressions[property]}`);
+        `${this.id}.${propertyName} is already set to ${this.expressions[property]}`);
     }
     switch (property) {
       case ElementProperty.WIDTH:
       case ElementProperty.LEFT:
       case ElementProperty.RIGHT:
       case ElementProperty.HCENTER:
+        if (this.xAxisConstraints >= 2) {
+          throw new Error(
+            `cannot set ${this.id}.${propertyName} because the x axis already has 2 constraints`);
+        }
         this.xAxisConstraints++;
         break;
       case ElementProperty.HEIGHT:
       case ElementProperty.TOP:
       case ElementProperty.BOTTOM:
       case ElementProperty.VCENTER:
+        if (this.yAxisConstraints >= 2) {
+          throw new Error(
+            `cannot set ${this.id}.${propertyName} because the y axis already has 2 constraints`);
+        }
         this.yAxisConstraints++;
         break;
       default:
-        throw new Error(`${propertyName} is not a supported property`);
+        throw new Error(`${this.id}.${propertyName} is not a supported property`);
     }
     this.expressions[property] = expression;
     this.constrained.push(property);
