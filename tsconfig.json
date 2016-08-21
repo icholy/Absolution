@@ -8,8 +8,6 @@
     "src/Connectors.ts",
     "src/Parser.ts",
     "src/Relationships.ts",
-    "src/System.ts",
-    "src/test/Test.ts",
-    "typings/browser.d.ts"
+    "src/System.ts"
   ]
 }
