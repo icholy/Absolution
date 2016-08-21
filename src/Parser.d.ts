@@ -90,4 +90,15 @@ declare module Absolution {
     macros:   Macro[];
   }
 
+  export interface RectVFL {
+    tag:  "rect";
+    name: string;
+  }
+
+  export interface SpaceVFL {
+    tag:   "space";
+    expr?: Expression;
+  }
+
+  export type ExpressionVFL = (RectVFL|SpaceVFL)[];
 }
