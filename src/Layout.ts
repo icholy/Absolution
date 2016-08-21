@@ -4,6 +4,7 @@ module Robin {
 
     system = new System();
     rects = [] as Rect[];
+    digestID = 0;
 
     private updateIsRequested = false;
 
@@ -145,7 +146,7 @@ module Robin {
       for (let r of this.rects) {
         r.updateSystem();
       }
-      this.system.solve();
+      this.system.solve(this.digestID++);
       for (let r of this.rects) {
         r.updateRect();
       }

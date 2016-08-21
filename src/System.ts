@@ -49,7 +49,7 @@ module Robin {
       }
       this.clear(name);
       if (typeof v === "number") {
-        this.getVariable(name).setValue(v);
+        this.getVariable(name).setValue(v, 0);
         return;
       }
       if (typeof v === "string") {
@@ -69,21 +69,11 @@ module Robin {
     }
 
     /**
-     * Clear intermediate variables
-     */
-    clearVolatile(): void {
-      Object.keys(this.variables).forEach(name => {
-        this.variables[name].clearValue();
-      });
-    }
-
-    /**
      * Reset all intermediate variables
      */
-    solve(): void {
-      this.clearVolatile();
+    solve(digestID: number): void {
       for (let relationship of this.relationships) {
-        relationship.solve();
+        relationship.solve(digestID);
       }
     }
 
@@ -92,7 +82,7 @@ module Robin {
      */
     clear(name?: string): void {
       if (name) {
-        this.getVariable(name).clearValue(true);
+        this.getVariable(name).clearValue();
       } else {
         Object.keys(this.variables).forEach(name => this.clear(name))
       }
@@ -199,7 +189,9 @@ module Robin {
             values.push(this.getVariable(token.value));
             break;
           case Type.NUMBER:
-            values.push(new Variable("Const", token.value));
+            let v = new Variable("Const");
+            v.assignValue(token.value);
+            values.push(v);
             break;
           case Type.OPERATOR:
             if (values.length < 2) {

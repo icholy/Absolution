@@ -3,8 +3,8 @@ module Robin {
   export class Variable {
 
     private relationships: Relationship[] = [];
-    private assigned    = false;
     private flexibility = 0.001;
+    private digestID    = -1;
 
     constructor(
       private name: string,
@@ -16,23 +16,23 @@ module Robin {
      */
     assignValue(v: number): void {
       this.value = v;
-      this.assigned = true;
+      this.digestID = -1;
     }
 
     /**
      * Attempts to set the value. This method will throw an Error
      * if attempting to set a different value than already set.
      */
-    setValue(v: number): void {
-      if (this.hasValue()) {
+    setValue(v: number, digestID: number): void {
+      if (this.hasValue(digestID)) {
         if (this.isCloseEnough(v)) {
           return;
         }
         throw new Error(`Contradiction: ${this} is already set (attempting to set ${v})`);
       }
+      this.digestID = digestID;
       this.value = v;
-      this.assigned = false;
-      this.notify();
+      this.notify(digestID);
     }
 
     /**
@@ -45,7 +45,10 @@ module Robin {
     /**
      * Check if variable has value.
      */
-    hasValue(): boolean {
+    hasValue(digestID: number): boolean {
+      if (this.digestID !== digestID && !this.isAssigned()) {
+        return false;
+      }
       return this.value !== null;
     }
 
@@ -54,10 +57,8 @@ module Robin {
      *
      * @param force clear the value even if it's been assigned
      */
-    clearValue(force: boolean = false): void {
-      if (force || !this.isAssigned()) {
-        this.value = null;
-      }
+    clearValue(): void {
+      this.value = null;
     }
 
     /**
@@ -90,7 +91,7 @@ module Robin {
      * Check if the current value has been assigned.
      */
     isAssigned(): boolean {
-      return this.assigned;
+      return this.digestID === -1;
     }
 
     /**
@@ -114,9 +115,9 @@ module Robin {
       return `${this.name}(${this.getValue()})`;
     }
 
-    private notify(): void {
+    private notify(digestID: number): void {
       for (let relationship of this.relationships) {
-        relationship.solve();
+        relationship.solve(digestID);
       }
     }
 
