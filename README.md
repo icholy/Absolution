@@ -156,7 +156,7 @@ Default Manager Options:
 
 ## Manually managing Element life-cycle
 
-Element life-cycles can be manually managed using the `Manager#register` and `Manager@unregister` methods.
+Element life-cycles can be manually managed using the `Manager#register` and `Manager#unregister` methods.
 
 ``` ts
 // start managing the element.
