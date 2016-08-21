@@ -111,7 +111,7 @@ module Absolution {
         this.expressions[propertyName] = expression;
 
       } catch (e) {
-        throw new Error(this.createErrorMessage(propertyName, expression, e));
+        throw this.createError(propertyName, expression, e);
       }
     }
 
@@ -211,13 +211,14 @@ module Absolution {
       return nameToProperty[name];
     }
 
-    private createErrorMessage(propertyName: string, expression: string, error: any): string {
+    private createError(propertyName: string, expression: string, error: any): Error {
       let reason = error instanceof Error ? error.message : error.toString();
       let description = `${this.id}.${propertyName}="${expression}"`;
       let expressions = Object.keys(this.expressions).map(propertyName => {
         return `\t${this.id}.${propertyName} = ${this.expressions[propertyName]}`;
       }).join("\n");
-      return `cannot set ${description} because ${reason}\n\nConstraints:\n\n${expressions}\n\n${error.stack}`;
+      return new Error(
+          `cannot set ${description} because ${reason}\n\nConstraints:\n\n${expressions}\n\n${error.stack}`);
     }
 
   }
