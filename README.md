@@ -65,7 +65,6 @@ manager.func("min", (a, b) => Math.min(a, b));
 * `relative-to`
 * `align-x`
 * `align-y`
-* `fill`
 * `size`
 * `watch`
 

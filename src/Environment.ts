@@ -189,13 +189,6 @@ module Absolution {
             this.handleRule(options, this.ruleFor("width", `${ident}.width`));
             this.handleRule(options, this.ruleFor("height", `${ident}.height`));
             break;
-          case "fill":
-            ident = this.identFrom(rule);
-            this.handleRule(options, this.ruleFor("top", `${ident}.top`));
-            this.handleRule(options, this.ruleFor("bottom", `${ident}.bottom`));
-            this.handleRule(options, this.ruleFor("left", `${ident}.left`));
-            this.handleRule(options, this.ruleFor("right", `${ident}.right`));
-            break;
           default:
             options.rules.push(
                 this.ruleFor(rule.target, rule.text, rule.expr));
