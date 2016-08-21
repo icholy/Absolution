@@ -35,6 +35,20 @@
 
   <script type="text/absolution">
 
+    #add-rect {
+      bottom: viewport.bottom - 50px;
+      right:  viewport.right - 100px;
+      width: 100px;
+      height: 50px;
+    }
+
+    #rm-rect {
+      right: add-rect.left - 10px;
+      width: 100px;
+      height: 50px;
+      bottom: viewport.bottom - 50px;
+    }
+
     #origin {
       center-x: viewport.center-x + sin(y * -10) * 100px;
       center-y: viewport.center-y + cos(y * -10) * 100px;
@@ -107,10 +121,17 @@
       }, 10);
 
       $scope.rects = [];
-      for (let i = 0; i < 20; i++) {
+
+      let grow = true;
+
+      $scope.addRect = function () {
         let color = getRandomColor();
         $scope.rects.push(color);
-      }
+      };
+
+      $scope.removeRect = function () {
+        $scope.rects.pop();
+      };
 
     });
 
@@ -118,6 +139,10 @@
 
 </head>
 <body ng-app="App" ng-controller="MainController">
+
+  <button a-rect id="add-rect" ng-click="addRect()">Add Rect</button>
+  <button a-rect id="rm-rect" ng-click="removeRect()">Remove Rect</button>
+
   <div a-rect id="origin"></div>
   <div a-rect
     ng-repeat="r in rects"
