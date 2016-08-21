@@ -10,6 +10,7 @@ class Layout {
 
     this.rects.push(new DocumentRect(this.system));
     this.rects.push(new ViewportRect(this.system));
+    this.rects.push(new ElementRect("body", document.body, "document", this.system));
 
     let el: HTMLElement;
     while (el = iterator.nextNode() as any) {
