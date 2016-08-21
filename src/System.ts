@@ -238,14 +238,14 @@ module Robin {
       }
     }
 
-    private handleFuncCall(node: any): Variable {
+    private handleFuncCall(node: FuncCallNode): Variable {
       let result = this.createIntermediate();
       let params = node.params.map(p => this.evaluate(p));
       this.call(node.name, result, params);
       return result;
     }
 
-    private handleOperation(node: any): Variable {
+    private handleOperation(node: OperationNode): Variable {
       let left = this.evaluate(node.left);
       let right = this.evaluate(node.right);
       let result = this.createIntermediate();
