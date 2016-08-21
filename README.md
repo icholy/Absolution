@@ -189,7 +189,7 @@ let manager = new Absolution.Manager({ envData });
 
 Angular integration lets you use functions and variables from the `$scope` in your rules.
 
-```
+``` html
 <div a-rect
      a-style="width: 100px * $index"
      ng-repeat="foo in foos">
