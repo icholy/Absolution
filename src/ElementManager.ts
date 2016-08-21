@@ -93,7 +93,6 @@ class ElementManager {
           break;
       }
       let value = this.system.get(`${this.id}.${property}`);
-      console.log(`setting ${this.id}.${property} = ${value}`);
       this.element.style[property] = `${value}px`;
     }
   }

@@ -31,7 +31,7 @@
 </head>
 <body>
 
-  <div class="box" id="A" data-anchor-register>A</div>
+  <div class="box" id="A" data-anchor>A</div>
   <div class="box" id="B" 
     data-anchor-width="A.width / 2"
     data-anchor-height="A.height / 2"
@@ -56,7 +56,7 @@
             isInitialized = true;
           }
           let property = key.substr(6).toLowerCase();
-          if (property !== "register") {
+          if (property !== "") {
             manager.constrain(property, el.dataset[key]);
           }
         }
@@ -64,7 +64,6 @@
     }
 
     layout.updateLayout();
-    console.log(system.toString());
 
   </script>
 
