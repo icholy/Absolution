@@ -5,16 +5,19 @@ rulesets
     }
 
 ruleset
-  = _ id:selector _ "{" _ rules:rule_with_trailing_semi* _ "}" _ {
+  = _ selector:selector _ "{" _ rules:rule_with_trailing_semi* _ "}" _ {
       return {
-        id:    id,
-        rules: rules
+        selector: selector,
+        rules:    rules
       };
     }
 
 selector
-  = "#" id:ident {
-      return id.value;
+  = type:("#" / ".") id:ident {
+      return {
+        type: type === "#" ? "id" : "class",
+        name: id.value
+      };
     }
 
 inline_rules

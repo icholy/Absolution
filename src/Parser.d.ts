@@ -24,6 +24,11 @@ declare module Robin {
     params: Expression[];
   }
 
+  export interface SelectorNode {
+    type: string;
+    name: string;
+  }
+
   export interface IdentNode {
     tag:   string;
     value: string;
@@ -41,8 +46,8 @@ declare module Robin {
   }
 
   export interface RuleSet {
-    id:    string;
-    rules: Rule[];
+    selector: SelectorNode;
+    rules:    Rule[];
   }
 
 }
