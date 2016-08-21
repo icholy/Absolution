@@ -235,8 +235,8 @@ module Robin {
       }
 
       return !this.position
-          || this.isConstrainedXPositionDifferent(position)
-          || this.isConstrainedYPositionDifferent(position);
+          || this.isIndependentXPositionDifferent(position)
+          || this.isIndependentYPositionDifferent(position);
     }
 
     private isIndependentXPositionDifferent(position: RectPosition): boolean {
@@ -272,6 +272,7 @@ module Robin {
     updateSystem(): void {
       let position = Utils.getRectPosition(this.element);
       if (this.isIndependentPositionDifferent(position)) {
+        this.position = position;
         this.setSystemPosition(position);
         this.layout.update();
       }
