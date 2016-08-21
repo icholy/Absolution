@@ -94,32 +94,6 @@ class ElementManager {
     this.system.set(`${this.id}.${propertyName}`, expression.toString());
   }
 
-  updateSystem(): void {
-    let rect = this.getBoundingRect();
-    if (this.xAxisConstraints === 0) {
-      this.left.assignValue(rect.left);
-      this.width.assignValue(rect.width);
-    }
-    else if (this.xAxisConstraints === 1) {
-      if (this.isConstrained(ElementProperty.WIDTH)) {
-        this.left.assignValue(rect.left);
-      } else {
-        this.width.assignValue(rect.width);
-      }
-    }
-    if (this.yAxisConstraints === 0) {
-      this.top.assignValue(rect.top);
-      this.height.assignValue(rect.height);
-    }
-    else if (this.yAxisConstraints === 1) {
-      if (this.isConstrained(ElementProperty.HEIGHT)) {
-        this.top.assignValue(rect.top);
-      } else {
-        this.height.assignValue(rect.height);
-      }
-    }
-  }
-
   updateElement(): void {
     let style = this.element.style;
     for (let property of this.constrained) {
@@ -144,6 +118,44 @@ class ElementManager {
     }
   }
   
+  updateSystem(): void {
+    let rect = this.getBoundingRect();
+    this.updateXAxisWith(rect);
+    this.updateYAxisWith(rect);
+  }
+
+  private updateXAxisWith(rect: ClientRect): void {
+    switch (this.xAxisConstraints) {
+      case 0:
+        this.left.assignValue(rect.left);
+        this.width.assignValue(rect.width);
+        break;
+      case 1:
+        if (this.isConstrained(ElementProperty.WIDTH)) {
+          this.left.assignValue(rect.left);
+        } else {
+          this.width.assignValue(rect.width);
+        }
+        break;
+    }
+  }
+
+  private updateYAxisWith(rect: ClientRect): void {
+    switch (this.yAxisConstraints) {
+      case 0:
+        this.top.assignValue(rect.top);
+        this.height.assignValue(rect.height);
+        break;
+      case 1:
+        if (this.isConstrained(ElementProperty.HEIGHT)) {
+          this.top.assignValue(rect.top);
+        } else {
+          this.height.assignValue(rect.height);
+        }
+        break;
+    }
+  }
+
   private getBoundingRect(): ClientRect {
     let inner = this.element.getBoundingClientRect();
     if (!this.container) {
