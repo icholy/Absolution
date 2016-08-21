@@ -2,15 +2,12 @@ module Constraints {
 
   export abstract class Relationship {
 
+    private variables: Variable[];
+
     /**
      * Try to solve the constraint.
      */
     abstract solve(): void;
-
-    /**
-     * Get a list of used variables.
-     */
-    abstract getVariables(): Variable[];
 
     /**
      * Attach this relationship to the supplied variables
@@ -19,7 +16,12 @@ module Constraints {
       for (let v of variables) {
         v.attach(this);
       }
+      this.variables = variables;
       this.solve();
+    }
+
+    getVariables(): Variable[] {
+      return this.variables;
     }
 
     /**
@@ -50,10 +52,6 @@ module Constraints {
           this.left.setValue(this.right.getValue());
           break;
       }
-    }
-
-    getVariables(): Variable[] {
-      return [this.left, this.right];
     }
 
     toString(): string {
@@ -90,10 +88,6 @@ module Constraints {
       }
     }
 
-    getVariables(): Variable[] {
-      return [this.addend1, this.addend2, this.sum];
-    }
-
     toString(): string {
       return `${this.sum} = ${this.addend1} + ${this.addend2}`;
     }
@@ -126,10 +120,6 @@ module Constraints {
               this.product.getValue() / this.mult2.getValue());
           break;
       }
-    }
-
-    getVariables(): Variable[] {
-      return [this.mult1, this.mult2, this.product];
     }
 
     toString(): string {
@@ -166,10 +156,6 @@ module Constraints {
       }
     }
 
-    getVariables(): Variable[] {
-      return [this.minuend, this.subtrahend, this.difference];
-    }
-
     toString(): string {
       return `${this.difference} = ${this.minuend} - ${this.subtrahend}`;
     }
@@ -201,10 +187,6 @@ module Constraints {
           this.dividend.setValue(
               this.divisor.getValue() * this.quotient.getValue());
       }
-    }
-
-    getVariables(): Variable[] {
-      return [this.dividend, this.divisor, this.quotient];
     }
 
     toString(): string {
