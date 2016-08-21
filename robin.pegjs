@@ -89,7 +89,7 @@ numeric
       if (sign) {
         str += "-";
       }
-      str += value;
+      str += value.join("");
       if (decimal) {
         str += "." + decimal[1].join("");
       }

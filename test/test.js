@@ -22,8 +22,8 @@ describe("Robin", function () {
       }
 
       it("should parse a number", function () {
-        var node = parse("1");
-        expect(node.value).toEqual(1);
+        var node = parse("100");
+        expect(node.value).toEqual(100);
       });
 
       it("should parse a negative number", function () {
