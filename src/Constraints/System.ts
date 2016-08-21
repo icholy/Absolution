@@ -44,6 +44,9 @@ module Constraints {
      * Set a variable's value
      */
     set(name: string, v: number|string): void {
+      if (v === "") {
+        throw new Error(`it's not a value value ${v}`)
+      }
       this.clear(name);
       if (typeof v === "number") {
         this.getVariable(name).setValue(v);
@@ -53,7 +56,7 @@ module Constraints {
         this.equals(name, this.evaluate(v));
         return
       }
-      throw new Error(`invalid value ${v}`);
+      throw new Error(`it's not a value value ${v}`)
     }
 
     /**
