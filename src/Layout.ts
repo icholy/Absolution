@@ -73,7 +73,7 @@ module Robin {
       let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
       let el: HTMLElement;
       while (el = iterator.nextNode() as any) {
-        this.handleNewElement(el);
+        this.maybeAddElement(el);
       }
 
       this.update();
@@ -156,7 +156,7 @@ module Robin {
       };
     }
 
-    private handleNewElement(el: HTMLElement): void {
+    maybeAddElement(el: HTMLElement): void {
       let info = this.getRectInfo(el);
       if (!info) {
         return;
@@ -179,25 +179,15 @@ module Robin {
       rect.initialize();
     }
 
-    private hasRuleSet(id: string): boolean {
-      return this.rulesets.hasOwnProperty(id);
-    }
-
     parseStyleSheet(input: string): void {
       let rulesets = Parser.parse(input, { startRule: "rulesets" }) as RuleSet[];
       for (let set of rulesets) {
-        this.rulesets[set.id] = set.rules;
+        if (this.hasRuleSet(set.id)) {
+          this.rulesets[set.id] = this.rulesets[set.id].concat(set.rules);
+        } else {
+          this.rulesets[set.id] = set.rules;
+        }
       }
-    }
-
-    private getAttribute(element: HTMLElement, name: string): string {
-      if (element.hasAttribute(`r-${name}`)) {
-        return element.getAttribute(`r-${name}`);
-      }
-      if (element.hasAttribute(`r-data-${name}`)) {
-        return element.getAttribute(`r-data-${name}`);
-      }
-      return null;
     }
 
     /**
@@ -235,6 +225,19 @@ module Robin {
       return null;
     }
 
-  }
+    private getAttribute(element: HTMLElement, name: string): string {
+      if (element.hasAttribute(`r-${name}`)) {
+        return element.getAttribute(`r-${name}`);
+      }
+      if (element.hasAttribute(`r-data-${name}`)) {
+        return element.getAttribute(`r-data-${name}`);
+      }
+      return null;
+    }
 
+    private hasRuleSet(id: string): boolean {
+      return this.rulesets.hasOwnProperty(id);
+    }
+
+  }
 }
