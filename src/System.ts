@@ -13,7 +13,7 @@ class System {
   private idsequence:    number;
 
   constructor() {
-    this.initialize();
+    this.reset();
     this.$ = this.proxy();
   }
 
@@ -29,6 +29,13 @@ class System {
    */
   get(name: string): number {
     return this.getVariable(name).getValue();
+  }
+
+  /**
+   * Change a variable's value
+   */
+  change(name: string, v: number): void {
+    this.getVariable(name).changeValue(v);
   }
 
   /**
@@ -48,6 +55,18 @@ class System {
   }
 
   /**
+   * Reset all intermediate variables
+   */
+  solve(): void {
+    for (let _var of this.intermediates) {
+      _var.clearValue();
+    }
+    for (let relationship of this.relationships) {
+      relationship.connectorValueChanged();
+    }
+  }
+
+  /**
    * Clear a variable's value. If a variable name is not passed, all are cleared.
    */
   clear(name?: string): void {
@@ -59,21 +78,9 @@ class System {
   }
 
   /**
-   * Reset all intermediate variables
+   * Reset the system
    */
   reset(): void {
-    for (let _var of this.intermediates) {
-      _var.clearValue();
-    }
-    for (let relationship of this.relationships) {
-      relationship.connectorValueChanged();
-    }
-  }
-
-  /**
-   * Initialize or Re-Initialize the system
-   */
-  initialize(): void {
     this.idsequence = 0;
     this.variables = Object.create(null);
     this.relationships = [];
