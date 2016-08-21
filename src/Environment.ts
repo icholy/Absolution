@@ -15,7 +15,10 @@ module Absolution {
       }
     }
 
-    private parse<T>(input: string, options?: ParseOptions): T {
+    private parse<T>(input: string, options?: ParseOptions, useCache: boolean = false): T {
+      if (!useCache) {
+        return Parser.parse<T>(input, options);
+      }
       let result = this.parserCache[input];
       if (!result) {
         result = Parser.parse<T>(input, options);
@@ -124,7 +127,7 @@ module Absolution {
 
       if (el.hasAttribute("a-style")) {
         let style = el.getAttribute("a-style");
-        let rules = this.parse<Rule[]>(style, { startRule: "inline_rules" });
+        let rules = this.parse<Rule[]>(style, { startRule: "inline_rules" }, true);
         for (let rule of rules) {
           this.handleRule(options, rule);
         }
