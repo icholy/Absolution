@@ -45,6 +45,22 @@ module Robin {
       return Utils.getRectPosition(this.element);
     }
 
+    applyPositionUpdate(update: RectPositionUpdate): void {
+      if (update.hasHeight) {
+        this.setHeight(update.height);
+      }
+      if (update.hasWidth) {
+        this.setWidth(update.width);
+      }
+      if (update.hasLeft) {
+        this.setLeft(update.left);
+      }
+      if (update.hasTop) {
+        this.setTop(update.top);
+      }
+      this.afterUpdateRect();
+    }
+
     /**
      * Set the element's left offset
      */

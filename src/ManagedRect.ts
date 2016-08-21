@@ -48,6 +48,22 @@ module Robin {
     }
 
     /**
+     * Make a watcher for the rect
+     */
+    abstract makeWatcher(name: string): Watcher;
+
+    /**
+     * Update the rect's position
+     */
+    abstract applyPositionUpdate(update: RectPositionUpdate): void;
+
+    /**
+     * Get the rect's position.
+     */
+    abstract getRectPosition(): RectPosition;
+
+
+    /**
      * Initialize the rect
      */
     protected initialize(): void {
@@ -92,10 +108,11 @@ module Robin {
         height: this.height.getValue()
       };
       if (this.isConstrainedPositionDifferent(position)) {
-        this.xAxis.updateRect(this, position);
-        this.yAxis.updateRect(this, position);
+        let update = {} as any;
+        this.xAxis.updateRect(update, position);
+        this.yAxis.updateRect(update, position);
+        this.applyPositionUpdate(update);
         this.position = position;
-        this.afterUpdateRect();
       }
     }
 
@@ -118,41 +135,6 @@ module Robin {
           || this.xAxis.independentAreDifferent(this.position, position)
           || this.yAxis.independentAreDifferent(this.position, position);
     }
-
-    /**
-     * Make a watcher for the rect
-     */
-    abstract makeWatcher(name: string): Watcher;
-
-    /**
-     * Set the rect's left offset
-     */
-    abstract setLeft(value: number): void;
-
-    /**
-     * Set the rect's top offset
-     */
-    abstract setTop(value: number): void;
-
-    /**
-     * Set the rect's width
-     */
-    abstract setWidth(value: number): void;
-
-    /**
-     * Set the rect's height
-     */
-    abstract setHeight(value: number): void;
-
-    /**
-     * Called after rect properties have been updated.
-     */
-    abstract afterUpdateRect(): void;
-
-    /**
-     * Get the rect's position.
-     */
-    abstract getRectPosition(): RectPosition;
 
     /**
      * If the element's independent (unconstrained) properties
