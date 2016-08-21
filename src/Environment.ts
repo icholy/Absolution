@@ -226,7 +226,7 @@ module Absolution {
       return this.rulesByClass.hasOwnProperty(id);
     }
 
-    getVariables(): VariableNode[] {
+    getUserVariables(): VariableNode[] {
       return this.userVariables;
     }
 

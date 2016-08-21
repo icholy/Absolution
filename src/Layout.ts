@@ -19,7 +19,11 @@ module Absolution {
     constructor(
       public env    = new Environment(),
       public system = new System()
-    ) {}
+    ) {
+      for (let userVar of env.getUserVariables()) {
+        system.setNode(userVar.name, userVar.expr);
+      }
+    }
 
     attachTo(root: HTMLElement, options: LayoutOptions = defaultOptions) {
 
