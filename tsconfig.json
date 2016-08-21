@@ -8,6 +8,7 @@
     "src/Variable.ts",
     "src/Parser.d.ts",
     "src/Relationships.ts",
+    "src/Environment.ts",
     "src/System.ts",
     "src/Utils.ts",
     "src/Axis.ts",

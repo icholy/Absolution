@@ -112,7 +112,7 @@ module Absolution.Angular {
         ): void {
           let [ctrl, parentCtrl] = controllers;
           let el = element[0];
-          let options = layout.getRectOptions(el, true);
+          let options = layout.env.getRectOptions(el, true);
 
           // automatically set the container
           if (!options.container && parentCtrl) {
