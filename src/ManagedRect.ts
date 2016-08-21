@@ -21,6 +21,10 @@ module Robin {
     // current Rect position
     private position: RectPosition;
 
+    // list of watchers to be cleaned up
+    // when the rect is destroyed
+    private watchers: Watcher[] = [];
+
     constructor(
       layout:  Layout,
       options: RectOptions
@@ -29,6 +33,11 @@ module Robin {
 
       for (let rule of options.rules) {
         this.constrain(rule.target, rule.text, rule.expr);
+      }
+
+      if (options.watcher) {
+        let watcher = this.makeWatcher(options.watcher);
+        this.watchers.push(watcher);
       }
 
       let updateRect = this.updateRectPosition.bind(this);
@@ -110,6 +119,11 @@ module Robin {
     }
 
     /**
+     * Make a watcher for the rect
+     */
+    abstract makeWatcher(name: string): Watcher;
+
+    /**
      * Set the rect's left offset
      */
     abstract setLeft(value: number): void;
@@ -159,6 +173,9 @@ module Robin {
       system.destroyVariable(this.left);
       system.destroyVariable(this.leftOffset);
       system.destroyVariable(this.width);
+      for (let watcher of this.watchers) {
+        watcher.destroy();
+      }
     }
 
     private assertIsNotConstrained(propertyName: string): void {

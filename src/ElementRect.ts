@@ -8,10 +8,6 @@ module Robin {
     // true if postition: "absolute" has been set
     private isAbsoluteSet = false;
 
-    // list of watchers to be cleaned up
-    // when the rect is destroyed
-    private watchers: Watcher[] = [];
-
     constructor(
       element:   HTMLElement,
       layout:    Layout,
@@ -19,18 +15,16 @@ module Robin {
     ) {
       super(layout, options);
       this.element = element;
-
-      // add a watcher if one is specified
-      if (options.watcher) {
-        if (options.watcher !== "mutation") {
-          throw new Error(
-            `${this.getId()}.r-watch value error: "${options.watcher}" is not a supported watcher`);
-        }
-        let watcher = new MutationObserverWatcher(this);
-        this.watchers.push(watcher);
-      }
-
       this.initialize();
+    }
+
+    makeWatcher(name: string): Watcher {
+      // add a watcher if one is specified
+      if (name !== "mutation") {
+        throw new Error(
+          `${this.getId()}.r-watch value error: "${name}" is not a supported watcher`);
+      }
+      return new MutationObserverWatcher(this);
     }
 
     /**
@@ -75,13 +69,6 @@ module Robin {
      */
     setHeight(value: number): void {
       this.element.style.height = `${value}px`;
-    }
-
-    destroy(): void {
-      super.destroy();
-      for (let watcher of this.watchers) {
-        watcher.destroy();
-      }
     }
 
   }
