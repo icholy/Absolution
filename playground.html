@@ -67,15 +67,15 @@
     #Y {
       width:    100px;
       height:   100px;
-      center-y: W.bottom + Math.sin(y) * 100px;
-      center-x: W.left + Math.cos(y) * 100px;
+      center-y: W.bottom + sin(y) * 100px;
+      center-x: W.left + cos(y) * 100px;
     }
 
     #U {
       left:   Y.right;
-      bottom: Math.max(Y.top, X.bottom);
+      bottom: max(Y.top, X.bottom);
       right:  X.left;
-      top:    Math.min(X.bottom, Y.top);
+      top:    min(X.bottom, Y.top);
     }
 
     #W {
@@ -98,7 +98,7 @@
 
   <div id="W" style="background-color: orange">W</div>
 
-  <div id="X" a-style="center-in: viewport; width: 100 * x; height: Math.max(100 - 100 * x, 50)"> X </div>
+  <div id="X" a-style="center-in: viewport; width: 100 * x; height: max(100 - 100 * x, 50)"> X </div>
 
   <div id="U" style="background-color: yellow">U</div>
 
@@ -110,7 +110,7 @@
 
     window.manager = new Absolution.Manager();
 
-    manager.funcObject("Math", Math);
+    manager.funcs(Math);
 
     manager.initialize();
 

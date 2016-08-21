@@ -156,11 +156,12 @@ module Absolution {
     /**
      * Register all functions on an object.
      */
-    funcObject(objectName: string, object: any): void {
+    funcs(object: any, objectName?: string): void {
+      let prefix = objectName ? `${objectName}.` : "";
       for (let name of Object.getOwnPropertyNames(object)) {
         let value = object[name];
         if (typeof value === "function") {
-          this.func(`${objectName}.${name}`, value.bind())
+          this.func(`${prefix}${name}`, value.bind());
         }
       }
     }
