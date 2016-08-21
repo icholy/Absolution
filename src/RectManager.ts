@@ -12,7 +12,7 @@ const nameToProperty = {
   "right":   Property.RIGHT,
   "width":   Property.WIDTH,
   "hcenter": Property.HCENTER,
-  "top":     Property.VCENTER,
+  "top":     Property.TOP,
   "bottom":  Property.BOTTOM,
   "height":  Property.HEIGHT,
   "vcenter": Property.VCENTER
