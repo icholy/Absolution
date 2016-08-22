@@ -22,6 +22,8 @@ Browse the `/examples` directory.
 <div a-rect id="B"></div>
 ```
 
+### Constrain properties of an element.
+
 ``` css
 #B {
 
