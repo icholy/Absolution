@@ -14,8 +14,8 @@ Browse the `/examples` directory.
 # Feature Overview
 
 ``` html
-<div u-rect id="A"></div>
-<div u-rect id="B"></div>
+<div uz-rect id="A"></div>
+<div uz-rect id="B"></div>
 ```
 
 ### Constrain properties of an element.
@@ -67,8 +67,8 @@ engine.funcs(Math, "Math");
 ### Declare rules inline.
 
 ``` html
-<div u-rect id="A"></div>
-<div u-style="width: A.height * 3"></div>
+<div uz-rect id="A"></div>
+<div uz-style="width: A.height * 3"></div>
 ```
 
 # Rule Attributes
@@ -90,8 +90,8 @@ engine.funcs(Math, "Math");
 
 # Element Attributes
 
-* `u-rect`
-* `u-style`
+* `uz-rect`
+* `uz-style`
 
 # Special Rects
 
@@ -123,7 +123,7 @@ engine.initialize(/* options */);
 ```
 
 By default, the engine will walk the entire DOM and register Elements which have an 
-`u-rect` or `u-style` attribute.  This behaviour is configured via an options object passed 
+`uz-rect` or `uz-style` attribute.  This behaviour is configured via an options object passed 
 into the `Engine#initialize` method.
 
 ``` ts
@@ -132,7 +132,7 @@ interface EngineOptions {
   // Find and parse script tags where type="text/uzi"
   findStyleSheets?: boolean;
 
-  // Walk the dom and find elements with `u-rect` or `u-style` attributes.
+  // Walk the dom and find elements with `uz-rect` or `uz-style` attributes.
   findElements?: boolean;
 
   // Use the selectors in the stylesheets to lookup elements in the dom.
@@ -188,8 +188,8 @@ let engine = new uzi.Engine({ envData });
 Angular integration lets you use functions and variables from the `$scope` in your rules.
 
 ``` html
-<div u-rect
-     u-style="width: 100px * $index"
+<div uz-rect
+     uz-style="width: 100px * $index"
      ng-repeat="foo in foos">
 </div>
 ```

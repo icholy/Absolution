@@ -133,17 +133,17 @@
 </head>
 <body ng-app="App" ng-controller="MainController">
 
-  <button u-rect id="add-rect" ng-click="addRect()">Add Rect</button>
-  <button u-rect id="rm-rect" ng-click="removeRect()">Remove Rect</button>
+  <button uz-rect id="add-rect" ng-click="addRect()">Add Rect</button>
+  <button uz-rect id="rm-rect" ng-click="removeRect()">Remove Rect</button>
 
-  <div u-rect id="origin"></div>
-  <div u-rect
+  <div uz-rect id="origin"></div>
+  <div uz-rect
     ng-repeat="r in rects"
     class="block"
-    u-style="width: max(20px, 50px * x); height: max(20px, 50px * x)"
+    uz-style="width: max(20px, 50px * x); height: max(20px, 50px * x)"
     ng-style="{ 'background-color': r }">
 
-    <div u-rect 
+    <div uz-rect 
       ng-repeat="r in rects" 
       class="sub_block"
       ng-style="{ 'background-color': r }">

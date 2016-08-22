@@ -144,7 +144,7 @@ module uzi.Angular {
   function Directive(engine: Engine): ng.IDirective {
     return {
       restrict: "A",
-      require: [ "uRect", "?^^uRect" ],
+      require: [ "uzRect", "?^^uzRect" ],
       controller: Controller,
       scope: false,
       link: {
@@ -195,6 +195,6 @@ module uzi.Angular {
   if (typeof angular !== "undefined") {
     angular.module("uzi", []);
     angular.module("uzi").factory("uzi", EngineFactory);
-    angular.module("uzi").directive("uRect", ["uzi", Directive]);
+    angular.module("uzi").directive("uzRect", ["uzi", Directive]);
   }
 }

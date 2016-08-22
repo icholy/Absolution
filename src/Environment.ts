@@ -155,12 +155,12 @@ module uzi {
         }
       }
 
-      if (el.hasAttribute("u-rect")) {
+      if (el.hasAttribute("uz-rect")) {
         isRect = true;
       }
 
-      if (el.hasAttribute("u-style")) {
-        let style = el.getAttribute("u-style");
+      if (el.hasAttribute("uz-style")) {
+        let style = el.getAttribute("uz-style");
         let rules = this.parse<Rule[]>(style, { startRule: "inline_rules" }, true);
         for (let rule of rules) {
           this.handleRule(options, rule);
