@@ -10,10 +10,10 @@ module Absolution {
 
     constructor(
       element: HTMLElement,
-      manager: Manager,
+      engine:  Engine,
       options: RectOptions
     ) {
-      super(manager, options);
+      super(engine, options);
       this.element = element;
       this.updateSystemPosition();
     }

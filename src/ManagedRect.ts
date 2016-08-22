@@ -37,10 +37,10 @@ module Absolution {
     private isEnqueued = false;
 
     constructor(
-      manager: Manager,
+      engine:  Engine,
       options: RectOptions
     ) {
-      super(manager, options.id, options.container);
+      super(engine, options.id, options.container);
 
       for (let rule of options.rules) {
         this.constrain(rule, options.context);
@@ -51,12 +51,12 @@ module Absolution {
         this.watchers.push(watcher);
       }
 
-      // if one of the variables changes, request the manager to update the
+      // if one of the variables changes, request the engine to update the
       // rect after the system is finished solving itself.
       let enqueue = () => {
         if (!this.isEnqueued) {
           this.isEnqueued = true;
-          manager.enqueueRect(this);
+          engine.enqueueRect(this);
         }
       };
       this.width.onChange(enqueue);
@@ -184,7 +184,7 @@ module Absolution {
         this.position = position;
         this.xAxis.updateSystem(this, position);
         this.yAxis.updateSystem(this, position);
-        this.manager.update();
+        this.engine.update();
       }
     }
 

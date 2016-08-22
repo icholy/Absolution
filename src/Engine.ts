@@ -1,6 +1,6 @@
 module Absolution {
 
-  export interface ManagerOptions {
+  export interface EngineOptions {
 
     // Find and parse script tags where type="text/absolution"
     findStyleSheets?: boolean;
@@ -15,15 +15,15 @@ module Absolution {
     envData?: EnvData;
   }
 
-  const defaultOptions: ManagerOptions = {
+  const defaultOptions: EngineOptions = {
     findStyleSheets: true,
     findElements:    true
   };
 
   /**
-   * The manager is the primary interface to the client.
+   * The engine is the primary interface to the client.
    */
-  export class Manager {
+  export class Engine {
 
     private system          = new System();
     private env             = new Environment();
@@ -35,7 +35,7 @@ module Absolution {
     /**
      * Initializes the environment and finds rects in the dom.
      */
-    initialize(options: ManagerOptions = defaultOptions) {
+    initialize(options: EngineOptions = defaultOptions) {
 
       // add the special rects
       this.rects["viewport"] = new ViewportRect(this);
@@ -101,7 +101,7 @@ module Absolution {
     }
 
     /**
-     * Register an element with the manager.
+     * Register an element with the engine.
      */
     register(el: HTMLElement, options?: RectOptions): void {
       if (this.isRegistered(el)) {
@@ -119,7 +119,7 @@ module Absolution {
     }
 
     /**
-     * Unregister an element from the manager.
+     * Unregister an element from the engine.
      */
     unregister(el: HTMLElement): void {
       let id = Utils.getRectId(el);

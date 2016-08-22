@@ -17,12 +17,12 @@ module Absolution {
     public leftOffset: Variable;
 
     constructor(
-      protected manager:    Manager,
+      protected engine:     Engine,
       protected id:         string,
       protected container?: string
     ) {
 
-      let system = this.system = manager.getSystem();
+      let system = this.system = engine.getSystem();
 
       // x axis
       system.subtract(`${id}.width`, `${id}.right`, `${id}.left`);

@@ -11,7 +11,7 @@ module Absolution.Angular {
     private functions: { [name: string]: FuncEntry; };
 
     constructor(
-      private manager:    Manager,
+      private engine:     Engine,
       private $scope:     ng.IScope,
       private parentCtrl: Controller
     ) {
@@ -28,7 +28,7 @@ module Absolution.Angular {
       this.$scope.$watch<number>(name, (newVal, oldVal) => {
         if (newVal !== oldVal) {
           v.assignValue(newVal);
-          this.manager.update();
+          this.engine.update();
         }
       });
       return v;
@@ -141,7 +141,7 @@ module Absolution.Angular {
    * To improve performance, parsing is done once in the pre-link function
    * and then used in the post-link.
    */
-  function Directive(manager: Manager): ng.IDirective {
+  function Directive(engine: Engine): ng.IDirective {
     return {
       restrict: "A",
       require: [ "aRect", "?^^aRect" ],
@@ -156,7 +156,7 @@ module Absolution.Angular {
         ): void {
           
           let el = element[0];
-          let options = manager.getEnv().getRectOptions(el, true);
+          let options = engine.getEnv().getRectOptions(el, true);
           let [ctrl, parentCtrl] = controllers;
 
           // automatically set the container
@@ -173,28 +173,28 @@ module Absolution.Angular {
           controllers: Controller[]
         ): void {
           let [ctrl, parentCtrl] = controllers;
-          let context = new AngularContext(manager, scope, parentCtrl);
+          let context = new AngularContext(engine, scope, parentCtrl);
           let options = ctrl.getOptionsWithContext(context)
           let el = element[0];
-          manager.register(el, options);
-          element.on("$destroy", () => manager.unregister(el));
+          engine.register(el, options);
+          element.on("$destroy", () => engine.unregister(el));
         }
       }
     }
   }
 
   /**
-   * The Factory injects an instance of Absolution.Manager as "absolution".
+   * The Factory injects an instance of Absolution.Engine as "absolution".
    */
-  function ManagerFactory(): Manager {
-    let manager = new Manager();
-    manager.initialize({ findStyleSheets: true });
-    return manager;
+  function EngineFactory(): Engine {
+    let engine = new Engine();
+    engine.initialize({ findStyleSheets: true });
+    return engine;
   }
 
   if (typeof angular !== "undefined") {
     angular.module("absolution", []);
-    angular.module("absolution").factory("absolution", ManagerFactory);
+    angular.module("absolution").factory("absolution", EngineFactory);
     angular.module("absolution").directive("aRect", ["absolution", Directive]);
   }
 }

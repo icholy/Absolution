@@ -7,11 +7,11 @@ module Absolution {
    */
   export class DocumentRect extends Rect {
 
-    constructor(manager: Manager) {
-      super(manager, "document");
+    constructor(engine: Engine) {
+      super(engine, "document");
       window.addEventListener("resize", () => {
         this.updateSystemPosition();
-        manager.update();
+        engine.update();
       });
       this.updateSystemPosition();
     }
@@ -33,15 +33,15 @@ module Absolution {
    */
   export class ViewportRect extends Rect {
 
-    constructor(manager: Manager) {
-      super(manager, "viewport");
+    constructor(engine: Engine) {
+      super(engine, "viewport");
       window.addEventListener("resize", () => {
         this.updateSystemPosition();
-        this.manager.update();
+        this.engine.update();
       });
       window.addEventListener("scroll", () => {
         this.updateSystemPosition();
-        this.manager.update();
+        this.engine.update();
       });
       this.updateSystemPosition();
     }
@@ -62,11 +62,11 @@ module Absolution {
    */
   export class BodyRect extends Rect {
 
-    constructor(manager: Manager) {
-      super(manager, "body");
+    constructor(engine: Engine) {
+      super(engine, "body");
       window.addEventListener("resize", () => {
         this.updateSystemPosition();
-        manager.update();
+        engine.update();
       });
       this.updateSystemPosition();
     }

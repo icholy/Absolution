@@ -97,11 +97,11 @@
 
   <script>
 
-    window.manager = new Absolution.Manager();
+    window.engine = new Absolution.Engine();
 
-    manager.funcs(Math);
+    engine.funcs(Math);
 
-    manager.initialize();
+    engine.initialize();
 
     function makeOscillator() {
 
@@ -125,8 +125,8 @@
     let oscillator = makeOscillator();
     let counter = 0;
 
-    manager.assign("x", oscillator());
-    manager.assign("y", counter);
+    engine.assign("x", oscillator());
+    engine.assign("y", counter);
 
     let paused = false;
 
@@ -135,8 +135,8 @@
         return;
       }
       counter += 0.1;
-      manager.assign("x", oscillator());
-      manager.assign("y", counter);
+      engine.assign("x", oscillator());
+      engine.assign("y", counter);
     }, 10);
 
     document.getElementById("pause").addEventListener("click", function () {

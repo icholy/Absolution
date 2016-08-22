@@ -49,11 +49,11 @@ Browse the `/examples` directory.
 ``` js
 
 // assign variables
-manager.assign("x", 100);
+engine.assign("x", 100);
 
 // add user defined functions
-manager.func("fooBar", () => 200);
-manager.funcs(Math, "Math");
+engine.func("fooBar", () => 200);
+engine.funcs(Math, "Math");
 ```
 
 ``` css
@@ -116,22 +116,22 @@ Note: user's can create custom rects by extending the `Rect` `class`.
 
 # Setup
 
-The `Manager` `class` is how the user interacts with the system.
+The `Engine` `class` is how the user interacts with the system.
 
 ``` ts
-let manager = new Absolution.Manager();
+let engine = new Absolution.Engine();
 
 // assign variables and attach functions
 
-manager.initialize(/* options */);
+engine.initialize(/* options */);
 ```
 
-By default, the manager will walk the entire DOM and register Elements which have an 
+By default, the engine will walk the entire DOM and register Elements which have an 
 `a-rect` or `a-style` attribute.  This behaviour is configured via an options object passed 
-into the `Manager#initialize` method.
+into the `Engine#initialize` method.
 
 ``` ts
-interface ManagerOptions {
+interface EngineOptions {
 
   // Find and parse script tags where type="text/absolution"
   findStyleSheets?: boolean;
@@ -147,7 +147,7 @@ interface ManagerOptions {
 }
 ```
 
-Default Manager Options:
+Default Engine Options:
 
 ``` ts
 {
@@ -158,14 +158,14 @@ Default Manager Options:
 
 ## Manually managing Element life-cycle
 
-Element life-cycles can be manually managed using the `Manager#register` and `Manager#unregister` methods.
+Element life-cycles can be manually managed using the `Engine#register` and `Engine#unregister` methods.
 
 ``` ts
 // start managing the element.
-manager.register(element);
+engine.register(element);
 
 // stop managing the element.
-manager.unregister(element);
+engine.unregister(element);
 ```
 
 ## Pre-Compiling
@@ -178,12 +178,12 @@ to the client.
 
 **Export:**
 ``` ts
-let envData = manager.getEnv().getExportData();
+let envData = engine.getEnv().getExportData();
 ```
 
 **Import:**
 ``` ts
-let manager = new Absolution.Manager({ envData });
+let engine = new Absolution.Engine({ envData });
 ```
 
 
@@ -203,7 +203,7 @@ Angular integration lets you use functions and variables from the `$scope` in yo
 The simplest way to debug is to use the `System` `class`.
 
 ``` ts
-window.system = manager.getSystem();
+window.system = engine.getSystem();
 ```
 
 The `System#toString()` method will show all relationships. `toString` takes an
