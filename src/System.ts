@@ -1,9 +1,6 @@
 module Absolution {
 
-  declare var Proxy;
-  type Proxy = any;
-
-  type Value = string | number | Variable;
+  export type Value = string | number | Variable;
 
   export interface FuncEntry {
     name:  string;
@@ -46,7 +43,7 @@ module Absolution {
   export class System {
 
     // A debugging tool for interrogating the system.
-    public $: Proxy;
+    public $: any;
 
     private relationships: Relationship[];
     private variables:     { [name: string]: Variable; };
@@ -390,20 +387,20 @@ module Absolution {
      * Creates a proxy object that can be used to play with the
      * constraint system interactively.
      */
-    private proxy(): Proxy {
+    private proxy(): any {
 
       if (!Proxy) {
         return null;
       }
 
       return new Proxy(this, {
-        get(target: System, property: string, receiver: Proxy): number {
+        get(target: System, property: string, receiver: any): number {
           if (target.has(property)) {
             return target.get(property);
           }
           return undefined;
         },
-        set(target: System, property: string, value: any, receiver: Proxy): boolean {
+        set(target: System, property: string, value: any, receiver: any): boolean {
           target.set(property, value);
           return true;
         },

@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
-    "target":  "es5",
-    "rootDir": "src",
-    "outFile": "build/Absolution.js"
+    "target":      "es5",
+    "rootDir":     "src",
+    "outFile":     "build/Absolution.js",
+    "lib":         [ "dom", "es6", "es2015.proxy" ],
+    "declaration": true
   },
   "files": [
     "src/Variable.ts",
