@@ -42,7 +42,7 @@ Browse the `/examples` directory.
 }
 ```
 
-### Interfacing with JavaScript.
+### Interface with JavaScript.
 
 ``` js
 
@@ -66,7 +66,7 @@ manager.funcs(Math, "Math");
 }
 ```
 
-### Rules can be declared inline.
+### Declare rules inline.
 
 ``` html
 <div a-rect id="A"></div>
