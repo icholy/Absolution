@@ -1,5 +1,3 @@
-# Uzi
-
 ![](uzi.png)
 
 > An Element positioning system inspired by SICP's "Propagation of Constraints".
