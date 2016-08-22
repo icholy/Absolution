@@ -15,10 +15,22 @@ describe("Absolution", function () {
 
   describe("GeneratedParser", function () {
 
+    function parseWith(input, startRule) {
+      try {
+        return Absolution.Parser.parse(input, { startRule: startRule });
+      } catch (e) {
+        if (e instanceof Absolution.Parser.SyntaxError) {
+          throw new Error(Absolution.Utils.formatParserError(e, input));
+        } else {
+          throw e;
+        }
+      }
+    }
+
     describe("Expressions", function () {
 
       function parse(input) {
-        return Absolution.Parser.parse(input, { startRule: "expression" });
+        return parseWith(input, "expression");
       }
 
       it("should parse a number", function () {
@@ -74,12 +86,18 @@ describe("Absolution", function () {
     describe("StyleSheet", function () {
 
       function parse(input) {
-        return Absolution.Parser.parse(input, { startRule: "stylesheet" });
+        return parseWith(input, "stylesheet");
       }
 
       it("should parse comments", function () {
-        var stylesheet = parse("/* 8dsk93 \\#test */");
+        var stylesheet = parse(" /* foo bar */ ");
         expect(stylesheet.rulesets.length).toEqual(0);
+        expect(stylesheet.variables.length).toEqual(0);
+      });
+
+      it("should parse an empty commented ruleset", function () {
+        var stylesheet = parse(" /* hi */ #A { /* cool */ } /* no */");
+        expect(stylesheet.rulesets.length).toEqual(1);
         expect(stylesheet.variables.length).toEqual(0);
       });
 
