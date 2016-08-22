@@ -57,10 +57,10 @@ manager.funcs(Math, "Math");
 ``` css
 #B {
 
-  // using variable
+  /* using variable */
   height: x * A.height;
 
-  // using user defined functions
+  /* using user defined functions */
   width: C.height - Math.min(A.height, fooBar());
   left:  B.right + Math.sin(x) * 100px;
 }
