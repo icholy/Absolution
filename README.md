@@ -22,53 +22,45 @@ Browse the `/examples` directory.
 <div a-rect id="B"></div>
 ```
 
-### Anchor elements to eachother
-
 ``` css
 #B {
-	left: A.right;
+
+  /*  Anchor elements to eachother */
+  left: A.right;
+
+  /* Center in another element. */
+  center-in: A;
+
+  /* Basic expressions can be used. */
+  right: A.right + B.width / 2;
+
+  /* Classes are supported */
+  height: B.width / A.height;
+
 }
 ```
 
-### Center in another element.
-
-``` css
-#B {
-	center-in: A;	
-}
-```
-
-### Basic expressions can be used.
-
-``` css
-#B {
-	left: A.right + B.width / 2;
-}
-```
-
-### Named variables can be set and queried from JavaScript.
-
-``` css
-#B {
-	width: x * A.height;
-}
-```
+### Interfacing with JavaScript.
 
 ``` js
+
+// assign variables
 manager.assign("x", 100);
-```
 
-### User defined functions can be added.
-
-``` js
+// add user defined functions
 manager.func("fooBar", () => 200);
 manager.funcs(Math, "Math");
 ```
 
 ``` css
-#foo {
-  left:  B.right + Math.sin(x) * 100px;
+#B {
+
+  // using variable
+  height: x * A.height;
+
+  // using user defined functions
   width: C.height - Math.min(A.height, fooBar());
+  left:  B.right + Math.sin(x) * 100px;
 }
 ```
 
@@ -77,14 +69,6 @@ manager.funcs(Math, "Math");
 ``` html
 <div a-rect id="A"></div>
 <div a-style="width: A.height * 3"></div>
-```
-
-### Classes are supported
-
-``` css
-.bar {
-  width: B.width / A.height;
-}
 ```
 
 # Rule Attributes
