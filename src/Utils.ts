@@ -1,4 +1,4 @@
-module Absolution {
+module uzi {
 
   export interface RectPosition {
     left:   number;
@@ -63,14 +63,14 @@ module Absolution {
      * Mark the element with the rect id.
      */
     static setRectId(element: HTMLElement, id: string): void {
-      element.dataset["absolutionId"] = id;
+      element.dataset["uziId"] = id;
     }
 
     /**
      * Get the rect id from an element.
      */
     static getRectId(element: HTMLElement): string {
-      return element.dataset["absolutionId"];
+      return element.dataset["uziId"];
     }
 
     /**
@@ -85,13 +85,13 @@ module Absolution {
     }
 
     /**
-     * Iterate over all <script> tags who's type is "text/absolution".
+     * Iterate over all <script> tags who's type is "text/uzi".
      */
     static forEachStyleScriptTag(callback: (el: HTMLScriptElement) => void): void {
       let scriptTags = document.getElementsByTagName("script");
       for (let i = 0; i < scriptTags.length; i++) {
         let scriptTag = scriptTags.item(i);
-        if (scriptTag.getAttribute("type") === "text/absolution") {
+        if (scriptTag.getAttribute("type") === "text/uzi") {
           callback(scriptTag);
         }
       }

@@ -1,4 +1,4 @@
-module Absolution {
+module uzi {
 
   /**
    * The base class for all relationships between variables.

@@ -1,4 +1,4 @@
-module Absolution {
+module uzi {
 
   export interface EnvData {
     cache:      { [input: string]: any; };
@@ -18,7 +18,7 @@ module Absolution {
       let result = this.parserCache[input];
       if (!result || !useCache) {
         if (!Parser) {
-          throw new Error("Absolution.Parser is not loaded!");
+          throw new Error("uzi.Parser is not loaded!");
         }
         try {
           result = Parser.parse<T>(input, options);
@@ -155,12 +155,12 @@ module Absolution {
         }
       }
 
-      if (el.hasAttribute("a-rect")) {
+      if (el.hasAttribute("u-rect")) {
         isRect = true;
       }
 
-      if (el.hasAttribute("a-style")) {
-        let style = el.getAttribute("a-style");
+      if (el.hasAttribute("u-style")) {
+        let style = el.getAttribute("u-style");
         let rules = this.parse<Rule[]>(style, { startRule: "inline_rules" }, true);
         for (let rule of rules) {
           this.handleRule(options, rule);

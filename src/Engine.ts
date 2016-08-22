@@ -1,8 +1,8 @@
-module Absolution {
+module uzi {
 
   export interface EngineOptions {
 
-    // Find and parse script tags where type="text/absolution"
+    // Find and parse script tags where type="text/uzi"
     findStyleSheets?: boolean;
 
     // Walk the dom and find elements with `a-rect` or `a-style` attributes.

@@ -1,5 +1,5 @@
 
-module Absolution {
+module uzi {
 
   /**
    * A watcher is responsible for triggering an update

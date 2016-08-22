@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target":      "es5",
     "rootDir":     "src",
-    "outFile":     "build/Absolution.js",
+    "outFile":     "build/uzi.js",
     "lib":         [ "dom", "es6", "es2015.proxy" ],
     "declaration": true
   },

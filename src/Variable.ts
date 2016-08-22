@@ -1,4 +1,4 @@
-module Absolution {
+module uzi {
 
   /**
    * A variable holds a value and notifies listeners when that value changes.

@@ -1,4 +1,4 @@
-module Absolution {
+module uzi {
 
   /**
    * Rect configuration options.

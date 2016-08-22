@@ -1,4 +1,4 @@
-module Absolution {
+module uzi {
 
   /**
    * A base class for all rects types.

@@ -1,5 +1,5 @@
 
-module Absolution {
+module uzi {
 
   /**
    * A rect for the dom's document.

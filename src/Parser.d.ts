@@ -1,5 +1,5 @@
 
-declare module Absolution {
+declare module uzi {
 
   interface ParseOptions {
     startRule?: string;

@@ -1,5 +1,5 @@
 
-module Absolution {
+module uzi {
 
   /**
    * Specifies which axis where's operating on.

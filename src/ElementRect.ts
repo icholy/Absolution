@@ -1,4 +1,4 @@
-module Absolution {
+module uzi {
 
   export class ElementRect extends ManagedRect {
 

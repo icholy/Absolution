@@ -3,8 +3,8 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=utf-8">
   <title>Playground</title>
-  <script src="../build/Absolution.js"></script>
-  <script src="../build/Parser.js"></script>
+  <script src="../build/uzi.js"></script>
+  <script src="../build/uzi.parser.js"></script>
   <style>
 
     #container {
@@ -38,7 +38,7 @@
 
   </style>
 
-  <script type="text/absolution">
+  <script type="text/uzi">
 
     #A {
       height: A.width * x;
@@ -83,11 +83,11 @@
 
   <div class="green" id="B">B</div>
 
-  <div id="C" style="background-color: blue" a-style="left: B.right; top: B.bottom; height: B.height * 3; width: 200px"> C </div>
+  <div id="C" style="background-color: blue" u-style="left: B.right; top: B.bottom; height: B.height * 3; width: 200px"> C </div>
 
   <div id="W" style="background-color: orange">W</div>
 
-  <div id="X" a-style="center-in: viewport; width: 100 * x; height: max(100 - 100 * x, 50)"> X </div>
+  <div id="X" u-style="center-in: viewport; width: 100 * x; height: max(100 - 100 * x, 50)"> X </div>
 
   <div id="U" style="background-color: yellow">U</div>
 
@@ -97,7 +97,7 @@
 
   <script>
 
-    window.engine = new Absolution.Engine();
+    window.engine = new uzi.Engine();
 
     engine.funcs(Math);
 

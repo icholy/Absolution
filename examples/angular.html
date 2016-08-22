@@ -4,8 +4,8 @@
   <meta http-equiv="content-type" content="text/html;charset=utf-8">
   <title>Playground</title>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
-  <script src="../build/Absolution.js"></script>
-  <script src="../build/Parser.js"></script>
+  <script src="../build/uzi.js"></script>
+  <script src="../build/uzi.parser.js"></script>
 
   <style>
 
@@ -21,7 +21,7 @@
 
   </style>
 
-  <script type="text/absolution">
+  <script type="text/uzi">
 
     $btn-rect-margin: 50px;
 
@@ -92,9 +92,9 @@
       return color;
     }
 
-    angular.module("App", ["absolution"]).controller("MainController", function ($scope, absolution) {
+    angular.module("App", ["uzi"]).controller("MainController", function ($scope, uzi) {
 
-      window.absolution = absolution;
+      window.uzi = uzi;
 
       $scope.min = Math.min.bind(Math);
       $scope.max = Math.max.bind(Math);
@@ -133,17 +133,17 @@
 </head>
 <body ng-app="App" ng-controller="MainController">
 
-  <button a-rect id="add-rect" ng-click="addRect()">Add Rect</button>
-  <button a-rect id="rm-rect" ng-click="removeRect()">Remove Rect</button>
+  <button u-rect id="add-rect" ng-click="addRect()">Add Rect</button>
+  <button u-rect id="rm-rect" ng-click="removeRect()">Remove Rect</button>
 
-  <div a-rect id="origin"></div>
-  <div a-rect
+  <div u-rect id="origin"></div>
+  <div u-rect
     ng-repeat="r in rects"
     class="block"
-    a-style="width: max(20px, 50px * x); height: max(20px, 50px * x)"
+    u-style="width: max(20px, 50px * x); height: max(20px, 50px * x)"
     ng-style="{ 'background-color': r }">
 
-    <div a-rect 
+    <div u-rect 
       ng-repeat="r in rects" 
       class="sub_block"
       ng-style="{ 'background-color': r }">

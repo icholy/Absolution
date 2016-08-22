@@ -1,4 +1,4 @@
-module Absolution {
+module uzi {
 
   export type Value = string | number | Variable;
 

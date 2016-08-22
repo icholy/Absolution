@@ -1,5 +1,5 @@
 
-module Absolution.Angular {
+module uzi.Angular {
 
   /**
    * AngularContext intercepts variable/function lookups and
@@ -184,7 +184,7 @@ module Absolution.Angular {
   }
 
   /**
-   * The Factory injects an instance of Absolution.Engine as "absolution".
+   * The Factory injects an instance of uzi.Engine as "uzi".
    */
   function EngineFactory(): Engine {
     let engine = new Engine();
@@ -193,8 +193,8 @@ module Absolution.Angular {
   }
 
   if (typeof angular !== "undefined") {
-    angular.module("absolution", []);
-    angular.module("absolution").factory("absolution", EngineFactory);
-    angular.module("absolution").directive("aRect", ["absolution", Directive]);
+    angular.module("uzi", []);
+    angular.module("uzi").factory("uzi", EngineFactory);
+    angular.module("uzi").directive("aRect", ["uzi", Directive]);
   }
 }

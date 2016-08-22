@@ -1,4 +1,4 @@
-# Absolution.js
+# Uzi
 
 > An Element positioning system inspired by SICP's "Propagation of Constraints".
 
@@ -14,8 +14,8 @@ Browse the `/examples` directory.
 # Feature Overview
 
 ``` html
-<div a-rect id="A"></div>
-<div a-rect id="B"></div>
+<div u-rect id="A"></div>
+<div u-rect id="B"></div>
 ```
 
 ### Constrain properties of an element.
@@ -67,8 +67,8 @@ engine.funcs(Math, "Math");
 ### Declare rules inline.
 
 ``` html
-<div a-rect id="A"></div>
-<div a-style="width: A.height * 3"></div>
+<div u-rect id="A"></div>
+<div u-style="width: A.height * 3"></div>
 ```
 
 # Rule Attributes
@@ -90,8 +90,8 @@ engine.funcs(Math, "Math");
 
 # Element Attributes
 
-* `a-rect`
-* `a-style`
+* `u-rect`
+* `u-style`
 
 # Special Rects
 
@@ -115,7 +115,7 @@ Note: user's can create custom rects by extending the `Rect` `class`.
 The `Engine` `class` is how the user interacts with the system.
 
 ``` ts
-let engine = new Absolution.Engine();
+let engine = new uzi.Engine();
 
 // assign variables and attach functions
 
@@ -123,16 +123,16 @@ engine.initialize(/* options */);
 ```
 
 By default, the engine will walk the entire DOM and register Elements which have an 
-`a-rect` or `a-style` attribute.  This behaviour is configured via an options object passed 
+`u-rect` or `u-style` attribute.  This behaviour is configured via an options object passed 
 into the `Engine#initialize` method.
 
 ``` ts
 interface EngineOptions {
 
-  // Find and parse script tags where type="text/absolution"
+  // Find and parse script tags where type="text/uzi"
   findStyleSheets?: boolean;
 
-  // Walk the dom and find elements with `a-rect` or `a-style` attributes.
+  // Walk the dom and find elements with `u-rect` or `u-style` attributes.
   findElements?: boolean;
 
   // Use the selectors in the stylesheets to lookup elements in the dom.
@@ -169,7 +169,7 @@ engine.unregister(element);
 > This is still a work in progress.
 
 A cache of all source to compiled rules is kept during runtime. If you export this
-data, and initialize Absolution with it, the parser doesn't need to be sent
+data, and initialize uzi with it, the parser doesn't need to be sent
 to the client.
 
 **Export:**
@@ -179,7 +179,7 @@ let envData = engine.getEnv().getExportData();
 
 **Import:**
 ``` ts
-let engine = new Absolution.Engine({ envData });
+let engine = new uzi.Engine({ envData });
 ```
 
 
@@ -188,8 +188,8 @@ let engine = new Absolution.Engine({ envData });
 Angular integration lets you use functions and variables from the `$scope` in your rules.
 
 ``` html
-<div a-rect
-     a-style="width: 100px * $index"
+<div u-rect
+     u-style="width: 100px * $index"
      ng-repeat="foo in foos">
 </div>
 ```

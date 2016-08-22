@@ -1,9 +1,9 @@
-describe("Absolution", function () {
+describe("uzi", function () {
 
   describe("Variable", function () {
 
     it("should throw an error if it's already set to a different value", function () {
-      var v = new Absolution.Variable("name");
+      var v = new uzi.Variable("name");
       var spy = jasmine.createSpy('notified');
       v.setValue(123);
       expect(function () {
@@ -17,10 +17,10 @@ describe("Absolution", function () {
 
     function parseWith(input, startRule) {
       try {
-        return Absolution.Parser.parse(input, { startRule: startRule });
+        return uzi.Parser.parse(input, { startRule: startRule });
       } catch (e) {
-        if (e instanceof Absolution.Parser.SyntaxError) {
-          throw new Error(Absolution.Utils.formatParserError(e, input));
+        if (e instanceof uzi.Parser.SyntaxError) {
+          throw new Error(uzi.Utils.formatParserError(e, input));
         } else {
           throw e;
         }
@@ -107,7 +107,7 @@ describe("Absolution", function () {
 
   describe("System", function () {
 
-    var system = new Absolution.System();
+    var system = new uzi.System();
 
     beforeEach(function () {
       system.reset();

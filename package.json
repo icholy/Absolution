@@ -1,11 +1,11 @@
 {
-  "name": "absolution",
+  "name": "uzi",
   "version": "0.0.1",
   "description": "a constraint based layout system",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "peg": "pegjs --allowed-start-rules expression,stylesheet,inline_rules --format globals -e Absolution.Parser -o build/Parser.js grammar.pegjs",
+    "peg": "pegjs --allowed-start-rules expression,stylesheet,inline_rules --format globals -e uzi.Parser -o build/uzi.parser.js grammar.pegjs",
     "tsc": "tsc",
     "postinstall": "npm run tsc && npm run peg"
   },
@@ -16,7 +16,7 @@
   "author": "Ilia Choly",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/icholy/Robin/issues"
+    "url": "https://github.com/icholy/uzi/issues"
   },
   "homepage": "https://github.com/icholy/Robin#readme",
   "devDependencies": {
