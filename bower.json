@@ -1,0 +1,17 @@
+{
+  "name": "uzi",
+  "description": "a constraint based layout system",
+  "main": "index.js",
+  "authors": [
+    "Ilia Choly"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/icholy/uzi",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
