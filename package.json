@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "peg": "pegjs --allowed-start-rules expression,stylesheet,inline_rules -e Absolution.Parser grammar.pegjs build/Parser.js",
+    "peg": "pegjs --allowed-start-rules expression,stylesheet,inline_rules --format globals -e Absolution.Parser -o build/Parser.js grammar.pegjs",
     "tsc": "tsc",
     "postinstall": "npm run tsc && npm run peg"
   },
@@ -21,7 +21,7 @@
   "homepage": "https://github.com/icholy/Robin#readme",
   "devDependencies": {
     "jasmine-core": "2.4.1",
-    "pegjs": "^0.9.0",
+    "pegjs": "^0.10.0",
     "typescript": "^2.1.0-dev.20160821"
   }
 }
