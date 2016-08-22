@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/icholy/Robin.git"
+    "url": "git+https://github.com/icholy/uzi.git"
   },
   "author": "Ilia Choly",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/icholy/uzi/issues"
   },
-  "homepage": "https://github.com/icholy/Robin#readme",
+  "homepage": "https://github.com/icholy/uzi#readme",
   "devDependencies": {
     "jasmine-core": "2.4.1",
     "pegjs": "^0.10.0",
