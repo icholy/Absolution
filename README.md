@@ -6,8 +6,6 @@
 
 ``` sh
 npm install
-npm run tsc
-npm run peg
 python -mSimpleHTTPServer
 ```
 
