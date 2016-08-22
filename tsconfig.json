@@ -4,7 +4,8 @@
     "rootDir":     "src",
     "outFile":     "build/uzi.js",
     "lib":         [ "dom", "es6", "es2015.proxy" ],
-    "declaration": true
+    "declaration": true,
+    "sourceMap":   true
   },
   "files": [
     "src/Variable.ts",
