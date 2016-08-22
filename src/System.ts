@@ -389,7 +389,7 @@ module Absolution {
      */
     private proxy(): any {
 
-      if (!Proxy) {
+      if (typeof Proxy === "undefined") {
         return null;
       }
 
