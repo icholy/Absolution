@@ -43,8 +43,8 @@ module Absolution {
       return {
         top:    bounds.top + viewport.top,
         left:   bounds.left + viewport.left,
-        width:  bounds.width,
-        height: bounds.height
+        width:  element.offsetWidth,
+        height: element.offsetHeight
       };
     }
 
