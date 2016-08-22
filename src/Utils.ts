@@ -77,7 +77,7 @@ module Absolution {
      * Iterate over all elements starting from the supplied root.
      */
     static forEachElement(root: HTMLElement, callback: (el: HTMLElement) => void): void {
-      let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT);
+      let iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT, null, false);
       let el: HTMLElement;
       while (el = iterator.nextNode() as any) {
         callback(el);
