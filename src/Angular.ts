@@ -192,7 +192,7 @@ module Absolution.Angular {
     return manager;
   }
 
-  if (angular) {
+  if (typeof angular !== "undefined") {
     angular.module("absolution", []);
     angular.module("absolution").factory("absolution", ManagerFactory);
     angular.module("absolution").directive("aRect", ["absolution", Directive]);
