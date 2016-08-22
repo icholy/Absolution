@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "peg": "pegjs --allowed-start-rules expression,stylesheet,inline_rules -e Absolution.Parser grammar.pegjs build/Parser.js",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "postinstall": "npm run tsc && npm run peg"
   },
   "repository": {
     "type": "git",
