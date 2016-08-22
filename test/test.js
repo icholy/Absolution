@@ -71,6 +71,20 @@ describe("Absolution", function () {
 
     });
 
+    describe("StyleSheet", function () {
+
+      function parse(input) {
+        return Absolution.Parser.parse(input, { startRule: "stylesheet" });
+      }
+
+      it("should parse comments", function () {
+        var stylesheet = parse("/* 8dsk93 \\#test */");
+        expect(stylesheet.rulesets.length).toEqual(0);
+        expect(stylesheet.variables.length).toEqual(0);
+      });
+
+    });
+
   });
 
   describe("System", function () {

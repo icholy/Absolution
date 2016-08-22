@@ -166,6 +166,9 @@ ident
       };
     }
 
+comment
+  = "//" .* [\r\n]
+
 _ "whitespace"
     = [ \t\n\r]*
 
