@@ -1,5 +1,12 @@
 module Absolution {
 
+  /**
+   * A variable holds a value and notifies listeners when that value changes.
+   * The value of a variable can either be 'set' or 'assigned'. When the value
+   * originates from a digest cycle (from a relationship) then it is 'set'. If
+   * it is directly given a value by (from a user), it is 'assigned'. The
+   * difference is that a set value is not preserved between digests.
+   */
   export class Variable {
 
     private callbacks     = [] as Function[];
