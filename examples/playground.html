@@ -105,8 +105,8 @@
 
     function makeOscillator() {
 
-      let step = 0.01;
-      let current = 0;
+      var step = 0.01;
+      var current = 0;
 
       return function () {
         current += step;
@@ -122,13 +122,13 @@
       };
     }
 
-    let oscillator = makeOscillator();
-    let counter = 0;
+    var oscillator = makeOscillator();
+    var counter = 0;
 
     engine.assign("x", oscillator());
     engine.assign("y", counter);
 
-    let paused = false;
+    var paused = false;
 
     setInterval(function () {
       if (paused) {

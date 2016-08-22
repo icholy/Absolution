@@ -69,12 +69,12 @@
 
     function makeOscillator() {
 
-      let step = 0.01;
-      let current = 0;
-      let sign = 1;
+      var step = 0.01;
+      var current = 0;
+      var sign = 1;
 
       return function next() {
-        let result = current + step * sign;
+        var result = current + step * sign;
         if (result < 0 || 1 < result) {
           sign *= -1;
           return next();
@@ -84,9 +84,9 @@
     }
 
     function getRandomColor() {
-      let letters = '0123456789ABCDEF'.split('');
-      let color = '#';
-      for (let i = 0; i < 6; i++) {
+      var letters = '0123456789ABCDEF'.split('');
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
         color += letters[Math.floor(Math.random() * 16)];
       }
       return color;
@@ -102,8 +102,8 @@
       $scope.cos = Math.cos.bind(Math);
       $scope.rand = Math.random.bind(Math);
 
-      let oscillator = makeOscillator();
-      let counter = 0;
+      var oscillator = makeOscillator();
+      var counter = 0;
 
       $scope.x = oscillator();
       $scope.y = counter;
@@ -117,10 +117,8 @@
 
       $scope.rects = [];
 
-      let grow = true;
-
       $scope.addRect = function () {
-        let color = getRandomColor();
+        var color = getRandomColor();
         $scope.rects.push(color);
       };
 
