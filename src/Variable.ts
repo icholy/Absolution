@@ -1,5 +1,7 @@
 module uzi {
 
+  const VARIABLE_FLEXIBILITY = 0.001;
+
   /**
    * A variable holds a value and notifies listeners when that value changes.
    * The value of a variable can either be 'set' or 'assigned'. When the value
@@ -11,7 +13,6 @@ module uzi {
 
     private callbacks     = [] as Function[];
     private relationships = [] as Relationship[];
-    private flexibility   = 0.001;
     private digestID      = -1;
 
     constructor(
@@ -144,7 +145,7 @@ module uzi {
      * value to be considered equal
      */
     private isCloseEnough(v: number): boolean {
-      return Math.abs(v - this.value) <= this.flexibility;
+      return Math.abs(v - this.value) <= VARIABLE_FLEXIBILITY;
     }
 
   }
