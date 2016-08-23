@@ -1,7 +1,7 @@
 module uzi {
 
   export interface EnvData {
-    cache:      { [input: string]: any; };
+    cache:       { [input: string]: any; };
     stylesheets: StyleSheet[];
   }
 
