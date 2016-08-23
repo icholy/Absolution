@@ -70,7 +70,17 @@ module uzi {
      * Get the rect id from an element.
      */
     static getRectId(element: HTMLElement): string {
-      return element.dataset["uziId"];
+      return element.dataset["uziId"] || null;
+    }
+
+    /**
+     * Get the id of the parent rect.
+     */
+    static getParentRectId(el: HTMLElement): string {
+      if (!el.parentElement) {
+        return null;
+      }
+      return this.getRectId(el.parentElement);
     }
 
     /**
