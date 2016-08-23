@@ -177,6 +177,11 @@ module uzi {
         options.id = Utils.guid();
       }
 
+      // lookup the parent rect id if it's not set
+      if (!options.container) {
+        options.container = Utils.getParentRectId(el);
+      }
+
       return options;
     }
 
