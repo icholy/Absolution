@@ -5,7 +5,7 @@ module uzi.Angular {
    * AngularContext intercepts variable/function lookups and
    * injects items from the angular $scope.
    */
-  class AngularContext implements Context {
+  class AngularContext extends Context {
 
     private variables: { [name: string]: Variable; };
     private functions: { [name: string]: FuncEntry; };
@@ -15,6 +15,7 @@ module uzi.Angular {
       private $scope:     ng.IScope,
       private parentCtrl: Controller
     ) {
+      super();
       this.variables = Object.create(null);
       this.functions = Object.create(null);
     }
