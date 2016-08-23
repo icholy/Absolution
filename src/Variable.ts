@@ -1,7 +1,9 @@
 module uzi {
 
-  // If the different between two values is less than this
-  // then they're considered equal.
+  /**
+   * If the different between two values is less than this
+   * then they're considered equal.
+   */
   const VARIABLE_FLEXIBILITY = 0.001;
 
   /**
