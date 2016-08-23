@@ -3,8 +3,8 @@ module uzi {
   export type Value = string | number | Variable;
 
   export interface FuncEntry {
-    name:  string;
-    func:  Function;
+    name: string;
+    func: Function;
   }
 
   /**
