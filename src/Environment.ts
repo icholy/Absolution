@@ -5,6 +5,27 @@ module uzi {
     stylesheets: StyleSheet[];
   }
 
+  export class RectContext extends Context {
+
+    private container: string;
+
+    constructor(options: RectOptions) {
+      super();
+      this.container = options.container;
+    }
+
+    identToName(node: IdentNode): string {
+      if (node.tag === "ident" && node.value === "parent") {
+        return this.container;
+      }
+      if (node.tag === "property" && node.object === "parent") {
+        return `${this.container}.${node.key}`;
+      }
+      return node.value;
+    }
+
+  }
+
   export class Environment {
 
     private rulesById      = {} as { [id: string]: Rule[]; };
@@ -180,6 +201,10 @@ module uzi {
       // lookup the parent rect id if it's not set
       if (!options.container) {
         options.container = Utils.getParentRectId(el);
+      }
+
+      if (options.container) {
+        options.context = new RectContext(options);
       }
 
       return options;
