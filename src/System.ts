@@ -98,7 +98,7 @@ module uzi {
      */
     set(name: string, v: number|string): void {
       if (v === "") {
-        throw new Error(`it's not a value value ${v}`);
+        throw new Error(`it's not a value ${v}`);
       }
       this.clear(name);
       if (typeof v === "number") {
