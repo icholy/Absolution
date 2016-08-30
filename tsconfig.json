@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target":      "es5",
     "rootDir":     "src",
-    "outFile":     "build/uzi.js",
+    "outFile":     "lib/uzi.js",
     "lib":         [ "dom", "es6", "es2015.proxy" ],
     "declaration": true,
     "sourceMap":   true

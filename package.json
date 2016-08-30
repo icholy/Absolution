@@ -2,10 +2,11 @@
   "name": "uzi",
   "version": "0.0.1",
   "description": "a constraint based layout system",
-  "main": "index.js",
+  "main": "./lib/uzi.js",
+  "typings": "./lib/uzi.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "peg": "pegjs --allowed-start-rules expression,stylesheet,inline_rules --format globals -e uzi.Parser -o build/uzi.parser.js grammar.pegjs",
+    "peg": "pegjs --allowed-start-rules expression,stylesheet,inline_rules --format globals -e uzi.Parser -o lib/uzi.parser.js grammar.pegjs",
     "tsc": "tsc",
     "postinstall": "npm run tsc && npm run peg"
   },
