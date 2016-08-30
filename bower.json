@@ -1,7 +1,7 @@
 {
   "name": "uzi",
   "description": "a constraint based layout system",
-  "main": "index.js",
+  "main": "./lib/uzi.js",
   "authors": [
     "Ilia Choly"
   ],
