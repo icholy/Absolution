@@ -59,7 +59,7 @@ module uzi {
     }
 
     /**
-     * Destroy the Rect and all its variables.
+     * Destroy the Rect.
      */
     destroy(): void {
       this.relationships.destroy();
