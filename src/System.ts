@@ -162,68 +162,74 @@ module uzi {
     /**
      * left = right
      */
-    equals(left: Value, right: Value): void {
-      this.relationships.push(new Equality(
+    equals(left: Value, right: Value): Relationship {
+      let r = new Equality(
         this.variableFor(left),
-        this.variableFor(right)
-      ));
+        this.variableFor(right));
+      this.relationships.push(r);
+      return r;
     }
 
     /**
      * sum = addend1 + addend2
      */
-    add(sum: Value, addend1: Value, addend2: Value): void {
-      this.relationships.push(new Addition(
+    add(sum: Value, addend1: Value, addend2: Value): Relationship {
+      let r = new Addition(
         this.variableFor(addend1),
         this.variableFor(addend2),
-        this.variableFor(sum)
-      ));
+        this.variableFor(sum));
+      this.relationships.push(r);
+      return r;
     }
 
     /**
      * difference = minuend - subtrahend
      */
-    subtract(difference: Value, minuend: Value, subtrahend: Value): void {
-      this.relationships.push(new Subtraction(
+    subtract(difference: Value, minuend: Value, subtrahend: Value): Relationship {
+      let r = new Subtraction(
         this.variableFor(minuend),
         this.variableFor(subtrahend),
-        this.variableFor(difference)
-      ));
+        this.variableFor(difference));
+      this.relationships.push(r);
+      return r;
     }
 
     /**
      * product = mult1 * mult2
      */
-    multiply(product: Value, mult1: Value, mult2: Value): void {
-      this.relationships.push(new Multiplication(
+    multiply(product: Value, mult1: Value, mult2: Value): Relationship {
+      let r = new Multiplication(
         this.variableFor(mult1),
         this.variableFor(mult2),
-        this.variableFor(product)
-      ));
+        this.variableFor(product));
+      this.relationships.push(r);
+      return r;
     }
 
     /**
      * quotient = dividend / divisor
      */
-    divide(quotient: Value, dividend: Value, divisor: Value): void {
-      this.relationships.push(new Division(
+    divide(quotient: Value, dividend: Value, divisor: Value): Relationship {
+      let r = new Division(
         this.variableFor(dividend),
         this.variableFor(divisor),
-        this.variableFor(quotient)
-      ));
+        this.variableFor(quotient));
+      this.relationships.push(r);
+      return r;
     }
 
     /**
      * max = max(a, b)
      */
-    call(funcName: string, out: Value, params: Value[], ctx: Context = emptyContext): void {
+    call(funcName: string, out: Value, params: Value[], ctx: Context = emptyContext): Relationship {
       let entry = this.getFunction(funcName, ctx);
-      this.relationships.push(new CustomRelationship(
+      let r = new CustomRelationship(
         entry.name,
         entry.func,
         params.map(p => this.variableFor(p)),
-        this.variableFor(out)
-      ));
+        this.variableFor(out));
+      this.relationships.push(r);
+      return r;
     }
 
     /**
