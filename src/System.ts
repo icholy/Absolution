@@ -247,7 +247,7 @@ module uzi {
      * Destroy a relationship and any variables that were orphaned
      * in the process.
      */
-    private destroyRelationship(r: Relationship): void {
+    destroyRelationship(r: Relationship): void {
       let index = this.relationships.indexOf(r);
       if (index === -1) {
         return;

@@ -357,6 +357,17 @@ module uzi {
           this.system.call(funcName, out, params, ctx));
     }
 
+    /**
+     * Destroy all relationships in the group and any variables
+     * that were orphaned because of it.
+     */
+    destroy(): void {
+      for (let r of this.relationships) {
+        this.system.destroyRelationship(r);
+      }
+      this.relationships = [];
+    }
+
 
   }
 
