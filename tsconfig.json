@@ -11,6 +11,7 @@
     "src/Variable.ts",
     "src/Parser.d.ts",
     "src/Relationships.ts",
+    "src/Context.ts",
     "src/System.ts",
     "src/Environment.ts",
     "src/Utils.ts",
