@@ -218,7 +218,7 @@ module uzi {
 
     /**
      * Destroy a relationship and any variables that were orphaned
-     * in the process.
+     * in the process. Don't touch assigned variables.
      */
     destroyRelationship(r: Relationship): void {
       let index = this.relationships.indexOf(r);
