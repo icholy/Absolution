@@ -101,7 +101,7 @@ module uzi {
     }
 
     /**
-     * Reset all intermediate variables
+     * Reset all transient variables
      */
     solve(digestID: number): void {
       for (let relationship of this.relationships) {
@@ -228,7 +228,7 @@ module uzi {
       this.relationships.splice(index, 1);
       for (let v of r.getVariables()) {
         v.detach(r);
-        if (v.isOrphan() && !v.isAssigned()) {
+        if (v.canDestroy()) {
           this.destroyVariable(v);
         }
       }
@@ -279,7 +279,7 @@ module uzi {
      * Evaluate a function call node.
      */
     private evaluateFuncCall(node: FuncCallNode, ctx: Context): Variable {
-      let result = this.createIntermediate();
+      let result = this.createTransient();
       let params = node.params.map(p => this.evaluate(p, ctx));
       this.call(node.name, result, params, ctx);
       return result;
@@ -291,7 +291,7 @@ module uzi {
     private evaluateOperation(node: OperationNode, ctx: Context): Variable {
       let left = this.evaluate(node.left, ctx);
       let right = this.evaluate(node.right, ctx);
-      let result = this.createIntermediate();
+      let result = this.createTransient();
       switch (node.op) {
         case "+":
           this.add(result, left, right);
@@ -341,9 +341,12 @@ module uzi {
     /**
      * Create a variable with an unique name.
      */
-    private createIntermediate(): Variable {
-      let id = this.idsequence++;
-      return this.getVariable(`$${id}`);
+    private createTransient(): Variable {
+      let id   = this.idsequence++,
+          name = `$${id}`,
+          v    = new Transient(name);
+      this.variables[name] = v;
+      return v;
     }
 
     /**

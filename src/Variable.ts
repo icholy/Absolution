@@ -108,10 +108,10 @@ module uzi {
     }
 
     /**
-     * Check if there are any relationships.
+     * Check if the variable is needed anymore.
      */
-    isOrphan(): boolean {
-      return this.relationships.length === 0;
+    canDestroy(): boolean {
+      return this.relationships.length === 0 && !this.isAssigned();
     }
 
     /**
@@ -161,6 +161,13 @@ module uzi {
       this.assignValue(v);
     }
 
+  }
+
+  export class Transient extends Variable {
+
+    canDestroy(): boolean {
+      return true;
+    }
   }
 
 }
