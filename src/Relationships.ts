@@ -18,6 +18,11 @@ module uzi {
     }
 
     /**
+     * Get a graph visualization as DOT.
+     */
+    abstract dot(): string;
+
+    /**
      * Try to solve the constraint. Returns a boolean value
      * indicating of it was solved or not.
      *
@@ -69,6 +74,14 @@ module uzi {
       }
     }
 
+    dot(): string {
+      let expr = this.toString();
+      return [
+        `"${this.left}" -> "${expr}" [dir="both"];`,
+        `"${this.right}" -> "${expr}" [dir="both"];`
+      ].join("\n");
+    }
+
     toString(): string {
       return `${this.left} = ${this.right}`;
     }
@@ -103,6 +116,15 @@ module uzi {
         default:
           return false;
       }
+    }
+
+    dot(): string {
+      let expr = this.toString();
+      return [
+        `"${this.sum}" -> "${expr}" [dir="both"];`,
+        `"${this.addend1}" -> "${expr}" [dir="both"];`,
+        `"${this.addend2}" -> "${expr}" [dir="both"];`
+      ].join("\n");
     }
 
     toString(): string {
@@ -141,6 +163,15 @@ module uzi {
       }
     }
 
+    dot(): string {
+      let expr = this.toString();
+      return [
+        `"${this.product}" -> "${expr}" [dir="both"];`,
+        `"${this.mult1}" -> "${expr}" [dir="both"];`,
+        `"${this.mult2}" -> "${expr}" [dir="both"];`
+      ].join("\n");
+    }
+
     toString(): string {
       return `${this.product} = ${this.mult1} * ${this.mult2}`;
     }
@@ -177,6 +208,15 @@ module uzi {
       }
     }
 
+    dot(): string {
+      let expr = this.toString();
+      return [
+        `"${this.difference}" -> "${expr}" [dir="both"]`,
+        `"${this.minuend}" -> "${expr}" [dir="both"]`,
+        `"${this.subtrahend}" -> "${expr}" [dir="both"]`
+      ].join("\n");
+    }
+
     toString(): string {
       return `${this.difference} = ${this.minuend} - ${this.subtrahend}`;
     }
@@ -211,6 +251,15 @@ module uzi {
         default:
           return false;
       }
+    }
+
+    dot(): string {
+      let expr = this.toString();
+      return [
+        `"${this.quotient}" -> "${expr}" [dir="both"];`,
+        `"${this.dividend}" -> "${expr}" [dir="both"];`,
+        `"${this.divisor}" -> "${expr}" [dir="both"];`
+      ].join("\n");
     }
 
     toString(): string {
@@ -294,6 +343,10 @@ module uzi {
       let result = this.func(v1.getValue(), v2.getValue(), v3.getValue());
       this.output.setValue(result, id);
       return true;
+    }
+
+    dot(): string {
+      return "";
     }
 
     toString(): string {

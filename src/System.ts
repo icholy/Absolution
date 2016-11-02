@@ -27,6 +27,14 @@ module uzi {
       this.$ = this.proxy();
     }
 
+    dot(): string {
+      return [
+        "strict digraph g {",
+        ...this.relationships.map(r => r.dot()),
+        "}"
+      ].join("\n");
+    }
+
     /**
      * Check if a function has been registered
      */
