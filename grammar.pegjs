@@ -83,27 +83,26 @@ multiply_or_divide
     }
   / primary
 
+property_or_ident
+  = property
+  / ident
+
 primary
   = numeric
     / "(" expr:expression ")" {
         return expr;
       }
     / func_call
-    / property
-    / ident
+    / property_or_ident
 
 func_call
-  = name:func_name "(" params:func_params ")" {
+  = name:property_or_ident "(" params:func_params ")" {
       return {
         tag:    "func_call",
         name:   name.value,
         params: params
       };
     }
-
-func_name
-  = property
-  / ident
 
 func_params
   = first:expression? rest:func_params_rest* {

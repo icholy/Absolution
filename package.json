@@ -6,7 +6,7 @@
   "typings": "./lib/uzi.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "peg": "pegjs --allowed-start-rules expression,stylesheet,inline_rules --format globals -e uzi.Parser -o lib/uzi.parser.js grammar.pegjs",
+    "peg": "pegjs --allowed-start-rules expression,stylesheet,inline_rules,property_or_ident --format globals -e uzi.Parser -o lib/uzi.parser.js grammar.pegjs",
     "tsc": "tsc",
     "postinstall": "npm run tsc && npm run peg"
   },
