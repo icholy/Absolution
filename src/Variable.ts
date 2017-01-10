@@ -142,8 +142,7 @@ module uzi {
      * Get a string representation of the variable.
      */
     toString(): string {
-      let value = this.hasValue(0) ? this.getValue() : "null";
-      return `${this.name}(${value})`;
+      return `${this.name}(${this.getValue()})`;
     }
 
     /**
