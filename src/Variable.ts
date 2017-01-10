@@ -6,7 +6,7 @@ module uzi {
    */
   export enum VState {
     NONE,
-    ASSIGNED,
+    EXPLICIT,
     DIGEST,
     ENVIRONMENT
   }
@@ -19,10 +19,6 @@ module uzi {
 
   /**
    * A variable holds a value and notifies listeners when that value changes.
-   * The value of a variable can either be 'set' or 'assigned'. When the value
-   * originates from a digest cycle (from a relationship) then it is 'set'. If
-   * it is directly given a value by (from a user), it is 'assigned'. The
-   * difference is that a set value is not preserved between digests.
    */
   export class Variable {
 
@@ -38,7 +34,7 @@ module uzi {
     /**
      * Assigns a value to the variable.
      */
-    assignValue(v: number, state = VState.ASSIGNED): void {
+    assignValue(v: number, state = VState.EXPLICIT): void {
       this.value = v;
       this.digestID = -1;
       this.state = state;
@@ -82,7 +78,7 @@ module uzi {
       switch (this.state) {
         case VState.NONE:
           return false;
-        case VState.ASSIGNED:
+        case VState.EXPLICIT:
           return true;
         case VState.ENVIRONMENT:
           return true;
@@ -132,7 +128,7 @@ module uzi {
      */
     canDestroy(): boolean {
       return this.relationships.length === 0 
-          && this.state !== VState.ASSIGNED;
+          && this.state !== VState.EXPLICIT;
     }
 
     /**
