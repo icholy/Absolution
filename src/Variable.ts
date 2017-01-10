@@ -128,17 +128,11 @@ module uzi {
     }
 
     /**
-     * Check if the current value has been assigned.
-     */
-    isAssigned(): boolean {
-      return this.state === VState.DIGEST;
-    }
-
-    /**
      * Check if the variable is needed anymore.
      */
     canDestroy(): boolean {
-      return this.relationships.length === 0 && !this.isAssigned();
+      return this.relationships.length === 0 
+          && this.state !== VState.ASSIGNED;
     }
 
     /**
