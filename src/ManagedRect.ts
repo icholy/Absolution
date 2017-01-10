@@ -8,7 +8,6 @@ module uzi {
     container: string;
     watcher:   string;
     rules:     Rule[];
-    context?:  Context;
   }
 
   /**
@@ -38,12 +37,13 @@ module uzi {
 
     constructor(
       engine:  Engine,
+      context: Context,
       options: RectOptions
     ) {
-      super(engine, options.id, options.container);
+      super(engine, context, options.id, options.container);
 
       for (let rule of options.rules) {
-        this.constrain(rule, options.context);
+        this.constrain(rule, context);
       }
 
       if (options.watcher) {

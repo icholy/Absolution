@@ -8,7 +8,8 @@ module uzi {
   export class DocumentRect extends Rect {
 
     constructor(engine: Engine) {
-      super(engine, "document");
+      let ctx = new Context();
+      super(engine, ctx, "document");
       window.addEventListener("resize", () => {
         this.updateSystemPosition();
         engine.update();
@@ -34,7 +35,8 @@ module uzi {
   export class ViewportRect extends Rect {
 
     constructor(engine: Engine) {
-      super(engine, "viewport");
+      let ctx = new Context();
+      super(engine, ctx, "viewport");
       window.addEventListener("resize", () => {
         this.updateSystemPosition();
         this.engine.update();
@@ -63,7 +65,8 @@ module uzi {
   export class BodyRect extends Rect {
 
     constructor(engine: Engine) {
-      super(engine, "body");
+      let ctx = new Context();
+      super(engine, ctx, "body");
       window.addEventListener("resize", () => {
         this.updateSystemPosition();
         engine.update();

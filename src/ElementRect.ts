@@ -11,9 +11,10 @@ module uzi {
     constructor(
       element: HTMLElement,
       engine:  Engine,
+      context: Context,
       options: RectOptions
     ) {
-      super(engine, options);
+      super(engine, context, options);
       this.element = element;
       this.updateSystemPosition();
     }

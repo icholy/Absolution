@@ -115,7 +115,7 @@ module uzi.Angular {
     /**
      * Get the rect options (from the post link function).
      */
-    getOptionsWithContext(context: AngularContext): RectOptions {
+    getOptions(context: Context): RectOptions {
       let container = context.identToName({
         tag:   "ident",
         value: this.options.container
@@ -125,7 +125,6 @@ module uzi.Angular {
         watcher:   this.options.watcher,
         rules:     this.options.rules,
         container: container,
-        context:   context
       };
     }
 
@@ -175,9 +174,9 @@ module uzi.Angular {
         ): void {
           let [ctrl, parentCtrl] = controllers;
           let context = new AngularContext(engine, scope, parentCtrl);
-          let options = ctrl.getOptionsWithContext(context)
+          let options = ctrl.getOptions(context);
           let el = element[0];
-          engine.register(el, options);
+          engine.register(el, options, context);
           element.on("$destroy", () => engine.unregister(el));
         }
       }

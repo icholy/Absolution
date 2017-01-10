@@ -19,6 +19,7 @@ module uzi {
 
     constructor(
       protected engine:     Engine,
+      protected context:    Context,
       protected id:         string,
       protected container?: string
     ) {

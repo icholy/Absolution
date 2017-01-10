@@ -61,7 +61,8 @@ module uzi {
 
       // add the virtual rects from the stylesheet
       for (let options of this.env.getVirtuals()) {
-        this.rects[options.id] = new VirtualRect(this, options);
+        let ctx = new Context();
+        this.rects[options.id] = new VirtualRect(this, ctx, options);
       }
 
       // walk the dom and find elements with a-attributes
@@ -103,7 +104,7 @@ module uzi {
     /**
      * Register an element with the engine.
      */
-    register(el: HTMLElement, options?: RectOptions): void {
+    register(el: HTMLElement, options?: RectOptions, context = new Context()): void {
       if (this.isRegistered(el)) {
         return;
       }
@@ -111,7 +112,7 @@ module uzi {
         options = this.env.getRectOptions(el);
       }
       if (options) {
-        let rect = new ElementRect(el, this, options);
+        let rect = new ElementRect(el, this, context, options);
         let { id } = options;
         Utils.setRectId(el, id);
         this.rects[id] = rect;

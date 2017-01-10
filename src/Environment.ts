@@ -183,10 +183,6 @@ module uzi {
         options.container = Utils.getParentRectId(el);
       }
 
-      if (options.container) {
-        options.context = new RectContext(options);
-      }
-
       return options;
     }
 
