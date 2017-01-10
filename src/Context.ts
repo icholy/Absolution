@@ -13,6 +13,10 @@ module uzi {
       this.linked.push(r);
     }
 
+    getLinked(): Relationship[] {
+      return this.linked;
+    }
+
     hasVariable(name: string): boolean {
       return false;
     }
