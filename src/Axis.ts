@@ -132,7 +132,7 @@ module uzi {
     },
 
     updateSystem(rect: ManagedRect, position: RectPosition): void {
-      rect.width.assignValue(position.width);
+      rect.width.assignValue(position.width, VState.ENVIRONMENT);
     },
 
     updateRect(update: RectPositionUpdate): void {
@@ -157,7 +157,7 @@ module uzi {
     },
 
     updateSystem(rect: ManagedRect, position: RectPosition): void {
-      rect.left.assignValue(position.left);
+      rect.left.assignValue(position.left, VState.ENVIRONMENT);
     },
 
     updateRect(update: RectPositionUpdate): void {
@@ -185,8 +185,8 @@ module uzi {
     },
 
     updateSystem(rect: ManagedRect, position: RectPosition): void {
-      rect.left.assignValue(position.left);
-      rect.width.assignValue(position.width);
+      rect.left.assignValue(position.left, VState.ENVIRONMENT);
+      rect.width.assignValue(position.width, VState.ENVIRONMENT);
     },
 
     updateRect(update: RectPositionUpdate): void { }
@@ -231,7 +231,7 @@ module uzi {
     },
 
     updateSystem(rect: ManagedRect, position: RectPosition): void {
-      rect.height.assignValue(position.height);
+      rect.height.assignValue(position.height, VState.ENVIRONMENT);
     },
 
     updateRect(update: RectPositionUpdate): void {
@@ -256,7 +256,7 @@ module uzi {
     },
 
     updateSystem(rect: ManagedRect, position: RectPosition): void {
-      rect.top.assignValue(position.top);
+      rect.top.assignValue(position.top, VState.ENVIRONMENT);
     },
 
     updateRect(update: RectPositionUpdate): void {
@@ -284,8 +284,8 @@ module uzi {
     },
 
     updateSystem(rect: ManagedRect, position: RectPosition): void {
-      rect.top.assignValue(position.top);
-      rect.height.assignValue(position.height);
+      rect.top.assignValue(position.top, VState.ENVIRONMENT);
+      rect.height.assignValue(position.height, VState.ENVIRONMENT);
     },
 
     updateRect(update: RectPositionUpdate): void { }
