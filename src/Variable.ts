@@ -48,7 +48,7 @@ module uzi {
      * Attempts to set the value. This method will throw an Error
      * if attempting to set a different value than already set.
      */
-    setValue(v: number, digestID: number, state = VState.DIGEST): void {
+    setValue(v: number, digestID: number): void {
       if (this.hasValue(digestID)) {
         if (this.isCloseEnough(v)) {
           return;
@@ -57,7 +57,7 @@ module uzi {
       }
       this.digestID = digestID;
       this.value = v;
-      this.state = state;
+      this.state = VState.DIGEST;
       this.notify(digestID);
     }
 
