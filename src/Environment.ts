@@ -54,6 +54,7 @@ module uzi {
     private userVariables  = [] as VariableNode[];
     private parserCache    = {} as { [input: string]: any; };
     private stylesheets    = [] as StyleSheet[];
+    private sequence       = new Sequence();
 
     private parse<T>(input: string, options?: ParseOptions, useCache: boolean = false): T {
       let result = this.parserCache[input];
@@ -213,9 +214,9 @@ module uzi {
         return null;
       }
 
-      // if there's no id, create a GUID
+      // if there's no id, use the sequence to create one
       if (!options.id) {
-        options.id = Utils.guid();
+        options.id = `uz-${this.sequence.next()}`;
       }
 
       // lookup the parent rect id if it's not set
