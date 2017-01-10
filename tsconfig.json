@@ -8,6 +8,7 @@
     "sourceMap":   true
   },
   "files": [
+    "src/Sequence.ts",
     "src/Variable.ts",
     "src/Parser.d.ts",
     "src/Relationships.ts",
