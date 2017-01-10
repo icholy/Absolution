@@ -7,6 +7,12 @@ module uzi {
    */
   export class Context {
 
+    private linked = [] as Relationship[];
+
+    link(r: Relationship): void {
+      this.linked.push(r);
+    }
+
     hasVariable(name: string): boolean {
       return false;
     }
