@@ -26,11 +26,12 @@ module uzi {
    */
   export class Variable {
 
+    private value: number;
+
     private callbacks     = [] as Function[];
     private relationships = [] as Relationship[];
     private digestID      = -1;
     private state         = VState.NONE;
-    private value: number = null;
 
     constructor(private name: string) {}
 
@@ -78,10 +79,16 @@ module uzi {
      * Check if variable has value.
      */
     hasValue(digestID: number): boolean {
-      if (this.digestID !== digestID && !this.isAssigned()) {
-        return false;
+      switch (this.state) {
+        case VState.NONE:
+          return false;
+        case VState.ASSIGNED:
+          return true;
+        case VState.ENVIRONMENT:
+          return true;
+        case VState.DIGEST:
+          return this.digestID === digestID;
       }
-      return this.value !== null;
     }
 
     /**
@@ -145,7 +152,8 @@ module uzi {
      * Get a string representation of the variable.
      */
     toString(): string {
-      return `${this.name}(${this.getValue()})`;
+      let value = this.hasValue(0) ? this.getValue() : "null";
+      return `${this.name}(${value})`;
     }
 
     /**
