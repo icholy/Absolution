@@ -1,6 +1,17 @@
 module uzi {
 
   /**
+   * Each variable has a VState which describes where
+   * its value originated
+   */
+  enum VState {
+    NONE,
+    ASSIGNED,
+    COMPUTED,
+    ENVIRONMENT
+  }
+
+  /**
    * If the difference between two values is less than this
    * then they're considered equal.
    */
@@ -18,6 +29,7 @@ module uzi {
     private callbacks     = [] as Function[];
     private relationships = [] as Relationship[];
     private digestID      = -1;
+    private state         = VState.NONE;
 
     constructor(
       private name: string,
