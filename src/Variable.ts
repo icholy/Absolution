@@ -30,11 +30,9 @@ module uzi {
     private relationships = [] as Relationship[];
     private digestID      = -1;
     private state         = VState.NONE;
+    private value: number = null;
 
-    constructor(
-      private name: string,
-      private value: number = null
-    ) {}
+    constructor(private name: string) {}
 
     /**
      * Assigns a value to the variable.

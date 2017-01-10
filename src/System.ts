@@ -357,7 +357,7 @@ module uzi {
         return this.getVariable(v);
       }
       else if (typeof v === "number") {
-        return new Variable("Const", v);
+        return new Constant(v);
       }
       else {
         return v;
