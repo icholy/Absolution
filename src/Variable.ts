@@ -131,7 +131,7 @@ module uzi {
      * Check if the current value has been assigned.
      */
     isAssigned(): boolean {
-      return this.digestID === -1;
+      return this.state === VState.DIGEST;
     }
 
     /**
