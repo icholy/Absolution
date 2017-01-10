@@ -4,7 +4,7 @@ module uzi {
    * Each variable has a VState which describes where
    * its value originated
    */
-  enum VState {
+  export enum VState {
     NONE,
     ASSIGNED,
     COMPUTED,
@@ -37,16 +37,17 @@ module uzi {
     /**
      * Assigns a value to the variable.
      */
-    assignValue(v: number): void {
+    assignValue(v: number, state = VState.ASSIGNED): void {
       this.value = v;
       this.digestID = -1;
+      this.state = state;
     }
 
     /**
      * Attempts to set the value. This method will throw an Error
      * if attempting to set a different value than already set.
      */
-    setValue(v: number, digestID: number): void {
+    setValue(v: number, digestID: number, state = VState.COMPUTED): void {
       if (this.hasValue(digestID)) {
         if (this.isCloseEnough(v)) {
           return;
@@ -55,6 +56,7 @@ module uzi {
       }
       this.digestID = digestID;
       this.value = v;
+      this.state = state;
       this.notify(digestID);
     }
 
@@ -63,6 +65,13 @@ module uzi {
      */
     getValue(): number {
       return this.value;
+    }
+
+    /**
+     * Get the variables state.
+     */
+    getState(): VState {
+      return this.state;
     }
 
     /**
@@ -82,6 +91,7 @@ module uzi {
      */
     clearValue(): void {
       this.value = null;
+      this.state = VState.NONE;
     }
 
     /**
