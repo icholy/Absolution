@@ -4,7 +4,7 @@ module uzi {
    * Each variable has a VState which describes where
    * its value originated
    */
-  export enum VState {
+  export const enum VState {
     NONE,
     EXPLICIT,
     DIGEST,
