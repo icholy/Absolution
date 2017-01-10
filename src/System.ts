@@ -20,7 +20,7 @@ module uzi {
     private relationships: Relationship[];
     private variables:     { [name: string]: Variable; };
     private funcs:         { [name: string]: FuncEntry; };
-    private idsequence:    number;
+    private sequence:      Sequence;
 
     constructor() {
       this.reset();
@@ -126,7 +126,7 @@ module uzi {
      * Reset the system
      */
     reset(): void {
-      this.idsequence = 0;
+      this.sequence = new Sequence();
       this.variables = Object.create(null);
       this.funcs = Object.create(null);
       this.relationships = [];
@@ -342,7 +342,7 @@ module uzi {
      * Create a variable with an unique name.
      */
     private createTransient(): Variable {
-      let id   = this.idsequence++,
+      let id   = this.sequence.next(),
           name = `$${id}`,
           v    = new Transient(name);
       this.variables[name] = v;
