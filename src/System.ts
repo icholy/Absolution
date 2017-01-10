@@ -88,7 +88,7 @@ module uzi {
      * Set a variables value to the evaluated node
      */
     setNode(name: string, node: any, ctx: Context = emptyContext): void {
-      this.equals(name, this.evaluate(node, ctx));
+      ctx.link(this.equals(name, this.evaluate(node, ctx)));
     }
 
     /**
@@ -281,7 +281,7 @@ module uzi {
     private evaluateFuncCall(node: FuncCallNode, ctx: Context): Variable {
       let result = this.createTransient();
       let params = node.params.map(p => this.evaluate(p, ctx));
-      this.call(node.name, result, params, ctx);
+      ctx.link(this.call(node.name, result, params, ctx));
       return result;
     }
 
@@ -294,16 +294,16 @@ module uzi {
       let result = this.createTransient();
       switch (node.op) {
         case "+":
-          this.add(result, left, right);
+          ctx.link(this.add(result, left, right));
           break;
         case "-":
-          this.subtract(result, left, right);
+          ctx.link(this.subtract(result, left, right));
           break;
         case "*":
-          this.multiply(result, left, right);
+          ctx.link(this.multiply(result, left, right));
           break;
         case "/":
-          this.divide(result, left, right);
+          ctx.link(this.divide(result, left, right));
           break;
         default:
           throw new Error(`Syntax Error: invalid operator ${node.op}`);
