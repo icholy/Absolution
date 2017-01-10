@@ -7,7 +7,7 @@ module uzi {
   export enum VState {
     NONE,
     ASSIGNED,
-    COMPUTED,
+    DIGEST,
     ENVIRONMENT
   }
 
@@ -47,7 +47,7 @@ module uzi {
      * Attempts to set the value. This method will throw an Error
      * if attempting to set a different value than already set.
      */
-    setValue(v: number, digestID: number, state = VState.COMPUTED): void {
+    setValue(v: number, digestID: number, state = VState.DIGEST): void {
       if (this.hasValue(digestID)) {
         if (this.isCloseEnough(v)) {
           return;
