@@ -241,6 +241,16 @@ describe("uzi", function () {
       expect(system.get("B.left")).toEqual(10);
     });
 
+    it("should destroy variables when they are not used anyore", function () {
+      expect(system.has("B.top")).toBe(true);
+      var bDiv = document.getElementById("B");
+      engine.unmount(bDiv);
+      expect(system.has("B.top")).toBe(false);
+      expect(system.has("B.bottom")).toBe(false);
+      expect(system.has("B.left")).toBe(false);
+      expect(system.has("B.right")).toBe(false);
+    });
+
   });
 
 });
