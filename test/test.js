@@ -237,22 +237,31 @@ describe("uzi", function () {
       engine.destroy();
     });
 
+    function getRect(id) {
+      var el = document.getElementById(id);
+      return el.getBoundingClientRect();
+    }
+
     it("should have applied the width style to A", function () {
       expect(system.get("A.width")).toEqual(100);
+      expect(getRect("A").width).toEqual(100);
     });
 
     it("should have set B's height to half of A's width", function () {
       expect(system.get("B.height")).toEqual(50);
+      expect(getRect("B").height).toEqual(50);
     });
 
     it("should work with variables", function () {
       system.set("x", 50);
       engine.updateNow();
       expect(system.get("A.height")).toEqual(100);
+      expect(getRect("A").height).toEqual(100);
     });
 
     it("should work with basic user defined functions", function () {
       expect(system.get("B.left")).toEqual(10);
+      expect(getRect("B").left).toEqual(10);
     });
 
     it("should destroy variables when they are not used anyore", function () {
@@ -267,14 +276,17 @@ describe("uzi", function () {
 
     it("should find the actual values of B's unconstrained properties", function () {
       expect(system.get("B.width")).toEqual(10);
+      expect(getRect("B").width).toEqual(10);
     });
 
     it("should parse inline styles", function () {
       expect(system.get("A.top")).toEqual(10);
+      expect(getRect("A").top).toEqual(10);
     });
 
     it("should apply the correct classes", function () {
       expect(system.get("B.top")).toEqual(20);
+      expect(getRect("B").top).toEqual(20);
     });
 
   });
