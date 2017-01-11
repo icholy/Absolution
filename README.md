@@ -122,7 +122,7 @@ let engine = new uzi.Engine();
 engine.initialize(/* options */);
 ```
 
-By default, the engine will walk the entire DOM and register Elements which have an 
+By default, the engine will walk the entire DOM and mount Elements which have an 
 `uz-rect` or `uz-style` attribute.  This behaviour is configured via an options object passed 
 into the `Engine#initialize` method.
 
@@ -154,14 +154,14 @@ Default Engine Options:
 
 ## Manually managing Element life-cycle
 
-Element life-cycles can be manually managed using the `Engine#register` and `Engine#unregister` methods.
+Element life-cycles can be manually managed using the `Engine#mount` and `Engine#unmount` methods.
 
 ``` ts
 // start managing the element.
-engine.register(element);
+engine.mount(element);
 
 // stop managing the element.
-engine.unregister(element);
+engine.unmount(element);
 ```
 
 ## Pre-Compiling
