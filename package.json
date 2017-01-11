@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "peg": "pegjs --allowed-start-rules expression,stylesheet,inline_rules,property_or_ident --format globals -e uzi.Parser -o lib/uzi.parser.js grammar.pegjs",
     "tsc": "tsc",
-    "postinstall": "npm run tsc && npm run peg"
+    "uglify": "uglifyjs lib/uzi.js > lib/uzi.min.js && uglifyjs lib/uzi.parser.js > lib/uzi.parser.min.js",
+    "postinstall": "npm run tsc && npm run peg && npm run uglify"
   },
   "repository": {
     "type": "git",
