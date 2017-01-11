@@ -251,6 +251,10 @@ describe("uzi", function () {
       expect(system.has("B.right")).toBe(false);
     });
 
+    it("should find the actual values of B's unconstrained properties", function () {
+      expect(system.get("B.width")).toEqual(10);
+    });
+
   });
 
 });
