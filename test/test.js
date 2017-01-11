@@ -202,4 +202,27 @@ describe("uzi", function () {
     
   });
 
+  describe("Engine", function () {
+
+    var engine;
+    var system;
+
+    beforeEach(function () {
+      engine = new uzi.Engine();
+      system = engine.getSystem();
+
+      engine.initialize();
+      engine.updateNow();
+    });
+
+    afterEach(function () {
+      engine.destroy();
+    });
+
+    it("should have applied the width style", function () {
+      expect(system.get("A.width")).toEqual(100);
+    });
+
+  });
+
 });
