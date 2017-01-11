@@ -102,32 +102,50 @@ module uzi {
     }
 
     /**
-     * Register an element with the engine.
+     * Register a rect with the engine.
      */
-    mount(el: HTMLElement, options?: RectOptions, context = new Context()): void {
+    register(rect: Rect): void {
+      let id = rect.getId();
+      if (id in this.rects) {
+        return;
+      }
+      this.rects[id] = rect;
+    }
+
+    /**
+     * Unregister a rect from the engine.
+     */
+    unregister(rect: Rect): void {
+      let id = rect.getId();
+      delete this.rects[id];
+    }
+
+    /**
+     * Mount an element to the engine.
+     */
+    mount(el: HTMLElement): void {
       if (this.isMounted(el)) {
         return;
       }
-      if (!options) {
-        options = this.env.getRectOptions(el);
-      }
+      let options = this.env.getRectOptions(el);
       if (options) {
+        let context = new RectContext(options);
         let rect = new ElementRect(el, this, context, options);
         let { id } = options;
         Utils.setRectId(el, id);
-        this.rects[id] = rect;
+        this.register(rect);
       }
     }
 
     /**
-     * Unregister an element from the engine.
+     * Unmount an element from the engine.
      */
     unmount(el: HTMLElement): void {
       let id = Utils.getRectId(el);
       let rect = this.rects[id];
       if (rect) {
+        this.unregister(rect);
         rect.destroy();
-        delete this.rects[id];
       }
     }
 

@@ -176,8 +176,12 @@ module uzi.Angular {
           let context = new AngularContext(engine, scope, parentCtrl);
           let options = ctrl.getOptions(context);
           let el = element[0];
-          engine.mount(el, options, context);
-          element.on("$destroy", () => engine.unmount(el));
+          let rect = new ElementRect(el, engine, context, options);
+          engine.register(rect);
+          element.on("$destroy", () => {
+            engine.unregister(rect);
+            rect.destroy();
+          });
         }
       }
     }
