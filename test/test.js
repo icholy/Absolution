@@ -219,8 +219,12 @@ describe("uzi", function () {
       engine.destroy();
     });
 
-    it("should have applied the width style", function () {
+    it("should have applied the width style to A", function () {
       expect(system.get("A.width")).toEqual(100);
+    });
+
+    it("should have set B's height to half of A's width", function () {
+      expect(system.get("B.height")).toEqual(50);
     });
 
   });
