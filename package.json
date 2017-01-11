@@ -25,5 +25,8 @@
     "jasmine-core": "2.4.1",
     "pegjs": "^0.10.0",
     "typescript": "^2.0.3"
+  },
+  "dependencies": {
+    "uglifyjs": "^2.4.10"
   }
 }
