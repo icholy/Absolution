@@ -211,6 +211,10 @@ describe("uzi", function () {
       engine = new uzi.Engine();
       system = engine.getSystem();
 
+      system.func("add_five", function (x) {
+        return x + 5;
+      })
+
       engine.initialize();
       engine.updateNow();
     });
@@ -225,6 +229,16 @@ describe("uzi", function () {
 
     it("should have set B's height to half of A's width", function () {
       expect(system.get("B.height")).toEqual(50);
+    });
+
+    it("should work with variables", function () {
+      system.set("x", 50);
+      engine.updateNow();
+      expect(system.get("A.height")).toEqual(100);
+    });
+
+    it("should work with basic user defined functions", function () {
+      expect(system.get("B.left")).toEqual(10);
     });
 
   });
