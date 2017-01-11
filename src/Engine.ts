@@ -67,13 +67,13 @@ module uzi {
 
       // walk the dom and find elements with a-attributes
       if (options.findElements) {
-        Utils.forEachElement(document.body, el => this.register(el));
+        Utils.forEachElement(document.body, el => this.mount(el));
       }
 
       // use stylesheet selectors to lookup elements
       if (options.lookupSelectors) {
         for (let selector of this.env.getSelectors()) {
-          Utils.forEachSelector(selector, el => this.register(el));
+          Utils.forEachSelector(selector, el => this.mount(el));
         }
       }
 
@@ -97,15 +97,15 @@ module uzi {
     /**
      * Returns true if the element is a registered rect.
      */
-    private isRegistered(el: HTMLElement): boolean {
+    private isMounted(el: HTMLElement): boolean {
       return Utils.getRectId(el) in this.rects;
     }
 
     /**
      * Register an element with the engine.
      */
-    register(el: HTMLElement, options?: RectOptions, context = new Context()): void {
-      if (this.isRegistered(el)) {
+    mount(el: HTMLElement, options?: RectOptions, context = new Context()): void {
+      if (this.isMounted(el)) {
         return;
       }
       if (!options) {
@@ -122,7 +122,7 @@ module uzi {
     /**
      * Unregister an element from the engine.
      */
-    unregister(el: HTMLElement): void {
+    unmount(el: HTMLElement): void {
       let id = Utils.getRectId(el);
       let rect = this.rects[id];
       if (rect) {
