@@ -1,6 +1,6 @@
 {
   "name": "uzi",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "a constraint based layout system",
   "main": "./lib/uzi.js",
   "typings": "./lib/uzi.d.ts",
