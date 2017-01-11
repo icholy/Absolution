@@ -4,6 +4,7 @@
   "description": "a constraint based layout system",
   "main": "./lib/uzi.js",
   "typings": "./lib/uzi.d.ts",
+  "files": "./lib",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "peg": "pegjs --allowed-start-rules expression,stylesheet,inline_rules,property_or_ident --format globals -e uzi.Parser -o lib/uzi.parser.js grammar.pegjs",
