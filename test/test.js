@@ -259,6 +259,10 @@ describe("uzi", function () {
       expect(system.get("A.top")).toEqual(10);
     });
 
+    it("should apply the correct classes", function () {
+      expect(system.get("B.top")).toEqual(20);
+    });
+
   });
 
 });
