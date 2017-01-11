@@ -211,5 +211,16 @@ module uzi {
       }
     }
 
+    /**
+     * Destroy the engine.
+     */
+    destroy(): void {
+      for (let id of Object.keys(this.rects)) {
+        let rect = this.getRect(id);
+        this.unregister(rect);
+        rect.destroy();
+      }
+    }
+
   }
 }
