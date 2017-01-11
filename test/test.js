@@ -4,18 +4,25 @@ describe("uzi", function () {
 
     it("should not be able to set a value twice in the same digest", function () {
       var v = new uzi.Variable("name");
-      var spy = jasmine.createSpy('notified');
 
       v.setValue(123, 0);
 
       // can't set a value twice in the same digest
-      expect(function () {
-        v.setValue(321, 0);
-      }).toThrow();
+      expect(function () { v.setValue(321, 0); }).toThrow();
 
       // ok to set a new value in a new digest
       v.setValue(321, 1);
       expect(v.getValue()).toEqual(321);
+    });
+
+    it("should not be ok to destroy if it was assigned", function () {
+      var v = new uzi.Variable("name");
+
+      v.setValue(123, 0);
+      expect(v.canDestroy()).toBe(true);
+
+      v.assignValue(123);
+      expect(v.canDestroy()).toBe(false);
     });
 
   });
