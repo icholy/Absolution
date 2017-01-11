@@ -255,6 +255,10 @@ describe("uzi", function () {
       expect(system.get("B.width")).toEqual(10);
     });
 
+    it("should parse inline styles", function () {
+      expect(system.get("A.top")).toEqual(10);
+    });
+
   });
 
 });
