@@ -227,7 +227,7 @@ describe("uzi", function () {
 
       system.func("add_five", function (x) {
         return x + 5;
-      })
+      });
 
       engine.initialize();
       engine.updateNow();
