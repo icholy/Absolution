@@ -165,6 +165,17 @@ module uzi {
     }
 
     /**
+     * Run an update now.
+     */
+    updateNow(): void {
+      this.system.solve(this.digestID++);
+      for (let rect of this.changedRects) {
+        rect.updateRectPosition();
+      }
+      this.changedRects = [];
+    }
+
+    /**
      * Request an update to occur the on the next
      * animation frame.
      */
@@ -174,11 +185,7 @@ module uzi {
       }
       this.isUpdatePending = true;
       window.requestAnimationFrame(() => {
-        this.system.solve(this.digestID++);
-        for (let rect of this.changedRects) {
-          rect.updateRectPosition();
-        }
-        this.changedRects = [];
+        this.updateNow();
         this.isUpdatePending = false;
       });
     }
