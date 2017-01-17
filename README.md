@@ -20,7 +20,7 @@ Browse the `/examples` directory.
 
 ### Constrain properties of an element.
 
-``` css
+``` sass
 #B {
 
   //  Anchor elements to eachother
@@ -52,7 +52,7 @@ engine.func("fooBar", () => 200);
 engine.funcs(Math, "Math");
 ```
 
-``` css
+``` sass
 #B {
 
   // using variable
@@ -101,7 +101,7 @@ engine.funcs(Math, "Math");
 
 These can be used like any other rect in the system.
 
-``` css
+``` sass
 #item {
   center-x: viewport.center-x;
   top: 10px;
