@@ -103,8 +103,14 @@ describe("uzi", function () {
         return parseWith(input, "stylesheet");
       }
 
-      it("should parse comments", function () {
+      it("should parse /* .. */ comments", function () {
         var stylesheet = parse(" /* foo bar */ ");
+        expect(stylesheet.rulesets.length).toEqual(0);
+        expect(stylesheet.variables.length).toEqual(0);
+      });
+
+      it("should parse // ... comments", function () {
+        var stylesheet = parse(" // foo bar ");
         expect(stylesheet.rulesets.length).toEqual(0);
         expect(stylesheet.variables.length).toEqual(0);
       });
