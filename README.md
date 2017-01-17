@@ -31,7 +31,6 @@ Browse the `/examples` directory.
 
   // Basic expressions can be used.
   right: A.right + B.width / 2;
-
 }
 
 // Classes are supported
