@@ -295,6 +295,10 @@ describe("uzi", function () {
       expect(getRect("B").top).toEqual(20);
     });
 
+    it("should find variables declared in the stylesheet", function () {
+      expect(system.get("the-size")).toEqual(15);
+    });
+
   });
 
 });
