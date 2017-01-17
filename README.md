@@ -23,18 +23,18 @@ Browse the `/examples` directory.
 ``` css
 #B {
 
-  /*  Anchor elements to eachother */
+  //  Anchor elements to eachother
   left: A.right;
 
-  /* Center in another element. */
+  // Center in another element.
   center-in: A;
 
-  /* Basic expressions can be used. */
+  // Basic expressions can be used.
   right: A.right + B.width / 2;
 
 }
 
-/* Classes are supported */
+// Classes are supported
 .class-name {
   height: B.width / A.height;
 }
@@ -55,10 +55,10 @@ engine.funcs(Math, "Math");
 ``` css
 #B {
 
-  /* using variable */
+  // using variable
   height: x * A.height;
 
-  /* using user defined functions */
+  // using user defined functions
   width: C.height - Math.min(A.height, fooBar());
   left:  B.right + Math.sin(x) * 100px;
 }
