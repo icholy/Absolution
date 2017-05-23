@@ -213,7 +213,7 @@ module uzi {
       for (let name of Object.getOwnPropertyNames(object)) {
         let value = object[name];
         if (typeof value === "function") {
-          this.func(`${prefix}${name}`, value.bind());
+          this.func(`${prefix}${name}`, value.bind(object));
         }
       }
     }
